@@ -1,0 +1,78 @@
+{"language": {
+    "metadata": {"property": [
+        {
+            "name": "globs",
+            "content": "*.mxml"
+        },
+        {
+            "name": "block-comment-start",
+            "content": "<!--"
+        },
+        {
+            "name": "block-comment-end",
+            "content": "-->"
+        }
+    ]},
+    "_name": "MXML",
+    "_section": "Markup",
+    "styles": {"style": [
+        {
+            "_name": "Element name",
+            "map-to": "xml:element-name",
+            "id": "element-name"
+        },
+        {
+            "_name": "CDATA delimiter",
+            "map-to": "xml:cdata-delim",
+            "id": "cdata-delim"
+        }
+    ]},
+    "id": "mxml",
+    "version": 2,
+    "definitions": {"context": [
+        {
+            "include": {"context": [
+                {
+                    "where": "start",
+                    "sub-pattern": 0,
+                    "style-ref": "element-name"
+                },
+                {
+                    "where": "end",
+                    "sub-pattern": 0,
+                    "style-ref": "element-name"
+                },
+                {"ref": "xml:element-name"},
+                {
+                    "include": {"context": [
+                        {
+                            "where": "start",
+                            "sub-pattern": 0,
+                            "style-ref": "cdata-delim"
+                        },
+                        {
+                            "where": "end",
+                            "sub-pattern": 0,
+                            "style-ref": "cdata-delim"
+                        },
+                        {"ref": "actionscript:actionscript"}
+                    ]},
+                    "start": "<!\\[CDATA\\[",
+                    "end": "\\]\\]>",
+                    "id": "actionscript-code",
+                    "extend-parent": false
+                }
+            ]},
+            "start": "<(fx:Script|mx:Script)>",
+            "end": "<\/\\%{1@start}>",
+            "id": "actionscript"
+        },
+        {
+            "include": {"context": [
+                {"ref": "actionscript"},
+                {"ref": "xml:xml"}
+            ]},
+            "id": "mxml"
+        }
+    ]}
+}}

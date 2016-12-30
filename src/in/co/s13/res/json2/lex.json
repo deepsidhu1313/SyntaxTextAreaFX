@@ -1,0 +1,192 @@
+{"lex.json": [
+    {
+        "include": {"context": [
+            {
+                "where": "start",
+                "sub-pattern": 0,
+                "style-ref": "keyword"
+            },
+            {
+                "where": "end",
+                "sub-pattern": 0,
+                "style-ref": "keyword"
+            },
+            {"ref": "c:c"}
+        ]},
+        "start": "^%{",
+        "end": "^%}",
+        "id": "inline-c"
+    },
+    {
+        "include": {"context": [
+            {
+                "where": "start",
+                "sub-pattern": 0,
+                "style-ref": "keyword"
+            },
+            {
+                "where": "end",
+                "sub-pattern": 0,
+                "style-ref": "keyword"
+            },
+            {"ref": "c:c"}
+        ]},
+        "start": "^%top{",
+        "end": "^}",
+        "id": "top-block"
+    },
+    {
+        "include": {"context": [
+            {
+                "include": {"context": {"ref": "c-with-brackets"}},
+                "start": "{",
+                "end": "}"
+            },
+            {"ref": "c:c"}
+        ]},
+        "id": "c-with-brackets"
+    },
+    {
+        "include": {"context": {"ref": "c:c"}},
+        "start": "^(?=[ \\t])",
+        "end": "$",
+        "id": "indented-lines-c-code"
+    },
+    {
+        "include": {"context": [
+            {"ref": "inline-c"},
+            {"ref": "top-block"},
+            {"ref": "indented-lines-c-code"},
+            {"ref": "option-or-scope"},
+            {"ref": "def:c-like-comment"},
+            {"ref": "def:c-like-comment-multiline"},
+            {"ref": "def:c-like-close-comment-outside-comment"},
+            {"ref": "definition"}
+        ]},
+        "id": "definitions"
+    },
+    {
+        "include": {"context": {
+            "where": "start",
+            "sub-pattern": 0,
+            "style-ref": "token"
+        }},
+        "start": "^\\%{identifier}",
+        "end": "$",
+        "id": "definition",
+        "style-ref": "expression"
+    },
+    {
+        "prefix": "^%",
+        "id": "option-or-scope",
+        "keyword": [
+            "option",
+            "s",
+            "x",
+            "pointer",
+            "array"
+        ],
+        "style-ref": "keyword"
+    },
+    {
+        "include": {"context": [
+            {
+                "where": "start",
+                "sub-pattern": 0,
+                "style-ref": "token"
+            },
+            {"ref": "rule"},
+            {"ref": "indented-lines-c-code"},
+            {"ref": "inline-c"},
+            {"ref": "user-code"}
+        ]},
+        "start": "^%%",
+        "id": "rule-section"
+    },
+    {
+        "include": {"context": [
+            {
+                "include": {"context": [
+                    {"ref": "round-brackets"},
+                    {"ref": "square-brackets"},
+                    {
+                        "include": {"context": {"ref": "escaped-char"}},
+                        "start": "\"",
+                        "end": "\""
+                    },
+                    {"ref": "start-condition"},
+                    {"ref": "start-condition-block"},
+                    {"ref": "escaped-char"}
+                ]},
+                "start": "^",
+                "end": "[ \\t]",
+                "id": "pattern",
+                "style-ref": "expression"
+            },
+            {"ref": "c-with-brackets"}
+        ]},
+        "start": "^(?=[^% \\t])",
+        "end": "$",
+        "id": "rule"
+    },
+    {
+        "match": "^\\%{start-cond}(?=[^{])",
+        "id": "start-condition",
+        "style-ref": "keyword"
+    },
+    {
+        "include": {"context": [
+            {
+                "where": "start",
+                "sub-pattern": 1,
+                "style-ref": "keyword"
+            },
+            {"ref": "c-with-brackets"}
+        ]},
+        "start": "(^\\%{start-cond}){",
+        "end": "}",
+        "id": "start-condition-block"
+    },
+    {
+        "match": "\\\\.",
+        "id": "escaped-char"
+    },
+    {
+        "include": {"context": [
+            {"ref": "escaped-char"},
+            {"ref": "square-brackets"}
+        ]},
+        "start": "\\[",
+        "end": "\\]",
+        "id": "square-brackets"
+    },
+    {
+        "include": {"context": [
+            {"ref": "escaped-char"},
+            {"ref": "round-brackets"}
+        ]},
+        "start": "\\(",
+        "end": "\\)",
+        "id": "round-brackets"
+    },
+    {
+        "include": {"context": [
+            {
+                "where": "start",
+                "sub-pattern": 0,
+                "style-ref": "token"
+            },
+            {"ref": "c:c"}
+        ]},
+        "start": "^%%",
+        "id": "user-code"
+    },
+    {
+        "include": {"context": [
+            {"ref": "definitions"},
+            {"ref": "rule-section"}
+        ]},
+        "id": "lex",
+        "class": "no-spell-check"
+    }
+]}

@@ -1,0 +1,301 @@
+{"vala.json": [
+    {
+        "include": {"context": {"ref": "def:in-line-comment"}},
+        "class-disabled": "no-spell-check",
+        "start": "//",
+        "id": "line-comment",
+        "class": "comment",
+        "style-ref": "comment",
+        "end-at-line-end": true
+    },
+    {
+        "include": {"context": {"ref": "def:in-comment"}},
+        "class-disabled": "no-spell-check",
+        "start": "/\\*",
+        "end": "\\*/",
+        "id": "multiline-comment",
+        "class": "comment",
+        "style-ref": "comment"
+    },
+    {
+        "match": "\\*/(?!\\*)",
+        "id": "close-comment-outside-comment",
+        "style-ref": "error"
+    },
+    {
+        "include": {"context": [
+            {"ref": "c:printf"},
+            {"ref": "c:escaped-character"},
+            {"ref": "def:line-continue"}
+        ]},
+        "class-disabled": "no-spell-check",
+        "start": "\"\"\"",
+        "end": "\"\"\"",
+        "id": "multiline-double-quoted-string",
+        "class": "string",
+        "style-ref": "string"
+    },
+    {
+        "include": {"context": [
+            {"ref": "c:printf"},
+            {"ref": "c:escaped-character"},
+            {"ref": "def:line-continue"}
+        ]},
+        "class-disabled": "no-spell-check",
+        "start": "\"",
+        "end": "\"",
+        "id": "multiline-string",
+        "class": "string",
+        "style-ref": "string"
+    },
+    {
+        "include": {"context": [
+            {"ref": "c:printf"},
+            {"ref": "c:escaped-character"},
+            {"ref": "def:line-continue"},
+            {
+                "match": "\\$\\%{identifier}",
+                "id": "string-templates",
+                "style-ref": "string-template"
+            },
+            {
+                "include": {"context": {
+                    "include": {"context": {
+                        "include": {"context": {"ref": "in-string-templates-brackets"}},
+                        "start": "\\(",
+                        "end": "\\)"
+                    }},
+                    "id": "in-string-templates-brackets"
+                }},
+                "start": "\\$\\(",
+                "end": "\\)",
+                "id": "string-templates-brackets",
+                "style-ref": "string-template"
+            }
+        ]},
+        "class-disabled": "no-spell-check",
+        "start": "@\"",
+        "end": "\"",
+        "id": "multiline-string-templates",
+        "class": "string",
+        "style-ref": "string"
+    },
+    {
+        "include": {"context": [
+            {
+                "where": "end",
+                "sub-pattern": 2,
+                "style-ref": "directive"
+            },
+            {
+                "include": {"context": [
+                    {"ref": "if-in-if0"},
+                    {"ref": "def:in-comment"}
+                ]},
+                "start": "\\%{preproc-start}if\\b",
+                "end": "\\%{preproc-start}endif\\b",
+                "id": "if-in-if0"
+            },
+            {"ref": "def:in-comment"}
+        ]},
+        "start": "\\%{preproc-start}if\\b\\s*(0|false|\\!true|\\!1)\\b",
+        "end": "(\\%{preproc-start}endif)|(\\%{preproc-start}(else|elif).*)\\b",
+        "id": "if0-comment",
+        "style-ref": "comment"
+    },
+    {
+        "include": {"context": {"ref": "boolean"}},
+        "start": {
+            "extended": true,
+            "content": "\\%{preproc-start}\n                (if|else|elif|endif)\n                \\b"
+        },
+        "id": "directive",
+        "style-ref": "directive",
+        "end-at-line-end": true
+    },
+    {
+        "match": "@\\%{identifier}",
+        "id": "at-identifier"
+    },
+    {
+        "id": "keywords",
+        "keyword": [
+            "class",
+            "delegate",
+            "enum",
+            "errordomain",
+            "interface",
+            "namespace",
+            "signal",
+            "struct",
+            "using",
+            "abstract",
+            "async",
+            "const",
+            "dynamic",
+            "extern",
+            "inline",
+            "internal",
+            "out",
+            "override",
+            "owned",
+            "private",
+            "protected",
+            "public",
+            "ref",
+            "static",
+            "unowned",
+            "virtual",
+            "volatile",
+            "weak",
+            "as",
+            "base",
+            "break",
+            "case",
+            "catch",
+            "construct",
+            "continue",
+            "default",
+            "delete",
+            "do",
+            "else",
+            "ensures",
+            "finally",
+            "for",
+            "foreach",
+            "get",
+            "if",
+            "in",
+            "is",
+            "lock",
+            "new",
+            "params",
+            "requires",
+            "return",
+            "set",
+            "sizeof",
+            "switch",
+            "this",
+            "throw",
+            "throws",
+            "try",
+            "typeof",
+            "value",
+            "var",
+            "while",
+            "yield",
+            "yields"
+        ],
+        "style-ref": "keyword"
+    },
+    {
+        "id": "primitives",
+        "keyword": [
+            "bool",
+            "char",
+            "double",
+            "float",
+            "int",
+            "int8",
+            "int16",
+            "int32",
+            "int64",
+            "long",
+            "short",
+            "size_t",
+            "ssize_t",
+            "string",
+            "uchar",
+            "uint",
+            "uint8",
+            "uint16",
+            "uint32",
+            "uint64",
+            "ulong",
+            "unichar",
+            "ushort",
+            "void"
+        ],
+        "style-ref": "type"
+    },
+    {
+        "include": {"context": [
+            {
+                "where": "start",
+                "sub-pattern": 1,
+                "style-ref": "type"
+            },
+            {"ref": "boolean"},
+            {"ref": "multiline-string"},
+            {"ref": "c:float"},
+            {"ref": "c:decimal"}
+        ]},
+        "start": "\\[\\s*(\\%{attributes-names})",
+        "end": "\\]",
+        "id": "attributes",
+        "style-ref": "attributes"
+    },
+    {
+        "id": "null-value",
+        "keyword": null,
+        "style-ref": "null-value"
+    },
+    {
+        "id": "boolean",
+        "keyword": [
+            false,
+            true
+        ],
+        "style-ref": "boolean"
+    },
+    {
+        "include": {"context": [
+            {
+                "where": "start",
+                "sub-pattern": 1,
+                "style-ref": "keyword"
+            },
+            {
+                "where": "start",
+                "sub-pattern": 2,
+                "style-ref": "type"
+            },
+            {
+                "where": "start",
+                "sub-pattern": 5,
+                "style-ref": "type"
+            },
+            {"ref": "vala"}
+        ]},
+        "start": "(\\%{type-prefixes})\\s+(\\%{type_name})(\\s*<[^>]>)?\\s*(\\s*:\\s*(\\%{type_name}))?",
+        "end": "\\s",
+        "id": "type-declaration"
+    },
+    {
+        "include": {"context": [
+            {"ref": "gtk-doc:inline-docs-section"},
+            {"ref": "line-comment"},
+            {"ref": "multiline-comment"},
+            {"ref": "close-comment-outside-comment"},
+            {"ref": "multiline-string-templates"},
+            {"ref": "multiline-double-quoted-string"},
+            {"ref": "multiline-string"},
+            {"ref": "at-identifier"},
+            {"ref": "type-declaration"},
+            {"ref": "keywords"},
+            {"ref": "primitives"},
+            {"ref": "attributes"},
+            {"ref": "null-value"},
+            {"ref": "boolean"},
+            {"ref": "c:char"},
+            {"ref": "c:decimal"},
+            {"ref": "c:hexadecimal"},
+            {"ref": "c:float"},
+            {"ref": "c:octal"},
+            {"ref": "if0-comment"},
+            {"ref": "directive"}
+        ]},
+        "id": "vala",
+        "class": "no-spell-check"
+    }
+]}

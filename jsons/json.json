@@ -1,0 +1,161 @@
+{"language": {
+    "metadata": {"property": [
+        {
+            "name": "mimetypes",
+            "content": "application/json"
+        },
+        {
+            "name": "globs",
+            "content": "*.json;*.geojson;*.topojson"
+        }
+    ]},
+    "name": "JSON",
+    "_section": "Other",
+    "styles": {"style": [
+        {
+            "_name": "Key",
+            "map-to": "def:constant",
+            "id": "keyname"
+        },
+        {
+            "_name": "Escaped Character",
+            "map-to": "js:escape",
+            "id": "special-char"
+        },
+        {
+            "_name": "String",
+            "map-to": "js:string",
+            "id": "string"
+        },
+        {
+            "_name": "Null Value",
+            "map-to": "js:null-value",
+            "id": "null-value"
+        },
+        {
+            "_name": "Boolean Value",
+            "map-to": "js:boolean",
+            "id": "boolean"
+        },
+        {
+            "_name": "Error",
+            "map-to": "def:error",
+            "id": "error"
+        },
+        {
+            "_name": "Decimal",
+            "map-to": "def:decimal",
+            "id": "decimal"
+        },
+        {
+            "_name": "Floating point number",
+            "map-to": "def:floating-point",
+            "id": "float"
+        }
+    ]},
+    "id": "json",
+    "version": 2,
+    "definitions": {"context": [
+        {
+            "include": {"context": {
+                "include": {"context": {"ref": "value"}},
+                "start": "",
+                "end": ",|\\s*(?=\\#93)"
+            }},
+            "start": "\\[",
+            "end": "\\]",
+            "id": "array"
+        },
+        {
+            "include": {"context": [
+                {
+                    "ref": "string",
+                    "style-ref": "keyname"
+                },
+                {
+                    "include": {"context": [
+                        {
+                            "where": "start",
+                            "sub-pattern": 0,
+                            "style-ref": "keyname"
+                        },
+                        {"ref": "value"}
+                    ]},
+                    "start": ":",
+                    "end": ",|\\s*(?=})"
+                },
+                {"ref": "catchall"}
+            ]},
+            "start": "\\{",
+            "end": "\\}",
+            "id": "object"
+        },
+        {
+            "include": {"context": [
+                {
+                    "match": "\\\\(?:[ntrfb\"\\\\/]|u[0-9a-fA-F]{4})",
+                    "id": "valid-escape",
+                    "style-ref": "special-char"
+                },
+                {
+                    "match": "\\\\(?:x[0-9a-fA-F]{2}|[0-3]?[0-7]{1,2}|.)",
+                    "id": "invalid-escape",
+                    "style-ref": "error"
+                },
+                {
+                    "start": "\\\\$",
+                    "end": "^",
+                    "id": "line-continue",
+                    "style-ref": "error"
+                }
+            ]},
+            "class-disabled": "no-spell-check",
+            "start": "\"",
+            "end": "\"",
+            "id": "string",
+            "class": "string",
+            "style-ref": "string",
+            "end-at-line-end": true
+        },
+        {
+            "match": "-?(?:[1-9][0-9]*|0)(?![.eE])",
+            "id": "decimal",
+            "style-ref": "decimal"
+        },
+        {
+            "match": "-?(?:[1-9][0-9]*|0)(?:\\.[0-9]+)?(?:[eE][+\\-]?[0-9]+)?",
+            "id": "float",
+            "style-ref": "float"
+        },
+        {
+            "match": "\\S",
+            "id": "catchall",
+            "style-ref": "error",
+            "extend-parent": false
+        },
+        {
+            "include": {"context": [
+                {"ref": "object"},
+                {"ref": "array"},
+                {"ref": "string"},
+                {"ref": "decimal"},
+                {"ref": "float"},
+                {
+                    "ref": "js:null-value",
+                    "style-ref": "null-value"
+                },
+                {
+                    "ref": "js:boolean",
+                    "style-ref": "boolean"
+                },
+                {"ref": "catchall"}
+            ]},
+            "id": "value"
+        },
+        {
+            "include": {"context": {"ref": "value"}},
+            "id": "json",
+            "class": "no-spell-check"
+        }
+    ]}
+}}

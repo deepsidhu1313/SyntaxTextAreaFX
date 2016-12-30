@@ -1,0 +1,191 @@
+{"language": {
+    "metadata": {"property": [
+        {
+            "name": "mimetypes",
+            "content": "text/x-rst"
+        },
+        {
+            "name": "globs",
+            "content": "*.rst"
+        },
+        {
+            "name": "line-comment-start",
+            "content": "..\\u0020"
+        }
+    ]},
+    "_name": "reStructuredText",
+    "_section": "Markup",
+    "styles": {"style": [
+        {
+            "_name": "Header",
+            "map-to": "def:type",
+            "id": "header"
+        },
+        {
+            "_name": "Emphasis",
+            "map-to": "def:doc-comment-element",
+            "id": "emphasis"
+        },
+        {
+            "_name": "Strong Emphasis",
+            "map-to": "def:statement",
+            "id": "strong-emphasis"
+        },
+        {
+            "_name": "Bullet",
+            "map-to": "def:preprocessor",
+            "id": "bullet"
+        },
+        {
+            "_name": "Directive",
+            "map-to": "def:constant",
+            "id": "directive"
+        },
+        {
+            "_name": "Comment",
+            "map-to": "def:comment",
+            "id": "comment"
+        },
+        {
+            "_name": "Link",
+            "map-to": "def:type",
+            "id": "link"
+        },
+        {
+            "_name": "Substitution",
+            "map-to": "def:type",
+            "id": "substitution"
+        },
+        {
+            "_name": "Code",
+            "map-to": "def:identifier",
+            "id": "code"
+        },
+        {
+            "map-to": "def:underlined",
+            "name": "Url",
+            "id": "url"
+        }
+    ]},
+    "id": "rst",
+    "version": 2,
+    "definitions": {
+        "context": [
+            {
+                "match": "^\\s*\\.\\. .*::.*$",
+                "id": "directive",
+                "class": "no-spell-check",
+                "style-ref": "directive"
+            },
+            {
+                "match": "^\\s*\\.\\. \\[.+\\] .*$",
+                "id": "footnotes",
+                "style-ref": "directive"
+            },
+            {
+                "match": "^\\s*\\.\\. _.*:.*$",
+                "id": "link-target",
+                "class": "no-spell-check",
+                "style-ref": "directive"
+            },
+            {
+                "start": "(\\s*)\\.\\.(\\s+).+$",
+                "end": "^(?!(\\%{1@start}  \\%{2@start})|(^$))",
+                "id": "comment",
+                "style-ref": "comment"
+            },
+            {
+                "include": {"context": {
+                    "end-parent": true,
+                    "start": "(\\s*).+$",
+                    "end": "^(?!(\\%{1@start}))",
+                    "id": "comment-single-block",
+                    "style-ref": "comment"
+                }},
+                "start": "^(\\s*)\\.\\.(\\s*)$",
+                "end": "x",
+                "id": "comment-single",
+                "style-ref": "comment"
+            },
+            {
+                "match": "^\\s*(=+|\\-+|`+|:+|(\\.\\.\\.+)|'+|\"+|~+|\\^+|_+|\\*+|\\++|#+)\\s*$",
+                "id": "title-adornment",
+                "style-ref": "header"
+            },
+            {
+                "match": "^\\s*[\\*\\+\\-\u2022\u2023\u2043]",
+                "id": "bullet",
+                "style-ref": "bullet"
+            },
+            {
+                "match": "^\\s*((\\%{enumerator-chars}\\.)|(\\(?\\%{enumerator-chars}\\)) )",
+                "id": "enumerator",
+                "style-ref": "bullet"
+            },
+            {
+                "match": "^\\s*:.+?:",
+                "id": "field",
+                "style-ref": "bullet"
+            },
+            {
+                "match": "\\*\\*(?!\\s).+?(?!\\s)\\*\\*",
+                "id": "strong-emphasis",
+                "style-ref": "strong-emphasis"
+            },
+            {
+                "match": "\\*(?!\\s).+?(?!\\s)\\*",
+                "id": "emphasis",
+                "style-ref": "emphasis"
+            },
+            {
+                "match": "(\\S+_)|(`\\b.*?\\b`_)",
+                "id": "link",
+                "style-ref": "link"
+            },
+            {
+                "match": "\\|\\b.*\\b\\|",
+                "id": "substitution",
+                "style-ref": "substitution"
+            },
+            {
+                "include": {"context": {
+                    "match": "``(?!\\s).*(?!\\s)``",
+                    "id": "inline-literals",
+                    "class": "no-spell-check",
+                    "style-ref": "code"
+                }},
+                "id": "literals"
+            },
+            {
+                "match": "((http)|(file))://\\S*",
+                "id": "url",
+                "style-ref": "url"
+            },
+            {
+                "include": {"context": [
+                    {"ref": "directive"},
+                    {"ref": "link-target"},
+                    {"ref": "footnotes"},
+                    {"ref": "comment"},
+                    {"ref": "comment-single"},
+                    {"ref": "title-adornment"},
+                    {"ref": "bullet"},
+                    {"ref": "enumerator"},
+                    {"ref": "field"},
+                    {"ref": "strong-emphasis"},
+                    {"ref": "emphasis"},
+                    {"ref": "link"},
+                    {"ref": "substitution"},
+                    {"ref": "literals"},
+                    {"ref": "url"}
+                ]},
+                "id": "rst"
+            }
+        ],
+        "define-regex": {
+            "id": "enumerator-chars",
+            "extended": true,
+            "content": "([a-zA-Z]|([0-9]+))"
+        }
+    }
+}}

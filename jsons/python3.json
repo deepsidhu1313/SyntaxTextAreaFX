@@ -1,0 +1,275 @@
+{"language": {
+    "metadata": {"property": [
+        {
+            "name": "globs",
+            "content": "*.py3"
+        },
+        {
+            "name": "line-comment-start",
+            "content": "#"
+        }
+    ]},
+    "_name": "Python 3",
+    "_section": "Script",
+    "styles": {"style": [
+        {
+            "_name": "Module Handler",
+            "map-to": "python:module-handler",
+            "id": "module-handler"
+        },
+        {
+            "_name": "Keyword",
+            "map-to": "python:keyword",
+            "id": "keyword"
+        },
+        {
+            "_name": "Multiline string",
+            "map-to": "python:multiline-string",
+            "id": "multiline-string"
+        },
+        {
+            "_name": "String",
+            "map-to": "python:string",
+            "id": "string"
+        },
+        {
+            "_name": "Escaped Character",
+            "map-to": "python:escaped-char",
+            "id": "escaped-char"
+        },
+        {
+            "_name": "Format",
+            "map-to": "python:format",
+            "id": "format"
+        },
+        {
+            "_name": "Special Variable",
+            "map-to": "python:special-variable",
+            "id": "special-variable"
+        },
+        {
+            "_name": "Boolean",
+            "map-to": "python:boolean",
+            "id": "boolean"
+        },
+        {
+            "_name": "Floating point number",
+            "map-to": "python:floating-point",
+            "id": "floating-point"
+        },
+        {
+            "_name": "Decimal number",
+            "map-to": "python:decimal",
+            "id": "decimal"
+        },
+        {
+            "_name": "Base-N number",
+            "map-to": "python:base-n-integer",
+            "id": "base-n-integer"
+        },
+        {
+            "_name": "Complex number",
+            "map-to": "python:complex",
+            "id": "complex"
+        },
+        {
+            "_name": "Builtin Constant",
+            "map-to": "python:builtin-constant",
+            "id": "builtin-constant"
+        },
+        {
+            "_name": "Builtin Object",
+            "map-to": "python:builtin-object",
+            "id": "builtin-object"
+        },
+        {
+            "_name": "Builtin Function",
+            "map-to": "python:builtin-function",
+            "id": "builtin-function"
+        }
+    ]},
+    "id": "python3",
+    "version": 2,
+    "definitions": {
+        "context": [
+            {
+                "include": {"context": [
+                    {"ref": "python:format"},
+                    {"ref": "python:escaped-char"}
+                ]},
+                "class-disabled": "no-spell-check",
+                "start": "\\%{string-prefix}\"\"\"",
+                "end": "\"\"\"",
+                "id": "multiline-double-quoted-string",
+                "class": "string",
+                "style-ref": "multiline-string"
+            },
+            {
+                "include": {"context": [
+                    {"ref": "python:format"},
+                    {"ref": "python:escaped-char"}
+                ]},
+                "class-disabled": "no-spell-check",
+                "start": "\\%{string-prefix}'''",
+                "end": "'''",
+                "id": "multiline-single-quoted-string",
+                "class": "string",
+                "style-ref": "multiline-string"
+            },
+            {
+                "include": {"context": [
+                    {"ref": "python:format"},
+                    {"ref": "python:escaped-char"},
+                    {"ref": "def:line-continue"}
+                ]},
+                "class-disabled": "no-spell-check",
+                "start": "\\%{string-prefix}\"",
+                "end": "\"",
+                "id": "double-quoted-string",
+                "class": "string",
+                "style-ref": "string",
+                "end-at-line-end": true
+            },
+            {
+                "include": {"context": [
+                    {"ref": "python:format"},
+                    {"ref": "python:escaped-char"},
+                    {"ref": "def:line-continue"}
+                ]},
+                "class-disabled": "no-spell-check",
+                "start": "\\%{string-prefix}'",
+                "end": "'",
+                "id": "single-quoted-string",
+                "class": "string",
+                "style-ref": "string",
+                "end-at-line-end": true
+            },
+            {
+                "include": {"context": {"ref": "python:format"}},
+                "class-disabled": "no-spell-check",
+                "start": "\\%{raw-string-prefix}\"\"\"",
+                "end": "\"\"\"",
+                "id": "multiline-double-quoted-raw-string",
+                "class": "string",
+                "style-ref": "multiline-string"
+            },
+            {
+                "include": {"context": {"ref": "python:format"}},
+                "class-disabled": "no-spell-check",
+                "start": "\\%{raw-string-prefix}'''",
+                "end": "'''",
+                "id": "multiline-single-quoted-raw-string",
+                "class": "string",
+                "style-ref": "multiline-string"
+            },
+            {
+                "include": {"context": [
+                    {"ref": "python:format"},
+                    {"ref": "def:line-continue"}
+                ]},
+                "class-disabled": "no-spell-check",
+                "start": "\\%{raw-string-prefix}\"",
+                "end": "\"",
+                "id": "double-quoted-raw-string",
+                "class": "string",
+                "style-ref": "string",
+                "end-at-line-end": true
+            },
+            {
+                "include": {"context": [
+                    {"ref": "python:format"},
+                    {"ref": "def:line-continue"}
+                ]},
+                "class-disabled": "no-spell-check",
+                "start": "\\%{raw-string-prefix}'",
+                "end": "'",
+                "id": "single-quoted-raw-string",
+                "class": "string",
+                "style-ref": "string",
+                "end-at-line-end": true
+            },
+            {
+                "include": {"context": [
+                    {"ref": "def:shebang"},
+                    {"ref": "def:shell-like-comment"},
+                    {"ref": "multiline-double-quoted-string"},
+                    {"ref": "multiline-single-quoted-string"},
+                    {"ref": "double-quoted-string"},
+                    {"ref": "single-quoted-string"},
+                    {"ref": "multiline-double-quoted-raw-string"},
+                    {"ref": "multiline-single-quoted-raw-string"},
+                    {"ref": "double-quoted-raw-string"},
+                    {"ref": "single-quoted-raw-string"},
+                    {"ref": "python:special-variables"},
+                    {"ref": "python:boolean"},
+                    {"ref": "python:complex"},
+                    {"ref": "python:float"},
+                    {"ref": "python:decimal"},
+                    {
+                        "match": "(?<![\\w\\.])0[bB][0-1]+[lL]?(?![\\w\\.])",
+                        "id": "binary",
+                        "style-ref": "base-n-integer"
+                    },
+                    {
+                        "match": "(?<![\\w\\.])0[oO][0-7]+[lL]?(?![\\w\\.])",
+                        "id": "octal",
+                        "style-ref": "base-n-integer"
+                    },
+                    {"ref": "python:hex"},
+                    {"ref": "python:module-handler"},
+                    {"ref": "python:keywords"},
+                    {
+                        "id": "3x-only-keywords",
+                        "keyword": "nonlocal",
+                        "style-ref": "keyword"
+                    },
+                    {"ref": "python:builtin-constants"},
+                    {"ref": "python:builtin-objects"},
+                    {
+                        "prefix": "(?<![\\w\\.])",
+                        "id": "3x-only-builtin-objects",
+                        "keyword": "ResourceWarning",
+                        "style-ref": "builtin-object"
+                    },
+                    {"ref": "python:builtin-functions"},
+                    {
+                        "prefix": "(?<![\\w\\.])",
+                        "id": "3x-only-builtin-functions",
+                        "keyword": [
+                            "ascii",
+                            "bin",
+                            "bytearray",
+                            "bytes",
+                            "exec",
+                            "format",
+                            "memoryview",
+                            "next",
+                            "print"
+                        ],
+                        "style-ref": "builtin-function"
+                    }
+                ]},
+                "id": "python3",
+                "class": "no-spell-check"
+            }
+        ],
+        "define-regex": [
+            {
+                "id": "identifier",
+                "content": "[_a-zA-Z][_a-zA-Z0-9]*"
+            },
+            {
+                "id": "number",
+                "content": "[1-9][0-9]*"
+            },
+            {
+                "id": "string-prefix",
+                "content": "(b|B)?"
+            },
+            {
+                "id": "raw-string-prefix",
+                "content": "(r|R|rb|RB|rB|Rb|br|BR|bR|Br)"
+            }
+        ]
+    }
+}}

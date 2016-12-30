@@ -1,0 +1,60 @@
+{"nsis.json": [
+    {
+        "prefix": "!",
+        "id": "operator",
+        "keyword": [
+            "define",
+            "include",
+            "insertmacro",
+            "ifdef",
+            "endif"
+        ],
+        "style-ref": "operator"
+    },
+    {
+        "match": "\\$(\\%{identifier}|\\{\\%{identifier}\\}|\\(\\^\\%{identifier}\\))",
+        "id": "variable",
+        "style-ref": "variable"
+    },
+    {
+        "include": {"context": [
+            {
+                "sub-pattern": 1,
+                "style-ref": "operator"
+            },
+            {
+                "sub-pattern": 2,
+                "style-ref": "variable"
+            }
+        ]},
+        "match": "^\\s*(!define)\\s+(\\%{identifier})",
+        "id": "variable-assignment"
+    },
+    {
+        "include": {"context": {"ref": "variable"}},
+        "class-disabled": "no-spell-check",
+        "start": "\"",
+        "end": "\"",
+        "id": "string",
+        "class": "string",
+        "style-ref": "string"
+    },
+    {
+        "include": {"context": {"ref": "def:in-comment"}},
+        "start": ";",
+        "id": "comment",
+        "style-ref": "comment",
+        "end-at-line-end": true
+    },
+    {
+        "include": {"context": [
+            {"ref": "operator"},
+            {"ref": "variable"},
+            {"ref": "variable-assignment"},
+            {"ref": "comment"},
+            {"ref": "string"}
+        ]},
+        "id": "nsis",
+        "class": "no-spell-check"
+    }
+]}

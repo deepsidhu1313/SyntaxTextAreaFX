@@ -1,0 +1,232 @@
+{"go.json": [
+    {
+        "match": {
+            "extended": true,
+            "content": "\\%\\%|\\%\n        [#0\\-\\ \\+\\*]*        # flags\n        (?:[1-9][0-9]*|\\*)?  # width\n        (?:\\.(?:[0-9]+|\\*))? # precision\n        [vTtbcdoqxXUeEfgGsp] # conversion specifier"
+        },
+        "id": "printf",
+        "style-ref": "printf",
+        "extend-parent": false
+    },
+    {
+        "include": {"context": {"ref": "def:in-line-comment"}},
+        "class-disabled": "no-spell-check",
+        "start": "//",
+        "id": "comment",
+        "style-ref": "comment",
+        "end-at-line-end": true
+    },
+    {
+        "include": {"context": {"ref": "def:in-comment"}},
+        "class-disabled": "no-spell-check",
+        "start": "/\\*",
+        "end": "\\*/",
+        "id": "comment-multiline",
+        "style-ref": "comment"
+    },
+    {
+        "match": "\\*/(?!\\*)",
+        "id": "close-comment-outside-comment",
+        "style-ref": "error"
+    },
+    {
+        "include": {"context": [
+            {"ref": "printf"},
+            {
+                "match": "\\%{escaped-character}",
+                "id": "escaped-character",
+                "style-ref": "escaped-character"
+            },
+            {"ref": "def:line-continue"}
+        ]},
+        "class-disabled": "no-spell-check",
+        "start": "\"",
+        "end": "\"",
+        "id": "quoted-string",
+        "style-ref": "string",
+        "end-at-line-end": true
+    },
+    {
+        "include": {"context": [
+            {"ref": "printf"},
+            {"ref": "def:line-continue"}
+        ]},
+        "class-disabled": "no-spell-check",
+        "start": "`",
+        "end": "`",
+        "id": "backquote-string",
+        "style-ref": "string",
+        "end-at-line-end": false
+    },
+    {
+        "match": "'(\\%{escaped-character}|.)'",
+        "id": "char",
+        "style-ref": "char"
+    },
+    {
+        "match": "(?<![\\w\\.])(\\%{float}|\\[0-9]+)[i]\\b",
+        "id": "imaginary",
+        "style-ref": "imaginary"
+    },
+    {
+        "match": "(?<![\\w\\.])\\%{float}(?![\\w\\.])",
+        "id": "float",
+        "style-ref": "floating-point"
+    },
+    {
+        "match": {
+            "extended": true,
+            "content": "(?<![\\w\\.])\n        0[xX][a-fA-F0-9]+\n        (?![\\w\\.])"
+        },
+        "id": "hexadecimal",
+        "style-ref": "hexadecimal"
+    },
+    {
+        "match": {
+            "extended": true,
+            "content": "(?<![\\w\\.])\n        0[xX][a-fA-F0-9]*[g-zG-Z][a-zA-Z0-9]*\n        (?![\\w\\.])"
+        },
+        "id": "invalid-hexadecimal",
+        "style-ref": "error"
+    },
+    {
+        "match": {
+            "extended": true,
+            "content": "(?<![\\w\\.])\n        0[0-7]+\n        (?![\\w\\.])"
+        },
+        "id": "octal",
+        "style-ref": "octal"
+    },
+    {
+        "match": {
+            "extended": true,
+            "content": "(?<![\\w\\.])\n        0[0-7]*[89][0-9]*\n        (?![\\w\\.])"
+        },
+        "id": "invalid-octal",
+        "style-ref": "error"
+    },
+    {
+        "match": {
+            "extended": true,
+            "content": "(?<![\\w\\.])\n        (0|[1-9][0-9]*)\n        (?![\\w\\.])"
+        },
+        "id": "decimal",
+        "style-ref": "decimal"
+    },
+    {
+        "match": {
+            "extended": true,
+            "content": "(?<![\\w\\.])\n        (true|false)\n        (?![\\w\\.])"
+        },
+        "id": "boolean",
+        "style-ref": "boolean"
+    },
+    {
+        "id": "keywords",
+        "keyword": [
+            "break",
+            "case",
+            "const",
+            "continue",
+            "default",
+            "defer",
+            "else",
+            "fallthrough",
+            "for",
+            "func",
+            "go",
+            "goto",
+            "if",
+            "import",
+            "interface",
+            "package",
+            "range",
+            "return",
+            "select",
+            "struct",
+            "switch",
+            "type",
+            "var"
+        ],
+        "style-ref": "keyword"
+    },
+    {
+        "id": "types",
+        "keyword": [
+            "bool",
+            "byte",
+            "chan",
+            "complex64",
+            "complex128",
+            "error",
+            "float32",
+            "float64",
+            "func",
+            "int",
+            "int8",
+            "int16",
+            "int32",
+            "int64",
+            "map",
+            "rune",
+            "string",
+            "uint",
+            "uint8",
+            "uint16",
+            "uint32",
+            "uint64",
+            "uintptr"
+        ],
+        "style-ref": "type"
+    },
+    {
+        "id": "builtin-constant",
+        "keyword": [
+            "iota",
+            "nil"
+        ],
+        "style-ref": "builtin-constant"
+    },
+    {
+        "id": "builtin-function",
+        "keyword": [
+            "append",
+            "cap",
+            "close",
+            "complex",
+            "copy",
+            "delete",
+            "imag",
+            "len",
+            "make",
+            "new",
+            "panic",
+            "real",
+            "recover"
+        ],
+        "style-ref": "builtin-function"
+    },
+    {
+        "include": {"context": [
+            {"ref": "comment"},
+            {"ref": "comment-multiline"},
+            {"ref": "close-comment-outside-comment"},
+            {"ref": "quoted-string"},
+            {"ref": "backquote-string"},
+            {"ref": "char"},
+            {"ref": "float"},
+            {"ref": "hexadecimal"},
+            {"ref": "invalid-hexadecimal"},
+            {"ref": "octal"},
+            {"ref": "invalid-octal"},
+            {"ref": "decimal"},
+            {"ref": "boolean"},
+            {"ref": "keywords"},
+            {"ref": "types"},
+            {"ref": "builtin-constant"},
+            {"ref": "builtin-function"}
+        ]},
+        "id": "go",
+        "class": "no-spell-check"
+    }
+]}

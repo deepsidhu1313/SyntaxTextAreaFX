@@ -1,0 +1,339 @@
+{"language": {
+    "metadata": {"property": [
+        {
+            "name": "mimetypes",
+            "content": "text/x-boo"
+        },
+        {
+            "name": "globs",
+            "content": "*.boo"
+        },
+        {
+            "name": "line-comment-start",
+            "content": "#"
+        },
+        {
+            "name": "block-comment-start",
+            "content": "/*"
+        },
+        {
+            "name": "block-comment-end",
+            "content": "*/"
+        }
+    ]},
+    "_name": "Boo",
+    "_section": "Source",
+    "styles": {"style": [
+        {
+            "_name": "Comment",
+            "map-to": "def:comment",
+            "id": "comment"
+        },
+        {
+            "_name": "Multiline string",
+            "map-to": "def:string",
+            "id": "multiline-string"
+        },
+        {
+            "_name": "String",
+            "map-to": "def:string",
+            "id": "string"
+        },
+        {
+            "_name": "Regular Expression",
+            "map-to": "def:string",
+            "id": "regex"
+        },
+        {
+            "_name": "Namespace",
+            "map-to": "def:preprocessor",
+            "id": "namespace"
+        },
+        {
+            "_name": "Data Type",
+            "map-to": "def:type",
+            "id": "type"
+        },
+        {
+            "_name": "Definition",
+            "map-to": "def:keyword",
+            "id": "definition"
+        },
+        {
+            "_name": "Keyword",
+            "map-to": "def:keyword",
+            "id": "keyword"
+        },
+        {
+            "_name": "Special Variable",
+            "map-to": "def:identifier",
+            "id": "special-variable"
+        },
+        {
+            "_name": "Null Value",
+            "map-to": "def:special-constant",
+            "id": "null-value"
+        },
+        {
+            "_name": "Boolean",
+            "map-to": "def:boolean",
+            "id": "boolean"
+        },
+        {
+            "_name": "Number",
+            "map-to": "def:number",
+            "id": "number"
+        },
+        {
+            "_name": "Builtin Function",
+            "map-to": "def:builtin",
+            "id": "builtin"
+        }
+    ]},
+    "id": "boo",
+    "version": 2,
+    "definitions": {"context": [
+        {
+            "include": {"context": {"ref": "def:in-line-comment"}},
+            "class-disabled": "no-spell-check",
+            "start": "//",
+            "id": "c-style-line-comment",
+            "class": "comment",
+            "style-ref": "comment",
+            "end-at-line-end": true
+        },
+        {
+            "include": {"context": {"ref": "def:in-comment"}},
+            "class-disabled": "no-spell-check",
+            "start": "/\\*",
+            "end": "\\*/",
+            "id": "block-comment",
+            "class": "comment",
+            "style-ref": "comment"
+        },
+        {
+            "include": {"context": {"ref": "def:escape"}},
+            "class-disabled": "no-spell-check",
+            "start": "\"\"\"",
+            "end": "\"\"\"",
+            "id": "multiline-string",
+            "class": "string",
+            "style-ref": "multiline-string"
+        },
+        {
+            "include": {"context": [
+                {"ref": "def:escape"},
+                {"ref": "def:line-continue"}
+            ]},
+            "class-disabled": "no-spell-check",
+            "start": "\"",
+            "end": "\"",
+            "id": "double-quoted-string",
+            "class": "string",
+            "style-ref": "string",
+            "end-at-line-end": true
+        },
+        {
+            "include": {"context": [
+                {"ref": "def:escape"},
+                {"ref": "def:line-continue"}
+            ]},
+            "class-disabled": "no-spell-check",
+            "start": "'",
+            "end": "'",
+            "id": "single-quoted-string",
+            "class": "string",
+            "style-ref": "string",
+            "end-at-line-end": true
+        },
+        {
+            "start": "/(?!/)",
+            "end": "/",
+            "id": "regex",
+            "style-ref": "regex",
+            "end-at-line-end": true
+        },
+        {
+            "id": "namespace",
+            "keyword": [
+                "as",
+                "from",
+                "import",
+                "namespace"
+            ],
+            "style-ref": "namespace"
+        },
+        {
+            "id": "primitives",
+            "keyword": [
+                "bool",
+                "byte",
+                "char",
+                "date",
+                "decimal",
+                "double",
+                "duck",
+                "float",
+                "int",
+                "long",
+                "object",
+                "operator",
+                "regex",
+                "sbyte",
+                "short",
+                "single",
+                "string",
+                "timespan",
+                "uint",
+                "ulong",
+                "ushort"
+            ],
+            "style-ref": "type"
+        },
+        {
+            "id": "definitions",
+            "keyword": [
+                "abstract",
+                "callable",
+                "class",
+                "constructor",
+                "def",
+                "destructor",
+                "do",
+                "enum",
+                "event",
+                "final",
+                "get",
+                "interface",
+                "internal",
+                "of",
+                "override",
+                "partial",
+                "private",
+                "protected",
+                "public",
+                "return",
+                "set",
+                "static",
+                "struct",
+                "transient",
+                "virtual",
+                "yield"
+            ],
+            "style-ref": "definition"
+        },
+        {
+            "id": "keywords",
+            "keyword": [
+                "and",
+                "break",
+                "cast",
+                "continue",
+                "elif",
+                "else",
+                "ensure",
+                "except",
+                "for",
+                "given",
+                "goto",
+                "if",
+                "in",
+                "isa",
+                "is",
+                "not",
+                "or",
+                "otherwise",
+                "pass",
+                "raise",
+                "ref",
+                "try",
+                "unless",
+                "when",
+                "while"
+            ],
+            "style-ref": "keyword"
+        },
+        {
+            "id": "special-variables",
+            "keyword": [
+                "self",
+                "super"
+            ],
+            "style-ref": "special-variable"
+        },
+        {
+            "id": "null-value",
+            "keyword": null,
+            "style-ref": "null-value"
+        },
+        {
+            "id": "boolean",
+            "keyword": [
+                false,
+                true
+            ],
+            "style-ref": "boolean"
+        },
+        {
+            "match": {
+                "extended": true,
+                "content": "(?<![\\w\\.])\n        [0-9][0-9\\.]*(m|ms|d|h|s|f|F|l|L)?\n        (?![\\w\\.])"
+            },
+            "id": "numbers",
+            "style-ref": "number"
+        },
+        {
+            "id": "builtins",
+            "keyword": [
+                "array",
+                "assert",
+                "checked",
+                "enumerate",
+                "__eval__",
+                "filter",
+                "getter",
+                "len",
+                "lock",
+                "map",
+                "matrix",
+                "max",
+                "min",
+                "normalArrayIndexing",
+                "print",
+                "property",
+                "range",
+                "rawArrayIndexing",
+                "required",
+                "__switch__",
+                "typeof",
+                "unchecked",
+                "using",
+                "yieldAll",
+                "zip"
+            ],
+            "style-ref": "builtin"
+        },
+        {
+            "include": {"context": [
+                {"ref": "def:shell-like-comment"},
+                {"ref": "c-style-line-comment"},
+                {"ref": "block-comment"},
+                {"ref": "multiline-string"},
+                {"ref": "double-quoted-string"},
+                {"ref": "single-quoted-string"},
+                {"ref": "regex"},
+                {"ref": "namespace"},
+                {"ref": "primitives"},
+                {"ref": "definitions"},
+                {"ref": "keywords"},
+                {"ref": "special-variables"},
+                {"ref": "null-value"},
+                {"ref": "boolean"},
+                {"ref": "numbers"},
+                {"ref": "builtins"}
+            ]},
+            "id": "boo",
+            "class": "no-spell-check"
+        }
+    ]}
+}}

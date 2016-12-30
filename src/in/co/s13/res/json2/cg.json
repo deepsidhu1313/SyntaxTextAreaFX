@@ -1,0 +1,207 @@
+{"cg.json": {
+    "include": {
+        "context": [
+            {
+                "include": {"context": {"ref": "def:in-line-comment"}},
+                "class-disabled": "no-spell-check",
+                "start": "//",
+                "id": "comment",
+                "class": "comment",
+                "style-ref": "comment",
+                "end-at-line-end": true
+            },
+            {
+                "include": {"context": {"ref": "def:in-comment"}},
+                "class-disabled": "no-spell-check",
+                "start": "/\\*",
+                "end": "\\*/",
+                "id": "comment-multiline",
+                "class": "comment",
+                "style-ref": "comment"
+            },
+            {
+                "match": "\\*/(?!\\*)",
+                "id": "close-comment-outside-comment",
+                "style-ref": "error"
+            },
+            {
+                "include": {"context": {
+                    "id": "included-file",
+                    "sub-pattern": 2,
+                    "style-ref": "included-file"
+                }},
+                "match": {
+                    "extended": true,
+                    "content": "\\%{preproc-start}\n                            (include|import)\\s*\n                            (\".*?\"|<.*>)"
+                },
+                "id": "include",
+                "style-ref": "preprocessor"
+            },
+            {
+                "match": {
+                    "extended": true,
+                    "content": "(?<![\\w\\.])\n                        ((\\.[0-9]+ | [0-9]+\\.[0-9]*) ([Ee][+-]?[0-9]*)? |\n                         ([0-9]+[Ee][+-]?[0-9]*))\n                        [fFlL]?\n                        (?![\\w\\.])"
+                },
+                "id": "float",
+                "style-ref": "floating-point"
+            },
+            {
+                "match": {
+                    "extended": true,
+                    "content": "(?<![\\w\\.])\n                        0[xX][a-fA-F0-9]+[uUlL]*\n                        (?![\\w\\.])"
+                },
+                "id": "hexadecimal",
+                "style-ref": "hexadecimal"
+            },
+            {
+                "match": {
+                    "extended": true,
+                    "content": "(?<![\\w\\.])\n                        0[0-7]+[uUlL]*\n                        (?![\\w\\.])"
+                },
+                "id": "octal",
+                "style-ref": "octal"
+            },
+            {
+                "match": {
+                    "extended": true,
+                    "content": "(?<![\\w\\.])\n                        [0-9]+[uUlL]*\n                        (?![\\w\\.])"
+                },
+                "id": "decimal",
+                "style-ref": "decimal"
+            },
+            {
+                "id": "keywords",
+                "keyword": [
+                    "break",
+                    "case",
+                    "continue",
+                    "default",
+                    "else",
+                    "for",
+                    "if",
+                    "return",
+                    "struct",
+                    "switch",
+                    "while"
+                ],
+                "style-ref": "keyword"
+            },
+            {
+                "id": "types",
+                "keyword": [
+                    "bool",
+                    "float",
+                    "float2",
+                    "float3",
+                    "float4",
+                    "float2x2",
+                    "float3x3",
+                    "float4x4",
+                    "int",
+                    "half",
+                    "fixed",
+                    "void",
+                    "sampler1D",
+                    "sampler2D",
+                    "sampler3D",
+                    "samplerRECT",
+                    "samplerCUBE"
+                ],
+                "style-ref": "type"
+            },
+            {
+                "id": "storage-class",
+                "keyword": [
+                    "uniform",
+                    "out",
+                    "inout",
+                    "in",
+                    "varying"
+                ],
+                "style-ref": "storage-class"
+            },
+            {
+                "id": "bindings",
+                "keyword": [
+                    "POSITION",
+                    "NORMAL"
+                ],
+                "style-ref": "bindings"
+            },
+            {
+                "match": {
+                    "extended": true,
+                    "content": "COLOR[0-3]?"
+                },
+                "id": "color-bindings",
+                "style-ref": "bindings"
+            },
+            {
+                "match": {
+                    "extended": true,
+                    "content": "TEXUNIT([0-9]|1[0-5])?"
+                },
+                "id": "texunit-bindings",
+                "style-ref": "bindings"
+            },
+            {
+                "match": {
+                    "extended": true,
+                    "content": "TEXCOORD[0-7]?"
+                },
+                "id": "texcoord-bindings",
+                "style-ref": "bindings"
+            },
+            {
+                "include": {"context": {
+                    "id": "swizzle-operator",
+                    "sub-pattern": 1,
+                    "style-ref": "swizzle"
+                }},
+                "match": {
+                    "extended": true,
+                    "content": "\\.([xyzw]+|[rgba]+)"
+                },
+                "id": "swizzle"
+            },
+            {
+                "id": "boolean",
+                "keyword": [
+                    true,
+                    false
+                ],
+                "style-ref": "boolean"
+            },
+            {
+                "include": {"context": {
+                    "id": "builtin-name",
+                    "sub-pattern": 1,
+                    "style-ref": "builtin"
+                }},
+                "match": {
+                    "extended": true,
+                    "content": "(mul|lit|lerp|saturate|abs|cos|acos|sin|asin|tan|atan|all|any|ceil|clamp|\n                        cosh|cross|degress|determinant|dot|exp|exp2|floor|fmod|frac|frexp|isfinite|\n                        isinf|isnan|ldexp|log|log2|log10|max|min|modf|noise|pow|radians|round|\n                        rsqrt|sign|sincos|sinh|smoothstep|step|sqrt|tanh|transpose|distance|\n                        faceforward|length|normalize|reflect|refract|tex1D|tex2D|tex3D|\n                        tex1Dproj|tex2Dproj|tex3Dproj|texRECT|texRECTproj|texCUBE|texCUBEproj|\n                        ddx|ddy|debug)\\s*\\("
+                },
+                "id": "builtin"
+            },
+            {
+                "include": {"context": {
+                    "id": "function-name",
+                    "sub-pattern": 1,
+                    "style-ref": "function"
+                }},
+                "match": {
+                    "extended": true,
+                    "content": "([a-zA-Z_][a-zA-Z_0-9]*)\\s*\\("
+                },
+                "id": "function"
+            }
+        ],
+        "define-regex": {
+            "id": "preproc-start",
+            "content": "^\\s*#\\s*"
+        }
+    },
+    "id": "cg",
+    "class": "no-spell-check"
+}}

@@ -1,0 +1,314 @@
+{"language": {
+    "metadata": {"property": [
+        {
+            "name": "mimetypes",
+            "content": "text/x-pascal"
+        },
+        {
+            "name": "globs",
+            "content": "*.p;*.pas"
+        },
+        {
+            "name": "line-comment-start",
+            "content": "//"
+        }
+    ]},
+    "_name": "Pascal",
+    "_section": "Source",
+    "styles": {"style": [
+        {
+            "_name": "Comment",
+            "map-to": "def:comment",
+            "id": "comment"
+        },
+        {
+            "_name": "String",
+            "map-to": "def:string",
+            "id": "string"
+        },
+        {
+            "_name": "Keyword",
+            "map-to": "def:keyword",
+            "id": "keyword"
+        },
+        {
+            "_name": "Decimal",
+            "map-to": "def:decimal",
+            "id": "decimal"
+        },
+        {
+            "_name": "Data Type",
+            "map-to": "def:type",
+            "id": "type"
+        },
+        {
+            "_name": "Preprocessor",
+            "map-to": "def:preprocessor",
+            "id": "preprocessor"
+        }
+    ]},
+    "id": "pascal",
+    "version": 2,
+    "definitions": {"context": [
+        {
+            "class-disabled": "no-spell-check",
+            "start": "[uUrR]?'",
+            "end": "'",
+            "id": "string",
+            "class": "string",
+            "style-ref": "string"
+        },
+        {
+            "include": {"context": {"ref": "def:in-comment"}},
+            "class-disabled": "no-spell-check",
+            "start": "//",
+            "id": "line-comment",
+            "class": "comment",
+            "style-ref": "comment",
+            "end-at-line-end": true
+        },
+        {
+            "include": {"context": {"ref": "def:in-comment"}},
+            "class-disabled": "no-spell-check",
+            "start": "\\(\\*",
+            "end": "\\*\\)",
+            "id": "block-comment-1",
+            "class": "comment",
+            "style-ref": "comment"
+        },
+        {
+            "include": {"context": {"ref": "def:in-comment"}},
+            "class-disabled": "no-spell-check",
+            "start": "\\{",
+            "end": "\\}",
+            "id": "block-comment-2",
+            "class": "comment",
+            "style-ref": "comment"
+        },
+        {
+            "start": "\\{\\$",
+            "end": "\\}",
+            "id": "preprocessor-defines",
+            "style-ref": "preprocessor",
+            "end-at-line-end": true
+        },
+        {
+            "id": "general-format",
+            "keyword": [
+                "Program",
+                "Library",
+                "Unit",
+                "Uses",
+                "Interface",
+                "Implementation",
+                "Initialization",
+                "Finalization",
+                "Begin",
+                "End",
+                "Var",
+                "Const"
+            ],
+            "style-ref": "keyword"
+        },
+        {
+            "id": "functions-and-function-modifiers",
+            "keyword": [
+                "Function",
+                "Procedure",
+                "Overload",
+                "cdecl"
+            ],
+            "style-ref": "keyword"
+        },
+        {
+            "id": "boolean-bitwise-operators",
+            "keyword": [
+                "if",
+                "then",
+                "else",
+                "is",
+                "and",
+                "and_then",
+                "not",
+                "or",
+                "or_else",
+                "xor",
+                "shr",
+                "shl",
+                "otherwise"
+            ],
+            "style-ref": "keyword"
+        },
+        {
+            "id": "math-operators",
+            "keyword": [
+                "div",
+                "mod"
+            ],
+            "style-ref": "keyword"
+        },
+        {
+            "id": "loop-flow-and-exceptions-keywords",
+            "keyword": [
+                "while",
+                "do",
+                "for",
+                "to",
+                "case",
+                "of",
+                "repeat",
+                "until",
+                "break",
+                "continue",
+                "try",
+                "except",
+                "finally",
+                "raise",
+                "downto",
+                "in"
+            ],
+            "style-ref": "keyword"
+        },
+        {
+            "id": "type-class-and-object-keywords",
+            "keyword": [
+                "Type",
+                "Packed",
+                "Array",
+                "Record",
+                "Object",
+                "Class",
+                "Interface",
+                "Public",
+                "Private",
+                "Protected",
+                "Constructor",
+                "Destructor",
+                "Virtual",
+                "Abstract",
+                "Override",
+                "Property",
+                "ReadLn",
+                "Read",
+                "WriteLn",
+                "Write",
+                "default",
+                "With",
+                "As",
+                "self",
+                "Inherited",
+                "Forward",
+                "Implements",
+                "varargs",
+                "far",
+                "near",
+                "absolute",
+                "all",
+                "asm",
+                "attribute",
+                "bindable",
+                "export",
+                "exports",
+                "external",
+                "file",
+                "goto",
+                "import",
+                "interrupt",
+                "published",
+                "qualified",
+                "resident",
+                "restricted",
+                "segment",
+                "set",
+                "value"
+            ],
+            "style-ref": "keyword"
+        },
+        {
+            "id": "builtin-types",
+            "keyword": [
+                "Char",
+                "String",
+                "Integer",
+                "Real",
+                "Boolean",
+                "Pointer",
+                "Byte",
+                "LongInt"
+            ],
+            "style-ref": "type"
+        },
+        {
+            "id": "builtin-functions",
+            "keyword": [
+                "chr",
+                "ord",
+                "succ",
+                "pred",
+                "abs",
+                "round",
+                "trunc",
+                "sqr",
+                "sqrt",
+                "arctan",
+                "cos",
+                "sin",
+                "exp",
+                "ln",
+                "odd",
+                "eof",
+                "eoln",
+                "pow"
+            ],
+            "style-ref": "keyword"
+        },
+        {
+            "id": "builtin-values",
+            "keyword": [
+                "nil",
+                false,
+                true
+            ],
+            "style-ref": "keyword"
+        },
+        {
+            "match": {
+                "extended": true,
+                "content": "(?<![\\w\\.])\n        (([0-9]+)|([0-9]+\\.[0-9]+([Ee][-]?[0-9]+)?))\n        (?![\\w\\.])"
+            },
+            "id": "number",
+            "style-ref": "decimal"
+        },
+        {
+            "match": {
+                "extended": true,
+                "content": "(?<![\\w\\.])\n        \\$[0-9a-fA-F]*\n        (?![\\w\\.])"
+            },
+            "id": "hex-number",
+            "style-ref": "decimal"
+        },
+        {
+            "include": {"context": [
+                {"ref": "string"},
+                {"ref": "line-comment"},
+                {"ref": "preprocessor-defines"},
+                {"ref": "block-comment-1"},
+                {"ref": "block-comment-2"},
+                {"ref": "general-format"},
+                {"ref": "functions-and-function-modifiers"},
+                {"ref": "boolean-bitwise-operators"},
+                {"ref": "math-operators"},
+                {"ref": "loop-flow-and-exceptions-keywords"},
+                {"ref": "type-class-and-object-keywords"},
+                {"ref": "builtin-types"},
+                {"ref": "builtin-functions"},
+                {"ref": "builtin-values"},
+                {"ref": "number"},
+                {"ref": "hex-number"}
+            ]},
+            "id": "pascal",
+            "class": "no-spell-check"
+        }
+    ]},
+    "default-regex-options": {"case-sensitive": false}
+}}

@@ -1,0 +1,241 @@
+{"language": {
+    "metadata": {"property": {
+        "name": "globs",
+        "content": "*.gdb"
+    }},
+    "_name": "GDB Log",
+    "_section": "Other",
+    "styles": {"style": [
+        {
+            "_name": "Thread Action",
+            "map-to": "def:comment",
+            "id": "thread-action"
+        },
+        {
+            "_name": "Thread Header",
+            "map-to": "def:statement",
+            "id": "thread-header"
+        },
+        {
+            "_name": "Frame Number",
+            "map-to": "def:keyword",
+            "id": "frame-number"
+        },
+        {
+            "_name": "Address",
+            "map-to": "def:number",
+            "id": "address"
+        },
+        {
+            "_name": "Function",
+            "map-to": "def:function",
+            "id": "function"
+        },
+        {
+            "_name": "String",
+            "map-to": "def:string",
+            "id": "string"
+        },
+        {
+            "_name": "Filename",
+            "map-to": "def:statement",
+            "id": "filename"
+        },
+        {
+            "_name": "Optimized Out",
+            "map-to": "def:special-constant",
+            "id": "optimized-out"
+        },
+        {
+            "_name": "Incomplete Sequence",
+            "map-to": "def:special-constant",
+            "id": "incomplete-sequence"
+        },
+        {
+            "_name": "Prompt",
+            "map-to": "def:comment",
+            "id": "prompt"
+        }
+    ]},
+    "id": "gdb-log",
+    "version": 2,
+    "definitions": {
+        "context": [
+            {
+                "id": "optimized-out",
+                "keyword": "value optimized out",
+                "style-ref": "optimized-out"
+            },
+            {
+                "id": "incomplete-sequence",
+                "keyword": "incomplete sequence",
+                "style-ref": "incomplete-sequence"
+            },
+            {
+                "start": "\\(gdb\\)|---|Kill|Using|Program|Starting|No symbol",
+                "end": "---$",
+                "id": "prompt",
+                "style-ref": "prompt",
+                "end-at-line-end": true
+            },
+            {
+                "include": {"context": {
+                    "sub-pattern": 1,
+                    "style-ref": "address"
+                }},
+                "match": "^\\[(?:New |Switching to )?(?:Thread|LWP)\\s+(\\%{thread-number})?.*\\]$",
+                "id": "thread-action",
+                "style-ref": "thread-action"
+            },
+            {
+                "include": {"context": {
+                    "sub-pattern": 1,
+                    "style-ref": "address"
+                }},
+                "match": "^Thread \\d+ \\((?:Thread|LWP)\\s+(\\%{thread-number}).*\\):$",
+                "id": "thread-header",
+                "style-ref": "thread-header"
+            },
+            {
+                "include": {"context": [
+                    {
+                        "sub-pattern": 1,
+                        "style-ref": "frame-number"
+                    },
+                    {
+                        "sub-pattern": 2,
+                        "style-ref": "def:special-constant"
+                    }
+                ]},
+                "match": "^#(\\d+)\\s+<(signal handler called)>$",
+                "id": "signal-handler-frame"
+            },
+            {
+                "include": {"context": [
+                    {
+                        "where": "start",
+                        "sub-pattern": "address",
+                        "style-ref": "address"
+                    },
+                    {
+                        "where": "start",
+                        "sub-pattern": "function",
+                        "style-ref": "function"
+                    },
+                    {
+                        "where": "start",
+                        "sub-pattern": "badfunction",
+                        "style-ref": "def:error"
+                    },
+                    {
+                        "where": "end",
+                        "sub-pattern": "filename",
+                        "style-ref": "filename"
+                    },
+                    {
+                        "where": "end",
+                        "sub-pattern": "linenumber",
+                        "style-ref": "def:number"
+                    },
+                    {"ref": "optimized-out"},
+                    {"ref": "incomplete-sequence"},
+                    {"ref": "prompt"}
+                ]},
+                "once-only": true,
+                "start": "^\\%{frame-start}",
+                "end": "\\%{frame-end}",
+                "id": "crash-frame",
+                "end-at-line-end": false
+            },
+            {
+                "include": {"context": [
+                    {
+                        "where": "start",
+                        "sub-pattern": "framenumber",
+                        "style-ref": "frame-number"
+                    },
+                    {
+                        "where": "start",
+                        "sub-pattern": "address",
+                        "style-ref": "address"
+                    },
+                    {
+                        "where": "start",
+                        "sub-pattern": "function",
+                        "style-ref": "function"
+                    },
+                    {
+                        "where": "start",
+                        "sub-pattern": "badfunction",
+                        "style-ref": "def:error"
+                    },
+                    {
+                        "where": "end",
+                        "sub-pattern": "filename",
+                        "style-ref": "filename"
+                    },
+                    {
+                        "where": "end",
+                        "sub-pattern": "linenumber",
+                        "style-ref": "def:number"
+                    },
+                    {"ref": "optimized-out"},
+                    {"ref": "incomplete-sequence"},
+                    {"ref": "prompt"}
+                ]},
+                "start": "^#(?P<framenumber>-?\\d+)\\s+\\%{frame-start}",
+                "end": "\\%{frame-end}",
+                "id": "frame",
+                "end-at-line-end": false
+            },
+            {
+                "include": {"context": [
+                    {
+                        "sub-pattern": "filename",
+                        "style-ref": "filename"
+                    },
+                    {
+                        "sub-pattern": "linenumber",
+                        "style-ref": "def:number"
+                    }
+                ]},
+                "match": "^\\s+(?:at|from)\\s+(?P<filename>\\%{filename})(?P<linenumber>\\:[0-9]+)?$",
+                "id": "frame-ending"
+            },
+            {
+                "include": {"context": [
+                    {"ref": "prompt"},
+                    {"ref": "thread-action"},
+                    {"ref": "thread-header"},
+                    {"ref": "signal-handler-frame"},
+                    {"ref": "crash-frame"},
+                    {"ref": "frame"},
+                    {"ref": "frame-ending"}
+                ]},
+                "id": "gdb-log"
+            }
+        ],
+        "define-regex": [
+            {
+                "id": "identifier",
+                "content": "[A-Za-z_][A-Za-z0-9_]*(?:@@[A-Za-z0-9_\\.]+)?"
+            },
+            {
+                "id": "filename",
+                "content": ".+?"
+            },
+            {
+                "id": "thread-number",
+                "content": "(?:-?[1-9][0-9]*|\\%{def:hexadecimal})"
+            },
+            {
+                "id": "frame-start",
+                "content": "((?P<address>\\%{def:hexadecimal})\\s+in\\s+)?(?:(?P<function>\\*?\\%{identifier})|(?P<badfunction>\\?\\?))\\s+\\("
+            },
+            {
+                "id": "frame-end",
+                "content": "(?:(?:at|from)\\s+(?P<filename>\\%{filename})(?P<linenumber>\\:[0-9]+)?|\\))$"
+            }
+        ]
+    }
+}}

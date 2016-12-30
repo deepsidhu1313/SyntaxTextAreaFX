@@ -1,0 +1,272 @@
+{"markdown.json": [
+    {
+        "match": "^#+.+",
+        "id": "atx-header",
+        "style-ref": "header"
+    },
+    {
+        "match": "^(-+|=+)[ \\t]*$",
+        "id": "setext-header",
+        "style-ref": "header"
+    },
+    {
+        "match": {
+            "extended": true,
+            "content": "^[ ]{0,3}            # Maximum 3 spaces at the beginning of the line.\n        (\n          (-[ ]{0,2}){3,} | # 3 or more hyphens, with 2 spaces maximum between each hyphen.\n          (_[ ]{0,2}){3,} | # Idem, but with underscores.\n          (\\*[ ]{0,2}){3,}  # Idem, but with asterisks.\n        )\n        [ \\t]*$              # Optional trailing spaces or tabs."
+        },
+        "id": "horizontal-rule",
+        "style-ref": "horizontal-rule"
+    },
+    {
+        "match": {
+            "extended": true,
+            "content": "^[ ]{0,3}  # Maximum 3 spaces at the beginning of the line.\n        (\n          \\*|\\+|-| # Asterisk, plus or hyphen for unordered list.\n          [0-9]+\\. # Number followed by period for ordered list.\n        )\n        [ \\t]+     # Must be followed by at least 1 space or 1 tab."
+        },
+        "id": "list",
+        "style-ref": "list-marker"
+    },
+    {
+        "include": {"context": {
+            "sub-pattern": 2,
+            "style-ref": "code"
+        }},
+        "match": "^( {8,}|\\t{2,})([^ \\t]+.*)",
+        "id": "code-block",
+        "class": "no-spell-check"
+    },
+    {
+        "match": "(?<!`)`[^`]+(`{2,}[^`]+)*`(?!`)",
+        "id": "1-backtick-code-span",
+        "class": "no-spell-check",
+        "style-ref": "code"
+    },
+    {
+        "match": "(?<!`)``[^`]+((`|`{3,})[^`]+)*``(?!`)",
+        "id": "2-backticks-code-span",
+        "class": "no-spell-check",
+        "style-ref": "code"
+    },
+    {
+        "include": {"context": [
+            {
+                "where": "start",
+                "sub-pattern": 1,
+                "style-ref": "blockquote-marker"
+            },
+            {"ref": "1-backtick-code-span"},
+            {"ref": "2-backticks-code-span"},
+            {"ref": "automatic-link"},
+            {"ref": "inline-link"},
+            {"ref": "reference-link"},
+            {"ref": "inline-image"},
+            {"ref": "reference-image"},
+            {"ref": "underscores-emphasis"},
+            {"ref": "asterisks-emphasis"},
+            {"ref": "underscores-strong-emphasis"},
+            {"ref": "asterisks-strong-emphasis"},
+            {"ref": "backslash-escape"},
+            {"ref": "line-break"}
+        ]},
+        "start": "^( {0,3}>(?=.)( {0,4}>)*)",
+        "id": "blockquote",
+        "end-at-line-end": true
+    },
+    {
+        "include": {"context": {
+            "sub-pattern": 1,
+            "style-ref": "url"
+        }},
+        "match": {
+            "case-sensitive": false,
+            "extended": true,
+            "content": "<\n          (((mailto:)?[a-z0-9.-]+\\@[-a-z0-9]+(\\.[-a-z0-9]+)*\\.[a-z]+) | # E-mail.\n          ((https?|ftp):[^'\">\\s]+))                                     # URL.\n        >"
+        },
+        "id": "automatic-link",
+        "class": "no-spell-check"
+    },
+    {
+        "include": {"context": [
+            {
+                "sub-pattern": 1,
+                "style-ref": "link-text"
+            },
+            {
+                "class": "no-spell-check",
+                "sub-pattern": 3,
+                "style-ref": "url"
+            },
+            {
+                "class": "no-spell-check",
+                "sub-pattern": 4,
+                "style-ref": "url"
+            },
+            {
+                "sub-pattern": 6,
+                "style-ref": "attribute-value"
+            }
+        ]},
+        "match": {
+            "extended": true,
+            "content": "\\[(.*?)\\]          # Link text.\n        \\(                 # Literal opening parenthesis.\n          [ \\t]*           # Optional spaces or tabs after the opening parenthesis.\n          (<(.*?)> | # URL with brackets.\n          (.*?))           # URL without brackets.\n          ([ \\t]+(\".*?\"))? # Optional title.\n          [ \\t]*           # Optional spaces or tabs before the closing parenthesis.\n        \\)                 # Literal closing parenthesis."
+        },
+        "id": "inline-link"
+    },
+    {
+        "include": {"context": [
+            {
+                "sub-pattern": 1,
+                "style-ref": "link-text"
+            },
+            {
+                "class": "no-spell-check",
+                "sub-pattern": 3,
+                "style-ref": "label"
+            }
+        ]},
+        "match": "(?<!^ |^  |^   )\\[(.*?)\\]([ \\t]?\\[(.*?)\\])?(?!:)",
+        "id": "reference-link"
+    },
+    {
+        "include": {"context": [
+            {
+                "class": "no-spell-check",
+                "sub-pattern": 1,
+                "style-ref": "label"
+            },
+            {
+                "class": "no-spell-check",
+                "sub-pattern": 3,
+                "style-ref": "url"
+            },
+            {
+                "class": "no-spell-check",
+                "sub-pattern": 4,
+                "style-ref": "url"
+            },
+            {
+                "sub-pattern": 6,
+                "style-ref": "attribute-value"
+            }
+        ]},
+        "match": {
+            "extended": true,
+            "content": "^[ ]{0,3}             # Maximum 3 spaces at the beginning of the line.\n        \\[(.+?)\\]:            # Link label and colon.\n        [ \\t]*                # Optional spaces or tabs.\n        (<([^ \\t]+?)> | # URL with brackets.\n        ([^ \\t]+?))           # URL without brackets.\n        ([ \\t]+(\".*?\"))?      # Optional title.\n        [ \\t]*$               # Optional trailing spaces or tabs."
+        },
+        "id": "link-definition"
+    },
+    {
+        "include": {"context": [
+            {
+                "sub-pattern": 1,
+                "style-ref": "image-marker"
+            },
+            {
+                "sub-pattern": 2,
+                "style-ref": "attribute-value"
+            },
+            {
+                "class": "no-spell-check",
+                "sub-pattern": 4,
+                "style-ref": "url"
+            },
+            {
+                "class": "no-spell-check",
+                "sub-pattern": 5,
+                "style-ref": "url"
+            },
+            {
+                "sub-pattern": 6,
+                "style-ref": "attribute-value"
+            }
+        ]},
+        "match": {
+            "extended": true,
+            "content": "(!)                     # Leading ! sign.\n        \\[(.*?)\\][ ]?           # Alternate text for the image (and optional space).\n        \\(                      # Literal parenthesis.\n          [ \\t]*                # Optional spaces or tabs after the opening parenthesis.\n          (<([^ \\t]*?)> | # Image path or URL with brackets.\n          ([^ \\t]*?))           # Image path or URL without brackets.\n          ([ \\t]+(\".*?\"))?      # Optional title.\n          [ \\t]*                # Optional spaces or tabs before the closing parenthesis.\n        \\)                      # Literal parenthesis."
+        },
+        "id": "inline-image"
+    },
+    {
+        "include": {"context": [
+            {
+                "sub-pattern": 1,
+                "style-ref": "image-marker"
+            },
+            {
+                "sub-pattern": 2,
+                "style-ref": "attribute-value"
+            },
+            {
+                "class": "no-spell-check",
+                "sub-pattern": 3,
+                "style-ref": "label"
+            }
+        ]},
+        "match": "(!)\\[(.*?)\\] ?\\[(.*?)\\]",
+        "id": "reference-image"
+    },
+    {
+        "match": "(?<!_)_[^_ \\t].*?(?<!\\\\|_| |\\t)_(?!_)",
+        "id": "underscores-emphasis",
+        "style-ref": "emphasis"
+    },
+    {
+        "match": "(?<!\\*)\\*[^\\* \\t].*?(?<!\\\\|\\*| |\\t)\\*(?!\\*)",
+        "id": "asterisks-emphasis",
+        "style-ref": "emphasis"
+    },
+    {
+        "match": "__[^_ \\t].*?(?<!\\\\|_| |\\t)__",
+        "id": "underscores-strong-emphasis",
+        "style-ref": "strong-emphasis"
+    },
+    {
+        "match": "\\*\\*[^\\* \\t].*?(?<!\\\\|\\*| |\\t)\\*\\*",
+        "id": "asterisks-strong-emphasis",
+        "style-ref": "strong-emphasis"
+    },
+    {
+        "match": "\\\\[\\\\`*_{}\\[\\]()#+-.!]",
+        "id": "backslash-escape",
+        "style-ref": "backslash-escape"
+    },
+    {
+        "include": {"context": {
+            "sub-pattern": 1,
+            "style-ref": "line-break"
+        }},
+        "match": "(?<=[^ \\t])([ \\t]{2,})$",
+        "id": "line-break"
+    },
+    {
+        "include": {"context": [
+            {"ref": "atx-header"},
+            {"ref": "setext-header"},
+            {"ref": "horizontal-rule"},
+            {"ref": "list"},
+            {"ref": "code-block"},
+            {"ref": "1-backtick-code-span"},
+            {"ref": "2-backticks-code-span"},
+            {"ref": "blockquote"},
+            {"ref": "automatic-link"},
+            {"ref": "inline-link"},
+            {"ref": "reference-link"},
+            {"ref": "link-definition"},
+            {"ref": "inline-image"},
+            {"ref": "reference-image"},
+            {"ref": "underscores-emphasis"},
+            {"ref": "asterisks-emphasis"},
+            {"ref": "underscores-strong-emphasis"},
+            {"ref": "asterisks-strong-emphasis"},
+            {"ref": "backslash-escape"},
+            {"ref": "line-break"}
+        ]},
+        "id": "markdown-syntax"
+    },
+    {
+        "include": {"context": [
+            {"ref": "markdown-syntax"},
+            {"ref": "html:html"}
+        ]},
+        "id": "markdown"
+    }
+]}

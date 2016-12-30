@@ -1,0 +1,922 @@
+{"language": {
+    "keyword-char-class": "(\\S)",
+    "metadata": {"property": [
+        {
+            "name": "mimetypes",
+            "content": "text/x-forth"
+        },
+        {
+            "name": "globs",
+            "content": "*.4th;*.forth"
+        },
+        {
+            "name": "line-comment-start",
+            "content": "\\\\"
+        },
+        {
+            "name": "block-comment-start",
+            "content": "\\("
+        },
+        {
+            "name": "block-comment-end",
+            "content": "\\)"
+        }
+    ]},
+    "_name": "ANS-Forth94",
+    "_section": "Source",
+    "styles": {"style": [
+        {
+            "_name": "Keyword",
+            "map-to": "def:keyword",
+            "id": "keyword"
+        },
+        {
+            "_name": "Obsolete Keyword",
+            "map-to": "def:keyword",
+            "id": "obs-keyword"
+        },
+        {
+            "_name": "Comment",
+            "map-to": "def:comment",
+            "id": "comment"
+        },
+        {
+            "_name": "Alert",
+            "map-to": "def:note",
+            "id": "alert"
+        },
+        {
+            "_name": "Character",
+            "map-to": "def:character",
+            "id": "character"
+        },
+        {
+            "_name": "Word",
+            "map-to": "def:function",
+            "id": "word"
+        },
+        {
+            "_name": "String",
+            "map-to": "def:string",
+            "id": "string"
+        },
+        {
+            "_name": "Constant",
+            "map-to": "def:constant",
+            "id": "constant"
+        },
+        {
+            "_name": "Variable",
+            "map-to": "def:type",
+            "id": "variable"
+        },
+        {
+            "_name": "Local Variable",
+            "map-to": "def:type",
+            "id": "local-variable"
+        },
+        {
+            "_name": "Single Number",
+            "map-to": "def:base-n-integer",
+            "id": "single-number"
+        },
+        {
+            "_name": "Double Number",
+            "map-to": "def:base-n-integer",
+            "id": "double-number"
+        },
+        {
+            "_name": "Float",
+            "map-to": "def:floating-point",
+            "id": "float"
+        }
+    ]},
+    "id": "ansforth94",
+    "version": 2,
+    "definitions": {"context": [
+        {
+            "id": "core-keywords",
+            "keyword": [
+                "!",
+                "#",
+                "#>",
+                "#S",
+                "'",
+                "\\(",
+                "\\*",
+                "\\*/",
+                "\\*/MOD",
+                "\\+",
+                "\\+!",
+                "\\+LOOP",
+                ",",
+                "-",
+                "\\.",
+                "\\.\"",
+                "/",
+                "/MOD",
+                "0<",
+                "0=",
+                "1\\+",
+                "1-",
+                "2!",
+                "2\\*",
+                "2/",
+                "2@",
+                "2DROP",
+                "2DUP",
+                "2OVER",
+                "2SWAP",
+                ":",
+                ";",
+                "<",
+                "<#",
+                "=",
+                ">",
+                ">BODY",
+                ">IN",
+                ">NUMBER",
+                ">R",
+                "\\?DUP",
+                "@",
+                "ABORT",
+                "ABORT\"",
+                "ABS",
+                "ACCEPT",
+                "ALIGN",
+                "ALIGNED",
+                "ALLOT",
+                "AND",
+                "BASE",
+                "BEGIN",
+                "BL",
+                "C!",
+                "C,",
+                "C@",
+                "CELL\\+",
+                "CELLS",
+                "CHAR",
+                "CHAR\\+",
+                "CHARS",
+                "CONSTANT",
+                "COUNT",
+                "CR",
+                "CREATE",
+                "DECIMAL",
+                "DEPTH",
+                "DO",
+                "DOES>",
+                "DROP",
+                "DUP",
+                "ELSE",
+                "EMIT",
+                "ENVIRONMENT\\?",
+                "EVALUATE",
+                "EXECUTE",
+                "EXIT",
+                "FILL",
+                "FIND",
+                "FM/MOD",
+                "HERE",
+                "HOLD",
+                "I",
+                "IF",
+                "IMMEDIATE",
+                "INVERT",
+                "J",
+                "KEY",
+                "LEAVE",
+                "LITERAL",
+                "LOOP",
+                "LSHIFT",
+                "M\\*",
+                "MAX",
+                "MIN",
+                "MOD",
+                "MOVE",
+                "NEGATE",
+                "OR",
+                "OVER",
+                "POSTPONE",
+                "QUIT",
+                "R>",
+                "R@",
+                "RECURSE",
+                "REPEAT",
+                "ROT",
+                "RSHIFT",
+                "S\"",
+                "S>D",
+                "SIGN",
+                "SM/REM",
+                "SOURCE",
+                "SPACE",
+                "SPACES",
+                "STATE",
+                "SWAP",
+                "THEN",
+                "TYPE",
+                "U\\.",
+                "U<",
+                "UM\\*",
+                "UM/MOD",
+                "UNLOOP",
+                "UNTIL",
+                "VARIABLE",
+                "WHILE",
+                "WORD",
+                "XOR",
+                "\\[",
+                "\\['\\]",
+                "\\[CHAR\\]",
+                "\\]"
+            ],
+            "style-ref": "keyword"
+        },
+        {
+            "id": "core-ext-keywords",
+            "keyword": [
+                "\\.\\(",
+                "\\.R",
+                "0<>",
+                "0>",
+                "2>R",
+                "2R>",
+                "2R@",
+                ":NONAME",
+                "<>",
+                "\\?DO",
+                "AGAIN",
+                "C\"",
+                "CASE",
+                "COMPILE,",
+                "ENDCASE",
+                "ENDOF",
+                "ERASE",
+                false,
+                "HEX",
+                "MARKER",
+                "NIP",
+                "OF",
+                "PAD",
+                "PARSE",
+                "PICK",
+                "REFILL",
+                "RESTORE-INPUT",
+                "ROLL",
+                "SAVE-INPUT",
+                "SOURCE-ID",
+                "TO",
+                true,
+                "TUCK",
+                "U\\.R",
+                "U>",
+                "UNUSED",
+                "VALUE",
+                "WITHIN",
+                "\\[COMPILE\\]",
+                "\\\\"
+            ],
+            "style-ref": "keyword"
+        },
+        {
+            "id": "obsolete-core-ext-keywords",
+            "keyword": [
+                "#TIB",
+                "CONVERT",
+                "EXPECT",
+                "QUERY",
+                "SPAN",
+                "TIB"
+            ],
+            "style-ref": "obs-keyword"
+        },
+        {
+            "id": "block-keywords",
+            "keyword": [
+                "BLK",
+                "BLOCK",
+                "BUFFER",
+                "EVALUATE",
+                "FLUSH",
+                "LOAD",
+                "SAVE-BUFFERS",
+                "UPDATE"
+            ],
+            "style-ref": "keyword"
+        },
+        {
+            "id": "block-ext-keywords",
+            "keyword": [
+                "EMPTY-BUFFERS",
+                "LIST",
+                "REFILL",
+                "SCR",
+                "THRU",
+                "\\\\"
+            ],
+            "style-ref": "keyword"
+        },
+        {
+            "id": "double-keywords",
+            "keyword": [
+                "2CONSTANT",
+                "2LITERAL",
+                "2VARIABLE",
+                "D\\+",
+                "D-",
+                "D\\.",
+                "D\\.R",
+                "D0<",
+                "D0=",
+                "D2\\*",
+                "D2/",
+                "D<",
+                "D=",
+                "D>S",
+                "DABS",
+                "DMAX",
+                "DMIN",
+                "DNEGATE",
+                "M\\*/",
+                "M\\+"
+            ],
+            "style-ref": "keyword"
+        },
+        {
+            "id": "double-ext-keywords",
+            "keyword": [
+                "2ROT",
+                "DU<"
+            ],
+            "style-ref": "keyword"
+        },
+        {
+            "id": "exception-keywords",
+            "keyword": [
+                "CATCH",
+                "THROW"
+            ],
+            "style-ref": "keyword"
+        },
+        {
+            "id": "exception-ext-keywords",
+            "keyword": [
+                "ABORT",
+                "ABORT\""
+            ],
+            "style-ref": "keyword"
+        },
+        {
+            "id": "facility-keywords",
+            "keyword": [
+                "AT-XY",
+                "KEY\\?",
+                "PAGE"
+            ],
+            "style-ref": "keyword"
+        },
+        {
+            "id": "facility-ext-keywords",
+            "keyword": [
+                "EKEY",
+                "EKEY>CHAR",
+                "EKEY\\?",
+                "EMIT\\?",
+                "MS",
+                "TIME&DATE"
+            ],
+            "style-ref": "keyword"
+        },
+        {
+            "id": "file-keywords",
+            "keyword": [
+                "\\(",
+                "BIN",
+                "CLOSE-FILE",
+                "CREATE-FILE",
+                "DELETE-FILE",
+                "FILE-POSITION",
+                "FILE-SIZE",
+                "INCLUDE-FILE",
+                "INCLUDED",
+                "OPEN-FILE",
+                "R/O",
+                "R/W",
+                "READ-FILE",
+                "READ-LINE",
+                "REPOSITION-FILE",
+                "RESIZE-FILE",
+                "S\"",
+                "SOURCE-ID",
+                "W/O",
+                "WRITE-FILE",
+                "WRITE-LINE"
+            ],
+            "style-ref": "keyword"
+        },
+        {
+            "id": "file-ext-keywords",
+            "keyword": [
+                "FILE-STATUS",
+                "FLUSH-FILE",
+                "REFILL",
+                "RENAME-FILE"
+            ],
+            "style-ref": "keyword"
+        },
+        {
+            "id": "floating-keywords",
+            "keyword": [
+                ">FLOAT",
+                "D>F",
+                "F!",
+                "F\\*",
+                "F\\+",
+                "F-",
+                "F/",
+                "F0<",
+                "F0=",
+                "F<",
+                "F>D",
+                "F@",
+                "FALIGN",
+                "FALIGNED",
+                "FCONSTANT",
+                "FDEPTH",
+                "FDROP",
+                "FDUP",
+                "FLITERAL",
+                "FLOAT\\+",
+                "FLOATS",
+                "FLOOR",
+                "FMAX",
+                "FMIN",
+                "FNEGATE",
+                "FOVER",
+                "FROT",
+                "FROUND",
+                "FSWAP",
+                "FVARIABLE",
+                "REPRESENT"
+            ],
+            "style-ref": "keyword"
+        },
+        {
+            "id": "floating-ext-keywords",
+            "keyword": [
+                "DF!",
+                "DF@",
+                "DFALIGN",
+                "DFALIGNED",
+                "DFLOAT\\+",
+                "DFLOATS",
+                "F\\*\\*",
+                "F\\.",
+                "FABS",
+                "FACOS",
+                "FACOSH",
+                "FALOG",
+                "FASIN",
+                "FASINH",
+                "FATAN",
+                "FATAN2",
+                "FATANH",
+                "FCOS",
+                "FCOSH",
+                "FE\\.",
+                "FEXP",
+                "FEXPM1",
+                "FLN",
+                "FLNP1",
+                "FLOG",
+                "FS\\.",
+                "FSIN",
+                "FSINCOS",
+                "FSINH",
+                "FSQRT",
+                "FTAN",
+                "FTANH",
+                "F~",
+                "PRECISION",
+                "SET-PRECISION",
+                "SF!",
+                "SF@",
+                "SFALIGN",
+                "SFALIGNED",
+                "SFLOAT\\+",
+                "SFLOATS"
+            ],
+            "style-ref": "keyword"
+        },
+        {
+            "id": "local-keywords",
+            "keyword": [
+                "\\(LOCAL\\)",
+                "TO"
+            ],
+            "style-ref": "keyword"
+        },
+        {
+            "id": "local-ext-keywords",
+            "keyword": "LOCALS\\|",
+            "style-ref": "keyword"
+        },
+        {
+            "id": "memory-keywords",
+            "keyword": [
+                "ALLOCATE",
+                "FREE",
+                "RESIZE"
+            ],
+            "style-ref": "keyword"
+        },
+        {
+            "id": "tools-keywords",
+            "keyword": [
+                "\\.S",
+                "\\?",
+                "DUMP",
+                "SEE",
+                "WORDS"
+            ],
+            "style-ref": "keyword"
+        },
+        {
+            "id": "tools-ext-keywords",
+            "keyword": [
+                ";CODE",
+                "AHEAD",
+                "ASSEMBLER",
+                "BYE",
+                "CODE",
+                "CS-PICK",
+                "CS-ROLL",
+                "EDITOR",
+                "STATE",
+                "\\[ELSE\\]",
+                "\\[IF\\]",
+                "\\[THEN\\]"
+            ],
+            "style-ref": "keyword"
+        },
+        {
+            "id": "obsolete-tools-ext-keywords",
+            "keyword": "FORGET",
+            "style-ref": "obs-keyword"
+        },
+        {
+            "id": "search-keywords",
+            "keyword": [
+                "DEFINITIONS",
+                "FIND",
+                "FORTH-WORDLIST",
+                "GET-CURRENT",
+                "GET-ORDER",
+                "SEARCH-WORDLIST",
+                "SET-CURRENT",
+                "SET-ORDER",
+                "WORDLIST"
+            ],
+            "style-ref": "keyword"
+        },
+        {
+            "id": "search-ext-keywords",
+            "keyword": [
+                "ALSO",
+                "FORTH",
+                "ONLY",
+                "ORDER",
+                "PREVIOUS"
+            ],
+            "style-ref": "keyword"
+        },
+        {
+            "id": "string-keywords",
+            "keyword": [
+                "-TRAILING",
+                "/STRING",
+                "BLANK",
+                "CMOVE",
+                "CMOVE>",
+                "COMPARE",
+                "SEARCH",
+                "SLITERAL"
+            ],
+            "style-ref": "keyword"
+        },
+        {
+            "include": {"context": [
+                {
+                    "where": "start",
+                    "sub-pattern": 0,
+                    "style-ref": "keyword"
+                },
+                {
+                    "where": "end",
+                    "sub-pattern": 0,
+                    "style-ref": "keyword"
+                },
+                {"ref": "def:in-comment"}
+            ]},
+            "class-disabled": "no-spell-check",
+            "start": "\\%[\\(\\%]",
+            "end": "\\)",
+            "id": "comment-multiline",
+            "style-ref": "comment"
+        },
+        {
+            "include": {"context": [
+                {
+                    "where": "start",
+                    "sub-pattern": 0,
+                    "style-ref": "keyword"
+                },
+                {"ref": "def:in-comment"}
+            ]},
+            "class-disabled": "no-spell-check",
+            "start": "\\%[\\\\\\%]",
+            "id": "comment-single",
+            "style-ref": "comment",
+            "end-at-line-end": true
+        },
+        {
+            "include": {"context": {
+                "sub-pattern": 4,
+                "style-ref": "character"
+            }},
+            "match": "\\%[(CHAR|\\[CHAR\\])\\s+(.)\\%]",
+            "id": "character-single",
+            "style-ref": "keyword"
+        },
+        {
+            "include": {"context": {
+                "sub-pattern": 4,
+                "style-ref": "word"
+            }},
+            "match": "\\%[(:|[']|CREATE|POSTPONE)\\s+(\\S*)\\%]",
+            "id": "word-core",
+            "style-ref": "keyword"
+        },
+        {
+            "include": {"context": [
+                {
+                    "where": "start",
+                    "sub-pattern": 0,
+                    "style-ref": "keyword"
+                },
+                {
+                    "where": "end",
+                    "sub-pattern": 0,
+                    "style-ref": "keyword"
+                }
+            ]},
+            "start": "\\%[([.]\"|ABORT\"|S\")\\%]",
+            "end": "\"",
+            "id": "string-core",
+            "style-ref": "string"
+        },
+        {
+            "include": {"context": {
+                "sub-pattern": 3,
+                "style-ref": "string"
+            }},
+            "match": "\\%[WORD\\s+(\\S*)\\%]",
+            "id": "parse-string-core",
+            "style-ref": "keyword"
+        },
+        {
+            "include": {"context": {
+                "sub-pattern": 3,
+                "style-ref": "constant"
+            }},
+            "match": "\\%[CONSTANT\\s+(\\S*)\\%]",
+            "id": "constant-core",
+            "style-ref": "keyword"
+        },
+        {
+            "include": {"context": {
+                "sub-pattern": 3,
+                "style-ref": "variable"
+            }},
+            "match": "\\%[VARIABLE\\s+(\\S*)\\%]",
+            "id": "variable-core",
+            "style-ref": "keyword"
+        },
+        {
+            "include": {"context": {
+                "sub-pattern": 4,
+                "style-ref": "word"
+            }},
+            "match": "\\%[(MARKER|\\[COMPILE\\])\\s+(\\S*)\\%]",
+            "id": "word-core-ext",
+            "style-ref": "keyword"
+        },
+        {
+            "include": {"context": [
+                {
+                    "where": "start",
+                    "sub-pattern": 0,
+                    "style-ref": "keyword"
+                },
+                {
+                    "where": "end",
+                    "sub-pattern": 0,
+                    "style-ref": "keyword"
+                }
+            ]},
+            "start": "\\%[C\"\\%]",
+            "end": "\"",
+            "id": "string-core-ext",
+            "style-ref": "string"
+        },
+        {
+            "include": {"context": {
+                "sub-pattern": 3,
+                "style-ref": "string"
+            }},
+            "match": "\\%[PARSE\\s+(\\S*)\\%]",
+            "id": "parse-string-core-ext",
+            "style-ref": "keyword"
+        },
+        {
+            "include": {"context": [
+                {
+                    "where": "start",
+                    "sub-pattern": 0,
+                    "style-ref": "keyword"
+                },
+                {
+                    "where": "end",
+                    "sub-pattern": 0,
+                    "style-ref": "keyword"
+                }
+            ]},
+            "start": "\\%[[.]\\(\\%]",
+            "end": "\\)",
+            "id": "display-string-core-ext",
+            "style-ref": "string"
+        },
+        {
+            "include": {"context": {
+                "sub-pattern": 4,
+                "style-ref": "variable"
+            }},
+            "match": "\\%[(TO|VALUE)\\s+(\\S*)\\%]",
+            "id": "variable-core-ext",
+            "style-ref": "keyword"
+        },
+        {
+            "include": {"context": {
+                "sub-pattern": 3,
+                "style-ref": "constant"
+            }},
+            "match": "\\%[2CONSTANT\\s+(\\S*)\\%]",
+            "id": "constant-double",
+            "style-ref": "keyword"
+        },
+        {
+            "include": {"context": {
+                "sub-pattern": 3,
+                "style-ref": "variable"
+            }},
+            "match": "\\%[2VARIABLE\\s+(\\S*)\\%]",
+            "id": "variable-double",
+            "style-ref": "keyword"
+        },
+        {
+            "include": {"context": {
+                "sub-pattern": 3,
+                "style-ref": "constant"
+            }},
+            "match": "\\%[FCONSTANT\\s+(\\S*)\\%]",
+            "id": "constant-floating",
+            "style-ref": "keyword"
+        },
+        {
+            "include": {"context": {
+                "sub-pattern": 3,
+                "style-ref": "variable"
+            }},
+            "match": "\\%[FVARIABLE\\s+(\\S*)\\%]",
+            "id": "variable-floating",
+            "style-ref": "keyword"
+        },
+        {
+            "include": {"context": [
+                {
+                    "where": "start",
+                    "sub-pattern": 0,
+                    "style-ref": "keyword"
+                },
+                {
+                    "where": "end",
+                    "sub-pattern": 0,
+                    "style-ref": "keyword"
+                }
+            ]},
+            "start": "\\%[LOCALS\\|\\%]",
+            "end": "\\|",
+            "id": "variable-local-ext",
+            "style-ref": "local-variable"
+        },
+        {
+            "include": {"context": {
+                "sub-pattern": 3,
+                "style-ref": "word"
+            }},
+            "match": "\\%[SEE\\s+(\\S*)\\%]",
+            "id": "word-tools",
+            "style-ref": "keyword"
+        },
+        {
+            "include": {"context": {
+                "sub-pattern": 3,
+                "style-ref": "word"
+            }},
+            "match": "\\%[CODE\\s+(\\S*)\\%]",
+            "id": "word-tools-ext",
+            "style-ref": "keyword"
+        },
+        {
+            "include": {"context": {
+                "sub-pattern": 3,
+                "style-ref": "word"
+            }},
+            "match": "\\%[FORGET\\s+(\\S*)\\%]",
+            "id": "word-obs-tools-ext",
+            "style-ref": "obs-keyword"
+        },
+        {
+            "match": "\\%[[-]?[0-9]+\\%]",
+            "id": "number-single",
+            "style-ref": "single-number"
+        },
+        {
+            "match": "\\%[[-]?[0-9]+[.][0-9]*\\%]",
+            "id": "number-double",
+            "style-ref": "double-number"
+        },
+        {
+            "match": "\\%[([+]|[-])?([0-9]+[.]?[0-9]*)(E|e)([+]|[-])?([0-9]*)\\%]",
+            "id": "number-float",
+            "style-ref": "float"
+        },
+        {
+            "include": {"context": [
+                {"ref": "comment-multiline"},
+                {"ref": "comment-single"},
+                {"ref": "character-single"},
+                {"ref": "word-core"},
+                {"ref": "string-core"},
+                {"ref": "parse-string-core"},
+                {"ref": "constant-core"},
+                {"ref": "variable-core"},
+                {"ref": "comment-single"},
+                {"ref": "word-core-ext"},
+                {"ref": "string-core-ext"},
+                {"ref": "parse-string-core-ext"},
+                {"ref": "display-string-core-ext"},
+                {"ref": "variable-core-ext"},
+                {"ref": "constant-double"},
+                {"ref": "variable-double"},
+                {"ref": "constant-floating"},
+                {"ref": "variable-floating"},
+                {"ref": "variable-local-ext"},
+                {"ref": "word-tools"},
+                {"ref": "word-tools-ext"},
+                {"ref": "word-obs-tools-ext"},
+                {"ref": "core-keywords"},
+                {"ref": "core-ext-keywords"},
+                {"ref": "obsolete-core-ext-keywords"},
+                {"ref": "block-keywords"},
+                {"ref": "block-ext-keywords"},
+                {"ref": "double-keywords"},
+                {"ref": "double-ext-keywords"},
+                {"ref": "exception-keywords"},
+                {"ref": "exception-ext-keywords"},
+                {"ref": "facility-keywords"},
+                {"ref": "facility-ext-keywords"},
+                {"ref": "file-keywords"},
+                {"ref": "file-ext-keywords"},
+                {"ref": "floating-keywords"},
+                {"ref": "floating-ext-keywords"},
+                {"ref": "local-keywords"},
+                {"ref": "local-ext-keywords"},
+                {"ref": "memory-keywords"},
+                {"ref": "tools-keywords"},
+                {"ref": "tools-ext-keywords"},
+                {"ref": "obsolete-tools-ext-keywords"},
+                {"ref": "search-keywords"},
+                {"ref": "search-ext-keywords"},
+                {"ref": "string-keywords"},
+                {"ref": "number-single"},
+                {"ref": "number-double"},
+                {"ref": "number-float"}
+            ]},
+            "id": "ansforth94",
+            "class": "no-spell-check"
+        }
+    ]},
+    "default-regex-options": {"case-sensitive": false}
+}}

@@ -1,0 +1,155 @@
+{"gdb-log.json": [
+    {
+        "id": "optimized-out",
+        "keyword": "value optimized out",
+        "style-ref": "optimized-out"
+    },
+    {
+        "id": "incomplete-sequence",
+        "keyword": "incomplete sequence",
+        "style-ref": "incomplete-sequence"
+    },
+    {
+        "start": "\\(gdb\\)|---|Kill|Using|Program|Starting|No symbol",
+        "end": "---$",
+        "id": "prompt",
+        "style-ref": "prompt",
+        "end-at-line-end": true
+    },
+    {
+        "include": {"context": {
+            "sub-pattern": 1,
+            "style-ref": "address"
+        }},
+        "match": "^\\[(?:New |Switching to )?(?:Thread|LWP)\\s+(\\%{thread-number})?.*\\]$",
+        "id": "thread-action",
+        "style-ref": "thread-action"
+    },
+    {
+        "include": {"context": {
+            "sub-pattern": 1,
+            "style-ref": "address"
+        }},
+        "match": "^Thread \\d+ \\((?:Thread|LWP)\\s+(\\%{thread-number}).*\\):$",
+        "id": "thread-header",
+        "style-ref": "thread-header"
+    },
+    {
+        "include": {"context": [
+            {
+                "sub-pattern": 1,
+                "style-ref": "frame-number"
+            },
+            {
+                "sub-pattern": 2,
+                "style-ref": "def:special-constant"
+            }
+        ]},
+        "match": "^#(\\d+)\\s+<(signal handler called)>$",
+        "id": "signal-handler-frame"
+    },
+    {
+        "include": {"context": [
+            {
+                "where": "start",
+                "sub-pattern": "address",
+                "style-ref": "address"
+            },
+            {
+                "where": "start",
+                "sub-pattern": "function",
+                "style-ref": "function"
+            },
+            {
+                "where": "start",
+                "sub-pattern": "badfunction",
+                "style-ref": "def:error"
+            },
+            {
+                "where": "end",
+                "sub-pattern": "filename",
+                "style-ref": "filename"
+            },
+            {
+                "where": "end",
+                "sub-pattern": "linenumber",
+                "style-ref": "def:number"
+            },
+            {"ref": "optimized-out"},
+            {"ref": "incomplete-sequence"},
+            {"ref": "prompt"}
+        ]},
+        "once-only": true,
+        "start": "^\\%{frame-start}",
+        "end": "\\%{frame-end}",
+        "id": "crash-frame",
+        "end-at-line-end": false
+    },
+    {
+        "include": {"context": [
+            {
+                "where": "start",
+                "sub-pattern": "framenumber",
+                "style-ref": "frame-number"
+            },
+            {
+                "where": "start",
+                "sub-pattern": "address",
+                "style-ref": "address"
+            },
+            {
+                "where": "start",
+                "sub-pattern": "function",
+                "style-ref": "function"
+            },
+            {
+                "where": "start",
+                "sub-pattern": "badfunction",
+                "style-ref": "def:error"
+            },
+            {
+                "where": "end",
+                "sub-pattern": "filename",
+                "style-ref": "filename"
+            },
+            {
+                "where": "end",
+                "sub-pattern": "linenumber",
+                "style-ref": "def:number"
+            },
+            {"ref": "optimized-out"},
+            {"ref": "incomplete-sequence"},
+            {"ref": "prompt"}
+        ]},
+        "start": "^#(?P<framenumber>-?\\d+)\\s+\\%{frame-start}",
+        "end": "\\%{frame-end}",
+        "id": "frame",
+        "end-at-line-end": false
+    },
+    {
+        "include": {"context": [
+            {
+                "sub-pattern": "filename",
+                "style-ref": "filename"
+            },
+            {
+                "sub-pattern": "linenumber",
+                "style-ref": "def:number"
+            }
+        ]},
+        "match": "^\\s+(?:at|from)\\s+(?P<filename>\\%{filename})(?P<linenumber>\\:[0-9]+)?$",
+        "id": "frame-ending"
+    },
+    {
+        "include": {"context": [
+            {"ref": "prompt"},
+            {"ref": "thread-action"},
+            {"ref": "thread-header"},
+            {"ref": "signal-handler-frame"},
+            {"ref": "crash-frame"},
+            {"ref": "frame"},
+            {"ref": "frame-ending"}
+        ]},
+        "id": "gdb-log"
+    }
+]}

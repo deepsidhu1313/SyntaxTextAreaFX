@@ -1,0 +1,181 @@
+{"j.json": [
+    {
+        "start": "\\%[NB\\.",
+        "id": "comment",
+        "style-ref": "comment",
+        "end-at-line-end": true
+    },
+    {
+        "start": "L?'",
+        "end": "'",
+        "id": "string",
+        "style-ref": "string",
+        "end-at-line-end": true
+    },
+    {
+        "match": "'[^']*?$",
+        "id": "error",
+        "style-ref": "error"
+    },
+    {
+        "match": {
+            "extended": true,
+            "content": "\\%[[_0-9][_0-9\\.a-zA-Z]*\\%]"
+        },
+        "id": "number",
+        "style-ref": "number"
+    },
+    {
+        "match": {
+            "extended": true,
+            "content": "\\%[(_\\.|a\\.|a:)(?![\\.\\:])"
+        },
+        "id": "noun",
+        "style-ref": "noun"
+    },
+    {
+        "match": {
+            "extended": true,
+            "content": "((_?[0-9]:)|\n        (\\%[p\\.\\.)|              \n        (\\%[[AcCeEiIjLopr]\\.)|\n        (\\%[[ipqsux]:)|\n        ({::)|\n        ([<>\\+\\*\\-\\%\\^\\$\\~\\|\\,\\#\\{\\}\"\\?]\\.)|\n        ([<>\\_\\+\\*\\-\\%\\$\\~\\|\\,\\;\\#\\/\\\\\\[\\{\\}\"]:)|\n        ([<>\\=\\+\\*\\-\\%\\^\\$\\|\\,\\;\\#\\!\\[\\]\\{\\?]))\n        (?![\\.\\:])"
+        },
+        "id": "verb",
+        "style-ref": "verb"
+    },
+    {
+        "match": {
+            "extended": true,
+            "content": "(([\\/\\\\]\\.)| \n        (\\%[[bfMt]\\.)|\n        (\\%[t:)|\n        ([\\~\\/\\\\\\}]))\n        (?![\\.\\:])"
+        },
+        "id": "adverb",
+        "style-ref": "adverb"
+    },
+    {
+        "match": {
+            "extended": true,
+            "content": "((\\%[[dDHT]\\.)|\n        (\\%[[DLS]:)|\n        (&\\.:)|\n        ([\\;\\!\\@&]\\.)|\n        ([\\^\\!\\`\\@&]:)|\n        ([\\\"\\`\\@&])|\n        (\\s[\\.\\:][\\.\\:])|\n        (\\s[\\.\\:]))\n        (?![\\.\\:])"
+        },
+        "id": "conjunction",
+        "style-ref": "conjunction"
+    },
+    {
+        "match": "[\\(\\)]",
+        "id": "parens",
+        "style-ref": "parens"
+    },
+    {
+        "match": {
+            "extended": true,
+            "content": "\\%[[nmuvxy](?![\\w\\.\\:])"
+        },
+        "id": "exparg",
+        "style-ref": "exparg"
+    },
+    {
+        "prefix": "\\%[",
+        "id": "control",
+        "suffix": "(?![\\.\\:])",
+        "keyword": [
+            "assert\\.",
+            "break\\.",
+            "continue\\.",
+            "return\\.",
+            "do\\.",
+            "if\\.",
+            "else\\.",
+            "elseif\\.",
+            "end\\.",
+            "for\\.",
+            "select\\.",
+            "case\\.",
+            "fcase\\.",
+            "throw\\.",
+            "try\\.",
+            "catch\\.",
+            "catchd\\.",
+            "catcht\\.",
+            "while\\.",
+            "whilst\\.",
+            "for_\\%{valid-name}?\\.",
+            "goto_\\%{valid-name}?\\.",
+            "label_\\%{valid-name}?\\."
+        ],
+        "style-ref": "control"
+    },
+    {
+        "include": {"context": [
+            {"ref": "comment"},
+            {"ref": "error"},
+            {"ref": "exparg"},
+            {"ref": "global"},
+            {"ref": "local"},
+            {"ref": "noun"},
+            {"ref": "verb"},
+            {"ref": "adverb"},
+            {"ref": "conjunction"},
+            {"ref": "string"},
+            {"ref": "number"},
+            {"ref": "control"}
+        ]},
+        "start": "\\%[(([1-4]|13)\\s+:\\s*0)|((adverb|conjunction|verb|monad|dyad)\\s+define)\\%]",
+        "end": "\\%{close-expdef}",
+        "id": "expdef",
+        "style-inside": true
+    },
+    {
+        "start": "\\%[(0\\s+:\\s*0|noun\\s+define)\\%].*$",
+        "end": "\\%{close-expdef}",
+        "id": "noundef",
+        "style-inside": true,
+        "style-ref": "noundef"
+    },
+    {
+        "start": "^\\s*[\\x{2500}|-]{2,}",
+        "end": "\\%{close-expdef}",
+        "id": "labtext",
+        "style-ref": "labtext"
+    },
+    {
+        "start": "^\\s*\\%[Note\\%](?!\\s*\\=[:.])\\s*['\\d].*$",
+        "end": "\\%{close-expdef}",
+        "id": "notes",
+        "style-inside": true,
+        "style-ref": "comment"
+    },
+    {
+        "start": "\\%[Note\\%](?!\\s*\\=[:.])\\s*['\\d].*$",
+        "id": "note",
+        "style-ref": "comment",
+        "end-at-line-end": true
+    },
+    {
+        "match": "=:",
+        "id": "global",
+        "style-ref": "global"
+    },
+    {
+        "match": "=\\.",
+        "id": "local",
+        "style-ref": "local"
+    },
+    {
+        "include": {"context": [
+            {"ref": "comment"},
+            {"ref": "error"},
+            {"ref": "string"},
+            {"ref": "global"},
+            {"ref": "local"},
+            {"ref": "noun"},
+            {"ref": "verb"},
+            {"ref": "adverb"},
+            {"ref": "conjunction"},
+            {"ref": "expdef"},
+            {"ref": "noundef"},
+            {"ref": "labtext"},
+            {"ref": "notes"},
+            {"ref": "note"},
+            {"ref": "parens"},
+            {"ref": "number"}
+        ]},
+        "id": "j"
+    }
+]}

@@ -1,0 +1,43 @@
+{"csv.json": [
+    {
+        "match": {
+            "extended": true,
+            "content": "(?<![\\w\\.])\n        [0-9]+\n        (?![\\w\\.])"
+        },
+        "id": "decimal",
+        "style-ref": "decimal"
+    },
+    {
+        "match": {
+            "extended": true,
+            "content": "(?<![\\w\\.])\n        ((\\.[0-9]+ | [0-9]+\\.[0-9]*) ([Ee][+-]?[0-9]*)? | ([0-9]+[Ee][+-]?[0-9]*))\n        (?![\\w\\.])"
+        },
+        "id": "floating-point",
+        "style-ref": "floating-point"
+    },
+    {
+        "include": {"context": {
+            "match": {
+                "extended": true,
+                "content": "\\\"\\\"   # escaped double-quote"
+            },
+            "id": "escaped-character",
+            "style-ref": "escaped-character"
+        }},
+        "class-disabled": "no-spell-check",
+        "start": "\"",
+        "end": "\"",
+        "id": "string",
+        "class": "string",
+        "style-ref": "string"
+    },
+    {
+        "include": {"context": [
+            {"ref": "decimal"},
+            {"ref": "floating-point"},
+            {"ref": "string"}
+        ]},
+        "id": "csv",
+        "class": "no-spell-check"
+    }
+]}

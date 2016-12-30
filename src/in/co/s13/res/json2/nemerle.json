@@ -1,0 +1,232 @@
+{"nemerle.json": [
+    {
+        "include": {"context": {"ref": "def:in-line-comment"}},
+        "class-disabled": "no-spell-check",
+        "start": "//",
+        "id": "line-comment",
+        "class": "comment",
+        "style-ref": "comment",
+        "end-at-line-end": true
+    },
+    {
+        "include": {"context": {"ref": "def:in-comment"}},
+        "class-disabled": "no-spell-check",
+        "start": "/\\*",
+        "end": "\\*/",
+        "id": "block-comment",
+        "class": "comment",
+        "style-ref": "comment"
+    },
+    {
+        "match": "\\*/(?!\\*)",
+        "id": "close-comment-outside-comment",
+        "style-ref": "error"
+    },
+    {
+        "include": {"context": [
+            {
+                "include": {"context": [
+                    {"ref": "if-in-if-false"},
+                    {"ref": "def:in-comment"}
+                ]},
+                "start": "\\%{preproc-start}if(n?def)?\\b",
+                "end": "\\%{preproc-start}endif\\b",
+                "id": "if-in-if-false"
+            },
+            {"ref": "def:in-comment"}
+        ]},
+        "start": "\\%{preproc-start}if\\s*false\\b",
+        "end": "\\%{preproc-start}(endif|else|elif)\\b",
+        "id": "if-false-comment",
+        "style-ref": "comment"
+    },
+    {
+        "include": {"context": [
+            {"ref": "line-comment"},
+            {"ref": "block-comment"}
+        ]},
+        "start": {
+            "extended": true,
+            "content": "\\%{preproc-start}\n        (define|undef|if(n?def)?|else|elif|endif|line|error|warning|region|endregion)\n        \\b"
+        },
+        "id": "preprocessor",
+        "style-ref": "preprocessor",
+        "end-at-line-end": true
+    },
+    {
+        "match": "'(\\\\)?.'",
+        "id": "character",
+        "style-ref": "character"
+    },
+    {
+        "include": {"context": [
+            {"ref": "def:escape"},
+            {"ref": "def:line-continue"}
+        ]},
+        "class-disabled": "no-spell-check",
+        "start": "'",
+        "end": "'",
+        "id": "string",
+        "class": "string",
+        "style-ref": "string",
+        "end-at-line-end": true
+    },
+    {
+        "id": "keywords",
+        "keyword": [
+            "_",
+            "abstract",
+            "and",
+            "array",
+            "as",
+            "base",
+            "catch",
+            "class",
+            "def",
+            "do",
+            "else",
+            "extends",
+            "extern",
+            "finally",
+            "foreach",
+            "for",
+            "fun",
+            "if",
+            "implements",
+            "in",
+            "interface",
+            "internal",
+            "lock",
+            "macro",
+            "match",
+            "module",
+            "mutable",
+            "namespace",
+            "new",
+            "out",
+            "override",
+            "params",
+            "private",
+            "protected",
+            "public",
+            "ref",
+            "repeat",
+            "sealed",
+            "static",
+            "struct",
+            "syntax",
+            "this",
+            "throw",
+            "try",
+            "type",
+            "typeof",
+            "unless",
+            "until",
+            "using",
+            "variant",
+            "virtual",
+            "when",
+            "where",
+            "while"
+        ],
+        "style-ref": "keyword"
+    },
+    {
+        "id": "types",
+        "keyword": [
+            "bool",
+            "byte",
+            "char",
+            "decimal",
+            "double",
+            "float",
+            "int",
+            "list",
+            "long",
+            "object",
+            "sbyte",
+            "short",
+            "string",
+            "uint",
+            "ulong",
+            "ushort",
+            "void"
+        ],
+        "style-ref": "type"
+    },
+    {
+        "id": "null-value",
+        "keyword": null,
+        "style-ref": "null-value"
+    },
+    {
+        "id": "boolean",
+        "keyword": [
+            false,
+            true
+        ],
+        "style-ref": "boolean"
+    },
+    {
+        "match": {
+            "extended": true,
+            "content": "(?<![\\w\\.])\n        [0-9]*\\.[0-9]+([eE][-+]?[0-9]+)?\n        (?![\\w\\.])"
+        },
+        "id": "float",
+        "style-ref": "floating-point"
+    },
+    {
+        "match": {
+            "extended": true,
+            "content": "(?<![\\w\\.])\n        [0-9]+[Uu]?([Ll]|[Ss]|[Bb])?\n        (?![\\w\\.])"
+        },
+        "id": "decimal",
+        "style-ref": "decimal"
+    },
+    {
+        "match": {
+            "extended": true,
+            "content": "(?<![\\w\\.])\n        0[bB][01]+[Uu]?([Ll]|[Ss]|[Bb])?\n        (?![\\w\\.])"
+        },
+        "id": "binary",
+        "style-ref": "binary"
+    },
+    {
+        "match": {
+            "extended": true,
+            "content": "(?<![\\w\\.])\n        0[oO][0-7]+[Uu]?([Ll]|[Ss]|[Bb])?\n        (?![\\w\\.])"
+        },
+        "id": "octal",
+        "style-ref": "octal"
+    },
+    {
+        "match": {
+            "extended": true,
+            "content": "(?<![\\w\\.])\n        0[xX][0-9a-fA-F]+[Uu]?([Ll]|[Ss]|[Bb])?\n        (?![\\w\\.])"
+        },
+        "id": "hexadecimal",
+        "style-ref": "hexadecimal"
+    },
+    {
+        "include": {"context": [
+            {"ref": "line-comment"},
+            {"ref": "block-comment"},
+            {"ref": "close-comment-outside-comment"},
+            {"ref": "if-false-comment"},
+            {"ref": "preprocessor"},
+            {"ref": "character"},
+            {"ref": "string"},
+            {"ref": "keywords"},
+            {"ref": "types"},
+            {"ref": "null-value"},
+            {"ref": "boolean"},
+            {"ref": "float"},
+            {"ref": "decimal"},
+            {"ref": "binary"},
+            {"ref": "octal"},
+            {"ref": "hexadecimal"}
+        ]},
+        "id": "nemerle",
+        "class": "no-spell-check"
+    }
+]}

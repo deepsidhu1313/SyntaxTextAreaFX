@@ -1,0 +1,495 @@
+{"language": {
+    "metadata": {"property": [
+        {
+            "name": "mimetypes",
+            "content": "text/x-php;application/x-php;text/x-php-source;application/x-php-source"
+        },
+        {
+            "name": "globs",
+            "content": "*.php;*.php3;*.php4;*.phtml"
+        },
+        {
+            "name": "line-comment-start",
+            "content": "#"
+        },
+        {
+            "name": "block-comment-start",
+            "content": "/*"
+        },
+        {
+            "name": "block-comment-end",
+            "content": "*/"
+        }
+    ]},
+    "_name": "PHP",
+    "_section": "Script",
+    "styles": {"style": [
+        {
+            "_name": "Preprocessor tags",
+            "map-to": "def:preprocessor",
+            "id": "preprocessor"
+        },
+        {
+            "_name": "Comment",
+            "map-to": "def:comment",
+            "id": "comment"
+        },
+        {
+            "_name": "Error",
+            "map-to": "def:error",
+            "id": "error"
+        },
+        {
+            "_name": "Variable",
+            "map-to": "def:identifier",
+            "id": "variable"
+        },
+        {
+            "_name": "Identifier",
+            "id": "identifier"
+        },
+        {
+            "_name": "Escaped Character",
+            "map-to": "def:special-char",
+            "id": "escape"
+        },
+        {
+            "_name": "String",
+            "map-to": "def:string",
+            "id": "string"
+        },
+        {
+            "_name": "Heredoc",
+            "map-to": "def:string",
+            "id": "here-doc"
+        },
+        {
+            "_name": "Heredoc Bound",
+            "map-to": "def:keyword",
+            "id": "here-doc-bound"
+        },
+        {
+            "_name": "Keyword",
+            "map-to": "def:keyword",
+            "id": "keyword"
+        },
+        {
+            "_name": "Common Function",
+            "map-to": "def:keyword",
+            "id": "common-function"
+        },
+        {
+            "_name": "Operator",
+            "map-to": "def:operator",
+            "id": "operator"
+        },
+        {
+            "_name": "Data Type",
+            "map-to": "def:type",
+            "id": "type"
+        },
+        {
+            "_name": "Null Value",
+            "map-to": "def:special-constant",
+            "id": "null-value"
+        },
+        {
+            "_name": "Boolean value",
+            "map-to": "def:boolean",
+            "id": "boolean"
+        },
+        {
+            "_name": "Floating point number",
+            "map-to": "def:floating-point",
+            "id": "floating-point"
+        },
+        {
+            "_name": "Decimal number",
+            "map-to": "def:decimal",
+            "id": "decimal"
+        },
+        {
+            "_name": "Octal number",
+            "map-to": "def:base-n-integer",
+            "id": "octal"
+        },
+        {
+            "_name": "Hexadecimal number",
+            "map-to": "def:base-n-integer",
+            "id": "hexadecimal"
+        }
+    ]},
+    "id": "php",
+    "version": 2,
+    "definitions": {
+        "context": [
+            {
+                "include": {"context": {"ref": "def:in-line-comment"}},
+                "class-disabled": "no-spell-check",
+                "start": "#",
+                "id": "bash-line-comment",
+                "class": "comment",
+                "style-ref": "comment",
+                "end-at-line-end": true,
+                "extend-parent": false
+            },
+            {
+                "include": {"context": {"ref": "def:in-line-comment"}},
+                "class-disabled": "no-spell-check",
+                "start": "//",
+                "id": "cpp-line-comment",
+                "class": "comment",
+                "style-ref": "comment",
+                "end-at-line-end": true,
+                "extend-parent": false
+            },
+            {
+                "include": {"context": {"ref": "def:in-line-comment"}},
+                "class-disabled": "no-spell-check",
+                "start": "/\\*",
+                "end": "\\*/",
+                "id": "c-block-comment",
+                "class": "comment",
+                "style-ref": "comment"
+            },
+            {
+                "match": "\\*/(?!\\*)",
+                "id": "close-comment-outside-comment",
+                "style-ref": "error"
+            },
+            {
+                "match": "\\\\((\\\\|\"|n|t|\\$|r)|[0-7]{1,3}|x[0-9a-fA-F]{1,2})",
+                "id": "escape",
+                "style-ref": "escape"
+            },
+            {
+                "match": "[$]+[a-zA-Z_][a-zA-Z0-9_]*",
+                "id": "variable",
+                "style-ref": "variable"
+            },
+            {
+                "match": "(\\[|\\])",
+                "id": "array-operators",
+                "style-ref": "variable"
+            },
+            {
+                "include": {"context": [
+                    {"ref": "variable"},
+                    {
+                        "include": {"context": {"ref": "string-var"}},
+                        "start": "{(?=\\$)",
+                        "end": "}",
+                        "id": "curly-var",
+                        "style-ref": "variable"
+                    },
+                    {
+                        "include": {"context": {"ref": "string-var"}},
+                        "start": "\\${",
+                        "end": "}",
+                        "id": "backwards-curly-var",
+                        "style-ref": "variable"
+                    }
+                ]},
+                "id": "string-var"
+            },
+            {
+                "include": {"context": [
+                    {"ref": "escape"},
+                    {"ref": "string-var"},
+                    {"ref": "def:line-continue"}
+                ]},
+                "class-disabled": "no-spell-check",
+                "start": "\"",
+                "end": "\"",
+                "id": "double-quoted-string",
+                "class": "string",
+                "style-ref": "string"
+            },
+            {
+                "include": {"context": [
+                    {
+                        "match": "\\\\['\\\\]",
+                        "style-ref": "def:special-char"
+                    },
+                    {"ref": "def:line-continue"}
+                ]},
+                "class-disabled": "no-spell-check",
+                "start": "'",
+                "end": "'",
+                "id": "single-quoted-string",
+                "class": "string",
+                "style-ref": "string"
+            },
+            {
+                "include": {"context": [
+                    {"ref": "escape"},
+                    {"ref": "def:line-continue"}
+                ]},
+                "start": "`",
+                "end": "`",
+                "id": "backtick-string",
+                "style-ref": "string",
+                "extend-parent": false
+            },
+            {
+                "include": {"context": [
+                    {
+                        "where": "start",
+                        "sub-pattern": 0,
+                        "style-ref": "here-doc-bound"
+                    },
+                    {
+                        "where": "end",
+                        "sub-pattern": 1,
+                        "style-ref": "here-doc-bound"
+                    },
+                    {"ref": "escape"},
+                    {"ref": "string-var"},
+                    {"ref": "def:line-continue"}
+                ]},
+                "start": "(<<<)\\s?([a-zA-Z_][a-zA-Z0-9_]*)",
+                "end": "^(\\%{2@start});?$",
+                "id": "here-doc-string",
+                "style-ref": "here-doc",
+                "extend-parent": true
+            },
+            {
+                "include": {"context": [
+                    {
+                        "where": "start",
+                        "sub-pattern": 0,
+                        "style-ref": "here-doc-bound"
+                    },
+                    {
+                        "where": "end",
+                        "sub-pattern": 1,
+                        "style-ref": "here-doc-bound"
+                    },
+                    {
+                        "match": "\\\\['\\\\]",
+                        "style-ref": "def:special-char"
+                    },
+                    {"ref": "def:line-continue"}
+                ]},
+                "start": "(<<<)\\s?'([a-zA-Z_][a-zA-Z0-9_]*)'",
+                "end": "^(\\%{2@start});?$",
+                "id": "now-doc-string",
+                "style-ref": "here-doc",
+                "extend-parent": true
+            },
+            {
+                "match": "[a-zA-Z_][a-zA-Z0-9_]*",
+                "id": "identifier",
+                "style-ref": "identifier"
+            },
+            {
+                "id": "keywords",
+                "keyword": [
+                    "abstract",
+                    "and",
+                    "as",
+                    "break",
+                    "case",
+                    "catch",
+                    "class",
+                    "clone",
+                    "const",
+                    "continue",
+                    "declare",
+                    "default",
+                    "die",
+                    "do",
+                    "echo",
+                    "else",
+                    "elseif",
+                    "empty",
+                    "enddeclare",
+                    "endfor",
+                    "endforeach",
+                    "endif",
+                    "endswitch",
+                    "endwhile",
+                    "eval",
+                    "exit",
+                    "extends",
+                    "final",
+                    "finally",
+                    "for",
+                    "foreach",
+                    "function",
+                    "global",
+                    "goto",
+                    "if",
+                    "implements",
+                    "include",
+                    "include_once",
+                    "instanceof",
+                    "insteadof",
+                    "interface",
+                    "isset",
+                    "list",
+                    "namespace",
+                    "new",
+                    "or",
+                    "print",
+                    "private",
+                    "protected",
+                    "public",
+                    "require",
+                    "require_once",
+                    "return",
+                    "static",
+                    "switch",
+                    "throw",
+                    "trait",
+                    "try",
+                    "unset",
+                    "use",
+                    "var",
+                    "while",
+                    "xor",
+                    "yield"
+                ],
+                "style-ref": "keyword"
+            },
+            {
+                "id": "common-function",
+                "keyword": [
+                    "doubleval",
+                    "floatval",
+                    "gettype",
+                    "intval",
+                    "print_r",
+                    "serialize",
+                    "settype",
+                    "strval",
+                    "unserialize",
+                    "var_dump",
+                    "var_export"
+                ],
+                "style-ref": "keyword"
+            },
+            {
+                "match": "[-.~^@,;:/%|\\=\\+\\*\\!\\?&<>()]",
+                "id": "operators",
+                "style-ref": "operator",
+                "extend-parent": false
+            },
+            {
+                "id": "type",
+                "keyword": [
+                    "array",
+                    "bool",
+                    "boolean",
+                    "callable",
+                    "double",
+                    "float",
+                    "int",
+                    "integer",
+                    "numeric",
+                    "object",
+                    "resource",
+                    "string",
+                    "unset"
+                ],
+                "style-ref": "type"
+            },
+            {
+                "prefix": "(?i)\\b",
+                "id": "null-value",
+                "keyword": null,
+                "style-ref": "null-value"
+            },
+            {
+                "prefix": "(?i)\\b",
+                "id": "boolean",
+                "keyword": [
+                    false,
+                    true
+                ],
+                "style-ref": "boolean"
+            },
+            {
+                "match": {
+                    "extended": true,
+                    "content": "(?<![\\w\\.])\n        ([0-9]+[Ee][+-]?[0-9]+ |\n         ([0-9]*\\.[0-9]+ | [0-9]+\\.[0-9]*)([Ee][+-]?[0-9]+)?)\n        (?![\\w\\.])"
+                },
+                "id": "float",
+                "style-ref": "floating-point"
+            },
+            {
+                "match": {
+                    "extended": true,
+                    "content": "(?<![\\w\\.])\n        [+-]?([1-9][0-9]*|0)\n        (?![\\w\\.])"
+                },
+                "id": "decimal-number",
+                "style-ref": "decimal"
+            },
+            {
+                "match": {
+                    "extended": true,
+                    "content": "(?<![\\w\\.])\n        [+-]?0[0-7]+\n        (?![\\w\\.])"
+                },
+                "id": "octal-number",
+                "style-ref": "octal"
+            },
+            {
+                "match": {
+                    "extended": true,
+                    "content": "(?<![\\w\\.])\n        [+-]?0x[0-9a-fA-F]+\n        (?![\\w\\.])"
+                },
+                "id": "hexadecimal-number",
+                "style-ref": "hexadecimal"
+            },
+            {
+                "include": {"context": [
+                    {
+                        "where": "start",
+                        "sub-pattern": 0,
+                        "style-ref": "preprocessor"
+                    },
+                    {
+                        "where": "end",
+                        "sub-pattern": 0,
+                        "style-ref": "preprocessor"
+                    },
+                    {"ref": "cpp-line-comment"},
+                    {"ref": "bash-line-comment"},
+                    {"ref": "c-block-comment"},
+                    {"ref": "double-quoted-string"},
+                    {"ref": "single-quoted-string"},
+                    {"ref": "backtick-string"},
+                    {"ref": "here-doc-string"},
+                    {"ref": "now-doc-string"},
+                    {"ref": "variable"},
+                    {"ref": "array-operators"},
+                    {"ref": "keywords"},
+                    {"ref": "operators"},
+                    {"ref": "type"},
+                    {"ref": "null-value"},
+                    {"ref": "boolean"},
+                    {"ref": "float"},
+                    {"ref": "decimal-number"},
+                    {"ref": "octal-number"},
+                    {"ref": "hexadecimal-number"},
+                    {"ref": "identifier"}
+                ]},
+                "start": "<([?](php)?)",
+                "end": "[?]>",
+                "id": "php-block"
+            },
+            {
+                "include": {"context": [
+                    {"ref": "php-block"},
+                    {"ref": "html:html"}
+                ]},
+                "id": "php",
+                "class": "no-spell-check"
+            }
+        ],
+        "replace": {
+            "ref": "php-block",
+            "id": "html:embedded-lang-hook"
+        }
+    }
+}}

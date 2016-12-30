@@ -1,0 +1,8 @@
+{"chdr.json": {
+    "include": {"context": [
+        {"ref": "objc:objc-header"},
+        {"ref": "cpp:cpp-proper"},
+        {"ref": "c:c"}
+    ]},
+    "id": "chdr"
+}}

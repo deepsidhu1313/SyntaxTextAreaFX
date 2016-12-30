@@ -1,0 +1,156 @@
+{"language": {
+    "metadata": {"property": [
+        {
+            "name": "mimetypes",
+            "content": "application/x-awk"
+        },
+        {
+            "name": "globs",
+            "content": "*.awk"
+        },
+        {
+            "name": "line-comment-start",
+            "content": "#"
+        }
+    ]},
+    "_name": "awk",
+    "_section": "Script",
+    "styles": {"style": [
+        {
+            "_name": "Keyword",
+            "map-to": "def:keyword",
+            "id": "keyword"
+        },
+        {
+            "_name": "Pattern",
+            "map-to": "def:preprocessor",
+            "id": "pattern"
+        },
+        {
+            "_name": "Variable",
+            "map-to": "def:identifier",
+            "id": "variable"
+        },
+        {
+            "_name": "Builtin Function",
+            "map-to": "def:builtin",
+            "id": "builtin-function"
+        }
+    ]},
+    "id": "awk",
+    "version": 2,
+    "definitions": {"context": [
+        {
+            "id": "keywords",
+            "keyword": [
+                "break",
+                "continue",
+                "do",
+                "delete",
+                "else",
+                "exit",
+                "for",
+                "function",
+                "getline",
+                "if",
+                "next",
+                "nextfile",
+                "print",
+                "printf",
+                "return",
+                "while"
+            ],
+            "style-ref": "keyword"
+        },
+        {
+            "id": "patterns",
+            "keyword": [
+                "BEGIN",
+                "END"
+            ],
+            "style-ref": "pattern"
+        },
+        {
+            "id": "variables",
+            "keyword": [
+                "ARGC",
+                "ARGV",
+                "FILENAME",
+                "FNR",
+                "FS",
+                "NF",
+                "NR",
+                "OFMT",
+                "OFS",
+                "ORS",
+                "RLENGTH",
+                "RS",
+                "RSTART",
+                "SUBSEP",
+                "ARGIND",
+                "BINMODE",
+                "CONVFMT",
+                "ENVIRON",
+                "ERRNO",
+                "FIELDWIDTHS",
+                "IGNORECASE",
+                "LINT",
+                "PROCINFO",
+                "RT",
+                "RLENGTH",
+                "TEXTDOMAIN"
+            ],
+            "style-ref": "variable"
+        },
+        {
+            "id": "built-in-functions",
+            "keyword": [
+                "gsub",
+                "index",
+                "length",
+                "match",
+                "split",
+                "sprintf",
+                "sub",
+                "substr",
+                "tolower",
+                "toupper"
+            ],
+            "style-ref": "builtin-function"
+        },
+        {
+            "id": "arithmetic-functions",
+            "keyword": [
+                "atan2",
+                "cos",
+                "exp",
+                "int",
+                "log",
+                "rand",
+                "sin",
+                "sqrt",
+                "srand"
+            ],
+            "style-ref": "builtin-function"
+        },
+        {
+            "match": "\\$\\d+",
+            "id": "field-variable",
+            "style-ref": "variable"
+        },
+        {
+            "include": {"context": [
+                {"ref": "def:shebang"},
+                {"ref": "def:shell-like-comment"},
+                {"ref": "def:string"},
+                {"ref": "keywords"},
+                {"ref": "patterns"},
+                {"ref": "variables"},
+                {"ref": "field-variable"},
+                {"ref": "built-in-functions"},
+                {"ref": "arithmetic-functions"}
+            ]},
+            "id": "awk"
+        }
+    ]}
+}}

@@ -1,0 +1,132 @@
+{"jade.json": [
+    {
+        "match": "^(!!!)\\s*([a-zA-Z0-9-_]+)",
+        "id": "doctype",
+        "style-ref": "doctype"
+    },
+    {
+        "include": {"context": {
+            "sub-pattern": 1,
+            "style-ref": "attribute-name"
+        }},
+        "match": "(\\b\\%{name}\\s*) *=",
+        "id": "attribute-name",
+        "class": "no-spell-check"
+    },
+    {
+        "match": "&\\%{name};",
+        "id": "entity",
+        "class": "no-spell-check",
+        "style-ref": "entity"
+    },
+    {
+        "match": "#([0-9]+|x[a-fA-F0-9]+)",
+        "id": "character-reference",
+        "style-ref": "entity"
+    },
+    {
+        "match": "[&<]",
+        "id": "unallowed-chars",
+        "style-ref": "error",
+        "extend-parent": false
+    },
+    {
+        "include": {"context": [
+            {"ref": "entity"},
+            {"ref": "character-reference"},
+            {"ref": "unallowed-chars"}
+        ]},
+        "class-disabled": "no-spell-check",
+        "start": "[\"']",
+        "end": "\\%{0@start}",
+        "id": "attribute-value",
+        "class": "string",
+        "style-ref": "attribute-value"
+    },
+    {
+        "include": {"context": [
+            {
+                "match": "\"[^\"]+\" *[a-zA-Z0-9_-]+",
+                "style-ref": "error",
+                "extend-parent": false
+            },
+            {"ref": "attribute-name"},
+            {"ref": "attribute-value"}
+        ]},
+        "start": "\\(",
+        "end": "\\)",
+        "id": "attributes"
+    },
+    {
+        "include": {"context": {
+            "sub-pattern": 1,
+            "style-ref": "tags"
+        }},
+        "match": {
+            "extended": true,
+            "content": "^\\s*\\b\n        (\n          a|\n          abbr|\n          acronym|\n          address|\n          area|\n          article|\n          aside|\n          audio|\n          b|\n          base|\n          big|\n          blockquote|\n          body|\n          br|\n          button|\n          canvas|\n          caption|\n          cite|\n          code|\n          col|\n          colgroup|\n          dd|\n          del|\n          details|\n          dfn|\n          div|\n          dl|\n          dt|\n          em|\n          fieldset|\n          figcaption|\n          figure|\n          footer|\n          form|\n          frame|\n          frameset|\n          h1|\n          h2|\n          h3|\n          h4|\n          h5|\n          h6|\n          head|\n          header|\n          hgroup|\n          hr|\n          html|\n          i|\n          iframe|\n          img|\n          input|\n          ins|\n          kbd|\n          label|\n          legend|\n          li|\n          link|\n          map|\n          mark|\n          menu|\n          meta|\n          nav|\n          noframes|\n          noscript|\n          object|\n          ol|\n          optgroup|\n          option|\n          p|\n          param|\n          pre|\n          q|\n          samp|\n          script|\n          section|\n          select|\n          small|\n          span|\n          strike|\n          strong|\n          style|\n          sub|\n          summary|\n          sup|\n          table|\n          tbody|\n          td|\n          textarea|\n          tfoot|\n          th|\n          thead|\n          time|\n          title|\n          tr|\n          tt|\n          ul|\n          var|\n          var_keys|\n          video\n        )\n        \\s*\\b[\\?!:]{0,1}"
+        },
+        "id": "tags"
+    },
+    {
+        "match": "#[a-zA-Z0-9_-]+",
+        "id": "attribute-id",
+        "style-ref": "attribute-name"
+    },
+    {
+        "match": "\\.[a-zA-Z0-9_-]+",
+        "id": "attribute-class",
+        "style-ref": "attribute-name"
+    },
+    {
+        "include": {"context": {"ref": "def:in-line-comment"}},
+        "class-disabled": "no-spell-check",
+        "start": "//",
+        "id": "line-comment",
+        "class": "comment",
+        "style-ref": "comment",
+        "end-at-line-end": true
+    },
+    {
+        "start": "^\\s*(-)",
+        "end": "$",
+        "id": "jade-executable"
+    },
+    {
+        "include": {"context": [
+            {
+                "where": "start",
+                "sub-pattern": 1,
+                "style-ref": "processing-instruction"
+            },
+            {
+                "where": "end",
+                "sub-pattern": 0,
+                "style-ref": "processing-instruction"
+            }
+        ]},
+        "start": "[^\\\\](#\\{)",
+        "end": "[^\\}]+\\}",
+        "id": "interpolated"
+    },
+    {
+        "match": "^\\s*\\:[^$]+$",
+        "id": "jade-filter",
+        "style-ref": "processing-instruction"
+    },
+    {
+        "include": {"context": [
+            {"ref": "doctype"},
+            {"ref": "attributes"},
+            {"ref": "attribute-id"},
+            {"ref": "attribute-class"},
+            {"ref": "tags"},
+            {"ref": "line-comment"},
+            {"ref": "jade-executable"},
+            {"ref": "interpolated"},
+            {"ref": "jade-filter"}
+        ]},
+        "id": "jade",
+        "class": "no-spell-check"
+    }
+]}

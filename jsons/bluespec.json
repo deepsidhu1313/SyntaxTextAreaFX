@@ -1,0 +1,214 @@
+{"language": {
+    "metadata": {"property": [
+        {
+            "name": "globs",
+            "content": "*.bsv"
+        },
+        {
+            "name": "line-comment-start",
+            "content": "//"
+        },
+        {
+            "name": "block-comment-start",
+            "content": "/*"
+        },
+        {
+            "name": "block-comment-end",
+            "content": "*/"
+        }
+    ]},
+    "_name": "Bluespec SystemVerilog",
+    "_section": "Source",
+    "styles": {"style": [
+        {
+            "_name": "System Task",
+            "map-to": "def:keyword",
+            "id": "system-task"
+        },
+        {
+            "_name": "Annotation",
+            "map-to": "def:function",
+            "id": "annotation"
+        },
+        {
+            "_name": "Attribute",
+            "map-to": "def:type",
+            "id": "attribute"
+        },
+        {
+            "_name": "Import BVI",
+            "map-to": "def:keyword",
+            "id": "import-bvi"
+        },
+        {
+            "_name": "Keyword",
+            "map-to": "def:keyword",
+            "id": "keyword"
+        },
+        {
+            "_name": "Type",
+            "map-to": "def:type",
+            "id": "type"
+        }
+    ]},
+    "id": "bluespec",
+    "version": 2,
+    "definitions": {
+        "context": [
+            {
+                "prefix": "\\$",
+                "id": "system-task",
+                "keyword": [
+                    "display",
+                    "dumpoff",
+                    "dumpon",
+                    "dumpvars",
+                    "fclose",
+                    "fdisplay",
+                    "fflush",
+                    "fgetc",
+                    "finish",
+                    "fopen",
+                    "fwrite",
+                    "stime",
+                    "stop",
+                    "test\\$plusargs",
+                    "time",
+                    "ungetc",
+                    "write"
+                ],
+                "style-ref": "system-task"
+            },
+            {
+                "include": {"context": [
+                    {
+                        "where": "start",
+                        "sub-pattern": 1,
+                        "style-ref": "attribute"
+                    },
+                    {"ref": "verilog:string"}
+                ]},
+                "start": "\\(\\*\\s*(\\%{attributes-names})",
+                "end": "\\*\\)",
+                "id": "annotation",
+                "style-ref": "annotation"
+            },
+            {
+                "id": "import-bvi",
+                "keyword": [
+                    "ancestor",
+                    "clocked_by",
+                    "default_clock",
+                    "default_reset",
+                    "enable",
+                    "input_clock",
+                    "input_reset",
+                    "method",
+                    "no_reset",
+                    "output_clock",
+                    "output_reset",
+                    "parameter",
+                    "path",
+                    "port",
+                    "ready",
+                    "reset_by",
+                    "same_family",
+                    "schedule"
+                ],
+                "style-ref": "import-bvi"
+            },
+            {
+                "id": "keyword",
+                "keyword": [
+                    "action",
+                    "clocked_by",
+                    "deriving",
+                    "endaction",
+                    "endfunction",
+                    "endinterface",
+                    "endmethod",
+                    "endmodule",
+                    "endpackage",
+                    "endrule",
+                    "endrules",
+                    "enum",
+                    "function",
+                    "if",
+                    "import",
+                    "interface",
+                    "let",
+                    "match",
+                    "method",
+                    "module",
+                    "numeric",
+                    "package",
+                    "provisos",
+                    "reset_by",
+                    "rule",
+                    "rules",
+                    "struct",
+                    "tagged",
+                    "type",
+                    "typedef",
+                    "union"
+                ],
+                "style-ref": "keyword"
+            },
+            {
+                "id": "type",
+                "keyword": [
+                    "Action",
+                    "ActionValue",
+                    "Bit",
+                    "Bool",
+                    "int",
+                    "Int",
+                    "Integer",
+                    "Maybe",
+                    "Nat",
+                    "Rules",
+                    "String",
+                    "Tuple[2-7]",
+                    "UInt"
+                ],
+                "style-ref": "type"
+            },
+            {
+                "id": "standard-interface",
+                "keyword": [
+                    "Client",
+                    "ClientServer",
+                    "Connectable",
+                    "FIFO",
+                    "FIFOF",
+                    "Get",
+                    "GetPut",
+                    "PulseWire",
+                    "Put",
+                    "Reg",
+                    "Server",
+                    "Wire"
+                ],
+                "style-ref": "type"
+            },
+            {
+                "include": {"context": [
+                    {"ref": "system-task"},
+                    {"ref": "annotation"},
+                    {"ref": "import-bvi"},
+                    {"ref": "keyword"},
+                    {"ref": "type"},
+                    {"ref": "standard-interface"},
+                    {"ref": "verilog:verilog"}
+                ]},
+                "id": "bluespec",
+                "class": "no-spell-check"
+            }
+        ],
+        "define-regex": {
+            "id": "attributes-names",
+            "extended": true,
+            "content": "always_enabled|\n      always_ready|\n      CLK|\n      descending_urgency|\n      doc|\n      enable|\n      fire_when_enabled|\n      no_implicit_conditions|\n      noinline|\n      port|\n      preempts|\n      prefix|\n      ready|\n      result|\n      RST_N|\n      synthesize"
+        }
+    }
+}}

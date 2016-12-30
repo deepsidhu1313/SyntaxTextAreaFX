@@ -1,0 +1,307 @@
+{"language": {
+    "metadata": {"property": [
+        {
+            "name": "mimetypes",
+            "content": "text/x-erlang"
+        },
+        {
+            "name": "globs",
+            "content": "*.erl;*.hrl"
+        },
+        {
+            "name": "line-comment-start",
+            "content": "%"
+        }
+    ]},
+    "_name": "Erlang",
+    "_section": "Source",
+    "styles": {"style": [
+        {
+            "_name": "Comment",
+            "map-to": "def:comment",
+            "id": "comment"
+        },
+        {
+            "_name": "Keyword",
+            "map-to": "def:keyword",
+            "id": "keyword"
+        },
+        {
+            "_name": "Operator",
+            "map-to": "def:operator",
+            "id": "operator"
+        },
+        {
+            "_name": "Atom",
+            "map-to": "def:type",
+            "id": "atom"
+        },
+        {
+            "_name": "String",
+            "map-to": "def:string",
+            "id": "string"
+        },
+        {
+            "_name": "Character",
+            "map-to": "def:character",
+            "id": "character"
+        },
+        {
+            "_name": "Floating point number",
+            "map-to": "def:floating-point",
+            "id": "floating-point"
+        },
+        {
+            "_name": "Decimal number",
+            "map-to": "def:decimal",
+            "id": "decimal"
+        },
+        {
+            "_name": "Base-N Integer",
+            "map-to": "def:base-n-integer",
+            "id": "base-n-integer"
+        },
+        {
+            "_name": "Builtin",
+            "map-to": "def:builtin",
+            "id": "builtin"
+        },
+        {
+            "_name": "Compiler Directive",
+            "map-to": "def:preprocessor",
+            "id": "compiler-directive"
+        }
+    ]},
+    "id": "erlang",
+    "version": 2,
+    "definitions": {"context": [
+        {
+            "include": {"context": {"ref": "def:in-line-comment"}},
+            "class-disabled": "no-spell-check",
+            "start": "%",
+            "id": "line-comment",
+            "class": "comment",
+            "style-ref": "comment",
+            "end-at-line-end": true
+        },
+        {
+            "id": "keywords",
+            "keyword": [
+                "after",
+                "begin",
+                "case",
+                "catch",
+                "cond",
+                "end",
+                "fun",
+                "if",
+                "let",
+                "of",
+                "query",
+                "receive",
+                "when"
+            ],
+            "style-ref": "keyword"
+        },
+        {
+            "id": "operators",
+            "keyword": [
+                "and",
+                "band",
+                "bnot",
+                "bor",
+                "bsl",
+                "bsr",
+                "bxor",
+                "div",
+                "not",
+                "or",
+                "rem",
+                "xor"
+            ],
+            "style-ref": "operator"
+        },
+        {
+            "include": {"context": {"ref": "def:escape"}},
+            "start": "'",
+            "end": "'",
+            "id": "atom",
+            "style-ref": "atom"
+        },
+        {
+            "include": {"context": {"ref": "def:escape"}},
+            "class-disabled": "no-spell-check",
+            "start": "\"",
+            "end": "\"",
+            "id": "string",
+            "class": "string",
+            "style-ref": "string"
+        },
+        {
+            "include": {"context": {
+                "sub-pattern": 1,
+                "style-ref": "def:special-char"
+            }},
+            "class-disabled": "no-spell-check",
+            "match": "\\$(?:(\\\\.)|.)",
+            "id": "character",
+            "class": "character",
+            "style-ref": "character"
+        },
+        {
+            "match": {
+                "extended": true,
+                "content": "(?<![\\w\\.])\n        [0-9]+\\.[0-9]+([Ee][+-]?[0-9]+)?\n        (?![\\w\\.])"
+            },
+            "id": "float",
+            "style-ref": "floating-point"
+        },
+        {
+            "match": {
+                "extended": true,
+                "content": "(?<![\\w\\.])\n        [1-9]([0-9])?#[0-9a-fA-F]+\n        (?![\\w\\.])"
+            },
+            "id": "base-n-number",
+            "style-ref": "base-n-integer"
+        },
+        {
+            "match": {
+                "extended": true,
+                "content": "(?<![\\w\\.])\n        [0-9]+\n        (?![\\w\\.])"
+            },
+            "id": "decimal-number",
+            "style-ref": "decimal"
+        },
+        {
+            "id": "builtins",
+            "keyword": [
+                "abs",
+                "alive",
+                "apply",
+                "atom_to_list",
+                "atom",
+                "binary_to_list",
+                "binary_to_ter",
+                "binary",
+                "check_process_code",
+                "concat_binary",
+                "constant",
+                "date",
+                "delete_module",
+                "disconnect_node",
+                "element",
+                "erase",
+                "exit",
+                "float",
+                "float_to_list",
+                "function",
+                "get_cookie",
+                "get_keys",
+                "get",
+                "group_leader",
+                "halt",
+                "hash",
+                "hd",
+                "integer_to_list",
+                "integer",
+                "is_alive",
+                "length",
+                "link",
+                "list_to_atom",
+                "list_to_binary",
+                "list_to_float",
+                "list_to_integer",
+                "list_to_pid",
+                "list_to_tuple",
+                "list",
+                "load_module",
+                "make_ref",
+                "math",
+                "module_loaded",
+                "monitor_node",
+                "node",
+                "nodes",
+                "now",
+                "number",
+                "open_port",
+                "pid_to_list",
+                "pid",
+                "ports",
+                "port_close",
+                "port_info",
+                "preloaded",
+                "processes",
+                "process_flag",
+                "process_info",
+                "process",
+                "purge_module",
+                "put",
+                "record",
+                "reference",
+                "registered",
+                "register",
+                "round",
+                "self",
+                "setelement",
+                "set_cookie",
+                "set_node",
+                "size",
+                "spawn_link",
+                "spawn",
+                "split_binary",
+                "statistics",
+                "term_to_binary",
+                "throw",
+                "time",
+                "tl",
+                "trunc",
+                "tuple_to_list",
+                "unlink",
+                "unregister",
+                "whereis"
+            ],
+            "style-ref": "builtin"
+        },
+        {
+            "prefix": "-",
+            "id": "compiler-directives",
+            "keyword": [
+                "author",
+                "compile",
+                "copyright",
+                "define",
+                "doc",
+                "else",
+                "endif",
+                "export",
+                "file",
+                "ifdef",
+                "ifndef",
+                "import",
+                "include_lib",
+                "include",
+                "module",
+                "record",
+                "undef"
+            ],
+            "style-ref": "compiler-directive"
+        },
+        {
+            "include": {"context": [
+                {"ref": "line-comment"},
+                {"ref": "keywords"},
+                {"ref": "operators"},
+                {"ref": "atom"},
+                {"ref": "string"},
+                {"ref": "character"},
+                {"ref": "float"},
+                {"ref": "base-n-number"},
+                {"ref": "decimal-number"},
+                {"ref": "builtins"},
+                {"ref": "compiler-directives"}
+            ]},
+            "id": "erlang",
+            "class": "no-spell-check"
+        }
+    ]}
+}}

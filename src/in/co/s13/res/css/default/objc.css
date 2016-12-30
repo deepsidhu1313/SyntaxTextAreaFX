@@ -1,0 +1,12 @@
+.objc-header {
+    -fx-fill:#7FDBFF;
+    -fx-font-weight: bold;
+}
+.objc-source {
+    -fx-fill:#39CCCC;
+    -fx-font-weight: bold;
+}
+.objc {
+    -fx-fill:#3D9970;
+    -fx-font-weight: bold;
+}

@@ -1,0 +1,148 @@
+{"idl.json": [
+    {
+        "include": {"context": [
+            {"ref": "def:escape"},
+            {"ref": "def:line-continue"}
+        ]},
+        "class-disabled": "no-spell-check",
+        "start": "/\\*",
+        "end": "\\*/",
+        "id": "block-comment",
+        "class": "comment",
+        "style-ref": "comment"
+    },
+    {
+        "include": {"context": [
+            {"ref": "def:escape"},
+            {"ref": "def:line-continue"}
+        ]},
+        "class-disabled": "no-spell-check",
+        "start": "//",
+        "id": "line-comment",
+        "class": "comment",
+        "style-ref": "comment",
+        "end-at-line-end": true
+    },
+    {
+        "include": {"context": [
+            {"ref": "def:escape"},
+            {"ref": "def:line-continue"}
+        ]},
+        "start": "%\\{",
+        "end": "%\\}",
+        "id": "sectional",
+        "style-ref": "preprocessor"
+    },
+    {
+        "include": {"context": [
+            {"ref": "def:escape"},
+            {"ref": "def:line-continue"}
+        ]},
+        "class-disabled": "no-spell-check",
+        "start": "\"",
+        "end": "\"",
+        "id": "string",
+        "class": "string",
+        "style-ref": "string",
+        "end-at-line-end": true
+    },
+    {
+        "include": {"context": [
+            {"ref": "def:escape"},
+            {"ref": "def:line-continue"}
+        ]},
+        "start": "^#[ \\t]*(include|pragma)",
+        "id": "include-pragma",
+        "style-ref": "preprocessor",
+        "end-at-line-end": true
+    },
+    {
+        "id": "keywords",
+        "keyword": [
+            "abstract",
+            "attribute",
+            "case",
+            "const",
+            "context",
+            "custom",
+            "default",
+            "exception",
+            "enum",
+            "factory",
+            false,
+            "in",
+            "inout",
+            "interface",
+            "local",
+            "module",
+            "native",
+            "oneway",
+            "out",
+            "private",
+            "public",
+            "raises",
+            "readonly",
+            "struct",
+            "support",
+            "switch",
+            true,
+            "truncatable",
+            "typedef",
+            "union",
+            "valuetype"
+        ],
+        "style-ref": "keyword"
+    },
+    {
+        "id": "types",
+        "keyword": [
+            "any",
+            "boolean",
+            "char",
+            "double",
+            "fixed",
+            "float",
+            "long",
+            "Object",
+            "octet",
+            "sequence",
+            "short",
+            "string",
+            "unsigned",
+            "ValueBase",
+            "void",
+            "wchar",
+            "wstring"
+        ],
+        "style-ref": "type"
+    },
+    {
+        "prefix": "^[ \\t]*#[ \\t]*",
+        "id": "preprocessor-definitions",
+        "keyword": [
+            "if",
+            "ifdef",
+            "ifndef",
+            "else",
+            "elif",
+            "define",
+            "endif",
+            "undef"
+        ],
+        "style-ref": "preprocessor"
+    },
+    {
+        "include": {"context": [
+            {"ref": "block-comment"},
+            {"ref": "line-comment"},
+            {"ref": "sectional"},
+            {"ref": "string"},
+            {"ref": "include-pragma"},
+            {"ref": "keywords"},
+            {"ref": "types"},
+            {"ref": "preprocessor-definitions"}
+        ]},
+        "id": "idl",
+        "class": "no-spell-check"
+    }
+]}

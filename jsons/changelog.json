@@ -1,0 +1,125 @@
+{"language": {
+    "metadata": {"property": [
+        {
+            "name": "mimetypes",
+            "content": "text/x-changelog"
+        },
+        {
+            "name": "globs",
+            "content": "ChangeLog*"
+        }
+    ]},
+    "_name": "ChangeLog",
+    "_section": "Other",
+    "styles": {"style": [
+        {
+            "_name": "Date",
+            "map-to": "def:number",
+            "id": "date"
+        },
+        {
+            "_name": "Name",
+            "map-to": "def:statement",
+            "id": "name"
+        },
+        {
+            "_name": "E-mail address",
+            "map-to": "def:identifier",
+            "id": "email"
+        },
+        {
+            "_name": "File",
+            "map-to": "def:comment",
+            "id": "file"
+        },
+        {
+            "_name": "Bullet",
+            "map-to": "def:type",
+            "id": "bullet"
+        },
+        {
+            "_name": "Function",
+            "map-to": "def:function",
+            "id": "function"
+        },
+        {
+            "_name": "Release",
+            "map-to": "def:statement",
+            "id": "release"
+        }
+    ]},
+    "id": "changelog",
+    "version": 2,
+    "definitions": {
+        "context": {
+            "include": {"context": [
+                {
+                    "include": {"context": [
+                        {
+                            "sub-pattern": "date",
+                            "style-ref": "date"
+                        },
+                        {
+                            "sub-pattern": "name",
+                            "style-ref": "name"
+                        },
+                        {
+                            "sub-pattern": "email",
+                            "style-ref": "email"
+                        }
+                    ]},
+                    "match": {
+                        "extended": true,
+                        "content": "^(?P<date>\\%{date})\\s+\n            (?P<name>.*)\\s*\n            (?P<email>\\<[^\\<]+\\>)\\s*$"
+                    },
+                    "id": "date-and-stuff",
+                    "class": "no-spell-check"
+                },
+                {
+                    "match": "^\\s*\\=.*\\=\\s*$",
+                    "id": "release",
+                    "class": "no-spell-check",
+                    "style-ref": "release"
+                },
+                {
+                    "include": {"context": {
+                        "where": "start",
+                        "sub-pattern": 1,
+                        "style-ref": "bullet"
+                    }},
+                    "start": "^\\s+(\\*)",
+                    "end": "\\:|^(?!\\S)",
+                    "id": "file",
+                    "class": "no-spell-check",
+                    "style-ref": "file"
+                },
+                {
+                    "match": "\\(\\s*\\%{identifier}\\s*\\)",
+                    "id": "function",
+                    "class": "no-spell-check",
+                    "style-ref": "function"
+                }
+            ]},
+            "id": "changelog"
+        },
+        "define-regex": [
+            {
+                "id": "identifier",
+                "content": "[A-Za-z_][A-Za-z0-9_]*"
+            },
+            {
+                "id": "weekday",
+                "content": "Mon|Tue|Wed|Thu|Fri|Sat|Sun"
+            },
+            {
+                "id": "month",
+                "content": "Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec"
+            },
+            {
+                "id": "date",
+                "extended": true,
+                "content": "\\%{weekday}\\s+\\%{month}\\s+\\d{1,2}\\s+(\\d{1,2}:\\d{1,2}:\\d{1,2}\\s+)?([aApP][mM]\\s+)?(\\w{3}\\s+)?\\d{4} |   # Wed Jun 27 13:27:21 2007\n      \\d{4}-\\d{2}-\\d{2}                                                       # 2007-06-28"
+            }
+        ]
+    }
+}}

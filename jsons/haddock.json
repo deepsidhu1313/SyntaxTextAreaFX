@@ -1,0 +1,215 @@
+{"language": {
+    "_name": "Haddock",
+    "hidden": true,
+    "_section": "Markup",
+    "styles": {"style": [
+        {
+            "_name": "Inline Haddock Section",
+            "map-to": "def:doc-comment",
+            "id": "markup"
+        },
+        {
+            "_name": "Haddock Directive",
+            "map-to": "def:doc-comment-element",
+            "id": "directive"
+        },
+        {
+            "_name": "Hyperlinked Identifier",
+            "map-to": "def:doc-comment-element",
+            "id": "identifier"
+        },
+        {
+            "_name": "Hyperlinked Module Name",
+            "map-to": "def:doc-comment-element",
+            "id": "module"
+        },
+        {
+            "_name": "Escape",
+            "map-to": "def:special-char",
+            "id": "escape"
+        },
+        {
+            "_name": "Emphasis",
+            "map-to": "def:doc-comment-element",
+            "id": "emphasis"
+        },
+        {
+            "_name": "Monospace",
+            "id": "monospace"
+        },
+        {
+            "_name": "Code Block",
+            "id": "codeblock"
+        },
+        {
+            "_name": "Header Property",
+            "map-to": "def:doc-comment-element",
+            "id": "property"
+        },
+        {
+            "_name": "Itemized list",
+            "map-to": "def:doc-comment-element",
+            "id": "itemized"
+        },
+        {
+            "_name": "Enumerated list",
+            "map-to": "def:doc-comment-element",
+            "id": "enumerated"
+        },
+        {
+            "_name": "Definition list",
+            "map-to": "def:doc-comment-element",
+            "id": "definition"
+        },
+        {
+            "_name": "URL",
+            "map-to": "def:underlined",
+            "id": "url"
+        },
+        {
+            "_name": "Anchor",
+            "map-to": "def:doc-comment-element",
+            "id": "anchor"
+        }
+    ]},
+    "id": "haddock",
+    "version": 2,
+    "definitions": {"context": {
+        "include": {"context": [
+            {
+                "match": "\\\\[/'`\"@#<*-]",
+                "id": "escape",
+                "style-ref": "escape",
+                "extend-parent": true
+            },
+            {
+                "match": "#([0-9]+|x[a-fA-F0-9]+)",
+                "id": "character-reference",
+                "style-ref": "escape"
+            },
+            {
+                "match": "'[a-zA-Z_][0-9a-zA-Z._'#]*'",
+                "id": "identifier",
+                "style-ref": "identifier",
+                "extend-parent": false
+            },
+            {
+                "match": "\"[A-Z][0-9a-zA-Z._']*\"",
+                "id": "module",
+                "style-ref": "module",
+                "extend-parent": false
+            },
+            {
+                "include": {"context": [
+                    {"ref": "escape"},
+                    {"ref": "character-reference"}
+                ]},
+                "start": "/",
+                "end": "/",
+                "id": "emphasis",
+                "style-ref": "emphasis",
+                "extend-parent": false
+            },
+            {
+                "include": {"context": [
+                    {"ref": "escape"},
+                    {"ref": "character-reference"}
+                ]},
+                "start": "@",
+                "end": "@",
+                "id": "monospace",
+                "style-ref": "monospace",
+                "extend-parent": false
+            },
+            {
+                "match": "^\\s*--+\\s+>.*$",
+                "id": "codeblock",
+                "style-ref": "codeblock"
+            },
+            {
+                "include": {"context": {
+                    "sub-pattern": 1,
+                    "style-ref": "property"
+                }},
+                "match": "^\\s*--+\\s+([A-Z][a-zA-Z0-9'_]*)\\s*:.*$",
+                "id": "property",
+                "extend-parent": false
+            },
+            {
+                "include": {"context": {
+                    "sub-pattern": 2,
+                    "style-ref": "itemized"
+                }},
+                "match": {
+                    "extended": true,
+                    "content": "^(\\s*--+)?\\s+             # line start possibly with line comment\n            ( \\*(?=\\s) | -(?=\\s)      # bulleted item\n            | \\([0-9]\\) | [0-9]\\.     # enumerated item\n            | \\[@[a-zA-Z0-9._'\\#]*@\\] # definition list item\n            )"
+                },
+                "id": "list-item",
+                "extend-parent": false
+            },
+            {
+                "match": "<.*>",
+                "id": "url",
+                "style-ref": "url",
+                "extend-parent": false
+            },
+            {
+                "match": "#[a-z][0-9a-zA-Z_']*#|[A-Z][0-9a-zA-Z._']*#[a-z][0-9a-zA-Z_']*+",
+                "id": "anchor",
+                "style-ref": "anchor",
+                "extend-parent": false
+            },
+            {
+                "include": {"context": [
+                    {"ref": "escape"},
+                    {"ref": "character-reference"},
+                    {"ref": "identifier"},
+                    {"ref": "module"},
+                    {"ref": "emphasis"},
+                    {"ref": "monospace"},
+                    {"ref": "codeblock"},
+                    {"ref": "property"},
+                    {"ref": "list-item"},
+                    {"ref": "url"},
+                    {"ref": "anchor"}
+                ]},
+                "end-parent": true,
+                "start": "\\s+([|^*$]+)",
+                "end": "^(?!\\s*--+)",
+                "id": "line-paragraph",
+                "style-ref": "markup",
+                "extend-parent": true
+            },
+            {
+                "include": {"context": [
+                    {"ref": "escape"},
+                    {"ref": "character-reference"},
+                    {"ref": "identifier"},
+                    {"ref": "module"},
+                    {"ref": "emphasis"},
+                    {"ref": "monospace"},
+                    {"ref": "codeblock"},
+                    {"ref": "property"},
+                    {"ref": "list-item"},
+                    {"ref": "url"},
+                    {"ref": "anchor"}
+                ]},
+                "start": "(?<={-)\\s?[|^*$]",
+                "id": "block-paragraph",
+                "style-ref": "markup",
+                "extend-parent": false
+            },
+            {
+                "prefix": "#",
+                "id": "directive",
+                "keyword": [
+                    "hide",
+                    "prune",
+                    "ignore-exports"
+                ],
+                "style-ref": "directive"
+            }
+        ]},
+        "id": "haddock"
+    }}
+}}

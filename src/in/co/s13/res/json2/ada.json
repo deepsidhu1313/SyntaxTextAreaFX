@@ -1,0 +1,194 @@
+{"ada.json": [
+    {
+        "include": {"context": {"ref": "def:in-line-comment"}},
+        "class-disabled": "no-spell-check",
+        "start": "--",
+        "id": "line-comment",
+        "class": "comment",
+        "style-ref": "comment",
+        "end-at-line-end": true
+    },
+    {
+        "include": {"context": {
+            "match": "\"\"",
+            "id": "string-esc",
+            "style-ref": "escaped-character",
+            "extend-parent": true
+        }},
+        "class-disabled": "no-spell-check",
+        "start": "\"",
+        "end": "\"",
+        "id": "string",
+        "class": "string",
+        "style-ref": "string",
+        "end-at-line-end": true
+    },
+    {
+        "match": "'.'",
+        "id": "character-constant",
+        "style-ref": "string"
+    },
+    {
+        "id": "preprocessor-keyword",
+        "keyword": [
+            "package",
+            "pragma",
+            "use",
+            "with"
+        ],
+        "style-ref": "preprocessor"
+    },
+    {
+        "id": "function",
+        "keyword": [
+            "function",
+            "procedure",
+            "return"
+        ],
+        "style-ref": "keyword"
+    },
+    {
+        "id": "keyword",
+        "keyword": [
+            "abort",
+            "abs",
+            "accept",
+            "all",
+            "and",
+            "begin",
+            "body",
+            "case",
+            "declare",
+            "delay",
+            "do",
+            "else",
+            "elsif",
+            "end",
+            "entry",
+            "exception",
+            "exit",
+            "for",
+            "generic",
+            "goto",
+            "if",
+            "in",
+            "is",
+            "loop",
+            "mod",
+            "new",
+            "not",
+            null,
+            "or",
+            "others",
+            "out",
+            "protected",
+            "raise",
+            "record",
+            "rem",
+            "renames",
+            "requeue",
+            "reverse",
+            "select",
+            "separate",
+            "subtype",
+            "task",
+            "terminate",
+            "then",
+            "type",
+            "until",
+            "when",
+            "while",
+            "xor"
+        ],
+        "style-ref": "keyword"
+    },
+    {
+        "id": "storage-class",
+        "keyword": [
+            "abstract",
+            "access",
+            "aliased",
+            "array",
+            "at",
+            "constant",
+            "delta",
+            "digits",
+            "interface",
+            "limited",
+            "of",
+            "private",
+            "range",
+            "tagged",
+            "synchronized"
+        ],
+        "style-ref": "storage-class"
+    },
+    {
+        "id": "type",
+        "keyword": [
+            "boolean",
+            "character",
+            "count",
+            "duration",
+            "float",
+            "integer",
+            "long_float",
+            "long_integer",
+            "priority",
+            "short_float",
+            "short_integer",
+            "string"
+        ],
+        "style-ref": "type"
+    },
+    {
+        "match": {
+            "extended": true,
+            "content": "(?<![\\w\\.])\n        [0-9][0-9_]*\\#\\%{hexnum}(\\.\\%{hexnum})?\\#\\%{exponent}?\n        (?![\\w\\.])"
+        },
+        "id": "based-numeral",
+        "style-ref": "base-n-number"
+    },
+    {
+        "match": {
+            "extended": true,
+            "content": "(?<![\\w\\.])\n        [0-9][0-9_]*\\.[0-9][0-9_]*\\%{exponent}?\n        (?![\\w\\.])"
+        },
+        "id": "real",
+        "style-ref": "real"
+    },
+    {
+        "match": {
+            "extended": true,
+            "content": "(?<![\\w\\.])\n        [0-9][0-9_]*(E[+]?[0-9][0-9_]*)?\n        (?![\\w\\.])"
+        },
+        "id": "number",
+        "style-ref": "decimal"
+    },
+    {
+        "id": "boolean",
+        "keyword": [
+            true,
+            false
+        ],
+        "style-ref": "boolean"
+    },
+    {
+        "include": {"context": [
+            {"ref": "line-comment"},
+            {"ref": "string"},
+            {"ref": "character-constant"},
+            {"ref": "preprocessor-keyword"},
+            {"ref": "function"},
+            {"ref": "keyword"},
+            {"ref": "storage-class"},
+            {"ref": "type"},
+            {"ref": "based-numeral"},
+            {"ref": "real"},
+            {"ref": "number"},
+            {"ref": "boolean"}
+        ]},
+        "id": "ada",
+        "class": "no-spell-check"
+    }
+]}

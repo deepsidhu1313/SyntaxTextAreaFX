@@ -1,0 +1,145 @@
+{"language": {
+    "metadata": {"property": [
+        {
+            "name": "mimetypes",
+            "content": "text/x-objcsrc"
+        },
+        {
+            "name": "globs",
+            "content": "*.m"
+        },
+        {
+            "name": "line-comment-start",
+            "content": "//"
+        },
+        {
+            "name": "block-comment-start",
+            "content": "/*"
+        },
+        {
+            "name": "block-comment-end",
+            "content": "*/"
+        }
+    ]},
+    "_name": "Objective-C",
+    "_section": "Source",
+    "styles": {"style": [
+        {
+            "_name": "Keyword",
+            "map-to": "c:keyword",
+            "id": "keyword"
+        },
+        {
+            "_name": "Data Type",
+            "map-to": "c:type",
+            "id": "type"
+        },
+        {
+            "_name": "Common Defines",
+            "map-to": "c:common-defines",
+            "id": "common-defines"
+        },
+        {
+            "_name": "String",
+            "map-to": "c:string",
+            "id": "string"
+        }
+    ]},
+    "id": "objc",
+    "version": 2,
+    "definitions": {"context": [
+        {
+            "include": {"context": [
+                {
+                    "prefix": "\\@",
+                    "id": "keywords",
+                    "keyword": [
+                        "interface",
+                        "protocol",
+                        "implementation",
+                        "end",
+                        "class",
+                        "selector",
+                        "encode",
+                        "defs",
+                        "synchronized",
+                        "private",
+                        "protected",
+                        "public",
+                        "try",
+                        "throw",
+                        "catch",
+                        "finally"
+                    ],
+                    "style-ref": "keyword"
+                },
+                {
+                    "id": "types",
+                    "keyword": "BOOL",
+                    "style-ref": "type"
+                },
+                {
+                    "include": {"context": {"ref": "c:string:*"}},
+                    "class-disabled": "no-spell-check",
+                    "start": "\\@\"",
+                    "end": "\"",
+                    "id": "objc-string-literal",
+                    "class": "string",
+                    "style-ref": "string",
+                    "end-at-line-end": true
+                }
+            ]},
+            "id": "objc-header"
+        },
+        {
+            "include": {"context": [
+                {
+                    "id": "objc-keywords",
+                    "keyword": [
+                        "self",
+                        "super"
+                    ],
+                    "style-ref": "keyword"
+                },
+                {
+                    "id": "objc-types",
+                    "keyword": [
+                        "apply_t",
+                        "Class",
+                        "id",
+                        "IMP",
+                        "MetaClass",
+                        "Object",
+                        "Protocol",
+                        "retval_t",
+                        "SEL",
+                        "STR",
+                        "TypedStream"
+                    ],
+                    "style-ref": "type"
+                },
+                {
+                    "id": "objc-common-defines",
+                    "keyword": [
+                        "METHOD_NULL",
+                        "nil",
+                        "Nil",
+                        "NO",
+                        "YES"
+                    ],
+                    "style-ref": "common-defines"
+                }
+            ]},
+            "id": "objc-source"
+        },
+        {
+            "include": {"context": [
+                {"ref": "objc-source"},
+                {"ref": "objc-header"},
+                {"ref": "c:c"}
+            ]},
+            "id": "objc",
+            "class": "no-spell-check"
+        }
+    ]}
+}}

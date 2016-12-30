@@ -1,0 +1,381 @@
+{"language": {
+    "metadata": {"property": [
+        {
+            "name": "mimetypes",
+            "content": "text/x-dsrc"
+        },
+        {
+            "name": "globs",
+            "content": "*.d"
+        },
+        {
+            "name": "line-comment-start",
+            "content": "//"
+        },
+        {
+            "name": "block-comment-start",
+            "content": "/*"
+        },
+        {
+            "name": "block-comment-end",
+            "content": "*/"
+        }
+    ]},
+    "_name": "D",
+    "_section": "Source",
+    "styles": {"style": [
+        {
+            "_name": "Comment",
+            "map-to": "def:comment",
+            "id": "comment"
+        },
+        {
+            "_name": "Error",
+            "map-to": "def:error",
+            "id": "error"
+        },
+        {
+            "_name": "String",
+            "map-to": "def:string",
+            "id": "string"
+        },
+        {
+            "_name": "Keyword",
+            "map-to": "def:keyword",
+            "id": "keyword"
+        },
+        {
+            "_name": "Data Type",
+            "map-to": "def:type",
+            "id": "type"
+        },
+        {
+            "_name": "Special Token",
+            "map-to": "def:preprocessor",
+            "id": "special-token"
+        },
+        {
+            "_name": "Null Value",
+            "map-to": "def:special-constant",
+            "id": "null-value"
+        },
+        {
+            "_name": "Boolean",
+            "map-to": "def:boolean",
+            "id": "boolean"
+        },
+        {
+            "_name": "Floating point number",
+            "map-to": "def:floating-point",
+            "id": "floating-point"
+        },
+        {
+            "_name": "Decimal number",
+            "map-to": "def:decimal",
+            "id": "decimal"
+        },
+        {
+            "_name": "Binary number",
+            "map-to": "def:base-n-integer",
+            "id": "binary"
+        },
+        {
+            "_name": "Octal number",
+            "map-to": "def:base-n-integer",
+            "id": "octal"
+        },
+        {
+            "_name": "Hexadecimal number",
+            "map-to": "def:base-n-integer",
+            "id": "hexadecimal"
+        }
+    ]},
+    "id": "d",
+    "version": 2,
+    "definitions": {"context": [
+        {
+            "include": {"context": {"ref": "def:in-line-comment"}},
+            "class-disabled": "no-spell-check",
+            "start": "//",
+            "id": "line-comment",
+            "class": "comment",
+            "style-ref": "comment",
+            "end-at-line-end": true
+        },
+        {
+            "include": {"context": {"ref": "def:in-comment"}},
+            "class-disabled": "no-spell-check",
+            "start": "/\\*",
+            "end": "\\*/",
+            "id": "block-comment",
+            "class": "comment",
+            "style-ref": "comment"
+        },
+        {
+            "match": "\\*/(?!\\*)",
+            "id": "close-comment-outside-comment",
+            "style-ref": "error"
+        },
+        {
+            "include": {"context": [
+                {"ref": "nesting-comment"},
+                {"ref": "def:in-comment"}
+            ]},
+            "class-disabled": "no-spell-check",
+            "start": "/\\+",
+            "end": "\\+/",
+            "id": "nesting-comment",
+            "class": "comment",
+            "style-ref": "comment"
+        },
+        {
+            "include": {"context": [
+                {"ref": "def:escape"},
+                {"ref": "def:line-continue"}
+            ]},
+            "class-disabled": "no-spell-check",
+            "start": "\"",
+            "end": "\"",
+            "id": "double-quoted-string",
+            "class": "string",
+            "style-ref": "string"
+        },
+        {
+            "include": {"context": [
+                {"ref": "def:escape"},
+                {"ref": "def:line-continue"}
+            ]},
+            "class-disabled": "no-spell-check",
+            "start": "'",
+            "end": "'",
+            "id": "single-quoted-string",
+            "class": "string",
+            "style-ref": "string",
+            "end-at-line-end": true
+        },
+        {
+            "include": {"context": [
+                {"ref": "def:escape"},
+                {"ref": "def:line-continue"}
+            ]},
+            "class-disabled": "no-spell-check",
+            "start": "`",
+            "end": "`",
+            "id": "backtick-quoted-string",
+            "class": "string",
+            "style-ref": "string"
+        },
+        {
+            "id": "keywords",
+            "keyword": [
+                "abstract",
+                "align",
+                "asm",
+                "assert",
+                "body",
+                "break",
+                "case",
+                "cast",
+                "catch",
+                "continue",
+                "debug",
+                "default",
+                "delegate",
+                "delete",
+                "deprecated",
+                "do",
+                "else",
+                "final",
+                "finally",
+                "for",
+                "foreach",
+                "function",
+                "goto",
+                "if",
+                "import",
+                "in",
+                "inout",
+                "is",
+                "mixin",
+                "new",
+                "out",
+                "override",
+                "pragma",
+                "private",
+                "protected",
+                "public",
+                "ref",
+                "return",
+                "scope",
+                "super",
+                "switch",
+                "synchronized",
+                "this",
+                "throw",
+                "try",
+                "typeid",
+                "typeof",
+                "unittest",
+                "version",
+                "while",
+                "with",
+                "lazy",
+                "pure",
+                "nothrow"
+            ],
+            "style-ref": "keyword"
+        },
+        {
+            "id": "types",
+            "keyword": [
+                "alias",
+                "bool",
+                "byte",
+                "cdouble",
+                "cent",
+                "cfloat",
+                "char",
+                "class",
+                "creal",
+                "dchar",
+                "double",
+                "enum",
+                "export",
+                "float",
+                "idouble",
+                "ifloat",
+                "int",
+                "interface",
+                "invariant",
+                "ireal",
+                "long",
+                "module",
+                "package",
+                "ptrdiff_t",
+                "real",
+                "short",
+                "size_t",
+                "struct",
+                "template",
+                "typedef",
+                "ubyte",
+                "ucent",
+                "uint",
+                "ulong",
+                "union",
+                "ushort",
+                "void",
+                "wchar",
+                "auto",
+                "const",
+                "extern",
+                "static",
+                "volatile",
+                "__gshared",
+                "__traits",
+                "__vector",
+                "__parameters",
+                "shared",
+                "string",
+                "dstring",
+                "wstring",
+                "immutable"
+            ],
+            "style-ref": "type"
+        },
+        {
+            "id": "special-tokens",
+            "keyword": [
+                "#line",
+                "__DATE__",
+                "__FILE__",
+                "__FUNCTION__",
+                "__LINE__",
+                "__MODULE__",
+                "__PRETTY_FUNCTION__",
+                "__TIME__",
+                "__TIMESTAMP__",
+                "__VENDOR__",
+                "__VERSION__"
+            ],
+            "style-ref": "special-token"
+        },
+        {
+            "id": "null-value",
+            "keyword": null,
+            "style-ref": "null-value"
+        },
+        {
+            "id": "boolean",
+            "keyword": [
+                false,
+                true
+            ],
+            "style-ref": "boolean"
+        },
+        {
+            "match": {
+                "extended": true,
+                "content": "(?<![\\w\\.])\n        ([0-9_]+[Ee][-]?[0-9_]+|([0-9_]*\\.[0-9_]+|[0-9_]+\\.)([Ee][-]?[0-9_]+)?)[fFLi]?\n        (?![\\w\\.])"
+            },
+            "id": "float",
+            "style-ref": "floating-point"
+        },
+        {
+            "match": {
+                "extended": true,
+                "content": "(?<![\\w\\.])\n        ([1-9][0-9_]*|0)([Uu]([Ll]|LL|ll)?|([Ll]|LL|ll)[Uu]?)?\n        (?![\\w\\.])"
+            },
+            "id": "decimal",
+            "style-ref": "decimal"
+        },
+        {
+            "match": {
+                "extended": true,
+                "content": "(?<![\\w\\.])\n        0[bB][01_]*\n        (?![\\w\\.])"
+            },
+            "id": "binary",
+            "style-ref": "binary"
+        },
+        {
+            "match": {
+                "extended": true,
+                "content": "(?<![\\w\\.])\n        0[0-7_]+([Uu]([Ll]|LL|ll)?|([Ll]|LL|ll)[Uu]?)?\n        (?![\\w\\.])"
+            },
+            "id": "octal",
+            "style-ref": "octal"
+        },
+        {
+            "match": {
+                "extended": true,
+                "content": "(?<![\\w\\.])\n        0[xX][0-9a-fA-F_]+([Uu]([Ll]|LL|ll)?|([Ll]|LL|ll)[Uu]?)?\n        (?![\\w\\.])"
+            },
+            "id": "hexadecimal",
+            "style-ref": "hexadecimal"
+        },
+        {
+            "include": {"context": [
+                {"ref": "def:shebang"},
+                {"ref": "line-comment"},
+                {"ref": "block-comment"},
+                {"ref": "close-comment-outside-comment"},
+                {"ref": "nesting-comment"},
+                {"ref": "double-quoted-string"},
+                {"ref": "single-quoted-string"},
+                {"ref": "backtick-quoted-string"},
+                {"ref": "keywords"},
+                {"ref": "types"},
+                {"ref": "special-tokens"},
+                {"ref": "null-value"},
+                {"ref": "boolean"},
+                {"ref": "float"},
+                {"ref": "binary"},
+                {"ref": "octal"},
+                {"ref": "decimal"},
+                {"ref": "hexadecimal"}
+            ]},
+            "id": "d",
+            "class": "no-spell-check"
+        }
+    ]}
+}}

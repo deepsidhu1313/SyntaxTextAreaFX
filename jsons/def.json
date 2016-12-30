@@ -1,0 +1,345 @@
+{"language": {
+    "_name": "Defaults",
+    "hidden": true,
+    "styles": {"style": [
+        {
+            "_name": "Comment",
+            "id": "comment"
+        },
+        {
+            "_name": "Shebang",
+            "map-to": "def:comment",
+            "id": "shebang"
+        },
+        {
+            "_name": "Documentation comment",
+            "map-to": "def:comment",
+            "id": "doc-comment"
+        },
+        {
+            "_name": "Documentation comment element",
+            "id": "doc-comment-element"
+        },
+        {
+            "_name": "Constant",
+            "id": "constant"
+        },
+        {
+            "_name": "Character",
+            "map-to": "def:constant",
+            "id": "character"
+        },
+        {
+            "_name": "String",
+            "map-to": "def:constant",
+            "id": "string"
+        },
+        {
+            "_name": "Special character (inside a string)",
+            "id": "special-char"
+        },
+        {
+            "_name": "Number",
+            "map-to": "def:constant",
+            "id": "number"
+        },
+        {
+            "_name": "Floating point number",
+            "map-to": "def:number",
+            "id": "floating-point"
+        },
+        {
+            "_name": "Decimal number",
+            "map-to": "def:number",
+            "id": "decimal"
+        },
+        {
+            "_name": "Base-N number",
+            "map-to": "def:number",
+            "id": "base-n-integer"
+        },
+        {
+            "_name": "Complex number",
+            "map-to": "def:number",
+            "id": "complex"
+        },
+        {
+            "_name": "Special constant",
+            "map-to": "def:constant",
+            "id": "special-constant"
+        },
+        {
+            "_name": "Boolean value",
+            "map-to": "def:special-constant",
+            "id": "boolean"
+        },
+        {
+            "_name": "Identifier",
+            "id": "identifier"
+        },
+        {
+            "_name": "Function",
+            "map-to": "def:identifier",
+            "id": "function"
+        },
+        {
+            "_name": "Built-in identifier",
+            "map-to": "def:identifier",
+            "id": "builtin"
+        },
+        {
+            "_name": "Statement",
+            "id": "statement"
+        },
+        {
+            "_name": "Operator",
+            "map-to": "def:statement",
+            "id": "operator"
+        },
+        {
+            "_name": "Keyword",
+            "map-to": "def:statement",
+            "id": "keyword"
+        },
+        {
+            "_name": "Data type",
+            "id": "type"
+        },
+        {
+            "_name": "Preprocessor directive",
+            "id": "preprocessor"
+        },
+        {
+            "_name": "Error",
+            "id": "error"
+        },
+        {
+            "_name": "Warning",
+            "id": "warning"
+        },
+        {
+            "_name": "Reserved keyword",
+            "map-to": "def:error",
+            "id": "reserved"
+        },
+        {
+            "_name": "Note (FIXME, TODO, XXX, etc.)",
+            "id": "note"
+        },
+        {
+            "_name": "Underlined",
+            "id": "underlined"
+        },
+        {
+            "_name": "Heading 0",
+            "id": "heading0"
+        },
+        {
+            "_name": "Heading 1",
+            "id": "heading1"
+        },
+        {
+            "_name": "Heading 2",
+            "id": "heading2"
+        },
+        {
+            "_name": "Heading 3",
+            "id": "heading3"
+        },
+        {
+            "_name": "Heading 4",
+            "id": "heading4"
+        },
+        {
+            "_name": "Heading 5",
+            "id": "heading5"
+        },
+        {
+            "_name": "Heading 6",
+            "id": "heading6"
+        }
+    ]},
+    "id": "def",
+    "version": 2,
+    "definitions": {
+        "context": [
+            {
+                "match": "\\%{decimal}",
+                "id": "decimal",
+                "style-ref": "decimal"
+            },
+            {
+                "match": "\\%{octal}",
+                "id": "octal",
+                "style-ref": "base-n-integer"
+            },
+            {
+                "match": "\\%{hexadecimal}",
+                "id": "hexadecimal",
+                "style-ref": "base-n-integer"
+            },
+            {
+                "match": "\\%{float}",
+                "id": "float",
+                "style-ref": "floating-point"
+            },
+            {
+                "include": {"context": [
+                    {
+                        "match": "\\%{net-address}",
+                        "id": "net-address",
+                        "class": "no-spell-check",
+                        "style-ref": "underlined",
+                        "extend-parent": false
+                    },
+                    {
+                        "match": "\\%{email-address}",
+                        "id": "email-address",
+                        "class": "no-spell-check",
+                        "style-ref": "underlined",
+                        "extend-parent": false
+                    },
+                    {
+                        "match": "\\b(FIXME|TODO|XXX)\\b",
+                        "id": "comment-note",
+                        "class": "no-spell-check comment-note",
+                        "style-ref": "note",
+                        "extend-parent": false
+                    }
+                ]},
+                "class-disabled": "no-spell-check",
+                "id": "in-comment"
+            },
+            {
+                "include": {"context": {"ref": "in-comment"}},
+                "class-disabled": "no-spell-check",
+                "start": "#",
+                "id": "shell-like-comment",
+                "class": "comment",
+                "style-ref": "comment",
+                "end-at-line-end": true
+            },
+            {
+                "include": {"context": {"ref": "in-line-comment"}},
+                "class-disabled": "no-spell-check",
+                "start": "//",
+                "id": "c-like-comment",
+                "class": "comment",
+                "style-ref": "comment",
+                "end-at-line-end": true
+            },
+            {
+                "include": {"context": {"ref": "in-comment"}},
+                "class-disabled": "no-spell-check",
+                "start": "/\\*",
+                "end": "\\*/",
+                "id": "c-like-comment-multiline",
+                "class": "comment",
+                "style-ref": "comment"
+            },
+            {
+                "match": "\\*/(?!\\*)",
+                "id": "c-like-close-comment-outside-comment",
+                "style-ref": "error"
+            },
+            {
+                "start": "\\\\$",
+                "end": "^",
+                "id": "line-continue",
+                "style-ref": "preprocessor"
+            },
+            {
+                "include": {"context": [
+                    {
+                        "ref": "line-continue",
+                        "ignore-style": true
+                    },
+                    {"ref": "in-comment"}
+                ]},
+                "class-disabled": "no-spell-check",
+                "id": "in-line-comment",
+                "class": "comment"
+            },
+            {
+                "start": "^#!",
+                "end": "$",
+                "id": "shebang",
+                "first-line-only": true,
+                "class": "no-spell-check",
+                "style-ref": "shebang"
+            },
+            {
+                "match": "\\\\.",
+                "id": "escape",
+                "style-ref": "special-char"
+            },
+            {
+                "include": {"context": [
+                    {"ref": "escape"},
+                    {"ref": "line-continue"}
+                ]},
+                "class-disabled": "no-spell-check",
+                "start": "\"",
+                "end": "\"",
+                "id": "string",
+                "class": "string",
+                "style-ref": "string",
+                "end-at-line-end": true
+            },
+            {
+                "include": {"context": [
+                    {"ref": "escape"},
+                    {"ref": "line-continue"}
+                ]},
+                "class-disabled": "no-spell-check",
+                "start": "'",
+                "end": "'",
+                "id": "single-quoted-string",
+                "class": "string",
+                "style-ref": "string",
+                "end-at-line-end": true
+            },
+            {"id": "def"}
+        ],
+        "define-regex": [
+            {"id": "always-match"},
+            {
+                "id": "never-match",
+                "content": "$^"
+            },
+            {
+                "id": "decimal",
+                "extended": true,
+                "content": "(?<![\\w\\.]) ([1-9][0-9]* | 0) (?![\\w\\.])"
+            },
+            {
+                "id": "octal",
+                "extended": true,
+                "content": "(?<![\\w\\.]) 0 [0-7]+ (?![\\w\\.])"
+            },
+            {
+                "id": "hexadecimal",
+                "extended": true,
+                "content": "(?<![\\w\\.]) 0 [xX] [0-9a-fA-F]+ (?![\\w\\.])"
+            },
+            {
+                "case-sensitive": false,
+                "id": "float",
+                "extended": true,
+                "content": "\\b\n      ([0-9]+ e [-+]? [0-9]+ |\n       ([0-9]* \\. [0-9]+ | [0-9]+ \\.)\n       (e [-+]? [0-9]+)?) [fl]?\n      \\b"
+            },
+            {
+                "case-sensitive": false,
+                "id": "net-address",
+                "extended": true,
+                "content": "\\%[                                         # separator\n      (https?|ftp|nntp|news|javascript|about):    # protocol\n      [^\\ \\\\]* [^\\ \\\\.:;,?><)]              # address\n          (?![a-z0-9_.-])                             # separator"
+            },
+            {
+                "case-sensitive": false,
+                "id": "email-address",
+                "extended": true,
+                "content": "\\%[                 # separator\n      (mailto:)?          # optional \"mailto:\"\n      [a-z0-9_.+-]+       # user name\n      @                   # at\n      [a-z0-9_.+-]+       # domain\n          \\%]                 # separator"
+            }
+        ]
+    }
+}}

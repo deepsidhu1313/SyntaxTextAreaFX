@@ -1,0 +1,265 @@
+{"language": {
+    "metadata": {"property": [
+        {
+            "name": "globs",
+            "content": "*.sml;*.sig"
+        },
+        {
+            "name": "block-comment-start",
+            "content": "(*"
+        },
+        {
+            "name": "block-comment-end",
+            "content": "*)"
+        }
+    ]},
+    "_name": "Standard ML",
+    "_section": "Source",
+    "styles": {"style": [
+        {
+            "_name": "Comment",
+            "map-to": "def:comment",
+            "id": "comment"
+        },
+        {
+            "_name": "Keyword",
+            "map-to": "def:keyword",
+            "id": "keyword"
+        },
+        {
+            "_name": "Data Type",
+            "map-to": "def:type",
+            "id": "type"
+        },
+        {
+            "_name": "Character",
+            "map-to": "def:character",
+            "id": "character"
+        },
+        {
+            "_name": "String",
+            "map-to": "def:string",
+            "id": "string"
+        },
+        {
+            "_name": "Escaped Character",
+            "map-to": "def:special-char",
+            "id": "escaped-character"
+        },
+        {
+            "_name": "Base-N Integer",
+            "map-to": "def:base-n-integer",
+            "id": "base-n-integer"
+        },
+        {
+            "_name": "Decimal",
+            "map-to": "def:decimal",
+            "id": "decimal"
+        },
+        {
+            "_name": "Boolean value",
+            "map-to": "def:boolean",
+            "id": "boolean"
+        },
+        {
+            "_name": "Floating Point number",
+            "map-to": "def:floating-point",
+            "id": "floating-point"
+        },
+        {
+            "_name": "Module name, Variant, etc",
+            "map-to": "def:type",
+            "id": "special-var"
+        }
+    ]},
+    "id": "sml",
+    "version": 2,
+    "definitions": {
+        "context": [
+            {
+                "match": "\\\\.",
+                "id": "escaped-character",
+                "style-ref": "escaped-character"
+            },
+            {
+                "include": {"context": [
+                    {"ref": "def:in-comment"},
+                    {"ref": "comment"}
+                ]},
+                "start": "\\(\\*",
+                "end": "\\*\\)",
+                "id": "comment",
+                "style-ref": "comment"
+            },
+            {
+                "include": {"context": {"ref": "escaped-character"}},
+                "start": "#\"",
+                "end": "\"",
+                "id": "character",
+                "end-at-line-end": true,
+                "style-ref": "character"
+            },
+            {
+                "include": {"context": {"ref": "escaped-character"}},
+                "start": "\"",
+                "end": "\"",
+                "id": "string",
+                "end-at-line-end": true,
+                "style-ref": "string"
+            },
+            {
+                "match": "\\%{integer}",
+                "id": "integer",
+                "style-ref": "decimal"
+            },
+            {
+                "match": "\\%{integer-hex}",
+                "id": "integer-hex",
+                "style-ref": "base-n-integer"
+            },
+            {
+                "match": "\\%{word}",
+                "id": "word",
+                "style-ref": "decimal"
+            },
+            {
+                "match": "\\%{word-hex}",
+                "id": "word-hex",
+                "style-ref": "base-n-integer"
+            },
+            {
+                "match": "\\%{real}",
+                "id": "real",
+                "style-ref": "floating-point"
+            },
+            {
+                "id": "boolean",
+                "keyword": [
+                    true,
+                    false
+                ],
+                "style-ref": "boolean"
+            },
+            {
+                "match": "\\%{upper-case}",
+                "id": "special-var",
+                "style-ref": "special-var"
+            },
+            {
+                "id": "keywords",
+                "keyword": [
+                    "and",
+                    "abstype",
+                    "as",
+                    "case",
+                    "datatype",
+                    "else",
+                    "end",
+                    "eqtype",
+                    "exception",
+                    "do",
+                    "fn",
+                    "fun",
+                    "functor",
+                    "funsig",
+                    "handle",
+                    "if",
+                    "in",
+                    "include",
+                    "infix",
+                    "infixr",
+                    "lazy",
+                    "let",
+                    "local",
+                    "nonfix",
+                    "of",
+                    "op",
+                    "open",
+                    "overload",
+                    "raise",
+                    "rec",
+                    "sharing",
+                    "sig",
+                    "signature",
+                    "struct",
+                    "structure",
+                    "then",
+                    "type",
+                    "val",
+                    "where",
+                    "while",
+                    "with",
+                    "withtype",
+                    "orelse",
+                    "andalso"
+                ],
+                "style-ref": "keyword"
+            },
+            {
+                "id": "top-level-types",
+                "keyword": [
+                    "unit",
+                    "int",
+                    "word",
+                    "real",
+                    "char",
+                    "string",
+                    "substring",
+                    "exn",
+                    "array",
+                    "vector",
+                    "ref",
+                    "bool",
+                    "option",
+                    "order",
+                    "list"
+                ],
+                "style-ref": "type"
+            },
+            {
+                "include": {"context": [
+                    {"ref": "comment"},
+                    {"ref": "character"},
+                    {"ref": "string"},
+                    {"ref": "integer"},
+                    {"ref": "integer-hex"},
+                    {"ref": "word"},
+                    {"ref": "word-hex"},
+                    {"ref": "real"},
+                    {"ref": "boolean"},
+                    {"ref": "special-var"},
+                    {"ref": "keywords"},
+                    {"ref": "top-level-types"}
+                ]},
+                "id": "sml",
+                "class": "no-spell-check"
+            }
+        ],
+        "define-regex": [
+            {
+                "id": "integer",
+                "content": "\\b([~]?[0-9]+)"
+            },
+            {
+                "id": "integer-hex",
+                "content": "\\b(0x[~]?[0-9A-Fa-f]+)"
+            },
+            {
+                "id": "word",
+                "content": "\\b(0w[0-9]+)"
+            },
+            {
+                "id": "word-hex",
+                "content": "\\b(0wx[0-9A-Fa-f]+)"
+            },
+            {
+                "id": "real",
+                "content": "\\b([~]?[0-9]+).([0-9]+)([Ee]?([~]?[0-9]+)?)"
+            },
+            {
+                "id": "upper-case",
+                "content": "\\b[A-Z][0-9A-Za-z_']*\\b"
+            }
+        ]
+    }
+}}

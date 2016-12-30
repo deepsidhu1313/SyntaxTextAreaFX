@@ -1,0 +1,260 @@
+{"language": {
+    "metadata": {"property": [
+        {
+            "name": "mimetypes",
+            "content": "text/x-forth"
+        },
+        {
+            "name": "globs",
+            "content": "*.frt;*.fs"
+        },
+        {
+            "name": "line-comment-start",
+            "content": "\\"
+        },
+        {
+            "name": "block-comment-start",
+            "content": "(*"
+        },
+        {
+            "name": "block-comment-end",
+            "content": "*)"
+        }
+    ]},
+    "_name": "Forth",
+    "_section": "Source",
+    "styles": {"style": [
+        {
+            "_name": "Comment",
+            "map-to": "def:comment",
+            "id": "comment"
+        },
+        {
+            "_name": "String",
+            "map-to": "def:string",
+            "id": "string"
+        },
+        {
+            "_name": "Preprocessor",
+            "map-to": "def:preprocessor",
+            "id": "preprocessor"
+        },
+        {
+            "_name": "Keyword",
+            "map-to": "def:statement",
+            "id": "keyword"
+        },
+        {
+            "_name": "Data Type",
+            "map-to": "def:type",
+            "id": "type"
+        },
+        {
+            "_name": "Number",
+            "map-to": "def:decimal",
+            "id": "number"
+        },
+        {
+            "_name": "Debug Code",
+            "map-to": "def:comment",
+            "id": "debugs"
+        },
+        {
+            "_name": "Error Text",
+            "map-to": "def:error",
+            "id": "error"
+        },
+        {
+            "_name": "Compiler Directive",
+            "map-to": "def:identifier",
+            "id": "compiler"
+        }
+    ]},
+    "id": "forth",
+    "version": 2,
+    "definitions": {"context": {
+        "include": {"context": [
+            {
+                "include": {"context": {"ref": "def:in-line-comment"}},
+                "class-disabled": "no-spell-check",
+                "start": "(?<![^\\s])(\\\\|--|\\\\G)(?![^\\s])",
+                "id": "comment",
+                "class": "comment",
+                "style-ref": "comment",
+                "end-at-line-end": true
+            },
+            {
+                "include": {"context": {"ref": "def:in-comment"}},
+                "class-disabled": "no-spell-check",
+                "start": "(?<![^\\s])(\\(|\\(S|\\(F)(?![^\\s])",
+                "end": "\\)",
+                "id": "comment-multiline",
+                "class": "comment",
+                "style-ref": "comment"
+            },
+            {
+                "include": {"context": {"ref": "def:in-comment"}},
+                "class-disabled": "no-spell-check",
+                "start": "(?<![^\\s])\\(\\*(?![^\\s])",
+                "end": "\\*\\)(?![^\\s])",
+                "id": "comment-multiline2",
+                "class": "comment",
+                "style-ref": "comment"
+            },
+            {
+                "include": {"context": {"ref": "def:in-comment"}},
+                "class-disabled": "no-spell-check",
+                "start": "(?<![^\\s])DOC(?![^\\s])",
+                "end": "(?<![^\\s])ENDDOC(?![^\\s])",
+                "id": "comment-multiline3",
+                "class": "comment",
+                "style-ref": "comment"
+            },
+            {
+                "match": {
+                    "extended": true,
+                    "content": "(?<![^\\s])\n            (NEEDS|INCLUDE|IN|MARKER)\\s+[^\\s]*\n            (?![^\\s])"
+                },
+                "id": "preproc1",
+                "style-ref": "preprocessor"
+            },
+            {
+                "match": {
+                    "extended": true,
+                    "content": "(?<![^\\s])\n            (REVISION)\\s+[^\\s]*\\s*\".*\"\n            (?![^\\s])"
+                },
+                "id": "preproc2",
+                "style-ref": "preprocessor"
+            },
+            {
+                "match": {
+                    "extended": true,
+                    "content": "(?<![^\\s])\n            (INCLUDED|INCLUDE-FILE)\n            (?![^\\s])"
+                },
+                "id": "preproc3",
+                "style-ref": "preprocessor"
+            },
+            {
+                "match": {
+                    "extended": true,
+                    "content": "(?<![^\\s])\n            (POSTPONE|\\[COMPILE\\]|\\[CHAR\\]|\\['\\]|COMPILE|CHAR|[DFT]?VALUE|[2FT]?VARIABLE|[DS]?FVARIABLE|[T]?USER|[T]?CODE|[DZFT]?LOCAL|\n            [2FT]?CONSTANT|TCONSTANT-|TSUB|=\\:|==\\:|DEFER|HC\\:|[VHTM]?\\:)\\s+[^\\s]+\n            (?![^\\s])"
+                },
+                "id": "definers",
+                "style-ref": "type"
+            },
+            {
+                "match": {
+                    "extended": true,
+                    "content": "(?<![^\\s])\n            ([DFZ]?LOCALS)\\|\\s+[^\\|]+[\\|]\n            (?![^\\s])"
+                },
+                "id": "locals",
+                "style-ref": "type"
+            },
+            {
+                "class-disabled": "no-spell-check",
+                "start": "(?<![^\\s])(S|[.]|EVAL|C|Z|,)\"\\s",
+                "end": "\"",
+                "id": "string",
+                "class": "string",
+                "style-ref": "string",
+                "end-at-line-end": true
+            },
+            {
+                "class-disabled": "no-spell-check",
+                "start": "(?<![^\\s])(.~)\\s",
+                "end": "~",
+                "id": "string2",
+                "class": "string",
+                "style-ref": "string",
+                "end-at-line-end": true
+            },
+            {
+                "class-disabled": "no-spell-check",
+                "start": "(?<![^\\s])[.]\\(\\s",
+                "end": "\\)",
+                "id": "string3",
+                "class": "string",
+                "style-ref": "string",
+                "end-at-line-end": true
+            },
+            {
+                "class-disabled": "no-spell-check",
+                "start": "(?<![^\\s])(ABORT|\\?ERROR)\"\\s",
+                "end": "\"",
+                "id": "errorstring",
+                "class": "string",
+                "style-ref": "error",
+                "end-at-line-end": true
+            },
+            {
+                "match": {
+                    "extended": true,
+                    "content": "(?<![^\\s])\n            ([$][-+]?[A-F0-9.]+ |\n             [#][-+]?[0-9.]+ |\n             [%][-+]?[0-1.]+ |\n             [-+]?[0-9.]+ |\n             [-+]?[0-9]+[.]?[0-9]*[eE][0-9]* |\n             '[^\\s]' |\n             [\\^][A-Za-z] |\n             TRUE |\n             FALSE)\n            (?![^\\s])"
+                },
+                "id": "number",
+                "style-ref": "number"
+            },
+            {
+                "match": {
+                    "extended": true,
+                    "content": "(?<![^\\s])\n            (\\[IF\\]|\\[ELSE\\]|\\[THEN\\]|\\[DEFINED\\]|\\[UNDEFINED\\]|\\?DEF|\\?UNDEF|THROW|CASE|ENDCASE|OF|ENDOF|FOR|NEXT|\n                    IF[,]?|ELSE[,]?|THEN[,]?|ENDIF[,]?|BEGIN[,]?|WHILE[,]?|REPEAT[,]?|UNTIL[,]?|AGAIN[,]?|DO|LOOP|\\?DO|\\+LOOP|LEAVE|\\?LEAVE|UNLOOP|EXIT|\\?EXIT|\n                    PAR|ENDPAR|STARTP|ENDP)\n            (?![^\\s])"
+                },
+                "id": "keywords",
+                "style-ref": "keyword"
+            },
+            {
+                "match": {
+                    "extended": true,
+                    "content": "(?<![^\\s])\n            (PRIVATE|PRIVATES|DEPRIVE|FORGET|IMMEDIATE|ALSO|ONLY|FORTH|DEFINITIONS|HEADERLESS)\n            (?![^\\s])"
+                },
+                "id": "keywords2",
+                "style-ref": "compiler"
+            },
+            {
+                "match": {
+                    "extended": true,
+                    "content": "(?<![^\\s])\n            (\\:ABOUT|DOES>|FORGET>|CREATE|\\:NONAME)\n            (?![^\\s])"
+                },
+                "id": "keywords3",
+                "style-ref": "type"
+            },
+            {
+                "include": {"context": [
+                    {"ref": "keywords"},
+                    {"ref": "keywords2"},
+                    {"ref": "keywords3"},
+                    {"ref": "number"},
+                    {"ref": "comment"},
+                    {"ref": "string"},
+                    {"ref": "string2"},
+                    {"ref": "string3"},
+                    {"ref": "errorstring"},
+                    {"ref": "locals"},
+                    {"ref": "definers"},
+                    {"ref": "comment-multiline"}
+                ]},
+                "start": "(?<![^\\s])(<<DEBUG)(?![^\\s])",
+                "end": "(?<![^\\s])(DEBUG>>)(?![^\\s])",
+                "id": "comment-debug",
+                "style-ref": "debugs",
+                "extend-parent": false
+            },
+            {
+                "include": {"context": [
+                    {"ref": "keywords"},
+                    {"ref": "number"},
+                    {"ref": "comment"},
+                    {"ref": "comment-multiline"}
+                ]},
+                "start": "(?<![^\\s])(\\[)(?![^\\s])",
+                "end": "(?<![^\\s])(\\])(?![^\\s])",
+                "id": "preproc4",
+                "style-ref": "preprocessor",
+                "extend-parent": true
+            }
+        ]},
+        "id": "forth",
+        "class": "no-spell-check"
+    }},
+    "default-regex-options": {"case-sensitive": false}
+}}

@@ -1,0 +1,177 @@
+{"yacc.json": [
+    {
+        "include": {"context": [
+            {
+                "where": "start",
+                "sub-pattern": 0,
+                "style-ref": "keyword"
+            },
+            {
+                "where": "end",
+                "sub-pattern": 0,
+                "style-ref": "keyword"
+            },
+            {"ref": "c:c"}
+        ]},
+        "start": "^%{",
+        "end": "^%}",
+        "id": "inline-c"
+    },
+    {
+        "prefix": "^%",
+        "id": "options",
+        "keyword": [
+            "debug",
+            "defines",
+            "destructor",
+            "dprec",
+            "error-verbose",
+            "expect",
+            "glr-parser",
+            "initial-action",
+            "left",
+            "lex-param",
+            "locations",
+            "merge",
+            "name-prefix",
+            "no[_-]lines",
+            "nonassoc",
+            "output",
+            "parse-param",
+            "prec",
+            "pure[_-]parser",
+            "raw",
+            "require",
+            "right",
+            "start",
+            "token[_-]table",
+            "union"
+        ],
+        "style-ref": "keyword"
+    },
+    {
+        "include": {"context": [
+            {
+                "where": "start",
+                "sub-pattern": 1,
+                "style-ref": "keyword"
+            },
+            {
+                "where": "start",
+                "sub-pattern": 3,
+                "style-ref": "token-type"
+            },
+            {"ref": "c:string"},
+            {"ref": "c:char"},
+            {"ref": "c:float"},
+            {"ref": "c:hexadecimal"},
+            {"ref": "c:octal"},
+            {"ref": "c:decimal"},
+            {"ref": "def:c-like-comment"},
+            {"ref": "def:c-like-comment-multiline"},
+            {"ref": "def:c-like-close-comment-outside-comment"}
+        ]},
+        "start": "^(%(token|type))(<[A-Za-z_][A-Za-z0-9_]*>)?(?![\\w_-])",
+        "id": "token",
+        "end-at-line-end": true
+    },
+    {
+        "include": {"context": [
+            {"ref": "inline-c"},
+            {"ref": "options"},
+            {"ref": "token"},
+            {"ref": "def:c-like-comment"},
+            {"ref": "def:c-like-comment-multiline"},
+            {"ref": "def:c-like-close-comment-outside-comment"}
+        ]},
+        "id": "before-grammar"
+    },
+    {
+        "include": {"context": [
+            {
+                "where": "start",
+                "sub-pattern": 0,
+                "style-ref": "keyword"
+            },
+            {"ref": "c:c"}
+        ]},
+        "start": "^%%",
+        "id": "after-grammar"
+    },
+    {
+        "include": {"context": [
+            {
+                "include": {"context": {"ref": "c-with-brackets"}},
+                "start": "{",
+                "end": "}"
+            },
+            {
+                "match": "(\\$(<[\\w\\d_-]*>)?[\\$0-9]+|[@][$0-9]+)",
+                "style-ref": "keyword"
+            },
+            {"ref": "c:c"}
+        ]},
+        "id": "c-with-brackets"
+    },
+    {
+        "include": {"context": [
+            {
+                "where": "start",
+                "sub-pattern": 0,
+                "style-ref": "keyword"
+            },
+            {
+                "where": "end",
+                "sub-pattern": 0,
+                "style-ref": "keyword"
+            },
+            {"ref": "c-with-brackets"}
+        ]},
+        "start": "{",
+        "end": "}",
+        "id": "rule-code"
+    },
+    {
+        "include": {"context": [
+            {
+                "where": "start",
+                "sub-pattern": 0,
+                "style-ref": "rule"
+            },
+            {"ref": "def:c-like-comment"},
+            {"ref": "def:c-like-comment-multiline"},
+            {"ref": "def:c-like-close-comment-outside-comment"},
+            {"ref": "c:char"},
+            {"ref": "c:string"},
+            {"ref": "rule-code"}
+        ]},
+        "start": "[a-zA-Z_.][a-zA-Z0-9_.]*",
+        "end": ";",
+        "id": "rule"
+    },
+    {
+        "include": {"context": [
+            {
+                "where": "start",
+                "sub-pattern": 0,
+                "style-ref": "keyword"
+            },
+            {"ref": "def:c-like-comment"},
+            {"ref": "def:c-like-comment-multiline"},
+            {"ref": "def:c-like-close-comment-outside-comment"},
+            {"ref": "c:char"},
+            {"ref": "c:string"},
+            {"ref": "rule"},
+            {"ref": "after-grammar"}
+        ]},
+        "start": "^%%",
+        "id": "grammar"
+    },
+    {
+        "include": {"context": [
+            {"ref": "before-grammar"},
+            {"ref": "grammar"}
+        ]},
+        "id": "yacc"
+    }
+]}

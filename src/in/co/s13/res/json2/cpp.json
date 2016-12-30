@@ -1,0 +1,77 @@
+{"cpp.json": [
+            {
+                "id": "keywords",
+                "keyword": [
+                    "alignas",
+                    "alignof",
+                    "and",
+                    "and_eq",
+                    "bitand",
+                    "bitor",
+                    "catch",
+                    "compl",
+                    "constexpr",
+                    "const_cast",
+                    "decltype",
+                    "delete",
+                    "dynamic_cast",
+                    false,
+                    "final",
+                    "friend",
+                    "new",
+                    "noexcept",
+                    "not",
+                    "not_eq",
+                    "nullptr",
+                    "operator",
+                    "or",
+                    "or_eq",
+                    "override",
+                    "private",
+                    "protected",
+                    "public",
+                    "reinterpret_cast",
+                    "static_assert",
+                    "static_cast",
+                    "this",
+                    "thread_local",
+                    "throw",
+                    true,
+                    "try",
+                    "typeid",
+                    "using",
+                    "xor",
+                    "xor_eq",
+                    "class",
+                    "namespace",
+                    "typename",
+                    "template",
+                    "virtual"
+                ],
+                "style-ref": "keyword"
+            },
+            {
+                "id": "types",
+                "keyword": [
+                    "bool",
+                    "char16_t",
+                    "char32_t",
+                    "explicit",
+                    "export",
+                    "inline",
+                    "mutable",
+                    "nullptr_t",
+                    "wchar_t"
+                ],
+                "style-ref": "type"
+            },
+            {
+                "id": "common-defines",
+                "keyword": [
+                    "__STDC__",
+                    "__cplusplus"
+                ],
+                "style-ref": "common-defines"
+            }
+        
+]}

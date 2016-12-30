@@ -1,0 +1,368 @@
+{"language": {
+    "metadata": {"property": [
+        {
+            "name": "mimetypes",
+            "content": "application/x-gnome-app-info;application/x-desktop"
+        },
+        {
+            "name": "globs",
+            "content": "*.desktop;*.kdelnk"
+        },
+        {
+            "name": "line-comment-start",
+            "content": "#"
+        }
+    ]},
+    "_name": ".desktop",
+    "_section": "Other",
+    "styles": {"style": [
+        {
+            "_name": "Group",
+            "map-to": "def:keyword",
+            "id": "group"
+        },
+        {
+            "_name": "Key",
+            "map-to": "def:type",
+            "id": "key"
+        },
+        {
+            "_name": "Translation",
+            "map-to": "def:decimal",
+            "id": "language"
+        },
+        {
+            "_name": "Number",
+            "map-to": "def:floating-point",
+            "id": "number"
+        },
+        {
+            "_name": "Boolean",
+            "map-to": "def:floating-point",
+            "id": "boolean"
+        },
+        {
+            "_name": "Exec parameter",
+            "map-to": "def:floating-point",
+            "id": "exec-parameter"
+        },
+        {
+            "_name": "Encoding",
+            "map-to": "def:floating-point",
+            "id": "encoding"
+        },
+        {
+            "_name": "Main Category",
+            "map-to": "def:reserved",
+            "id": "category-main"
+        },
+        {
+            "_name": "Additional Category",
+            "map-to": "def:identifier",
+            "id": "category-additional"
+        },
+        {
+            "_name": "Reserved Category",
+            "map-to": "def:note",
+            "id": "category-reserved"
+        }
+    ]},
+    "id": "desktop",
+    "version": 2,
+    "definitions": {
+        "context": [
+            {
+                "start": "^\\[",
+                "end": "\\]$",
+                "id": "group",
+                "style-ref": "group"
+            },
+            {
+                "id": "boolean",
+                "keyword": [
+                    true,
+                    false
+                ],
+                "style-ref": "boolean"
+            },
+            {
+                "match": "%[fFuUdDnNimckv%]",
+                "id": "exec-parameter",
+                "style-ref": "exec-parameter"
+            },
+            {
+                "id": "encoding",
+                "keyword": [
+                    "UTF\\-8",
+                    "Legacy\\-Mixed"
+                ],
+                "style-ref": "encoding"
+            },
+            {
+                "match": "(.\\b[0-9]+([Ll]?|[Ff]?)\\b)|(b[0-9]*\\.\\W)",
+                "id": "number",
+                "style-ref": "number"
+            },
+            {
+                "prefix": "^_?",
+                "id": "standard-key",
+                "suffix": "\\%{key-suffix}",
+                "keyword": [
+                    "Actions",
+                    "BinaryPattern",
+                    "Categories",
+                    "Comment",
+                    "DBusActivatable",
+                    "DefaultApp",
+                    "Dev",
+                    "Encoding",
+                    "Exec",
+                    "Extensions",
+                    "FilePattern",
+                    "FSType",
+                    "GenericName",
+                    "Hidden",
+                    "Icon",
+                    "Implements",
+                    "Keywords",
+                    "MapNotify",
+                    "MimeType",
+                    "MiniIcon",
+                    "MountPoint",
+                    "Name",
+                    "NoDisplay",
+                    "NotShowIn",
+                    "OnlyShowIn",
+                    "Path",
+                    "Patterns",
+                    "Protocols",
+                    "ReadOnly",
+                    "SortOrder",
+                    "StartupNotify",
+                    "StartupWMClass",
+                    "SwallowExec",
+                    "SwallowTitle",
+                    "Terminal",
+                    "TerminalOptions",
+                    "TryExec",
+                    "Type",
+                    "UnmountIcon",
+                    "URL",
+                    "Version"
+                ],
+                "style-ref": "key"
+            },
+            {
+                "match": "^_?X\\-[a-zA-Z\\-]+\\%{key-suffix}",
+                "id": "non-standard-key",
+                "style-ref": "key"
+            },
+            {
+                "include": {"context": [
+                    {
+                        "where": "start",
+                        "sub-pattern": 1,
+                        "style-ref": "key"
+                    },
+                    {
+                        "keyword": [
+                            "AudioVideo",
+                            "Audio",
+                            "Video",
+                            "Shell",
+                            "Development",
+                            "Education",
+                            "Game",
+                            "Graphics",
+                            "Network",
+                            "Office",
+                            "Settings",
+                            "System",
+                            "Utility"
+                        ],
+                        "style-ref": "category-main"
+                    },
+                    {
+                        "keyword": [
+                            "2DGraphics",
+                            "3DGraphics",
+                            "Accessibility",
+                            "ActionGame",
+                            "AdventureGame",
+                            "Amusement",
+                            "ArcadeGame",
+                            "Archiving",
+                            "ArtificialIntelligence",
+                            "Art",
+                            "Astronomy",
+                            "AudioVideoEditing",
+                            "Biology",
+                            "BlocksGame",
+                            "BoardGame",
+                            "Building",
+                            "Calculator",
+                            "Calendar",
+                            "CardGame",
+                            "Chart",
+                            "Chat",
+                            "Chemistry",
+                            "Clock",
+                            "Compression",
+                            "ComputerScience",
+                            "ConsoleOnly",
+                            "Construction",
+                            "ContactManagement",
+                            "Core",
+                            "Database",
+                            "DataVisualization",
+                            "Debugger",
+                            "DesktopSettings",
+                            "Dialup",
+                            "Dictionary",
+                            "DiscBurning",
+                            "Documentation",
+                            "Economy",
+                            "Electricity",
+                            "Electronics",
+                            "Email",
+                            "Emulator",
+                            "Engineering",
+                            "FileManager",
+                            "Filesystem",
+                            "FileTools",
+                            "FileTransfer",
+                            "Finance",
+                            "FlowChart",
+                            "Geography",
+                            "Geology",
+                            "Geoscience",
+                            "GNOME",
+                            "GTK",
+                            "GUIDesigner",
+                            "HamRadio",
+                            "HardwareSettings",
+                            "History",
+                            "IDE",
+                            "ImageProcessing",
+                            "InstantMessaging",
+                            "IRCClient",
+                            "Java",
+                            "KDE",
+                            "KidsGame",
+                            "Languages",
+                            "Literature",
+                            "LogicGame",
+                            "Math",
+                            "MedicalSoftware",
+                            "Midi",
+                            "Mixer",
+                            "Monitor",
+                            "Motif",
+                            "Music",
+                            "News",
+                            "NumericalAnalysis",
+                            "OCR",
+                            "P2P",
+                            "PackageManager",
+                            "ParallelComputing",
+                            "PDA",
+                            "Photography",
+                            "Physics",
+                            "Player",
+                            "Presentation",
+                            "Printing",
+                            "Profiling",
+                            "ProjectManagement",
+                            "Publishing",
+                            "Qt",
+                            "RasterGraphics",
+                            "Recorder",
+                            "RemoteAccess",
+                            "RevisionControl",
+                            "Robotics",
+                            "RolePlaying",
+                            "Scanning",
+                            "Science",
+                            "Security",
+                            "Sequencer",
+                            "Simulation",
+                            "SportsGame",
+                            "Sports",
+                            "Spreadsheet",
+                            "StrategyGame",
+                            "Telephony",
+                            "TelephonyTools",
+                            "TerminalEmulator",
+                            "TextEditor",
+                            "TextTools",
+                            "Translation",
+                            "Tuner",
+                            "TV",
+                            "VectorGraphics",
+                            "VideoConference",
+                            "Viewer",
+                            "WebBrowser",
+                            "WebDevelopment",
+                            "WordProcessor"
+                        ],
+                        "style-ref": "category-additional"
+                    },
+                    {
+                        "keyword": [
+                            "Screensaver",
+                            "TrayIcon",
+                            "Applet",
+                            "Shell"
+                        ],
+                        "style-ref": "category-reserved"
+                    }
+                ]},
+                "start": "^(_?Categories)\\%{key-suffix}",
+                "id": "key-categories",
+                "end-at-line-end": true
+            },
+            {
+                "include": {"context": [
+                    {"ref": "key-categories"},
+                    {"ref": "standard-key"},
+                    {"ref": "non-standard-key"}
+                ]},
+                "id": "key"
+            },
+            {
+                "include": {"context": [
+                    {"ref": "def:shell-like-comment"},
+                    {"ref": "group"},
+                    {"ref": "key"},
+                    {
+                        "include": {"context": [
+                            {
+                                "where": "start",
+                                "sub-pattern": 1,
+                                "style-ref": "language"
+                            },
+                            {"ref": "boolean"},
+                            {"ref": "exec-parameter"},
+                            {"ref": "encoding"},
+                            {"ref": "number"}
+                        ]},
+                        "start": "(\\%{language})?\\s*=\\s*",
+                        "id": "lang-and-value",
+                        "end-at-line-end": true
+                    }
+                ]},
+                "id": "desktop"
+            }
+        ],
+        "define-regex": [
+            {
+                "id": "language",
+                "content": "\\[[a-zA-Z_]+@?[a-zA-Z_]*\\]"
+            },
+            {
+                "id": "key-suffix",
+                "content": "(?=(\\%{language})?\\s*=\\s*)"
+            }
+        ]
+    }
+}}

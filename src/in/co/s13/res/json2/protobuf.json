@@ -1,0 +1,135 @@
+{"protobuf.json": [
+    {
+        "include": {"context": [
+            {
+                "sub-pattern": 1,
+                "style-ref": "statement"
+            },
+            {
+                "sub-pattern": 2,
+                "style-ref": "string"
+            }
+        ]},
+        "match": "(syntax)\\s+=\\s+(\"proto2\"|\"proto3\");",
+        "id": "syntax"
+    },
+    {
+        "include": {"context": [
+            {
+                "sub-pattern": 1,
+                "style-ref": "statement"
+            },
+            {
+                "sub-pattern": 2,
+                "style-ref": "string"
+            }
+        ]},
+        "match": "(package)\\s+(.*);",
+        "id": "package"
+    },
+    {
+        "include": {"context": [
+            {
+                "sub-pattern": 1,
+                "style-ref": "statement"
+            },
+            {
+                "sub-pattern": 2,
+                "style-ref": "statement"
+            },
+            {
+                "sub-pattern": 4,
+                "style-ref": "string"
+            }
+        ]},
+        "match": "(import)(\\s+(weak|public))?\\s+(\".*\");",
+        "id": "import"
+    },
+    {
+        "match": "[$@%][$]?[a-zA-Z_][a-zA-Z0-9_]*",
+        "id": "variable",
+        "style-ref": "variable"
+    },
+    {
+        "class-disabled": "no-spell-check",
+        "start": "\"",
+        "end": "\"",
+        "id": "string",
+        "class": "string",
+        "style-ref": "string",
+        "end-at-line-end": true
+    },
+    {
+        "id": "keywords",
+        "keyword": [
+            "default",
+            "deprecated",
+            "enum",
+            "extend",
+            "extensions",
+            "message",
+            "optional",
+            "option",
+            "package",
+            "packed",
+            "repeated",
+            "required",
+            "returns",
+            "rpc",
+            "service",
+            "to"
+        ],
+        "style-ref": "keyword"
+    },
+    {
+        "id": "types",
+        "keyword": [
+            "double",
+            "float",
+            "int32",
+            "int64",
+            "uint32",
+            "uint64",
+            "sint32",
+            "sint64",
+            "fixed32",
+            "fixed64",
+            "sfixed32",
+            "sfixed64",
+            "bool",
+            "string",
+            "bytes"
+        ],
+        "style-ref": "type"
+    },
+    {
+        "id": "boolean",
+        "keyword": [
+            true,
+            false
+        ],
+        "style-ref": "boolean"
+    },
+    {
+        "include": {"context": [
+            {
+                "ref": "def:c-like-comment",
+                "style-ref": "comment"
+            },
+            {
+                "ref": "def:c-like-comment-multiline",
+                "style-ref": "comment"
+            },
+            {"ref": "syntax"},
+            {"ref": "package"},
+            {"ref": "import"},
+            {"ref": "variable"},
+            {"ref": "string"},
+            {"ref": "keywords"},
+            {"ref": "types"},
+            {"ref": "boolean"}
+        ]},
+        "id": "proto",
+        "class": "no-spell-check"
+    }
+]}

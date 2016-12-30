@@ -1,0 +1,23 @@
+{"libtool.json": {
+    "include": {"context": [
+        {"ref": "def:shell-like-comment"},
+        {
+            "include": {"context": [
+                {"ref": "def:single-quoted-string"},
+                {"ref": "def:string"},
+                {"ref": "def:shell-like-comment"},
+                {"ref": "def:decimal"},
+                {
+                    "keyword": [
+                        "yes",
+                        "no"
+                    ],
+                    "style-ref": "boolean"
+                }
+            ]},
+            "start": "\\=",
+            "end-at-line-end": true
+        }
+    ]},
+    "id": "libtool"
+}}

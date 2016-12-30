@@ -1,0 +1,544 @@
+{"language": {
+    "metadata": {"property": [
+        {
+            "name": "mimetypes",
+            "content": "text/x-texinfo"
+        },
+        {
+            "name": "globs",
+            "content": "*.texi;*.texinfo"
+        },
+        {
+            "name": "line-comment-start",
+            "content": "@c"
+        }
+    ]},
+    "_name": "Texinfo",
+    "_section": "Markup",
+    "styles": {"style": [
+        {
+            "_name": "Comment",
+            "map-to": "def:comment",
+            "id": "comment"
+        },
+        {
+            "_name": "Escaped Character",
+            "map-to": "def:special-char",
+            "id": "escaped-character"
+        },
+        {
+            "_name": "Others",
+            "id": "others"
+        },
+        {
+            "_name": "String",
+            "map-to": "def:string",
+            "id": "string"
+        },
+        {
+            "_name": "Keyword",
+            "map-to": "def:keyword",
+            "id": "keyword"
+        },
+        {
+            "_name": "Macros",
+            "map-to": "def:keyword",
+            "id": "macros"
+        },
+        {
+            "_name": "File Attributes",
+            "map-to": "def:keyword",
+            "id": "file-attributes"
+        },
+        {
+            "_name": "Generated Content",
+            "map-to": "def:keyword",
+            "id": "generated-content"
+        },
+        {
+            "_name": "Include",
+            "map-to": "def:preprocessor",
+            "id": "include"
+        }
+    ]},
+    "id": "texinfo",
+    "version": 2,
+    "definitions": {"context": [
+        {
+            "include": {"context": [
+                {
+                    "where": "start",
+                    "class": "no-spell-check",
+                    "sub-pattern": 0
+                },
+                {"ref": "def:in-comment"}
+            ]},
+            "start": "@c(omment)?",
+            "id": "line-comment",
+            "class": "comment",
+            "style-ref": "comment",
+            "end-at-line-end": true
+        },
+        {
+            "include": {"context": [
+                {
+                    "where": "start",
+                    "class": "no-spell-check",
+                    "sub-pattern": 0
+                },
+                {
+                    "where": "end",
+                    "class": "no-spell-check",
+                    "sub-pattern": 0
+                },
+                {"ref": "def:in-comment"}
+            ]},
+            "start": "^@ignore\\s*$",
+            "end": "^@end ignore\\s*$",
+            "id": "block-comment",
+            "class": "comment",
+            "style-ref": "comment"
+        },
+        {
+            "match": "@(@|{|})",
+            "id": "escaped-characters",
+            "style-ref": "escaped-character"
+        },
+        {
+            "start": "\\{[^}]",
+            "end": "\\}",
+            "id": "macro-parameters",
+            "class": "no-spell-check",
+            "style-ref": "string"
+        },
+        {
+            "prefix": "^@",
+            "id": "macros-b",
+            "suffix": "\\b",
+            "keyword": [
+                "alias",
+                "clear",
+                "defcodeindex",
+                "defindex",
+                "definfoenclose",
+                "ifclear",
+                "ifset",
+                "macro",
+                "set",
+                "syncodeindex",
+                "synindex"
+            ],
+            "class": "no-spell-check",
+            "style-ref": "macros"
+        },
+        {
+            "prefix": "^@",
+            "id": "macros-dollar",
+            "suffix": "\\s*$",
+            "keyword": [
+                "bye",
+                "(end )?docbook",
+                "(end )?html",
+                "end ifclear",
+                "(end )?if(not)?docbook",
+                "(end )?if(not)?html",
+                "(end )?if(not)?info",
+                "(end )?if(not)?plaintext",
+                "(end )?if(not)?tex",
+                "(end )?if(not)?xml",
+                "end ifset",
+                "lowersections",
+                "end macro",
+                "raisesections",
+                "(end )?tex",
+                "(end )?xml"
+            ],
+            "class": "no-spell-check",
+            "style-ref": "macros"
+        },
+        {
+            "include": {"context": [
+                {"ref": "macros-b"},
+                {"ref": "macros-dollar"}
+            ]},
+            "id": "macros"
+        },
+        {
+            "prefix": "^@",
+            "id": "indexing",
+            "keyword": [
+                "cindex",
+                "findex",
+                "kindex",
+                "pindex",
+                "tindex",
+                "vindex"
+            ],
+            "class": "no-spell-check",
+            "style-ref": "keyword"
+        },
+        {
+            "prefix": "^@",
+            "id": "file-attributes-b",
+            "suffix": "\\b",
+            "keyword": [
+                "dircategory",
+                "documentencoding",
+                "documentlanguage",
+                "evenfooting",
+                "evenheading",
+                "everyfooting",
+                "everyheading",
+                "footnotestyle",
+                "headings",
+                "kbdinputstyle",
+                "oddfooting",
+                "oddheading",
+                "pagesizes",
+                "paragraphindent",
+                "setchapternewpage",
+                "setfilename",
+                "settitle",
+                "titlefont"
+            ],
+            "class": "no-spell-check",
+            "style-ref": "file-attributes"
+        },
+        {
+            "prefix": "^@",
+            "id": "file-attributes-dollar",
+            "suffix": "\\s*$",
+            "keyword": [
+                "afivepaper",
+                "afourlatex",
+                "afourpaper",
+                "afourwide",
+                "(end )?direntry",
+                "(end )?documentdescription",
+                "finalout",
+                "novalidate",
+                "setcontentsaftertitlepage",
+                "setshortcontentsaftertitlepage",
+                "smallbook"
+            ],
+            "class": "no-spell-check",
+            "style-ref": "file-attributes"
+        },
+        {
+            "include": {"context": [
+                {"ref": "file-attributes-b"},
+                {"ref": "file-attributes-dollar"}
+            ]},
+            "id": "file-attributes"
+        },
+        {
+            "prefix": "",
+            "id": "generated-content",
+            "suffix": "",
+            "keyword": [
+                "^@contents\\s*$",
+                "^@insertcopying\\s*$",
+                "^@listoffloats\\s*$",
+                "^@printindex\\s*$",
+                "^@shortcontents\\s*$",
+                "^@shorttitlepage\\s*$",
+                "^@summarycontents\\s*$",
+                "@thischapter\\b",
+                "@thischaptername\\b",
+                "@thisfile\\b",
+                "@thispage\\b",
+                "@thistitle\\b",
+                "@today\\b",
+                "@value\\b",
+                "@verb\\b",
+                "^@(end )?verbatim\\s*$",
+                "^@verbatiminclude\\b"
+            ],
+            "class": "no-spell-check",
+            "style-ref": "generated-content"
+        },
+        {
+            "prefix": "",
+            "id": "include",
+            "keyword": [
+                "^\\\\input",
+                "^@include",
+                "@image"
+            ],
+            "class": "no-spell-check",
+            "style-ref": "include"
+        },
+        {
+            "prefix": "@",
+            "id": "markup-inline",
+            "keyword": [
+                "acronym",
+                "anchor",
+                "caption",
+                "cite",
+                "code",
+                "command",
+                "dfn",
+                "dmn",
+                "email",
+                "emph",
+                "env",
+                "file",
+                "footnote",
+                "indicateurl",
+                "inforef",
+                "kbd",
+                "key",
+                "math",
+                "option",
+                "pxref",
+                "ref",
+                "samp",
+                "strong",
+                "uref",
+                "url",
+                "var",
+                "xref"
+            ],
+            "class": "no-spell-check",
+            "style-ref": "keyword"
+        },
+        {
+            "prefix": "^@",
+            "id": "markup-block-b",
+            "suffix": "\\b",
+            "keyword": [
+                "author",
+                "defcv(x)?",
+                "deff(u)?n(x)?",
+                "defivar(x)?",
+                "defmac(x)?",
+                "defmethod(x)?",
+                "defop(x)?",
+                "defopt(x)?",
+                "defspec(x)?",
+                "deftp(x)?",
+                "deftypecv(x)?",
+                "deftypef(u)?n(x)?",
+                "deftypeivar(x)?",
+                "deftypemethod(x)?",
+                "deftypeop(x)?",
+                "deftypevar(x)?",
+                "deftypevr(x)?",
+                "defv(a)?r(x)?",
+                "enumerate",
+                "ftable",
+                "itemize",
+                "multitable",
+                "subtitle",
+                "tab",
+                "table",
+                "title",
+                "vtable"
+            ],
+            "class": "no-spell-check",
+            "style-ref": "keyword"
+        },
+        {
+            "prefix": "^@",
+            "id": "markup-block-dollar",
+            "suffix": "\\s*$",
+            "keyword": [
+                "(end )?copying",
+                "end defcv",
+                "end def(u)?n",
+                "end defivar",
+                "end defmac",
+                "end defmethod",
+                "end defop",
+                "end defopt",
+                "end defspec",
+                "end deftp",
+                "end deftypecv",
+                "end deftypef(u)?n",
+                "end deftypevar",
+                "end deftypemethod",
+                "end deftypeop",
+                "end deftypevar",
+                "end deftypevr",
+                "end defv(a)?r",
+                "(end )?display",
+                "end enumerate",
+                "(end )?example",
+                "(end )?exampleindent",
+                "(end )?format",
+                "end ftable",
+                "item",
+                "end itemize",
+                "itemx",
+                "(end )?lisp",
+                "end multitable",
+                "(end )?quotation",
+                "(end )?smalldisplay",
+                "(end )?smallexample",
+                "(end )?smallformat",
+                "(end )?smalllisp",
+                "end table",
+                "end vtable"
+            ],
+            "class": "no-spell-check",
+            "style-ref": "keyword"
+        },
+        {
+            "include": {"context": [
+                {"ref": "markup-block-b"},
+                {"ref": "markup-block-dollar"}
+            ]},
+            "id": "markup-block"
+        },
+        {
+            "prefix": "^@",
+            "id": "sectioning",
+            "suffix": "",
+            "keyword": [
+                "appendix\\b",
+                "appendixsec(tion)?\\b",
+                "appendixsub(sub)?sec\\b",
+                "centerchap\\b",
+                "chapter\\b",
+                "chapheading\\b",
+                "(end )?detailmenu\\s*$",
+                "(end )?group\\s*$",
+                "heading\\b",
+                "majorheading\\b",
+                "(end )?menu\\s*$",
+                "node\\b",
+                "section\\b",
+                "sub(sub)?heading\\b",
+                "sub(sub)?section\\b",
+                "(end )?titlepage\\s*$",
+                "top\\b",
+                "unnumbered\\b",
+                "unnumberedsec\\b",
+                "unnumberedsub(sub)?sec\\b"
+            ],
+            "class": "no-spell-check",
+            "style-ref": "keyword"
+        },
+        {
+            "prefix": "",
+            "id": "formatting",
+            "suffix": "",
+            "keyword": [
+                "@(( )|$)",
+                "@\\*",
+                "@\\-",
+                "@/",
+                "@\\:",
+                "^@asis\\s*$",
+                "@b",
+                "^@(end )?cartouche\\s*$",
+                "^@center\\b",
+                "^@exdent\\b",
+                "^@(end )?float\\s*$",
+                "^@(end )?flushleft\\s*$",
+                "^@(end )?flushright\\s*$",
+                "@hyphenation\\b",
+                "@i\\b",
+                "^@need\\b",
+                "^@noindent\\s*$",
+                "^@page\\s*$",
+                "@r\\b",
+                "^@refill\\s*$",
+                "@sc\\b",
+                "^@sp\\b",
+                "@t\\b",
+                "@tie\\b",
+                "^@vskip\\b",
+                "@w\\b"
+            ],
+            "class": "no-spell-check",
+            "style-ref": "keyword"
+        },
+        {
+            "prefix": "@",
+            "id": "characters",
+            "suffix": "",
+            "keyword": [
+                "!",
+                "\"",
+                "'",
+                "\\.",
+                "\\=",
+                "\\?",
+                "@",
+                "\\\\",
+                "\\^",
+                "`",
+                "\\{",
+                "\\}",
+                "~",
+                "AA\\{\\}",
+                "aa\\{\\}",
+                "AE\\{\\}",
+                "ae\\{\\}",
+                "bullet\\{\\}",
+                "comma\\{\\}",
+                "copyright\\{\\}",
+                "dotaccent\\b",
+                "dots\\{\\}",
+                "enddots\\{\\}",
+                "equiv\\{\\}",
+                "error\\{\\}",
+                "exclamdown\\{\\}",
+                "expansion\\{\\}",
+                "H\\b",
+                "L\\{\\}",
+                "l\\{\\}",
+                "LaTeX\\{\\}",
+                "minus\\{\\}",
+                "O\\{\\}",
+                "o\\{\\}",
+                "OE\\{\\}",
+                "oe\\{\\}",
+                "point\\{\\}",
+                "pounds\\{\\}",
+                "print\\{\\}",
+                "questiondown\\{\\}",
+                "registeredsymbol\\{\\}",
+                "result\\{\\}",
+                "ringaccent\\{\\}",
+                "ss\\{\\}",
+                "TeX\\{\\}",
+                "tieaccent\\b",
+                "u\\b",
+                "ubaraccent\\b",
+                "udotaccent\\b",
+                "v\\b"
+            ],
+            "class": "no-spell-check",
+            "style-ref": "keyword"
+        },
+        {
+            "match": "((^[\\\\])|([@]))(end )?[a-zA-Z]+(\\{\\})?",
+            "id": "keyword",
+            "class": "no-spell-check",
+            "style-ref": "others"
+        },
+        {
+            "include": {"context": [
+                {"ref": "line-comment"},
+                {"ref": "block-comment"},
+                {"ref": "escaped-characters"},
+                {"ref": "macro-parameters"},
+                {"ref": "macros"},
+                {"ref": "indexing"},
+                {"ref": "file-attributes"},
+                {"ref": "generated-content"},
+                {"ref": "include"},
+                {"ref": "markup-inline"},
+                {"ref": "markup-block"},
+                {"ref": "sectioning"},
+                {"ref": "formatting"},
+                {"ref": "characters"},
+                {"ref": "keyword"}
+            ]},
+            "id": "texinfo"
+        }
+    ]}
+}}

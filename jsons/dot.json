@@ -1,0 +1,158 @@
+{"language": {
+    "metadata": {"property": [
+        {
+            "name": "mimetypes",
+            "content": "text/vnd.graphviz"
+        },
+        {
+            "name": "globs",
+            "content": "*.dot;*.gv"
+        },
+        {
+            "name": "line-comment-start",
+            "content": "//"
+        },
+        {
+            "name": "block-comment-start",
+            "content": "/*"
+        },
+        {
+            "name": "block-comment-end",
+            "content": "*/"
+        }
+    ]},
+    "_name": "Graphviz Dot",
+    "_section": "Other",
+    "styles": {"style": [
+        {
+            "_name": "Comment",
+            "map-to": "def:comment",
+            "id": "comment"
+        },
+        {
+            "_name": "Error",
+            "map-to": "def:error",
+            "id": "error"
+        },
+        {
+            "_name": "Keyword",
+            "map-to": "def:keyword",
+            "id": "keyword"
+        },
+        {
+            "_name": "Attribute name",
+            "map-to": "def:type",
+            "id": "attribute"
+        }
+    ]},
+    "id": "dot",
+    "version": 2,
+    "definitions": {"context": [
+        {
+            "include": {"context": {"ref": "def:in-line-comment"}},
+            "class-disabled": "no-spell-check",
+            "start": "//",
+            "id": "line-comment",
+            "class": "comment",
+            "style-ref": "comment",
+            "end-at-line-end": true
+        },
+        {
+            "include": {"context": {"ref": "def:in-comment"}},
+            "class-disabled": "no-spell-check",
+            "start": "/\\*",
+            "end": "\\*/",
+            "id": "block-comment",
+            "class": "comment",
+            "style-ref": "comment"
+        },
+        {
+            "match": "\\*/(?!\\*)",
+            "id": "close-comment-outside-comment",
+            "style-ref": "error"
+        },
+        {
+            "id": "keywords",
+            "keyword": [
+                "digraph",
+                "edge",
+                "node",
+                "subgraph"
+            ],
+            "style-ref": "keyword"
+        },
+        {
+            "id": "attributes",
+            "keyword": [
+                "arrowhead",
+                "arrowsize",
+                "arrowtail",
+                "bgcolor",
+                "center",
+                "color",
+                "constraint",
+                "decorateP",
+                "dir",
+                "distortion",
+                "fillcolor",
+                "fontcolor",
+                "fontname",
+                "fontsize",
+                "headclip",
+                "headlabel",
+                "height",
+                "labelangle",
+                "labeldistance",
+                "labelfontcolor",
+                "labelfontname",
+                "labelfontsize",
+                "label",
+                "layers",
+                "layer",
+                "margin",
+                "mclimit",
+                "minlen",
+                "name",
+                "nodesep",
+                "nslimit",
+                "ordering",
+                "orientation",
+                "pagedir",
+                "page",
+                "peripheries",
+                "port_label_distance",
+                "rankdir",
+                "ranksep",
+                "rank",
+                "ratio",
+                "regular",
+                "rotate",
+                "samehead",
+                "sametail",
+                "shapefile",
+                "shape",
+                "sides",
+                "size",
+                "skew",
+                "style",
+                "tailclip",
+                "taillabel",
+                "URL",
+                "weight",
+                "width"
+            ],
+            "style-ref": "attribute"
+        },
+        {
+            "include": {"context": [
+                {"ref": "line-comment"},
+                {"ref": "block-comment"},
+                {"ref": "close-comment-outside-comment"},
+                {"ref": "keywords"},
+                {"ref": "attributes"}
+            ]},
+            "id": "dot",
+            "class": "no-spell-check"
+        }
+    ]}
+}}

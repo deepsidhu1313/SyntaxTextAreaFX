@@ -1,0 +1,315 @@
+{"language": {
+    "metadata": {"property": [
+        {
+            "name": "globs",
+            "content": "Makefile.am;GNUmakefile.am"
+        },
+        {
+            "name": "line-comment-start",
+            "content": "#"
+        }
+    ]},
+    "_name": "Automake",
+    "_section": "Source",
+    "styles": {"style": [
+        {
+            "_name": "Automake Variable",
+            "map-to": "def:identifier",
+            "id": "lhs"
+        },
+        {
+            "_name": "Primary",
+            "map-to": "def:type",
+            "id": "primary"
+        },
+        {
+            "_name": "Secondary",
+            "map-to": "def:statement",
+            "id": "secondary"
+        },
+        {
+            "_name": "Prefix",
+            "map-to": "def:statement",
+            "id": "prefix"
+        },
+        {
+            "_name": "Optional Target",
+            "map-to": "def:statement",
+            "id": "target"
+        },
+        {
+            "_name": "Built-in Target",
+            "map-to": "def:statement",
+            "id": "dirname"
+        },
+        {
+            "_name": "Other Keyword",
+            "map-to": "def:statement",
+            "id": "keyword"
+        },
+        {
+            "_name": "Substitution",
+            "map-to": "def:preprocessor",
+            "id": "subst"
+        }
+    ]},
+    "id": "automake",
+    "version": 2,
+    "definitions": {
+        "replace": [
+            {
+                "ref": "assignment-rhs",
+                "id": "makefile:assignment-rhs"
+            },
+            {
+                "ref": "command",
+                "id": "makefile:command"
+            }
+        ],
+        "context": [
+            {
+                "match": "@\\%{variable}@",
+                "id": "subst",
+                "style-ref": "subst"
+            },
+            {
+                "include": {"context": {"ref": "def:in-comment"}},
+                "class-disabled": "no-spell-check",
+                "start": "^##",
+                "id": "nosubcomment",
+                "end-at-line-end": true
+            },
+            {
+                "include": {"context": [
+                    {"ref": "subst"},
+                    {"ref": "def:in-comment"}
+                ]},
+                "class-disabled": "no-spell-check",
+                "start": "#",
+                "id": "comment",
+                "end-at-line-end": true
+            },
+            {
+                "include": {"context": [
+                    {
+                        "where": "start",
+                        "sub-pattern": 1,
+                        "style-ref": "keyword"
+                    },
+                    {"ref": "assignment-rhs"}
+                ]},
+                "start": "\\%{space}((?:AM_)?\\%{flags}FLAGS)\\%{operator}",
+                "id": "flags-assignment",
+                "end-at-line-end": true
+            },
+            {
+                "include": {"context": [
+                    {
+                        "where": "start",
+                        "sub-pattern": 1,
+                        "style-ref": "keyword"
+                    },
+                    {"ref": "assignment-rhs"}
+                ]},
+                "start": "\\%{space}(\\%{keyword})\\%{operator}",
+                "id": "keyword-assignment",
+                "end-at-line-end": true
+            },
+            {
+                "include": {"context": [
+                    {
+                        "where": "start",
+                        "sub-pattern": "primary",
+                        "style-ref": "primary"
+                    },
+                    {
+                        "where": "start",
+                        "sub-pattern": "pprefix",
+                        "style-ref": "prefix"
+                    },
+                    {
+                        "where": "start",
+                        "sub-pattern": "target",
+                        "style-ref": "target"
+                    },
+                    {
+                        "where": "start",
+                        "sub-pattern": "dirname",
+                        "style-ref": "dirname"
+                    },
+                    {
+                        "where": "start",
+                        "sub-pattern": "pvariable",
+                        "style-ref": "lhs"
+                    },
+                    {"ref": "assignment-rhs"}
+                ]},
+                "start": {
+                    "extended": true,
+                    "content": "\\%{space}                           # beginning of line\n        (?P<pprefix>(?:\\%{prefix}_)*) # any number of prefixes_\n        (?:                                 # either...\n          (?P<target>\\%{target})|     # ...a nondir target (e.g. noinst),\n          (?P<dirname>\\%{dirname})|   # ...a dir target (e.g. bin)\n          (?P<pvariable>\\%{variable}) # ...or a user-defined dir\n        )\n        (?P<primary>_\\%{primary})     # and a _PRIMARY\n        \\%{operator}                        # an assignment operator"
+                },
+                "id": "primary-assignment",
+                "end-at-line-end": true
+            },
+            {
+                "include": {"context": [
+                    {
+                        "where": "start",
+                        "sub-pattern": "sprefix",
+                        "style-ref": "prefix"
+                    },
+                    {
+                        "where": "start",
+                        "sub-pattern": "svariable",
+                        "style-ref": "lhs"
+                    },
+                    {
+                        "where": "start",
+                        "sub-pattern": "secondary",
+                        "style-ref": "secondary"
+                    },
+                    {"ref": "assignment-rhs"}
+                ]},
+                "start": {
+                    "extended": true,
+                    "content": "\\%{space}                           # beginning of line\n        (?P<sprefix>\n          (?:(?:\\%{prefix}|EXTRA)_)*)       # any number of prefix_ or EXTRA_\n        (?P<svariable>\\%{variable})   # the canonicalized_program_name\n        (?P<secondary>_\\%{secondary}) # and a _SECONDARY\n        \\%{operator}                        # an assignment operator"
+                },
+                "id": "secondary-assignment",
+                "end-at-line-end": true
+            },
+            {
+                "include": {"context": [
+                    {
+                        "where": "start",
+                        "id": "dir-lhs",
+                        "sub-pattern": 1,
+                        "style-ref": "lhs"
+                    },
+                    {
+                        "where": "start",
+                        "id": "dir",
+                        "sub-pattern": 2,
+                        "style-ref": "keyword"
+                    },
+                    {"ref": "assignment-rhs"}
+                ]},
+                "start": "\\%{space}(\\%{variable})(dir)\\%{operator}",
+                "id": "dir-assignment",
+                "end-at-line-end": true
+            },
+            {
+                "include": {"context": [
+                    {"ref": "def:line-continue"},
+                    {"ref": "def:shell-like-comment"},
+                    {"ref": "makefile:variable"},
+                    {"ref": "makefile:string"},
+                    {"ref": "def:single-quoted-string"},
+                    {"ref": "sh:backtick-subshell"},
+                    {"ref": "subst"}
+                ]},
+                "start": "",
+                "id": "assignment-rhs",
+                "end-at-line-end": true
+            },
+            {
+                "include": {"context": [
+                    {"ref": "def:line-continue"},
+                    {"ref": "subst"},
+                    {
+                        "ref": "sh:sh",
+                        "original": true
+                    }
+                ]},
+                "start": "",
+                "id": "command",
+                "end-at-line-end": true,
+                "extend-parent": false
+            },
+            {
+                "include": {"context": [
+                    {"ref": "flags-assignment"},
+                    {"ref": "keyword-assignment"},
+                    {"ref": "primary-assignment"},
+                    {"ref": "secondary-assignment"},
+                    {"ref": "dir-assignment"},
+                    {"ref": "makefile:assignment"}
+                ]},
+                "id": "assignment"
+            },
+            {
+                "include": {"context": [
+                    {
+                        "ref": "makefile:directives",
+                        "style-ref": "def:keyword"
+                    },
+                    {
+                        "ref": "makefile:functions",
+                        "style-ref": "def:function"
+                    },
+                    {
+                        "ref": "subst",
+                        "style-ref": "subst"
+                    },
+                    {
+                        "ref": "nosubcomment",
+                        "style-ref": "def:comment"
+                    },
+                    {
+                        "ref": "comment",
+                        "style-ref": "def:comment"
+                    },
+                    {"ref": "assignment"},
+                    {"ref": "makefile:rule"}
+                ]},
+                "id": "automake"
+            }
+        ],
+        "define-regex": [
+            {
+                "id": "variable",
+                "content": "[A-Za-z0-9_@]+"
+            },
+            {
+                "id": "space",
+                "content": "^ *"
+            },
+            {
+                "id": "operator",
+                "content": "\\s*[\\+\\?:]?="
+            },
+            {
+                "id": "prefix",
+                "content": "(?:no)?dist|no(?:base|trans)"
+            },
+            {
+                "id": "primary",
+                "extended": true,
+                "content": "PROGRAMS|\n      (?:LT)?LIBRARIES|\n      LISP|\n      PYTHON|\n      JAVA|\n      SCRIPTS|\n      DATA|\n      HEADERS|\n      MANS|\n      TEXINFOS"
+            },
+            {
+                "id": "target",
+                "content": "noinst|check|EXTRA"
+            },
+            {
+                "id": "flags",
+                "extended": true,
+                "content": "C|\n      CCAS|\n      CPP|\n      CXX|\n      F|\n      GCJ|\n      JAVAC|\n      L|\n      LD|\n      LIBTOOL|\n      (?:[A-Z]+_)?LOG|\n      MAKEINFO(?:HTML)?|\n      OBJC|\n      R|\n      UPC|\n      VALA|\n      Y"
+            },
+            {
+                "id": "secondary",
+                "extended": true,
+                "content": "AR|\n      DEPENDENCIES|\n      LDADD|\n      LIBADD|\n      LINK|\n      SHORTNAME|\n      SOURCES|\n      \\%{flags}FLAGS"
+            },
+            {
+                "id": "keyword",
+                "extended": true,
+                "content": "ACLOCAL_AMFLAGS|\n      AM_DEFAULT_SOURCE_EXT|\n      AUTOMAKE_OPTIONS|\n      BUILT_SOURCES|\n      CC|\n      CLASSPATH_ENV|\n      (?:DIST|MAINTAINER|MOSTLY)?CLEANFILES|\n      COMPILE|\n      (?:CXX|FC|OBJC|UPC)(?:COMPILE|LINK)?|\n      DEFAULT_INCLUDES|\n      DEFS|\n      DISTCHECK_CONFIGURE_FLAGS|\n      DVIPS|\n      ETAGS_ARGS|\n      EXTRA_DIST|\n      F77(?:COMPILE)?|\n      FLINK|\n      INCLUDE|\n      JAVAC|\n      JAVAROOT|\n      LIBS|\n      LINK|\n      (?:[A-Z]+_)?LOG_COMPILER|\n      MAKEINFO(?:HTML)?|\n      (?:OMIT|TAGS)_DEPENDENCIES|\n      (?:DIST_)?SUBDIRS|\n      SUFFIXES|\n      (?:AM_)?TESTS_ENVIRONMENT|\n      TESTS|\n      TEXI2(?:DVI|PDF)|\n      TEXINFO_TEX|\n      VALAC"
+            },
+            {
+                "id": "dirname",
+                "extended": true,
+                "content": "s?bin|\n      (?:pkg)?lib(?:exec)?|\n      (?:pkg)?data|\n      (?:pkg|old)?include|\n      dataroot|\n      sysconf|\n      (?:shared|local)state|\n      doc|\n      info|\n      html|\n      dvi|\n      pdf|\n      ps|\n      lisp|\n      locale|\n      man[1-8]?(?:ext)?|\n      src|\n      (?:pkg)?python|\n      (?:pkg)?pyexec"
+            }
+        ]
+    }
+}}

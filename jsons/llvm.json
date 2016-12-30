@@ -1,0 +1,328 @@
+{"language": {
+    "metadata": {"property": [
+        {
+            "name": "globs",
+            "content": "*.ll"
+        },
+        {
+            "name": "line-comment-start",
+            "content": ";"
+        }
+    ]},
+    "_name": "LLVM IR",
+    "_section": "Source",
+    "styles": {"style": [
+        {
+            "_name": "Comment",
+            "map-to": "def:comment",
+            "id": "comment"
+        },
+        {
+            "_name": "String",
+            "map-to": "def:string",
+            "id": "string"
+        },
+        {
+            "_name": "Keyword",
+            "map-to": "def:keyword",
+            "id": "keyword"
+        },
+        {
+            "_name": "Function",
+            "map-to": "def:function",
+            "id": "function"
+        },
+        {
+            "_name": "Constants",
+            "map-to": "def:constant",
+            "id": "constant"
+        },
+        {
+            "_name": "Variable",
+            "map-to": "def:variable",
+            "id": "variable"
+        },
+        {
+            "_name": "Identifier",
+            "map-to": "def:identifier",
+            "id": "identifier"
+        },
+        {
+            "_name": "Data Type",
+            "map-to": "def:type",
+            "id": "type"
+        },
+        {
+            "_name": "Boolean value",
+            "map-to": "def:boolean",
+            "id": "boolean"
+        },
+        {
+            "_name": "Number",
+            "map-to": "def:decimal",
+            "id": "number"
+        }
+    ]},
+    "id": "llvm",
+    "version": 2,
+    "definitions": {"context": [
+        {
+            "id": "keywords",
+            "keyword": [
+                "private",
+                "linker_private",
+                "linker_private_weak",
+                "linker_private_weak_def_auto",
+                "internal",
+                "available_externally",
+                "linkonce",
+                "common",
+                "weak",
+                "appending",
+                "extern_weak",
+                "linkonce_odr",
+                "weak_odr",
+                "external",
+                "dllimport",
+                "dllexport",
+                "ccc",
+                "fastcc",
+                "coldcc",
+                "default",
+                "hidden",
+                "protected",
+                "type",
+                "thread_local",
+                "constant",
+                "unnamed_addr",
+                "addrspace",
+                "define",
+                "alias",
+                "declare",
+                "zeroext",
+                "signext",
+                "inreg",
+                "byval",
+                "sret",
+                "noalias",
+                "nocapture",
+                "nest",
+                "gc",
+                "address_safety",
+                "alignstack",
+                "alwaysinline",
+                "nonlazybind",
+                "inlinehint",
+                "naked",
+                "noimplicitfloat",
+                "noinline",
+                "noredzone",
+                "noreturn",
+                "nounwind",
+                "optsize",
+                "readnone",
+                "readonly",
+                "returns_twice",
+                "ssp",
+                "sspreq",
+                "uwtable",
+                "align",
+                "module",
+                "asm",
+                "target",
+                "datalayout",
+                "triple",
+                "unordered",
+                "monotonic",
+                "acquire",
+                "release",
+                "acq_rel",
+                "seq_cst",
+                "singlethread",
+                "nuw",
+                "nsw",
+                "exact",
+                "volatile",
+                "atomic",
+                "to",
+                "personality",
+                "cleanup",
+                "catch",
+                "filter",
+                "eq",
+                "ne",
+                "ugt",
+                "uge",
+                "ult",
+                "ule",
+                "sgt",
+                "slt",
+                "sle",
+                "oeq",
+                "ogt",
+                "oge",
+                "olt",
+                "ole",
+                "one",
+                "ord",
+                "ueq",
+                "ugt",
+                "uge",
+                "ult",
+                "ule",
+                "une",
+                "uno",
+                "inbounds"
+            ],
+            "style-ref": "keyword"
+        },
+        {
+            "id": "functions",
+            "keyword": [
+                "ret",
+                "br",
+                "switch",
+                "indirectbr",
+                "invoke",
+                "resume",
+                "unreachable",
+                "add",
+                "fadd",
+                "sub",
+                "fsub",
+                "mul",
+                "fmul",
+                "udiv",
+                "sdiv",
+                "fdiv",
+                "urem",
+                "srem",
+                "frem",
+                "shl",
+                "lshr",
+                "ashr",
+                "and",
+                "or",
+                "xor",
+                "extractelement",
+                "insertelement",
+                "shufflevector",
+                "extractvalue",
+                "insertvalue",
+                "alloca",
+                "load",
+                "store",
+                "fence",
+                "cmpxchg",
+                "atomicrmw",
+                "getelementptr",
+                "trunc",
+                "zext",
+                "sext",
+                "fptrunc",
+                "fpext",
+                "fptoui",
+                "fptosi",
+                "uitofp",
+                "sitofp",
+                "ptrtoint",
+                "inttoptr",
+                "bitcast",
+                "icmp",
+                "fcmp",
+                "phi",
+                "select",
+                "call",
+                "va_arg",
+                "landingpad"
+            ],
+            "style-ref": "function"
+        },
+        {
+            "id": "constant",
+            "keyword": [
+                null,
+                "zeroinitializer",
+                "undef"
+            ],
+            "style-ref": "constant"
+        },
+        {
+            "id": "boolean",
+            "keyword": [
+                true,
+                false
+            ],
+            "style-ref": "boolean"
+        },
+        {
+            "id": "types",
+            "keyword": [
+                "half",
+                "float",
+                "double",
+                "x86_fp80",
+                "fp128",
+                "ppc_fp128",
+                "x86mmx",
+                "void",
+                "label",
+                "metadata",
+                "opaque"
+            ],
+            "style-ref": "type"
+        },
+        {
+            "match": "i[0-9]+",
+            "id": "integertype",
+            "style-ref": "type"
+        },
+        {
+            "match": "[%!][a-zA-Z$\\._0-9]*",
+            "id": "variable",
+            "style-ref": "variable"
+        },
+        {
+            "match": "@[a-zA-Z$\\._][a-zA-Z$\\._0-9]*",
+            "id": "identifier",
+            "style-ref": "identifier"
+        },
+        {
+            "match": {
+                "extended": true,
+                "content": "(\\b([0-9]+|0x[0-9a-fA-F]+)\\b|\n        \\b([0-9]*\\.[0-9]+[Ee][+-]?[0-9]+|\n        [0-9]+))"
+            },
+            "id": "numeric",
+            "style-ref": "number"
+        },
+        {
+            "start": "\"",
+            "end": "\"",
+            "id": "string",
+            "style-ref": "string",
+            "end-at-line-end": true
+        },
+        {
+            "start": ";",
+            "id": "line-comment",
+            "style-ref": "comment",
+            "end-at-line-end": true
+        },
+        {
+            "include": {"context": [
+                {"ref": "keywords"},
+                {"ref": "functions"},
+                {"ref": "constant"},
+                {"ref": "boolean"},
+                {"ref": "types"},
+                {"ref": "integertype"},
+                {"ref": "variable"},
+                {"ref": "identifier"},
+                {"ref": "numeric"},
+                {"ref": "string"},
+                {"ref": "line-comment"}
+            ]},
+            "id": "llvm"
+        }
+    ]}
+}}

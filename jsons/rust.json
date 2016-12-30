@@ -1,0 +1,367 @@
+{"language": {
+    "metadata": {"property": [
+        {
+            "name": "globs",
+            "content": "*.rs"
+        },
+        {
+            "name": "line-comment-start",
+            "content": "//"
+        },
+        {
+            "name": "block-comment-start",
+            "content": "/*"
+        },
+        {
+            "name": "block-comment-end",
+            "content": "*/"
+        }
+    ]},
+    "_name": "Rust",
+    "_section": "Source",
+    "styles": {"style": [
+        {
+            "_name": "Comment",
+            "map-to": "def:comment",
+            "id": "comment"
+        },
+        {
+            "_name": "String",
+            "map-to": "def:string",
+            "id": "string"
+        },
+        {
+            "_name": "Character",
+            "map-to": "def:character",
+            "id": "char"
+        },
+        {
+            "_name": "Keyword",
+            "map-to": "def:keyword",
+            "id": "keyword"
+        },
+        {
+            "_name": "Data Type",
+            "map-to": "def:type",
+            "id": "type"
+        },
+        {
+            "_name": "Boolean value",
+            "map-to": "def:boolean",
+            "id": "boolean"
+        },
+        {
+            "_name": "Identifier",
+            "map-to": "def:identifier",
+            "id": "identifier"
+        },
+        {
+            "_name": "Number",
+            "map-to": "def:number",
+            "id": "number"
+        },
+        {
+            "_name": "Scope",
+            "map-to": "def:preprocessor",
+            "id": "scope"
+        },
+        {
+            "_name": "Attribute",
+            "map-to": "def:preprocessor",
+            "id": "attribute"
+        },
+        {
+            "_name": "Macro",
+            "map-to": "def:preprocessor",
+            "id": "macro"
+        }
+    ]},
+    "id": "rust",
+    "version": 2,
+    "definitions": {
+        "context": [
+            {
+                "id": "function",
+                "keyword": "fn",
+                "style-ref": "keyword"
+            },
+            {
+                "id": "type",
+                "keyword": "type",
+                "style-ref": "keyword"
+            },
+            {
+                "id": "keywords",
+                "keyword": [
+                    "abstract",
+                    "alignof",
+                    "as",
+                    "become",
+                    "box",
+                    "break",
+                    "const",
+                    "continue",
+                    "crate",
+                    "do",
+                    "else",
+                    "enum",
+                    "extern",
+                    "final",
+                    "for",
+                    "if",
+                    "impl",
+                    "in",
+                    "let",
+                    "loop",
+                    "macro",
+                    "match",
+                    "mod",
+                    "move",
+                    "mut",
+                    "offsetof",
+                    "override",
+                    "priv",
+                    "proc",
+                    "pub",
+                    "pure",
+                    "ref",
+                    "return",
+                    "sizeof",
+                    "static",
+                    "struct",
+                    "super",
+                    "trait",
+                    "typeof",
+                    "unsafe",
+                    "unsized",
+                    "use",
+                    "virtual",
+                    "where",
+                    "while",
+                    "yield"
+                ],
+                "style-ref": "keyword"
+            },
+            {
+                "id": "types",
+                "keyword": [
+                    "bool",
+                    "isize",
+                    "usize",
+                    "i8",
+                    "i16",
+                    "i32",
+                    "i64",
+                    "u8",
+                    "u16",
+                    "u32",
+                    "u64",
+                    "f32",
+                    "f64",
+                    "char",
+                    "str"
+                ],
+                "style-ref": "type"
+            },
+            {
+                "id": "self",
+                "keyword": [
+                    "Self",
+                    "self"
+                ],
+                "style-ref": "identifier"
+            },
+            {
+                "id": "boolean",
+                "keyword": [
+                    true,
+                    false
+                ],
+                "style-ref": "boolean"
+            },
+            {
+                "match": {
+                    "extended": true,
+                    "content": "((?<=\\.\\.)|(?<![\\w\\.]))\n        (\n        [1-9][0-9_]*\\%{num-suffix}?|\n        0[0-9_]*\\%{num-suffix}?|\n        0b[01_]+\\%{int-suffix}?|\n        0o(\\%{oct-digit}|_)+\\%{int-suffix}?|\n        0x(\\%{hex-digit}|_)+\\%{int-suffix}?\n        )\n        ((?![\\w\\.].)|(?=\\.\\.))"
+                },
+                "id": "number",
+                "style-ref": "number"
+            },
+            {
+                "match": {
+                    "extended": true,
+                    "content": "\\%{ident}::"
+                },
+                "id": "scope",
+                "style-ref": "scope"
+            },
+            {
+                "match": {
+                    "extended": true,
+                    "content": "\\%{ident}!"
+                },
+                "id": "macro",
+                "style-ref": "macro"
+            },
+            {
+                "match": {
+                    "extended": true,
+                    "content": "'\\%{ident}"
+                },
+                "id": "lifetime",
+                "style-ref": "keyword"
+            },
+            {
+                "match": "\\\\\\%{common-escape}|\\\\\\%{unicode-escape}",
+                "id": "string-escape",
+                "style-ref": "def:special-char"
+            },
+            {
+                "match": "\\\\\\%{common-escape}",
+                "id": "byte-string-escape",
+                "style-ref": "def:special-char"
+            },
+            {
+                "include": {"context": {"ref": "def:line-continue"}},
+                "class-disabled": "no-spell-check",
+                "start": "b?r(#*)\"",
+                "end": "\"\\%{1@start}",
+                "id": "raw-string",
+                "class": "string",
+                "style-ref": "string"
+            },
+            {
+                "include": {"context": [
+                    {"ref": "string-escape"},
+                    {"ref": "def:line-continue"}
+                ]},
+                "class-disabled": "no-spell-check",
+                "start": "\"",
+                "end": "\"",
+                "id": "string",
+                "class": "string",
+                "style-ref": "string"
+            },
+            {
+                "include": {"context": [
+                    {"ref": "byte-string-escape"},
+                    {"ref": "def:line-continue"}
+                ]},
+                "class-disabled": "no-spell-check",
+                "start": "b\"",
+                "end": "\"",
+                "id": "byte-string",
+                "class": "string",
+                "style-ref": "string"
+            },
+            {
+                "match": {
+                    "extended": true,
+                    "content": "'([^\\\\']|\\\\\\%{common-escape}|\\\\\\%{unicode-escape})'"
+                },
+                "id": "char",
+                "style-ref": "char"
+            },
+            {
+                "match": {
+                    "extended": true,
+                    "content": "b'([^\\\\']|\\\\\\%{common-escape})'"
+                },
+                "id": "byte",
+                "style-ref": "char"
+            },
+            {
+                "include": {"context": [
+                    {"ref": "def:in-comment"},
+                    {"ref": "string"},
+                    {"ref": "raw-string"}
+                ]},
+                "start": {
+                    "extended": true,
+                    "content": "\\#!?\\["
+                },
+                "end": "\\]",
+                "id": "attribute",
+                "class": "attribute",
+                "style-ref": "attribute"
+            },
+            {
+                "include": {"context": [
+                    {
+                        "ref": "def:c-like-comment",
+                        "style-ref": "comment"
+                    },
+                    {
+                        "ref": "def:c-like-comment-multiline",
+                        "style-ref": "comment"
+                    },
+                    {"ref": "function"},
+                    {"ref": "type"},
+                    {"ref": "keywords"},
+                    {"ref": "types"},
+                    {"ref": "self"},
+                    {"ref": "macro"},
+                    {"ref": "boolean"},
+                    {"ref": "number"},
+                    {"ref": "scope"},
+                    {"ref": "string"},
+                    {"ref": "byte-string"},
+                    {"ref": "raw-string"},
+                    {"ref": "char"},
+                    {"ref": "byte"},
+                    {"ref": "lifetime"},
+                    {"ref": "attribute"}
+                ]},
+                "id": "rust",
+                "class": "no-spell-check"
+            }
+        ],
+        "define-regex": [
+            {
+                "id": "int-suffix",
+                "extended": true,
+                "content": "(i8|i16|i32|i64|i|u8|u16|u32|u64|u)"
+            },
+            {
+                "id": "exponent",
+                "extended": true,
+                "content": "([eE][+-]?[0-9_]+)"
+            },
+            {
+                "id": "float-suffix",
+                "extended": true,
+                "content": "(\\%{exponent}?(f32|f64)?)|(\\.[0-9][0-9_]*\\%{exponent}?)?(f32|f64)?|\\."
+            },
+            {
+                "id": "num-suffix",
+                "extended": true,
+                "content": "\\%{int-suffix}|\\%{float-suffix}"
+            },
+            {
+                "id": "hex-digit",
+                "extended": true,
+                "content": "[0-9a-fA-F]"
+            },
+            {
+                "id": "oct-digit",
+                "extended": true,
+                "content": "[0-7]"
+            },
+            {
+                "id": "ident",
+                "extended": true,
+                "content": "([^[:cntrl:][:space:][:punct:][:digit:]]|_)([^[:cntrl:][:punct:][:space:]]|_)*"
+            },
+            {
+                "id": "common-escape",
+                "extended": true,
+                "content": "'|\"|\n      \\\\|n|r|t|0|\n      x\\%{hex-digit}{2}"
+            },
+            {
+                "id": "unicode-escape",
+                "extended": true,
+                "content": "u{\\%{hex-digit}{1,6}}"
+            }
+        ]
+    }
+}}

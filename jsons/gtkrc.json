@@ -1,0 +1,174 @@
+{"language": {
+    "metadata": {"property": [
+        {
+            "name": "mimetypes",
+            "content": "text/x-gtkrc"
+        },
+        {
+            "name": "globs",
+            "content": "gtkrc;.gtkrc;gtkrc-*;.gtkrc-*"
+        },
+        {
+            "name": "line-comment-start",
+            "content": "#"
+        }
+    ]},
+    "_name": "GtkRC",
+    "_section": "Other",
+    "styles": {"style": [
+        {
+            "_name": "Comment",
+            "map-to": "def:comment",
+            "id": "comment"
+        },
+        {
+            "_name": "String",
+            "map-to": "def:string",
+            "id": "string"
+        },
+        {
+            "_name": "Keyword",
+            "map-to": "def:keyword",
+            "id": "keyword"
+        },
+        {
+            "_name": "Decimal",
+            "map-to": "def:decimal",
+            "id": "decimal"
+        },
+        {
+            "_name": "Data Type",
+            "map-to": "def:type",
+            "id": "variable"
+        },
+        {
+            "_name": "Widget State",
+            "map-to": "def:special-constant",
+            "id": "state"
+        },
+        {
+            "_name": "Include directive",
+            "map-to": "def:preprocessor",
+            "id": "include-directive"
+        },
+        {
+            "_name": "Boolean value",
+            "map-to": "def:boolean",
+            "id": "boolean-value"
+        }
+    ]},
+    "id": "gtkrc",
+    "version": 2,
+    "definitions": {"context": [
+        {
+            "include": {"context": [
+                {"ref": "def:escape"},
+                {"ref": "def:line-continue"}
+            ]},
+            "class-disabled": "no-spell-check",
+            "start": "\"",
+            "end": "\"",
+            "id": "double-quoted-string",
+            "class": "string",
+            "style-ref": "string",
+            "end-at-line-end": true
+        },
+        {
+            "include": {"context": [
+                {"ref": "def:escape"},
+                {"ref": "def:line-continue"}
+            ]},
+            "class-disabled": "no-spell-check",
+            "start": "'",
+            "end": "'",
+            "id": "single-quoted-string",
+            "class": "string",
+            "style-ref": "string",
+            "end-at-line-end": true
+        },
+        {
+            "include": {"context": [
+                {"ref": "def:escape"},
+                {"ref": "def:line-continue"}
+            ]},
+            "class-disabled": "no-spell-check",
+            "start": "#",
+            "id": "line-comment",
+            "class": "comment",
+            "style-ref": "comment",
+            "end-at-line-end": true
+        },
+        {
+            "match": "::|=",
+            "id": "keysymbol",
+            "style-ref": "keyword"
+        },
+        {
+            "match": "\\b[0-9][0-9\\.]*\\b",
+            "id": "number",
+            "style-ref": "decimal"
+        },
+        {
+            "id": "keyword",
+            "keyword": [
+                "style",
+                "engine",
+                "widget_class",
+                "class",
+                "widget"
+            ],
+            "style-ref": "keyword"
+        },
+        {
+            "id": "variable",
+            "keyword": [
+                "fg",
+                "bg",
+                "bg_pixmap",
+                "base",
+                "text"
+            ],
+            "style-ref": "variable"
+        },
+        {
+            "id": "state",
+            "keyword": [
+                "ACTIVE",
+                "SELECTED",
+                "NORMAL",
+                "PRELIGHT",
+                "INSENSITIVE"
+            ],
+            "style-ref": "state"
+        },
+        {
+            "id": "include-directive",
+            "keyword": "include",
+            "style-ref": "include-directive"
+        },
+        {
+            "id": "boolean-value",
+            "keyword": [
+                true,
+                false
+            ],
+            "style-ref": "boolean-value"
+        },
+        {
+            "include": {"context": [
+                {"ref": "double-quoted-string"},
+                {"ref": "single-quoted-string"},
+                {"ref": "line-comment"},
+                {"ref": "keysymbol"},
+                {"ref": "number"},
+                {"ref": "keyword"},
+                {"ref": "variable"},
+                {"ref": "state"},
+                {"ref": "include-directive"},
+                {"ref": "boolean-value"}
+            ]},
+            "id": "gtkrc",
+            "class": "no-spell-check"
+        }
+    ]}
+}}

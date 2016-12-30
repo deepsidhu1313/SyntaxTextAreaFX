@@ -1,0 +1,82 @@
+{"po.json": [
+    {
+        "include": {"context": [
+            {"ref": "def:escape"},
+            {"ref": "def:line-continue"},
+            {"ref": "def:email-address"},
+            {"ref": "def:net-address"},
+            {
+                "match": "[&_][\\p{L}\\p{Nd}]",
+                "id": "mnemonic",
+                "style-ref": "format"
+            },
+            {
+                "match": "<[a-zA-Z\\=\\\"\\/ ]+>",
+                "id": "tag",
+                "style-ref": "format"
+            },
+            {
+                "ref": "python:format",
+                "style-ref": "format"
+            },
+            {
+                "ref": "c:printf",
+                "style-ref": "format"
+            }
+        ]},
+        "class-disabled": "no-spell-check",
+        "start": "\"",
+        "end": "\"",
+        "id": "string",
+        "class": "string",
+        "style-ref": "string"
+    },
+    {
+        "include": {"context": [
+            {"ref": "def:escape"},
+            {"ref": "def:line-continue"},
+            {
+                "match": "\\bfuzzy\\b",
+                "id": "fuzzy",
+                "style-ref": "fuzzy"
+            }
+        ]},
+        "start": "^#,",
+        "id": "format",
+        "style-ref": "comment",
+        "end-at-line-end": true
+    },
+    {
+        "include": {"context": [
+            {"ref": "def:escape"},
+            {"ref": "def:line-continue"}
+        ]},
+        "start": "^#:",
+        "id": "location",
+        "style-ref": "location",
+        "end-at-line-end": true
+    },
+    {
+        "prefix": "^",
+        "id": "keyword",
+        "keyword": [
+            "domain",
+            "msgid",
+            "msgid_plural",
+            "msgstr",
+            "msgctxt"
+        ],
+        "style-ref": "keyword"
+    },
+    {
+        "include": {"context": [
+            {"ref": "string"},
+            {"ref": "format"},
+            {"ref": "location"},
+            {"ref": "def:shell-like-comment"},
+            {"ref": "keyword"}
+        ]},
+        "id": "gettext-translation",
+        "class": "no-spell-check"
+    }
+]}

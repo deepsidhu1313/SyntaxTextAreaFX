@@ -1,0 +1,1111 @@
+{"perl.json": [
+    {
+        "include": {"context": [
+            {"ref": "def:shebang"},
+            {"ref": "line-directive"},
+            {"ref": "def:shell-like-comment"},
+            {"ref": "pod"},
+            {"ref": "data"},
+            {"ref": "double-quoted-string"},
+            {"ref": "single-quoted-string"},
+            {"ref": "system-command"},
+            {"ref": "word-list"},
+            {"ref": "regular-expression"},
+            {"ref": "match"},
+            {"ref": "substitution"},
+            {"ref": "transliteration"},
+            {"ref": "match-slashslash"},
+            {"ref": "here-doc-no-ve"},
+            {"ref": "here-doc"},
+            {"ref": "sub"},
+            {"ref": "variable"},
+            {"ref": "include-statement"},
+            {"ref": "operator"},
+            {"ref": "keyword"},
+            {"ref": "control"},
+            {"ref": "file-descriptor"},
+            {"ref": "builtin"}
+        ]},
+        "id": "perl",
+        "class": "no-spell-check"
+    },
+    {
+        "match": "\\S",
+        "id": "error",
+        "style-ref": "error",
+        "extend-parent": false
+    },
+    {
+        "match": "\\%{operator}",
+        "id": "operator",
+        "style-ref": "operator"
+    },
+    {
+        "include": {"context": [
+            {
+                "start": "[$@%]{",
+                "end": "}",
+                "style-ref": "variable"
+            },
+            {
+                "match": "\\%{plain-variable}",
+                "style-ref": "variable"
+            }
+        ]},
+        "id": "plain-variable"
+    },
+    {
+        "match": "\\%{special-variable}",
+        "id": "special-variable",
+        "style-ref": "variable"
+    },
+    {
+        "include": {"context": [
+            {"ref": "plain-variable"},
+            {"ref": "special-variable"}
+        ]},
+        "id": "variable"
+    },
+    {
+        "include": {"context": [
+            {"ref": "def:escape"},
+            {"ref": "plain-variable"},
+            {
+                "include": {"context": [
+                    {"match": "\\$(?=[|)])"},
+                    {"ref": "special-variable"}
+                ]},
+                "start": "(?=\\$)",
+                "extend-parent": false
+            }
+        ]},
+        "id": "in-pattern"
+    },
+    {
+        "include": {"context": {
+            "include": {"context": {"ref": "in-pattern-curly-no-ve"}},
+            "start": "{",
+            "end": "}"
+        }},
+        "id": "in-pattern-curly-no-ve"
+    },
+    {
+        "include": {"context": [
+            {
+                "include": {"context": {"ref": "in-pattern-curly"}},
+                "start": "{",
+                "end": "}"
+            },
+            {"ref": "in-pattern"}
+        ]},
+        "id": "in-pattern-curly"
+    },
+    {
+        "include": {"context": {
+            "include": {"context": {"ref": "in-pattern-square-no-ve"}},
+            "start": "\\[",
+            "end": "\\]"
+        }},
+        "id": "in-pattern-square-no-ve"
+    },
+    {
+        "include": {"context": [
+            {
+                "include": {"context": {"ref": "in-pattern-square"}},
+                "start": "\\[",
+                "end": "\\]"
+            },
+            {"ref": "in-pattern"}
+        ]},
+        "id": "in-pattern-square"
+    },
+    {
+        "include": {"context": {
+            "include": {"context": {"ref": "in-pattern-round-no-ve"}},
+            "start": "\\(",
+            "end": "}"
+        }},
+        "id": "in-pattern-round-no-ve"
+    },
+    {
+        "include": {"context": [
+            {
+                "include": {"context": {"ref": "in-pattern-round"}},
+                "start": "\\(",
+                "end": "\\)"
+            },
+            {"ref": "in-pattern"}
+        ]},
+        "id": "in-pattern-round"
+    },
+    {
+        "include": {"context": {
+            "include": {"context": {"ref": "in-pattern-angle-no-ve"}},
+            "start": "<",
+            "end": ">"
+        }},
+        "id": "in-pattern-angle-no-ve"
+    },
+    {
+        "include": {"context": [
+            {
+                "include": {"context": {"ref": "in-pattern-angle"}},
+                "start": "<",
+                "end": ">"
+            },
+            {"ref": "in-pattern"}
+        ]},
+        "id": "in-pattern-angle"
+    },
+    {
+        "include": {"context": [
+            {"ref": "asserted-comment"},
+            {
+                "include": {"context": {"ref": "in-pattern-curly"}},
+                "end-parent": true,
+                "start": "{",
+                "end": "}"
+            },
+            {
+                "include": {"context": {"ref": "in-pattern-square"}},
+                "end-parent": true,
+                "start": "\\[",
+                "end": "\\]"
+            },
+            {
+                "include": {"context": {"ref": "in-pattern-round"}},
+                "end-parent": true,
+                "start": "\\(",
+                "end": "\\)"
+            },
+            {
+                "include": {"context": {"ref": "in-pattern-angle"}},
+                "end-parent": true,
+                "start": "<",
+                "end": ">"
+            },
+            {
+                "include": {"context": {
+                    "match": "\\\\\\\\|\\\\'",
+                    "style-ref": "def:special-char"
+                }},
+                "end-parent": true,
+                "start": "'",
+                "end": "'"
+            },
+            {
+                "include": {"context": {"ref": "in-pattern"}},
+                "end-parent": true,
+                "start": "(?P<RD>\\%{pattern-delimiter})",
+                "end": "\\%{RD@start}"
+            },
+            {"ref": "asserted-comment"},
+            {"ref": "error"}
+        ]},
+        "once-only": true,
+        "start": "",
+        "id": "simple-pattern"
+    },
+    {
+        "include": {"context": [
+            {
+                "include": {"context": {"ref": "in-pattern-curly-no-ve"}},
+                "end-parent": true,
+                "start": "{",
+                "end": "}"
+            },
+            {
+                "include": {"context": {"ref": "in-pattern-square-no-ve"}},
+                "end-parent": true,
+                "start": "\\[",
+                "end": "\\]"
+            },
+            {
+                "include": {"context": {"ref": "in-pattern-round-no-ve"}},
+                "end-parent": true,
+                "start": "\\(",
+                "end": "\\)"
+            },
+            {
+                "include": {"context": {"ref": "in-pattern-angle-no-ve"}},
+                "end-parent": true,
+                "start": "<",
+                "end": ">"
+            },
+            {
+                "end-parent": true,
+                "start": "(?P<RD>\\%{pattern-delimiter})",
+                "end": "\\%{RD@start}"
+            },
+            {"ref": "asserted-comment"},
+            {"ref": "error"}
+        ]},
+        "once-only": true,
+        "start": "",
+        "id": "simple-pattern-no-ve"
+    },
+    {
+        "include": {"context": [
+            {
+                "include": {"context": {
+                    "once-only": true,
+                    "start": "(?<=(?P<RD>.))",
+                    "end": "\\%{RD@start}"
+                }},
+                "end-parent": true,
+                "start": "'",
+                "end": "'"
+            },
+            {
+                "include": {"context": [
+                    {
+                        "include": {"context": {"ref": "in-pattern"}},
+                        "once-only": true,
+                        "start": "(?<=(?P<RD>.))",
+                        "end": "\\%{RD@start}"
+                    },
+                    {"ref": "in-pattern"}
+                ]},
+                "end-parent": true,
+                "start": "(?P<RD>\\%{pattern-delimiter})",
+                "end": "\\%{RD@start}"
+            },
+            {
+                "include": {"context": [
+                    {"ref": "simple-pattern"},
+                    {
+                        "include": {"context": {"ref": "simple-pattern"}},
+                        "once-only": true,
+                        "end-parent": true,
+                        "start": "\\%{end-of-pattern}",
+                        "end": "\\%{end-of-pattern}"
+                    }
+                ]},
+                "end-parent": true,
+                "start": ""
+            }
+        ]},
+        "once-only": true,
+        "start": "",
+        "id": "double-pattern"
+    },
+    {
+        "include": {"context": [
+            {
+                "include": {"context": {
+                    "once-only": true,
+                    "start": "(?<=(?P<RD>.))",
+                    "end": "\\%{RD@start}"
+                }},
+                "end-parent": true,
+                "start": "(?P<RD>\\%{pattern-delimiter})",
+                "end": "\\%{RD@start}"
+            },
+            {
+                "include": {"context": [
+                    {"ref": "simple-pattern-no-ve"},
+                    {
+                        "include": {"context": {"ref": "simple-pattern-no-ve"}},
+                        "once-only": true,
+                        "end-parent": true,
+                        "start": "\\%{end-of-pattern}",
+                        "end": "\\%{end-of-pattern}"
+                    }
+                ]},
+                "end-parent": true,
+                "start": ""
+            }
+        ]},
+        "once-only": true,
+        "start": "",
+        "id": "double-pattern-no-ve"
+    },
+    {
+        "include": {"context": [
+            {
+                "include": {"context": {
+                    "match": "\\\\\\\\|\\\\'",
+                    "style-ref": "def:special-char"
+                }},
+                "start": "'",
+                "end": "'",
+                "style-ref": "string"
+            },
+            {
+                "include": {"context": {"ref": "simple-pattern-no-ve"}},
+                "start": "\\%{pattern-before}q\\b",
+                "end": "\\%{end-of-pattern}",
+                "style-ref": "string"
+            }
+        ]},
+        "class-disabled": "no-spell-check",
+        "id": "single-quoted-string",
+        "class": "string"
+    },
+    {
+        "include": {"context": [
+            {
+                "include": {"context": {"ref": "in-pattern"}},
+                "start": "\"",
+                "end": "\"",
+                "style-ref": "string"
+            },
+            {
+                "include": {"context": [
+                    {"ref": "asserted-comment"},
+                    {
+                        "include": {"context": {"ref": "in-pattern-curly"}},
+                        "end-parent": true,
+                        "start": "{",
+                        "end": "}"
+                    },
+                    {
+                        "include": {"context": {"ref": "in-pattern-square"}},
+                        "end-parent": true,
+                        "start": "\\[",
+                        "end": "\\]"
+                    },
+                    {
+                        "include": {"context": {"ref": "in-pattern-round"}},
+                        "end-parent": true,
+                        "start": "\\(",
+                        "end": "\\)"
+                    },
+                    {
+                        "include": {"context": {"ref": "in-pattern-angle"}},
+                        "end-parent": true,
+                        "start": "<",
+                        "end": ">"
+                    },
+                    {
+                        "include": {"context": {"ref": "in-pattern"}},
+                        "end-parent": true,
+                        "start": "(?P<RD>\\%{pattern-delimiter})",
+                        "end": "\\%{RD@start}"
+                    },
+                    {"ref": "error"}
+                ]},
+                "start": "\\%{pattern-before}qq\\b",
+                "end": "\\%{end-of-pattern}",
+                "style-ref": "string"
+            }
+        ]},
+        "class-disabled": "no-spell-check",
+        "id": "double-quoted-string",
+        "class": "string"
+    },
+    {
+        "include": {"context": {"ref": "simple-pattern-no-ve"}},
+        "start": "\\%{pattern-before}qw\\b",
+        "end": "\\%{end-of-pattern}",
+        "id": "word-list",
+        "style-ref": "string"
+    },
+    {
+        "include": {"context": {"ref": "simple-pattern"}},
+        "start": "\\%{pattern-before}qr\\b",
+        "end": "\\%{end-of-pattern}[imosx]*",
+        "id": "regular-expression",
+        "style-ref": "regex"
+    },
+    {
+        "include": {"context": [
+            {
+                "include": {"context": {"ref": "in-pattern"}},
+                "start": "`",
+                "end": "`",
+                "style-ref": "system-command"
+            },
+            {
+                "include": {"context": {"ref": "simple-pattern"}},
+                "start": "\\%{pattern-before}qx\\b",
+                "end": "\\%{end-of-pattern}",
+                "style-ref": "system-command"
+            }
+        ]},
+        "id": "system-command"
+    },
+    {
+        "include": {"context": {"ref": "simple-pattern"}},
+        "start": "\\%{pattern-before}m\\b",
+        "end": "\\%{end-of-pattern}[cgimosx]*",
+        "id": "match",
+        "style-ref": "regex"
+    },
+    {
+        "include": {"context": {"ref": "double-pattern"}},
+        "start": "\\%{pattern-before}s\\b",
+        "end": "\\%{end-of-pattern}[ecgimosx]*",
+        "id": "substitution",
+        "style-ref": "regex"
+    },
+    {
+        "include": {"context": {"ref": "double-pattern-no-ve"}},
+        "start": "\\%{pattern-before}(tr|y)\\b",
+        "end": "\\%{end-of-pattern}[cds]*",
+        "id": "transliteration",
+        "style-ref": "regex"
+    },
+    {
+        "include": {"context": [
+            {
+                "include": {"context": [
+                    {
+                        "where": "start",
+                        "sub-pattern": 2,
+                        "style-ref": "builtin"
+                    },
+                    {
+                        "where": "start",
+                        "sub-pattern": 3,
+                        "style-ref": "regex"
+                    },
+                    {
+                        "where": "end",
+                        "sub-pattern": 0,
+                        "style-ref": "regex"
+                    },
+                    {"ref": "in-pattern"}
+                ]},
+                "start": "(^|[^$@%&])(split|while|if)\\s+(/)",
+                "end": "/[cgimosx]*",
+                "style-inside": true,
+                "style-ref": "regex"
+            },
+            {
+                "include": {"context": [
+                    {
+                        "where": "start",
+                        "sub-pattern": 2,
+                        "style-ref": "regex"
+                    },
+                    {
+                        "where": "end",
+                        "sub-pattern": 0,
+                        "style-ref": "regex"
+                    },
+                    {"ref": "in-pattern"}
+                ]},
+                "start": "(^|(?<=[\\(\\{]))\\s*(/)",
+                "end": "/[cgimosx]*",
+                "style-inside": true,
+                "style-ref": "regex"
+            },
+            {
+                "include": {"context": [
+                    {
+                        "where": "start",
+                        "sub-pattern": 1,
+                        "style-ref": "operator"
+                    },
+                    {
+                        "where": "start",
+                        "sub-pattern": 2,
+                        "style-ref": "regex"
+                    },
+                    {
+                        "where": "end",
+                        "sub-pattern": 0,
+                        "style-ref": "regex"
+                    },
+                    {"ref": "in-pattern"}
+                ]},
+                "start": "([!=]\\~)\\s*(/)",
+                "end": "/[cgimosx]*",
+                "style-inside": true,
+                "style-ref": "regex"
+            }
+        ]},
+        "id": "match-slashslash"
+    },
+    {
+        "include": {"context": [
+            {
+                "where": "start",
+                "sub-pattern": 0,
+                "style-ref": "here-doc-bound"
+            },
+            {
+                "where": "end",
+                "sub-pattern": 0,
+                "style-ref": "here-doc-bound"
+            },
+            {
+                "include": {"context": {"ref": "perl"}},
+                "once-only": true,
+                "start": "",
+                "end-at-line-end": true
+            },
+            {
+                "start": "",
+                "style-ref": "here-doc",
+                "extend-parent": false
+            }
+        ]},
+        "start": {
+            "dupnames": true,
+            "extended": true,
+            "content": "<<\n        (\n          \\s*\\'(?P<HDB>\\%{here-doc-bound-char}*)\\'|  # 'EOF'\n             \\\\(?P<HDB>\\%{here-doc-bound-char}+)     # \\EOF\n        )"
+        },
+        "end": "^\\%{HDB@start}$",
+        "id": "here-doc-no-ve"
+    },
+    {
+        "include": {"context": [
+            {
+                "where": "start",
+                "sub-pattern": 0,
+                "style-ref": "here-doc-bound"
+            },
+            {
+                "where": "end",
+                "sub-pattern": 0,
+                "style-ref": "here-doc-bound"
+            },
+            {
+                "include": {"context": {"ref": "perl"}},
+                "once-only": true,
+                "start": "",
+                "end-at-line-end": true
+            },
+            {
+                "include": {"context": [
+                    {"ref": "def:escape"},
+                    {"ref": "variable"}
+                ]},
+                "start": "",
+                "style-ref": "here-doc",
+                "extend-parent": false
+            }
+        ]},
+        "start": {
+            "dupnames": true,
+            "extended": true,
+            "content": "<<\n        (\n          \\s*\\\"(?P<HDB>\\%{here-doc-bound-char}*)\\\"|   # \"EOF\"\n               (?P<HDB>\\%{here-doc-bound-char}+)      # EOF\n        )"
+        },
+        "end": "^\\%{HDB@start}$",
+        "id": "here-doc"
+    },
+    {
+        "include": {"context": {
+            "sub-pattern": 1,
+            "style-ref": "keyword"
+        }},
+        "match": "(sub)\\s+\\%{function}\\b",
+        "id": "sub"
+    },
+    {
+        "id": "file-descriptor",
+        "keyword": [
+            "STDIN",
+            "STDOUT",
+            "STDERR"
+        ],
+        "style-ref": "file-descriptor"
+    },
+    {
+        "id": "control",
+        "keyword": [
+            "BEGIN",
+            "END",
+            "CHECK",
+            "INIT"
+        ],
+        "style-ref": "control"
+    },
+    {
+        "include": {"context": [
+            {
+                "keyword": "require",
+                "style-ref": "include-statement"
+            },
+            {
+                "include": {"context": [
+                    {
+                        "where": "start",
+                        "sub-pattern": 0,
+                        "style-ref": "include-statement"
+                    },
+                    {
+                        "once-only": true,
+                        "keyword": [
+                            "attributes",
+                            "autodie",
+                            "autouse",
+                            "base",
+                            "bigint",
+                            "bignum",
+                            "bigrat",
+                            "blib",
+                            "bytes",
+                            "charnames",
+                            "constant",
+                            "diagnostics",
+                            "encoding",
+                            "feature",
+                            "fields",
+                            "fileset",
+                            "if",
+                            "integer",
+                            "less",
+                            "lib",
+                            "locale",
+                            "mro",
+                            "open",
+                            "ops",
+                            "overload",
+                            "overloading",
+                            "parent",
+                            "re",
+                            "sigtrap",
+                            "sort",
+                            "strict",
+                            "subs",
+                            "threads",
+                            "threads::shared",
+                            "utf8",
+                            "vars",
+                            "vmish",
+                            "warnings",
+                            "warnings::register"
+                        ],
+                        "style-ref": "include-statement"
+                    },
+                    {"ref": "perl"}
+                ]},
+                "start": "(use|no)\\s",
+                "end": ";"
+            }
+        ]},
+        "id": "include-statement"
+    },
+    {
+        "id": "keyword",
+        "keyword": [
+            "break",
+            "continue",
+            "do",
+            "default",
+            "each",
+            "else",
+            "elsif",
+            "foreach",
+            "for",
+            "given",
+            "if",
+            "last",
+            "local",
+            "my",
+            "next",
+            "our",
+            "package",
+            "return",
+            "sub",
+            "state",
+            "unless",
+            "until",
+            "when",
+            "while",
+            "__FILE__",
+            "__LINE__",
+            "__PACKAGE__"
+        ],
+        "style-ref": "keyword"
+    },
+    {
+        "id": "builtin",
+        "keyword": [
+            "abs",
+            "accept",
+            "alarm",
+            "atan2",
+            "bind",
+            "binmode",
+            "bless",
+            "caller",
+            "chdir",
+            "chmod",
+            "chomp",
+            "chop",
+            "chown",
+            "chr",
+            "chroot",
+            "closedir",
+            "close",
+            "connect",
+            "cos",
+            "crypt",
+            "dbmclose",
+            "dbmopen",
+            "defined",
+            "delete",
+            "die",
+            "dump",
+            "each",
+            "endgrent",
+            "endhostent",
+            "endnetent",
+            "endprotoent",
+            "endpwent",
+            "endservent",
+            "eof",
+            "eval",
+            "exec",
+            "exists",
+            "exit",
+            "exp",
+            "fcntl",
+            "fileno",
+            "flock",
+            "fork",
+            "format",
+            "formline",
+            "getc",
+            "getgrent",
+            "getgrgid",
+            "getgrnam",
+            "gethostbyaddr",
+            "gethostbyname",
+            "gethostent",
+            "getlogin",
+            "getnetbyaddr",
+            "getnetbyname",
+            "getnetent",
+            "getpeername",
+            "getpgrp",
+            "getppid",
+            "getpriority",
+            "getprotobyname",
+            "getprotobynumber",
+            "getprotoent",
+            "getpwent",
+            "getpwnam",
+            "getpwuid",
+            "getservbyname",
+            "getservbyport",
+            "getservent",
+            "getsockname",
+            "getsockopt",
+            "glob",
+            "gmtime",
+            "goto",
+            "grep",
+            "hex",
+            "import",
+            "index",
+            "int",
+            "ioctl",
+            "join",
+            "keys",
+            "kill",
+            "lcfirst",
+            "lc",
+            "length",
+            "link",
+            "listen",
+            "localtime",
+            "log",
+            "lstat",
+            "map",
+            "mkdir",
+            "msgctl",
+            "msgget",
+            "msgrcv",
+            "msgsnd",
+            "new",
+            "oct",
+            "opendir",
+            "open",
+            "ord",
+            "pack",
+            "pipe",
+            "pop",
+            "pos",
+            "printf",
+            "print",
+            "prototype",
+            "push",
+            "quotemeta",
+            "rand",
+            "readdir",
+            "read",
+            "readlink",
+            "recv",
+            "redo",
+            "ref",
+            "rename",
+            "reset",
+            "reverse",
+            "rewinddir",
+            "rindex",
+            "rmdir",
+            "say",
+            "scalar",
+            "seekdir",
+            "seek",
+            "select",
+            "semctl",
+            "semget",
+            "semop",
+            "send",
+            "setgrent",
+            "sethostent",
+            "setnetent",
+            "setpgrp",
+            "setpriority",
+            "setprotoent",
+            "setpwent",
+            "setservent",
+            "setsockopt",
+            "shift",
+            "shmctl",
+            "shmget",
+            "shmread",
+            "shmwrite",
+            "shutdown",
+            "sin",
+            "sleep",
+            "socket",
+            "socketpair",
+            "sort",
+            "splice",
+            "split",
+            "sprintf",
+            "sqrt",
+            "srand",
+            "stat",
+            "study",
+            "substr",
+            "symlink",
+            "syscall",
+            "sysread",
+            "sysseek",
+            "system",
+            "syswrite",
+            "telldir",
+            "tell",
+            "tied",
+            "tie",
+            "time",
+            "times",
+            "truncate",
+            "ucfirst",
+            "uc",
+            "umask",
+            "undef",
+            "unlink",
+            "unpack",
+            "unshift",
+            "untie",
+            "utime",
+            "values",
+            "vec",
+            "wait",
+            "waitpid",
+            "wantarray",
+            "warn",
+            "write"
+        ],
+        "style-ref": "builtin"
+    },
+    {
+        "include": {"context": {"ref": "def:in-comment"}},
+        "class-disabled": "no-spell-check",
+        "start": "(?<![^\\s])#",
+        "id": "asserted-comment",
+        "class": "comment",
+        "style-ref": "comment",
+        "end-at-line-end": true
+    },
+    {
+        "include": {"context": {
+            "sub-pattern": 3,
+            "style-ref": "string"
+        }},
+        "match": {
+            "extended": true,
+            "content": "^\\# \\s*\n        (line \\s+ (\\d+)) \\s*\n        (?:(\\s\"([^\"]+)\"|[^\"]+))? \\s*\n        $"
+        },
+        "id": "line-directive",
+        "style-ref": "line-directive"
+    },
+    {
+        "include": {"context": [
+            {"ref": "def:in-comment"},
+            {"ref": "pod-escape"}
+        ]},
+        "id": "in-pod"
+    },
+    {
+        "include": {"context": [
+            {
+                "include": {"context": [
+                    {
+                        "where": "start",
+                        "sub-pattern": 0,
+                        "style-ref": "pod-escape"
+                    },
+                    {
+                        "where": "end",
+                        "sub-pattern": 0,
+                        "style-ref": "pod-escape"
+                    },
+                    {"ref": "in-pod"}
+                ]},
+                "start": "[IBCLEFSXZ]<(?!<)",
+                "end": "(?<!>)>"
+            },
+            {
+                "include": {"context": [
+                    {
+                        "where": "start",
+                        "sub-pattern": 0,
+                        "style-ref": "pod-escape"
+                    },
+                    {
+                        "where": "end",
+                        "sub-pattern": 0,
+                        "style-ref": "pod-escape"
+                    },
+                    {"ref": "in-pod"}
+                ]},
+                "start": "[IBCLEFSXZ]<{2}\\s",
+                "end": "\\s>{2}"
+            },
+            {
+                "include": {"context": [
+                    {
+                        "where": "start",
+                        "sub-pattern": 0,
+                        "style-ref": "pod-escape"
+                    },
+                    {
+                        "where": "end",
+                        "sub-pattern": 0,
+                        "style-ref": "pod-escape"
+                    },
+                    {"ref": "in-pod"}
+                ]},
+                "start": "[IBCLEFSXZ]<{3}\\s",
+                "end": "\\s>{3}"
+            },
+            {
+                "include": {"context": [
+                    {
+                        "where": "start",
+                        "sub-pattern": 0,
+                        "style-ref": "pod-escape"
+                    },
+                    {
+                        "where": "end",
+                        "sub-pattern": 0,
+                        "style-ref": "pod-escape"
+                    },
+                    {"ref": "in-pod"}
+                ]},
+                "start": "[IBCLEFSXZ]<{4}\\s",
+                "end": "\\s>{4}"
+            },
+            {
+                "include": {"context": [
+                    {
+                        "where": "start",
+                        "sub-pattern": 0,
+                        "style-ref": "pod-escape"
+                    },
+                    {
+                        "where": "end",
+                        "sub-pattern": 0,
+                        "style-ref": "pod-escape"
+                    },
+                    {"ref": "in-pod"}
+                ]},
+                "start": "[IBCLEFSXZ]<{5}\\s",
+                "end": "\\s>{5}"
+            },
+            {
+                "include": {"context": [
+                    {
+                        "where": "start",
+                        "sub-pattern": 0,
+                        "style-ref": "pod-escape"
+                    },
+                    {
+                        "where": "end",
+                        "sub-pattern": 0,
+                        "style-ref": "pod-escape"
+                    },
+                    {"ref": "in-pod"}
+                ]},
+                "start": "[IBCLEFSXZ]<{6}\\s",
+                "end": "\\s>{6}"
+            }
+        ]},
+        "id": "pod-escape"
+    },
+    {
+        "include": {"context": [
+            {
+                "where": "start",
+                "sub-pattern": 1,
+                "style-ref": "pod-keyword"
+            },
+            {"ref": "in-pod"}
+        ]},
+        "start": "^=(head[1-4])",
+        "id": "pod-heading",
+        "style-inside": true,
+        "end-at-line-end": true,
+        "style-ref": "pod-heading"
+    },
+    {
+        "include": {"context": [
+            {
+                "where": "end",
+                "sub-pattern": 1,
+                "style-ref": "pod-keyword"
+            },
+            {"ref": "pod-heading"},
+            {
+                "include": {"context": {
+                    "sub-pattern": 1,
+                    "style-ref": "pod-keyword"
+                }},
+                "match": "^=(pod|encoding|over|item|back)"
+            },
+            {
+                "include": {"context": [
+                    {
+                        "where": "start",
+                        "sub-pattern": 1,
+                        "style-ref": "pod-keyword"
+                    },
+                    {
+                        "where": "end",
+                        "sub-pattern": 1,
+                        "style-ref": "pod-keyword"
+                    },
+                    {"ref": "pod"}
+                ]},
+                "start": "^=(begin)\\s+(.*)$",
+                "end": "^=(end)\\s+\\%{1@start}$"
+            },
+            {"ref": "in-pod"}
+        ]},
+        "class-disabled": "no-spell-check",
+        "start": "^(?=(=[a-z]))",
+        "end": "^=(cut)$",
+        "id": "pod",
+        "style-ref": "pod"
+    },
+    {
+        "include": {"context": {
+            "where": "start",
+            "sub-pattern": 0,
+            "style-ref": "keyword"
+        }},
+        "start": "__(DATA|END)__",
+        "id": "data",
+        "style-ref": "comment"
+    }
+]}

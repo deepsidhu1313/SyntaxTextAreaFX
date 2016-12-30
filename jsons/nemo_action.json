@@ -1,0 +1,160 @@
+{"language": {
+    "metadata": {"property": [
+        {
+            "name": "mimetypes",
+            "content": "application/nemo-action"
+        },
+        {
+            "name": "globs",
+            "content": "*.nemo_action"
+        },
+        {
+            "name": "line-comment-start",
+            "content": "#"
+        }
+    ]},
+    "_name": "Nemo Action",
+    "_section": "Others",
+    "styles": {"style": [
+        {
+            "_name": "Group",
+            "map-to": "def:keyword",
+            "id": "group"
+        },
+        {
+            "_name": "Key",
+            "map-to": "def:type",
+            "id": "key"
+        },
+        {
+            "_name": "Translation",
+            "map-to": "def:decimal",
+            "id": "language"
+        },
+        {
+            "_name": "Number",
+            "map-to": "def:floating-point",
+            "id": "number"
+        },
+        {
+            "_name": "Boolean",
+            "map-to": "def:floating-point",
+            "id": "boolean"
+        },
+        {
+            "_name": "Exec parameter",
+            "map-to": "def:floating-point",
+            "id": "exec-parameter"
+        },
+        {
+            "_name": "Encoding",
+            "map-to": "def:floating-point",
+            "id": "encoding"
+        }
+    ]},
+    "id": "nemo_action",
+    "version": 2,
+    "definitions": {
+        "context": [
+            {
+                "start": "^\\[",
+                "end": "\\]$",
+                "id": "group",
+                "style-ref": "group"
+            },
+            {
+                "match": "\\[[a-zA-Z_]+\\]",
+                "id": "language",
+                "style-ref": "language"
+            },
+            {
+                "id": "boolean",
+                "keyword": [
+                    true,
+                    false
+                ],
+                "style-ref": "boolean"
+            },
+            {
+                "match": "%[FUNPfp%]",
+                "id": "exec-parameter",
+                "style-ref": "exec-parameter"
+            },
+            {
+                "id": "encoding",
+                "keyword": [
+                    "UTF\\-8",
+                    "Legacy\\-Mixed"
+                ],
+                "style-ref": "encoding"
+            },
+            {
+                "match": "(.\\b[0-9]+([Ll]?|[Ff]?)\\b)|(b[0-9]*\\.\\W)",
+                "id": "number",
+                "style-ref": "number"
+            },
+            {
+                "prefix": "^_?",
+                "id": "standard-key",
+                "suffix": "\\%{key-suffix}",
+                "keyword": [
+                    "Active",
+                    "Name",
+                    "Comment",
+                    "Exec",
+                    "Icon-Name",
+                    "Stock-Id",
+                    "Selection",
+                    "Extensions",
+                    "Mimetypes",
+                    "Separator",
+                    "Quote",
+                    "Dependencies",
+                    "Conditions",
+                    "EscapeSpaces"
+                ],
+                "style-ref": "key"
+            },
+            {
+                "match": "^_?X\\-[a-zA-Z\\-]+\\%{key-suffix}",
+                "id": "non-standard-key",
+                "style-ref": "key"
+            },
+            {
+                "include": {"context": [
+                    {"ref": "standard-key"},
+                    {"ref": "non-standard-key"}
+                ]},
+                "id": "key"
+            },
+            {
+                "include": {"context": [
+                    {"ref": "def:shell-like-comment"},
+                    {"ref": "group"},
+                    {"ref": "key"},
+                    {
+                        "include": {"context": [
+                            {
+                                "where": "start",
+                                "sub-pattern": 1,
+                                "style-ref": "language"
+                            },
+                            {"ref": "boolean"},
+                            {"ref": "exec-parameter"},
+                            {"ref": "encoding"},
+                            {"ref": "number"}
+                        ]},
+                        "start": "(\\[[a-zA-Z_]+\\])?\\s*=\\s*",
+                        "id": "lang-and-value",
+                        "end-at-line-end": true
+                    }
+                ]},
+                "id": "nemo_action"
+            }
+        ],
+        "define-regex": {
+            "id": "key-suffix",
+            "content": "(?=(\\[[a-zA-Z_]+\\])?\\s*=\\s*)"
+        }
+    }
+}}

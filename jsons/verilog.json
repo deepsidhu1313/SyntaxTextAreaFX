@@ -1,0 +1,556 @@
+{"language": {
+    "metadata": {"property": [
+        {
+            "name": "mimetypes",
+            "content": "text/x-verilog-src"
+        },
+        {
+            "name": "globs",
+            "content": "*.v"
+        },
+        {
+            "name": "line-comment-start",
+            "content": "//"
+        },
+        {
+            "name": "block-comment-start",
+            "content": "/*"
+        },
+        {
+            "name": "block-comment-end",
+            "content": "*/"
+        }
+    ]},
+    "_name": "Verilog",
+    "_section": "Source",
+    "styles": {"style": [
+        {
+            "_name": "Comment",
+            "map-to": "def:comment",
+            "id": "comment"
+        },
+        {
+            "_name": "String",
+            "map-to": "def:string",
+            "id": "string"
+        },
+        {
+            "_name": "printf Conversion",
+            "map-to": "def:special-char",
+            "id": "printf"
+        },
+        {
+            "_name": "Escaped Character",
+            "map-to": "def:special-char",
+            "id": "escaped-character"
+        },
+        {
+            "_name": "Error",
+            "map-to": "def:error",
+            "id": "error"
+        },
+        {
+            "_name": "Compiler Directive",
+            "map-to": "def:preprocessor",
+            "id": "compiler-directive"
+        },
+        {
+            "_name": "IEEE System Task",
+            "map-to": "def:keyword",
+            "id": "ieee-system-task"
+        },
+        {
+            "_name": "LRM Additional System Task",
+            "map-to": "def:keyword",
+            "id": "lrm-additional-system-task"
+        },
+        {
+            "_name": "Keyword",
+            "map-to": "def:keyword",
+            "id": "keyword"
+        },
+        {
+            "_name": "Gate",
+            "map-to": "def:keyword",
+            "id": "gate"
+        },
+        {
+            "_name": "Type",
+            "map-to": "def:type",
+            "id": "type"
+        },
+        {
+            "_name": "Base-N Integer",
+            "map-to": "def:base-n-integer",
+            "id": "base-n-integer"
+        },
+        {
+            "_name": "Real number",
+            "map-to": "def:floating-point",
+            "id": "real-number"
+        },
+        {
+            "_name": "Integer Number",
+            "map-to": "def:number",
+            "id": "integer-number"
+        }
+    ]},
+    "id": "verilog",
+    "version": 2,
+    "definitions": {
+        "context": [
+            {
+                "include": {"context": {"ref": "def:in-line-comment"}},
+                "class-disabled": "no-spell-check",
+                "start": "//",
+                "id": "line-comment",
+                "class": "comment",
+                "style-ref": "comment",
+                "end-at-line-end": true
+            },
+            {
+                "include": {"context": {"ref": "def:in-comment"}},
+                "class-disabled": "no-spell-check",
+                "start": "/\\*",
+                "end": "\\*/",
+                "id": "block-comment",
+                "class": "comment",
+                "style-ref": "comment"
+            },
+            {
+                "match": "\\*/(?!\\*)",
+                "id": "close-comment-outside-comment",
+                "style-ref": "error"
+            },
+            {
+                "match": {
+                    "extended": true,
+                    "content": "\\%\\%|\\%\n        0?                      # truncation\n        (?:[1-9][0-9]*|\\*)?     # width\n        (?:\\.\\-?(?:[0-9]+|\\*))? # precision\n        [bBoOdDhHeEfFtTsSmMlL]  # format specifier"
+                },
+                "id": "printf",
+                "style-ref": "printf",
+                "extend-parent": false
+            },
+            {
+                "include": {"context": [
+                    {"ref": "printf"},
+                    {
+                        "match": "\\%{escaped-character}",
+                        "id": "escaped-character",
+                        "style-ref": "escaped-character"
+                    },
+                    {"ref": "def:line-continue"}
+                ]},
+                "class-disabled": "no-spell-check",
+                "start": "\"",
+                "end": "\"",
+                "id": "string",
+                "class": "string",
+                "style-ref": "string",
+                "end-at-line-end": true
+            },
+            {
+                "prefix": "`",
+                "id": "compiler-directive",
+                "keyword": [
+                    "celldefine",
+                    "default_nettype",
+                    "define",
+                    "else",
+                    "elsif",
+                    "endcelldefine",
+                    "endif",
+                    "ifdef",
+                    "ifndef",
+                    "include",
+                    "line",
+                    "nounconnected_drive",
+                    "resetall",
+                    "timescale",
+                    "unconnected_drive",
+                    "undef"
+                ],
+                "style-ref": "compiler-directive"
+            },
+            {
+                "prefix": "\\$",
+                "id": "ieee-system-task",
+                "keyword": [
+                    "acos",
+                    "acosh",
+                    "asin",
+                    "asinh",
+                    "atan",
+                    "atan2",
+                    "atanh",
+                    "async\\$and\\$array",
+                    "async\\$and\\$plane",
+                    "async\\$nand\\$array",
+                    "async\\$nand\\$plane",
+                    "async\\$or\\$array",
+                    "async\\$or\\$plane",
+                    "async\\$nor\\$array",
+                    "async\\$nor\\$plane",
+                    "bitstoreal",
+                    "ceil",
+                    "cos",
+                    "cosh",
+                    "clog2",
+                    "display",
+                    "displayb",
+                    "displayh",
+                    "displayo",
+                    "dist_chi_square",
+                    "dist_erlang",
+                    "dist_exponential",
+                    "dist_normal",
+                    "dist_poisson",
+                    "dist_t",
+                    "dist_uniform",
+                    "dummpall",
+                    "dumpfile",
+                    "dumpflush",
+                    "dumplimit",
+                    "dumpoff",
+                    "dumpon",
+                    "dumpvars",
+                    "exp",
+                    "fclose",
+                    "fdisplay",
+                    "fdisplayb",
+                    "fdisplayh",
+                    "fdisplayo",
+                    "feof",
+                    "ferror",
+                    "fflush",
+                    "fgetc",
+                    "fgets",
+                    "finish",
+                    "floor",
+                    "fmonitor",
+                    "fmonitorb",
+                    "fmonitorh",
+                    "fmonitoro",
+                    "fopen",
+                    "fread",
+                    "fscanf",
+                    "fseek",
+                    "fstrobe",
+                    "fstrobeb",
+                    "fstrobeh",
+                    "fstrobeo",
+                    "ftell",
+                    "fwrite",
+                    "fwriteb",
+                    "fwriteh",
+                    "fwriteo",
+                    "hold",
+                    "hypot",
+                    "itor",
+                    "ln",
+                    "log10",
+                    "monitor",
+                    "monitorb",
+                    "monitorh",
+                    "monitoro",
+                    "monitoroff",
+                    "monitoron",
+                    "nochange",
+                    "period",
+                    "pow",
+                    "printtimescale",
+                    "q_add",
+                    "q_exam",
+                    "q_full",
+                    "q_initialize",
+                    "q_remove",
+                    "random",
+                    "readmemb",
+                    "readmemh",
+                    "realtime",
+                    "realtobits",
+                    "recovery",
+                    "rewind",
+                    "rtoi",
+                    "sdf_annotate",
+                    "setup",
+                    "setuphold",
+                    "sformat",
+                    "signed",
+                    "sin",
+                    "sinh",
+                    "skew",
+                    "sqrt",
+                    "sscanf",
+                    "stime",
+                    "stop",
+                    "strobe",
+                    "strobeb",
+                    "strobeh",
+                    "strobeo",
+                    "swrite",
+                    "swriteb",
+                    "swriteh",
+                    "swriteo",
+                    "sync\\$and\\$array",
+                    "sync\\$and\\$plane",
+                    "sync\\$nand\\$array",
+                    "sync\\$nand\\$plane",
+                    "sync\\$or\\$array",
+                    "sync\\$or\\$plane",
+                    "sync\\$nor\\$array",
+                    "sync\\$nor\\$plane",
+                    "tan",
+                    "tanh",
+                    "test\\$plusargs",
+                    "time",
+                    "timeformat",
+                    "ungetc",
+                    "unsigned",
+                    "value\\$plusargs",
+                    "width",
+                    "write",
+                    "writeb",
+                    "writeh",
+                    "writeo"
+                ],
+                "style-ref": "ieee-system-task"
+            },
+            {
+                "prefix": "\\$",
+                "id": "lrm-additional-system-task",
+                "keyword": [
+                    "countdrivers",
+                    "getpattern",
+                    "incsave",
+                    "key",
+                    "list",
+                    "log",
+                    "nokey",
+                    "nolog",
+                    "reset",
+                    "reset_count",
+                    "reset_value",
+                    "restart",
+                    "save",
+                    "scale",
+                    "scope",
+                    "showscopes",
+                    "showvars",
+                    "sreadmemb",
+                    "sreadmemh"
+                ],
+                "style-ref": "lrm-additional-system-task"
+            },
+            {
+                "id": "keywords",
+                "keyword": [
+                    "always",
+                    "assign",
+                    "attribute",
+                    "begin",
+                    "case",
+                    "casex",
+                    "casez",
+                    "deassign",
+                    "default",
+                    "defparam",
+                    "disable",
+                    "edge",
+                    "else",
+                    "end",
+                    "endattribute",
+                    "endcase",
+                    "endfunction",
+                    "endgenerate",
+                    "endmodule",
+                    "endprimitive",
+                    "endspecify",
+                    "endtable",
+                    "endtask",
+                    "for",
+                    "force",
+                    "forever",
+                    "fork",
+                    "function",
+                    "generate",
+                    "highz0",
+                    "highz1",
+                    "if",
+                    "ifnone",
+                    "initial",
+                    "join",
+                    "large",
+                    "macromodule",
+                    "medium",
+                    "module",
+                    "negedge",
+                    "posedge",
+                    "primitive",
+                    "pull0",
+                    "pull1",
+                    "release",
+                    "repeat",
+                    "signed",
+                    "small",
+                    "specify",
+                    "specparam",
+                    "strength",
+                    "strong0",
+                    "strong1",
+                    "table",
+                    "task",
+                    "unsigned",
+                    "wait",
+                    "weak0",
+                    "weak1",
+                    "while"
+                ],
+                "style-ref": "keyword"
+            },
+            {
+                "id": "gates",
+                "keyword": [
+                    "and",
+                    "buf",
+                    "bufif0",
+                    "bufif1",
+                    "cmos",
+                    "nand",
+                    "nmos",
+                    "nor",
+                    "not",
+                    "notif0",
+                    "notif1",
+                    "or",
+                    "pmos",
+                    "pullup",
+                    "pulldown",
+                    "rcmos",
+                    "rnmos",
+                    "rpmos",
+                    "rtran",
+                    "rtranif0",
+                    "rtranif1",
+                    "tran",
+                    "tranif0",
+                    "tranif1",
+                    "xnor",
+                    "xor"
+                ],
+                "style-ref": "gate"
+            },
+            {
+                "id": "types",
+                "keyword": [
+                    "event",
+                    "genvar",
+                    "inout",
+                    "input",
+                    "integer",
+                    "output",
+                    "parameter",
+                    "real",
+                    "reg",
+                    "realtime",
+                    "scalared",
+                    "supply0",
+                    "supply1",
+                    "time",
+                    "tri",
+                    "tri0",
+                    "tri1",
+                    "triand",
+                    "trior",
+                    "trireg",
+                    "vectored",
+                    "wand",
+                    "wire",
+                    "wor"
+                ],
+                "style-ref": "type"
+            },
+            {
+                "match": {
+                    "extended": true,
+                    "content": "(?<![\\w\\.])\n        [1-9][0-9]*'[bB][0-1_xXzZ?]+\n        (?![\\w\\.])"
+                },
+                "id": "binary-number",
+                "style-ref": "base-n-integer"
+            },
+            {
+                "match": {
+                    "extended": true,
+                    "content": "(?<![\\w\\.])\n        [1-9][0-9]*'[oO][0-7_xXzZ?]+\n        (?![\\w\\.])"
+                },
+                "id": "octal-number",
+                "style-ref": "base-n-integer"
+            },
+            {
+                "match": {
+                    "extended": true,
+                    "content": "(?<![\\w\\.])\n        [1-9][0-9]*'[dD][0-9_xXzZ?]+\n        (?![\\w\\.])"
+                },
+                "id": "decimal-number",
+                "style-ref": "base-n-integer"
+            },
+            {
+                "match": {
+                    "extended": true,
+                    "content": "(?<![\\w\\.])\n        [1-9][0-9]*'[hH][0-9a-fA-F_xXzZ?]+\n        (?![\\w\\.])"
+                },
+                "id": "hexadecimal-number",
+                "style-ref": "base-n-integer"
+            },
+            {
+                "match": {
+                    "extended": true,
+                    "content": "(?<![\\w\\.])\n        [0-9][0-9_]*\\.[0-9][0-9_]*\\%{exponent}?\n        (?![\\w\\.])"
+                },
+                "id": "real-number",
+                "style-ref": "real-number"
+            },
+            {
+                "match": {
+                    "extended": true,
+                    "content": "(?<![\\w\\.])\n        [0-9][0-9_]*(E[+]?[0-9][0-9_]*)?\n        (?![\\w\\.])"
+                },
+                "id": "integer-number",
+                "style-ref": "integer-number"
+            },
+            {
+                "include": {"context": [
+                    {"ref": "line-comment"},
+                    {"ref": "block-comment"},
+                    {"ref": "close-comment-outside-comment"},
+                    {"ref": "string"},
+                    {"ref": "compiler-directive"},
+                    {"ref": "ieee-system-task"},
+                    {"ref": "lrm-additional-system-task"},
+                    {"ref": "keywords"},
+                    {"ref": "gates"},
+                    {"ref": "types"},
+                    {"ref": "binary-number"},
+                    {"ref": "octal-number"},
+                    {"ref": "decimal-number"},
+                    {"ref": "hexadecimal-number"},
+                    {"ref": "real-number"},
+                    {"ref": "integer-number"}
+                ]},
+                "id": "verilog",
+                "class": "no-spell-check"
+            }
+        ],
+        "define-regex": [
+            {
+                "id": "escaped-character",
+                "extended": true,
+                "content": "\\\\(                   # leading backslash\n      [\\\\\\\"\\'nt]            # escaped character\n      )"
+            },
+            {
+                "id": "exponent",
+                "content": "[Ee][+-]?[0-9][0-9_]*"
+            }
+        ]
+    }
+}}

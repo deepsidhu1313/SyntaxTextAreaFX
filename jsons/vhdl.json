@@ -1,0 +1,295 @@
+{"language": {
+    "metadata": {"property": [
+        {
+            "name": "mimetypes",
+            "content": "text/x-vhdl"
+        },
+        {
+            "name": "globs",
+            "content": "*.vhd"
+        },
+        {
+            "name": "line-comment-start",
+            "content": "--"
+        }
+    ]},
+    "_name": "VHDL",
+    "_section": "Source",
+    "styles": {"style": [
+        {
+            "_name": "Comment",
+            "map-to": "def:comment",
+            "id": "comment"
+        },
+        {
+            "_name": "String",
+            "map-to": "def:string",
+            "id": "string"
+        },
+        {
+            "_name": "Character",
+            "map-to": "def:character",
+            "id": "character"
+        },
+        {
+            "_name": "Keyword",
+            "map-to": "def:keyword",
+            "id": "keyword"
+        },
+        {
+            "_name": "Type",
+            "map-to": "def:type",
+            "id": "type"
+        },
+        {
+            "_name": "Boolean value",
+            "map-to": "def:boolean",
+            "id": "boolean"
+        },
+        {
+            "_name": "Base-N Integer",
+            "map-to": "def:base-n-integer",
+            "id": "base-n-number"
+        },
+        {
+            "_name": "Real number",
+            "map-to": "def:floating-point",
+            "id": "real"
+        },
+        {
+            "_name": "Number",
+            "map-to": "def:number",
+            "id": "number"
+        }
+    ]},
+    "id": "vhdl",
+    "version": 2,
+    "definitions": {
+        "context": [
+            {
+                "include": {"context": {"ref": "def:in-line-comment"}},
+                "class-disabled": "no-spell-check",
+                "start": "--",
+                "id": "line-comment",
+                "class": "comment",
+                "style-ref": "comment",
+                "end-at-line-end": true
+            },
+            {
+                "class-disabled": "no-spell-check",
+                "start": "\"",
+                "end": "\"",
+                "id": "string",
+                "class": "string",
+                "style-ref": "string",
+                "end-at-line-end": true
+            },
+            {
+                "match": "'.'",
+                "id": "character",
+                "style-ref": "string"
+            },
+            {
+                "id": "keywords",
+                "keyword": [
+                    "access",
+                    "after",
+                    "alias",
+                    "all",
+                    "architecture",
+                    "array",
+                    "assert",
+                    "attribute",
+                    "begin",
+                    "block",
+                    "body",
+                    "buffer",
+                    "bus",
+                    "case",
+                    "component",
+                    "configuration",
+                    "constant",
+                    "disconnect",
+                    "downto",
+                    "else",
+                    "elsif",
+                    "end",
+                    "entity",
+                    "exit",
+                    "file",
+                    "for",
+                    "function",
+                    "generate",
+                    "generic",
+                    "group",
+                    "guarded",
+                    "if",
+                    "impure",
+                    "in",
+                    "inertial",
+                    "inout",
+                    "is",
+                    "label",
+                    "library",
+                    "linkage",
+                    "literal",
+                    "loop",
+                    "map",
+                    "new",
+                    "next",
+                    null,
+                    "of",
+                    "on",
+                    "open",
+                    "others",
+                    "out",
+                    "package",
+                    "port",
+                    "postponed",
+                    "procedure",
+                    "process",
+                    "pure",
+                    "range",
+                    "record",
+                    "register",
+                    "reject",
+                    "report",
+                    "return",
+                    "select",
+                    "severity",
+                    "signal",
+                    "shared",
+                    "subtype",
+                    "then",
+                    "to",
+                    "transport",
+                    "type",
+                    "unaffected",
+                    "units",
+                    "until",
+                    "use",
+                    "variable",
+                    "wait",
+                    "when",
+                    "while",
+                    "with",
+                    "note",
+                    "warning",
+                    "error",
+                    "failure",
+                    "and",
+                    "nand",
+                    "or",
+                    "nor",
+                    "xor",
+                    "xnor",
+                    "rol",
+                    "ror",
+                    "sla",
+                    "sll",
+                    "sra",
+                    "srl",
+                    "mod",
+                    "rem",
+                    "abs",
+                    "not"
+                ],
+                "style-ref": "keyword"
+            },
+            {
+                "id": "types",
+                "keyword": [
+                    "bit",
+                    "bit_vector",
+                    "character",
+                    "boolean",
+                    "integer",
+                    "real",
+                    "time",
+                    "string",
+                    "severity_level",
+                    "positive",
+                    "natural",
+                    "signed",
+                    "unsigned",
+                    "line",
+                    "text",
+                    "std_logic",
+                    "std_logic_vector",
+                    "std_ulogic",
+                    "std_ulogic_vector",
+                    "qsim_state",
+                    "qsim_state_vector",
+                    "qsim_12state",
+                    "qsim_12state_vector",
+                    "qsim_strength",
+                    "mux_bit",
+                    "mux_vectory",
+                    "reg_bit",
+                    "reg_vector",
+                    "wor_bit",
+                    "wor_vector"
+                ],
+                "style-ref": "type"
+            },
+            {
+                "id": "boolean",
+                "keyword": [
+                    false,
+                    true
+                ],
+                "style-ref": "boolean"
+            },
+            {
+                "match": {
+                    "extended": true,
+                    "content": "(?<![\\w\\.])\n        [0-9][0-9_]*\\#\\%{hexnum}(\\.\\%{hexnum})?\\#\\%{exponent}?\n        (?![\\w\\.])"
+                },
+                "id": "base-n-number",
+                "style-ref": "base-n-number"
+            },
+            {
+                "match": {
+                    "extended": true,
+                    "content": "(?<![\\w\\.])\n        [0-9][0-9_]*\\.[0-9][0-9_]*\\%{exponent}?\n        (?![\\w\\.])"
+                },
+                "id": "real",
+                "style-ref": "real"
+            },
+            {
+                "match": {
+                    "extended": true,
+                    "content": "(?<![\\w\\.])\n        [0-9][0-9_]*(E[+]?[0-9][0-9_]*)?\n        (?![\\w\\.])"
+                },
+                "id": "number",
+                "style-ref": "number"
+            },
+            {
+                "include": {"context": [
+                    {"ref": "line-comment"},
+                    {"ref": "string"},
+                    {"ref": "character"},
+                    {"ref": "keywords"},
+                    {"ref": "types"},
+                    {"ref": "boolean"},
+                    {"ref": "base-n-number"},
+                    {"ref": "real"},
+                    {"ref": "number"}
+                ]},
+                "id": "vhdl",
+                "class": "no-spell-check"
+            }
+        ],
+        "define-regex": [
+            {
+                "id": "hexnum",
+                "content": "[0-9a-f][0-9a-f_]*"
+            },
+            {
+                "id": "exponent",
+                "content": "[Ee][+-]?[0-9][0-9_]*"
+            }
+        ]
+    },
+    "default-regex-options": {"case-sensitive": false}
+}}

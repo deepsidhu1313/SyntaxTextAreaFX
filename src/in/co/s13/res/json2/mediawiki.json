@@ -1,0 +1,305 @@
+{"mediawiki.json": [
+    {
+        "match": "'''''.+?'''''",
+        "id": "double-emphasis",
+        "style-ref": "strong-emphasis"
+    },
+    {
+        "match": "'''.+?'''",
+        "id": "strong-emphasis",
+        "style-ref": "strong-emphasis"
+    },
+    {
+        "match": "''.+?''",
+        "id": "light-emphasis",
+        "style-ref": "light-emphasis"
+    },
+    {
+        "match": "~{3,5}",
+        "id": "signature",
+        "style-ref": "signature"
+    },
+    {
+        "include": {"context": {
+            "sub-pattern": 1,
+            "style-ref": "link"
+        }},
+        "match": "(\\%{regex-url})",
+        "id": "url",
+        "style-ref": "url"
+    },
+    {
+        "include": {"context": {
+            "sub-pattern": 2,
+            "style-ref": "link-symbol"
+        }},
+        "match": "\\%{regex-internal-link}",
+        "id": "internal-link",
+        "style-ref": "link"
+    },
+    {
+        "include": {"context": {
+            "sub-pattern": 1,
+            "style-ref": "url"
+        }},
+        "match": {
+            "extended": true,
+            "content": "(?<!\\[)\n        \\[\n        \\s*\n        (\\%{regex-url})\n        [^\\[\\]]*\n        \\]\n        (?!\\])"
+        },
+        "id": "external-link",
+        "style-ref": "link"
+    },
+    {
+        "match": "^-{4,}",
+        "id": "line",
+        "style-ref": "line"
+    },
+    {
+        "include": {"context": {
+            "sub-pattern": 1,
+            "style-ref": "list"
+        }},
+        "match": "^((\\*|#(?!REDIRECT))+)\\s*[^\\*#\\s]+",
+        "id": "list"
+    },
+    {
+        "include": {"context": [
+            {
+                "sub-pattern": 1,
+                "style-ref": "list"
+            },
+            {
+                "sub-pattern": 2,
+                "style-ref": "list"
+            }
+        ]},
+        "match": {
+            "extended": true,
+            "content": "^(;)\n        \\s*\n        [^;:\\s]+?\n        [^:]*\n        (:?)"
+        },
+        "id": "glossary-term"
+    },
+    {
+        "include": {"context": {
+            "sub-pattern": 1,
+            "style-ref": "list"
+        }},
+        "match": {
+            "extended": true,
+            "content": "^(:)\n        \\s*\n        [^;:\\s]+"
+        },
+        "id": "glossary-definition"
+    },
+    {
+        "prefix": "__",
+        "id": "magic-word-1",
+        "suffix": "__",
+        "keyword": [
+            "NOTOC",
+            "FORCETOC",
+            "TOC",
+            "NOEDITSECTION",
+            "NEWSECTIONLINK",
+            "NONEWSECTIONLINK",
+            "NOGALLERY",
+            "HIDDENCAT",
+            "NOCONTENTCONVERT",
+            "NOCC",
+            "NOTITLECONVERT",
+            "NOTC",
+            "START",
+            "END",
+            "INDEX",
+            "NOINDEX",
+            "STATICREDIRECT"
+        ],
+        "style-ref": "magic-word"
+    },
+    {
+        "prefix": "{{",
+        "id": "magic-word-2",
+        "suffix": "}}",
+        "keyword": [
+            "CURRENTYEAR",
+            "CURRENTMONTH",
+            "CURRENTMONTHNAME",
+            "CURRENTMONTHNAMEGEN",
+            "CURRENTMONTHABBREV",
+            "CURRENTDAY",
+            "CURRENTDAY2",
+            "CURRENTDOW",
+            "CURRENTDAYNAME",
+            "CURRENTTIME",
+            "CURRENTHOUR",
+            "CURRENTWEEK",
+            "CURRENTTIMESTAMP",
+            "LOCALYEAR",
+            "LOCALMONTH",
+            "LOCALMONTHNAME",
+            "LOCALMONTHNAMEGEN",
+            "LOCALMONTHABBREV",
+            "LOCALDAY",
+            "LOCALDAY2",
+            "LOCALDOW",
+            "LOCALDAYNAME",
+            "LOCALTIME",
+            "LOCALHOUR",
+            "LOCALWEEK",
+            "LOCALTIMESTAMP",
+            "SITENAME",
+            "SERVER",
+            "SERVERNAME",
+            "DIRMARK",
+            "DIRECTIONMARK",
+            "SCRIPTPATH",
+            "STYLEPATH",
+            "CURRENTVERSION",
+            "CONTENTLANGUAGE",
+            "CONTENTLANG",
+            "REVISIONID",
+            "REVISIONDAY",
+            "REVISIONDAY2",
+            "REVISIONMONTH",
+            "REVISIONMONTH1",
+            "REVISIONYEAR",
+            "REVISIONTIMESTAMP",
+            "REVISIONUSER",
+            "NUMBEROFPAGES",
+            "NUMBEROFARTICLES",
+            "NUMBEROFFILES",
+            "NUMBEROFEDITS",
+            "NUMBEROFVIEWS",
+            "NUMBEROFUSERS",
+            "NUMBEROFADMINS",
+            "NUMBEROFACTIVEUSERS",
+            "FULLPAGENAME",
+            "PAGENAME",
+            "BASEPAGENAME",
+            "SUBPAGENAME",
+            "SUBJECTPAGENAME",
+            "TALKPAGENAME",
+            "FULLPAGENAMEE",
+            "PAGENAMEE",
+            "BASEPAGENAMEE",
+            "SUBPAGENAMEE",
+            "SUBJECTPAGENAMEE",
+            "TALKPAGENAMEE",
+            "NAMESPACE",
+            "SUBJECTSPACE",
+            "ARTICLESPACE",
+            "TALKSPACE",
+            "NAMESPACEE",
+            "SUBJECTSPACEE",
+            "TALKSPACEE"
+        ],
+        "style-ref": "magic-word"
+    },
+    {
+        "include": {"context": [
+            {
+                "where": "start",
+                "sub-pattern": 1,
+                "style-ref": "table-symbol"
+            },
+            {
+                "where": "end",
+                "sub-pattern": 1,
+                "style-ref": "table-symbol"
+            },
+            {"ref": "double-emphasis"},
+            {"ref": "strong-emphasis"},
+            {"ref": "light-emphasis"},
+            {"ref": "signature"},
+            {"ref": "url"},
+            {"ref": "internal-link"},
+            {"ref": "external-link"},
+            {"ref": "magic-word-1"},
+            {"ref": "magic-word-2"},
+            {"ref": "html:html"},
+            {
+                "match": {
+                    "extended": true,
+                    "content": "^\\s*(\\|\\+ | \\|-+ | !) | \\| | !{2,}"
+                },
+                "id": "table-symbol",
+                "style-ref": "table-symbol",
+                "extend-parent": false
+            }
+        ]},
+        "start": "^\\s*({\\|)",
+        "end": "^\\s*(\\|})",
+        "id": "table"
+    },
+    {
+        "match": "^ +[^ ]+.*$",
+        "id": "preformatted",
+        "style-ref": "preformatted"
+    },
+    {
+        "include": {"context": [
+            {
+                "sub-pattern": 1,
+                "style-ref": "redirect"
+            },
+            {
+                "sub-pattern": 2,
+                "style-ref": "link"
+            },
+            {
+                "sub-pattern": 4,
+                "style-ref": "link-symbol"
+            }
+        ]},
+        "match": "^(#REDIRECT)\\s*(\\%{regex-internal-link})",
+        "id": "redirect"
+    },
+    {
+        "match": "^=.+=\\s*$",
+        "id": "title",
+        "style-ref": "title"
+    },
+    {
+        "include": {"context": [
+            {
+                "sub-pattern": 1,
+                "style-ref": "template"
+            },
+            {
+                "sub-pattern": 2,
+                "style-ref": "template"
+            }
+        ]},
+        "match": "({{)\\s*[^{}\\s]+[^{}]*(}})",
+        "id": "template"
+    },
+    {
+        "include": {"context": [
+            {"ref": "double-emphasis"},
+            {"ref": "strong-emphasis"},
+            {"ref": "light-emphasis"},
+            {"ref": "signature"},
+            {"ref": "url"},
+            {"ref": "internal-link"},
+            {"ref": "external-link"},
+            {"ref": "line"},
+            {"ref": "list"},
+            {"ref": "glossary-term"},
+            {"ref": "glossary-definition"},
+            {"ref": "magic-word-1"},
+            {"ref": "magic-word-2"},
+            {"ref": "table"},
+            {"ref": "preformatted"},
+            {"ref": "redirect"},
+            {"ref": "title"},
+            {"ref": "template"}
+        ]},
+        "id": "mediawiki-syntax"
+    },
+    {
+        "include": {"context": [
+            {"ref": "mediawiki-syntax"},
+            {"ref": "html:html"}
+        ]},
+        "id": "mediawiki"
+    }
+]}

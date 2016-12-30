@@ -1,0 +1,181 @@
+{"rpmspec.json": [
+    {
+        "include": {"context": {
+            "ref": "def:line-continue",
+            "ignore-style": true
+        }},
+        "start": "%define",
+        "id": "define",
+        "style-ref": "define",
+        "end-at-line-end": true
+    },
+    {
+        "include": {"context": {
+            "ref": "def:line-continue",
+            "ignore-style": true
+        }},
+        "start": "%\\{\\!\\?.*%define",
+        "end": "\\}",
+        "id": "conditional-define",
+        "style-ref": "define",
+        "end-at-line-end": true
+    },
+    {
+        "prefix": "^",
+        "id": "header",
+        "suffix": ":",
+        "keyword": [
+            "Auto[A-Za-z]+",
+            "[A-Za-z]+Arch",
+            "[A-Za-z]+Req",
+            "Build[A-Za-z]+",
+            "Conflicts",
+            "Epoch",
+            "Group",
+            "Icon",
+            "License",
+            "Name",
+            "Obsoletes",
+            "Packager",
+            "Patch[0-9]*",
+            "Provides",
+            "Recommends",
+            "Release",
+            "Requires\\(?[a-z]*\\)?",
+            "Source[0-9]*",
+            "Suggests",
+            "Summary",
+            "Supplements",
+            "Url",
+            "URL",
+            "Vendor",
+            "Version"
+        ],
+        "style-ref": "header"
+    },
+    {
+        "prefix": "^%",
+        "id": "section",
+        "keyword": [
+            "global",
+            "description",
+            "package",
+            "prep",
+            "build",
+            "install",
+            "clean",
+            "check",
+            "pre[a-z]*",
+            "post[a-z]*",
+            "trigger[a-z]*",
+            "files"
+        ],
+        "style-ref": "section"
+    },
+    {
+        "prefix": "%",
+        "id": "spec-macro",
+        "keyword": [
+            "defattr",
+            "docdir",
+            "doc",
+            "license",
+            "setup",
+            "autosetup",
+            "config",
+            "configure",
+            "make",
+            "makeinstall",
+            "make_install",
+            "make_build",
+            "dir",
+            "ghost",
+            "patch[0-9]+",
+            "find_lang",
+            "exclude"
+        ],
+        "style-ref": "spec-macro"
+    },
+    {
+        "match": "%\\{?_([a-z_]+dir|[a-z_]+path|prefix)\\}?",
+        "id": "directory-macro",
+        "style-ref": "directory-macro"
+    },
+    {
+        "match": "%\\{?__[a-z_]+\\}?",
+        "id": "command-macro",
+        "style-ref": "command-macro"
+    },
+    {
+        "match": "%\\{\\?[A-Za-z0-9_]+\\}",
+        "id": "conditional-macro",
+        "style-ref": "conditional-macro"
+    },
+    {
+        "match": "%\\{?[a-zA-Z][a-zA-Z0-9_]+\\}?",
+        "id": "other-macro",
+        "style-ref": "other-macro"
+    },
+    {
+        "prefix": "%",
+        "id": "flow",
+        "keyword": [
+            "ifarch",
+            "if",
+            "else",
+            "elif",
+            "endif"
+        ],
+        "style-ref": "flow-conditional"
+    },
+    {
+        "match": "\\$\\{?RPM_[A-Z0-9_]+\\}?",
+        "id": "rpm-var",
+        "style-ref": "rpm-var"
+    },
+    {
+        "match": "\\s(-\\w+|--\\w[a-zA-Z_-]+)",
+        "id": "command-switch",
+        "style-ref": "switch"
+    },
+    {
+        "include": {"context": [
+            {
+                "where": "start",
+                "sub-pattern": 0,
+                "style-ref": "section"
+            },
+            {
+                "match": "\\%{date}",
+                "id": "date",
+                "style-ref": "changelog-date"
+            },
+            {
+                "match": "<[A-Za-z0-9._+-]+@[A-Za-z0-9._+-]+\\.[A-Za-z0-9]{2,4}>",
+                "id": "email",
+                "style-ref": "changelog-email"
+            }
+        ]},
+        "start": "%changelog",
+        "end": "^(?=%)",
+        "id": "changelog-section"
+    },
+    {
+        "include": {"context": [
+            {"ref": "def:shell-like-comment"},
+            {"ref": "define"},
+            {"ref": "header"},
+            {"ref": "section"},
+            {"ref": "spec-macro"},
+            {"ref": "directory-macro"},
+            {"ref": "command-macro"},
+            {"ref": "conditional-macro"},
+            {"ref": "flow"},
+            {"ref": "rpm-var"},
+            {"ref": "command-switch"},
+            {"ref": "changelog-section"},
+            {"ref": "other-macro"}
+        ]},
+        "id": "rpmspec"
+    }
+]}

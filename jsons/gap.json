@@ -1,0 +1,101 @@
+{"language": {
+    "metadata": {"property": [
+        {
+            "name": "mimetypes",
+            "content": "text/x-gap"
+        },
+        {
+            "name": "globs",
+            "content": "*.g;*.gd;*.gi;*.gap"
+        },
+        {
+            "name": "line-comment-start",
+            "content": "#"
+        }
+    ]},
+    "_name": "GAP",
+    "_section": "Scientific",
+    "styles": {"style": [
+        {
+            "_name": "Comment",
+            "map-to": "def:comment",
+            "id": "comment"
+        },
+        {
+            "_name": "Character",
+            "map-to": "def:string",
+            "id": "character"
+        },
+        {
+            "_name": "Keyword",
+            "map-to": "def:keyword",
+            "id": "keyword"
+        },
+        {
+            "_name": "Function",
+            "map-to": "def:function",
+            "id": "function"
+        },
+        {
+            "_name": "Decimal",
+            "map-to": "def:decimal",
+            "id": "decimal"
+        }
+    ]},
+    "id": "gap",
+    "version": 2,
+    "definitions": {"context": [
+        {
+            "match": "\\'(\\\\[trnb\\\\\\'\\\"]|[^\\\\])\\'",
+            "id": "character",
+            "style-ref": "character"
+        },
+        {
+            "id": "keyword",
+            "keyword": [
+                "and",
+                "break",
+                "continue",
+                "do",
+                "elif",
+                "else",
+                "end",
+                "fail",
+                false,
+                "fi",
+                "for",
+                "function",
+                "if",
+                "in",
+                "infinity",
+                "local",
+                "not",
+                "od",
+                "or",
+                "rec",
+                "repeat",
+                "return",
+                "then",
+                true,
+                "until",
+                "while"
+            ],
+            "style-ref": "keyword"
+        },
+        {
+            "match": "\\b[0-9]+\\b",
+            "id": "decimal",
+            "style-ref": "decimal"
+        },
+        {
+            "include": {"context": [
+                {"ref": "def:shell-like-comment"},
+                {"ref": "def:string"},
+                {"ref": "character"},
+                {"ref": "keyword"},
+                {"ref": "decimal"}
+            ]},
+            "id": "gap"
+        }
+    ]}
+}}

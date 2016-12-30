@@ -1,0 +1,55 @@
+{"language": {
+    "metadata": {"property": [
+        {
+            "name": "mimetypes",
+            "content": "text/x-libtool"
+        },
+        {
+            "name": "globs",
+            "content": "*.la;*.lai;*.lo"
+        },
+        {
+            "name": "line-comment-start",
+            "content": "#"
+        }
+    ]},
+    "_name": "libtool",
+    "_section": "Other",
+    "styles": {"style": [
+        {
+            "_name": "Constant",
+            "map-to": "def:constant",
+            "id": "constant"
+        },
+        {
+            "_name": "Boolean",
+            "map-to": "libtool:constant",
+            "id": "boolean"
+        }
+    ]},
+    "id": "libtool",
+    "version": 2,
+    "definitions": {"context": {
+        "include": {"context": [
+            {"ref": "def:shell-like-comment"},
+            {
+                "include": {"context": [
+                    {"ref": "def:single-quoted-string"},
+                    {"ref": "def:string"},
+                    {"ref": "def:shell-like-comment"},
+                    {"ref": "def:decimal"},
+                    {
+                        "keyword": [
+                            "yes",
+                            "no"
+                        ],
+                        "style-ref": "boolean"
+                    }
+                ]},
+                "start": "\\=",
+                "end-at-line-end": true
+            }
+        ]},
+        "id": "libtool"
+    }}
+}}

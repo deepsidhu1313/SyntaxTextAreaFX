@@ -1,0 +1,65 @@
+{"language": {
+    "metadata": {"property": [
+        {
+            "name": "mimetypes",
+            "content": "text/x-pkg-config"
+        },
+        {
+            "name": "globs",
+            "content": "*.pc"
+        }
+    ]},
+    "_name": "pkg-config",
+    "_section": "Other",
+    "styles": {"style": [
+        {
+            "_name": "Variable",
+            "map-to": "def:keyword",
+            "id": "variable"
+        },
+        {
+            "_name": "Package Info",
+            "map-to": "def:keyword",
+            "id": "info"
+        }
+    ]},
+    "id": "pkgconfig",
+    "version": 2,
+    "definitions": {"context": [
+        {
+            "match": "\\$\\{[\\w_]*\\}",
+            "id": "var-value",
+            "style-ref": "variable"
+        },
+        {
+            "include": {"context": [
+                {"ref": "def:shell-like-comment"},
+                {
+                    "include": {"context": [
+                        {
+                            "where": "start",
+                            "sub-pattern": 1,
+                            "style-ref": "variable"
+                        },
+                        {"ref": "var-value"}
+                    ]},
+                    "start": "^([\\w_]+)\\s*=\\s*",
+                    "end-at-line-end": true
+                },
+                {
+                    "include": {"context": [
+                        {
+                            "where": "start",
+                            "sub-pattern": 1,
+                            "style-ref": "info"
+                        },
+                        {"ref": "var-value"}
+                    ]},
+                    "start": "^([\\w_\\.]+)\\s*\\:\\s*",
+                    "end-at-line-end": true
+                }
+            ]},
+            "id": "pkgconfig"
+        }
+    ]}
+}}

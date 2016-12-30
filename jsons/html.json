@@ -1,0 +1,487 @@
+{"language": {
+    "metadata": {"property": [
+        {
+            "name": "mimetypes",
+            "content": "text/html"
+        },
+        {
+            "name": "globs",
+            "content": "*.html;*.htm"
+        },
+        {
+            "name": "block-comment-start",
+            "content": "<!--"
+        },
+        {
+            "name": "block-comment-end",
+            "content": "-->"
+        }
+    ]},
+    "_name": "HTML",
+    "_section": "Markup",
+    "styles": {"style": [
+        {
+            "_name": "Comment",
+            "map-to": "xml:comment",
+            "id": "comment"
+        },
+        {
+            "_name": "Tag",
+            "map-to": "xml:element-name",
+            "id": "tag"
+        },
+        {
+            "_name": "Attribute Name",
+            "map-to": "xml:attribute-name",
+            "id": "attrib-name"
+        },
+        {
+            "_name": "Attribute Value",
+            "map-to": "xml:attribute-value",
+            "id": "attrib-value"
+        },
+        {
+            "_name": "DTD",
+            "map-to": "xml:doctype",
+            "id": "dtd"
+        },
+        {
+            "_name": "Error",
+            "map-to": "xml:error",
+            "id": "error"
+        },
+        {
+            "_name": "Page title",
+            "map-to": "def:heading0",
+            "id": "title"
+        },
+        {
+            "_name": "Heading level 1",
+            "map-to": "def:heading1",
+            "id": "h1"
+        },
+        {
+            "_name": "Heading level 2",
+            "map-to": "def:heading2",
+            "id": "h2"
+        },
+        {
+            "_name": "Heading level 3",
+            "map-to": "def:heading3",
+            "id": "h3"
+        },
+        {
+            "_name": "Heading level 4",
+            "map-to": "def:heading4",
+            "id": "h4"
+        },
+        {
+            "_name": "Heading level 5",
+            "map-to": "def:heading5",
+            "id": "h5"
+        }
+    ]},
+    "id": "html",
+    "version": 2,
+    "definitions": {
+        "context": [
+            {
+                "include": {"context": {"ref": "def:in-comment"}},
+                "start": "<!--",
+                "end": "--\\s*>",
+                "id": "comment",
+                "class": "comment",
+                "style-ref": "comment"
+            },
+            {
+                "start": "<!",
+                "end": ">",
+                "id": "dtd",
+                "class": "no-spell-check",
+                "style-ref": "dtd"
+            },
+            {
+                "start": "\\%{def:never-match}",
+                "end": "",
+                "id": "embedded-lang-hook"
+            },
+            {
+                "include": {"context": [
+                    {
+                        "include": {"context": [
+                            {
+                                "where": "start",
+                                "sub-pattern": 0,
+                                "style-ref": "tag"
+                            },
+                            {
+                                "where": "end",
+                                "sub-pattern": 0,
+                                "style-ref": "tag"
+                            },
+                            {"ref": "embedded-lang-hook"}
+                        ]},
+                        "start": "<title>",
+                        "end": "<\/title>",
+                        "id": "title",
+                        "style-inside": true,
+                        "style-ref": "title",
+                        "end-at-line-end": true
+                    },
+                    {
+                        "include": {"context": [
+                            {
+                                "where": "start",
+                                "sub-pattern": 0,
+                                "style-ref": "tag"
+                            },
+                            {"ref": "generic-tag"},
+                            {
+                                "include": {"context": [
+                                    {
+                                        "where": "start",
+                                        "sub-pattern": 0,
+                                        "style-ref": "tag"
+                                    },
+                                    {
+                                        "where": "end",
+                                        "sub-pattern": 0,
+                                        "style-ref": "tag"
+                                    },
+                                    {"ref": "embedded-lang-hook"}
+                                ]},
+                                "end-parent": true,
+                                "start": ">",
+                                "end": "<\\s*/h1\\s*>",
+                                "id": "h1-inside",
+                                "style-inside": true,
+                                "style-ref": "h1",
+                                "end-at-line-end": true
+                            }
+                        ]},
+                        "start": "<\\s*h1",
+                        "id": "h1",
+                        "end-at-line-end": true
+                    },
+                    {
+                        "include": {"context": [
+                            {
+                                "where": "start",
+                                "sub-pattern": 0,
+                                "style-ref": "tag"
+                            },
+                            {"ref": "generic-tag"},
+                            {
+                                "include": {"context": [
+                                    {
+                                        "where": "start",
+                                        "sub-pattern": 0,
+                                        "style-ref": "tag"
+                                    },
+                                    {
+                                        "where": "end",
+                                        "sub-pattern": 0,
+                                        "style-ref": "tag"
+                                    },
+                                    {"ref": "embedded-lang-hook"}
+                                ]},
+                                "end-parent": true,
+                                "start": ">",
+                                "end": "<\\s*/h2\\s*>",
+                                "id": "h2-inside",
+                                "style-inside": true,
+                                "style-ref": "h2",
+                                "end-at-line-end": true
+                            }
+                        ]},
+                        "start": "<\\s*h2",
+                        "id": "h2",
+                        "end-at-line-end": true
+                    },
+                    {
+                        "include": {"context": [
+                            {
+                                "where": "start",
+                                "sub-pattern": 0,
+                                "style-ref": "tag"
+                            },
+                            {"ref": "generic-tag"},
+                            {
+                                "include": {"context": [
+                                    {
+                                        "where": "start",
+                                        "sub-pattern": 0,
+                                        "style-ref": "tag"
+                                    },
+                                    {
+                                        "where": "end",
+                                        "sub-pattern": 0,
+                                        "style-ref": "tag"
+                                    },
+                                    {"ref": "embedded-lang-hook"}
+                                ]},
+                                "end-parent": true,
+                                "start": ">",
+                                "end": "<\\s*/h3\\s*>",
+                                "id": "h3-inside",
+                                "style-inside": true,
+                                "style-ref": "h3",
+                                "end-at-line-end": true
+                            }
+                        ]},
+                        "start": "<\\s*h3",
+                        "id": "h3",
+                        "end-at-line-end": true
+                    },
+                    {
+                        "include": {"context": [
+                            {
+                                "where": "start",
+                                "sub-pattern": 0,
+                                "style-ref": "tag"
+                            },
+                            {"ref": "generic-tag"},
+                            {
+                                "include": {"context": [
+                                    {
+                                        "where": "start",
+                                        "sub-pattern": 0,
+                                        "style-ref": "tag"
+                                    },
+                                    {
+                                        "where": "end",
+                                        "sub-pattern": 0,
+                                        "style-ref": "tag"
+                                    },
+                                    {"ref": "embedded-lang-hook"}
+                                ]},
+                                "end-parent": true,
+                                "start": ">",
+                                "end": "<\\s*/h4\\s*>",
+                                "id": "h4-inside",
+                                "style-inside": true,
+                                "style-ref": "h4",
+                                "end-at-line-end": true
+                            }
+                        ]},
+                        "start": "<\\s*h4",
+                        "id": "h4",
+                        "end-at-line-end": true
+                    },
+                    {
+                        "include": {"context": [
+                            {
+                                "where": "start",
+                                "sub-pattern": 0,
+                                "style-ref": "tag"
+                            },
+                            {"ref": "generic-tag"},
+                            {
+                                "include": {"context": [
+                                    {
+                                        "where": "start",
+                                        "sub-pattern": 0,
+                                        "style-ref": "tag"
+                                    },
+                                    {
+                                        "where": "end",
+                                        "sub-pattern": 0,
+                                        "style-ref": "tag"
+                                    },
+                                    {"ref": "embedded-lang-hook"}
+                                ]},
+                                "end-parent": true,
+                                "start": ">",
+                                "end": "<\\s*/h5\\s*>",
+                                "id": "h5-inside",
+                                "style-inside": true,
+                                "style-ref": "h5",
+                                "end-at-line-end": true
+                            }
+                        ]},
+                        "start": "<\\s*h5",
+                        "id": "h5",
+                        "end-at-line-end": true
+                    }
+                ]},
+                "id": "headings"
+            },
+            {
+                "include": {"context": [
+                    {
+                        "include": {"context": [
+                            {
+                                "where": "start",
+                                "sub-pattern": 1,
+                                "style-ref": "attrib-name"
+                            },
+                            {
+                                "where": "start",
+                                "sub-pattern": 2,
+                                "style-ref": "attrib-value"
+                            },
+                            {
+                                "include": {"context": [
+                                    {"ref": "xml:entity"},
+                                    {"ref": "xml:character-reference"},
+                                    {"ref": "embedded-lang-hook"}
+                                ]},
+                                "class-disabled": "no-spell-check",
+                                "end-parent": true,
+                                "start": "\\%{def:always-match}",
+                                "end": "\\\"",
+                                "id": "string",
+                                "class": "string",
+                                "end-at-line-end": true,
+                                "style-ref": "attrib-value"
+                            }
+                        ]},
+                        "start": "(\\%{attribute-name}\\s*=\\s*)(\\\")",
+                        "id": "attrib-quoted",
+                        "class": "no-spell-check"
+                    },
+                    {
+                        "include": {"context": [
+                            {
+                                "where": "start",
+                                "sub-pattern": 0,
+                                "style-ref": "attrib-name"
+                            },
+                            {"ref": "xml:entity"},
+                            {"ref": "xml:character-reference"},
+                            {"ref": "embedded-lang-hook"}
+                        ]},
+                        "start": "\\%{attribute-name}\\s*=\\s*",
+                        "end": "(?=>|\\s)",
+                        "id": "attrib-unquoted",
+                        "class": "no-spell-check",
+                        "style-ref": "attrib-value"
+                    },
+                    {
+                        "match": "\\%{attribute-name}",
+                        "id": "attrib-no-value",
+                        "class": "no-spell-check",
+                        "style-ref": "attrib-name"
+                    },
+                    {"ref": "embedded-lang-hook"}
+                ]},
+                "id": "generic-tag"
+            },
+            {
+                "include": {"context": [
+                    {
+                        "where": "start",
+                        "sub-pattern": 0,
+                        "style-ref": "tag"
+                    },
+                    {"ref": "generic-tag"},
+                    {
+                        "end-parent": true,
+                        "match": "/\\s*>",
+                        "style-ref": "tag"
+                    },
+                    {
+                        "include": {"context": [
+                            {
+                                "where": "start",
+                                "sub-pattern": 0,
+                                "style-ref": "tag"
+                            },
+                            {
+                                "where": "end",
+                                "sub-pattern": 0,
+                                "style-ref": "tag"
+                            },
+                            {"ref": "embedded-lang-hook"},
+                            {"ref": "css:css"}
+                        ]},
+                        "end-parent": true,
+                        "start": ">",
+                        "end": "<\\s*/\\s*style\\s*>",
+                        "id": "style-code"
+                    }
+                ]},
+                "start": "<\\s*style\\%]",
+                "id": "style",
+                "class": "no-spell-check"
+            },
+            {
+                "include": {"context": [
+                    {
+                        "where": "start",
+                        "sub-pattern": 0,
+                        "style-ref": "tag"
+                    },
+                    {"ref": "generic-tag"},
+                    {
+                        "end-parent": true,
+                        "match": "/\\s*>",
+                        "style-ref": "tag"
+                    },
+                    {
+                        "include": {"context": [
+                            {
+                                "where": "start",
+                                "sub-pattern": 0,
+                                "style-ref": "tag"
+                            },
+                            {
+                                "where": "end",
+                                "sub-pattern": 0,
+                                "style-ref": "tag"
+                            },
+                            {"ref": "embedded-lang-hook"},
+                            {"ref": "js:js"}
+                        ]},
+                        "end-parent": true,
+                        "start": ">",
+                        "end": "<\\s*/\\s*script\\s*>",
+                        "id": "js-code"
+                    }
+                ]},
+                "start": "<\\s*script\\%]",
+                "id": "script",
+                "class": "no-spell-check"
+            },
+            {
+                "include": {"context": [
+                    {
+                        "where": "start",
+                        "sub-pattern": 0,
+                        "style-ref": "tag"
+                    },
+                    {
+                        "where": "end",
+                        "sub-pattern": 0,
+                        "style-ref": "tag"
+                    },
+                    {"ref": "generic-tag"}
+                ]},
+                "start": "<\\s*/?\\s*[a-z0-9_-]+",
+                "end": "/?\\s*>",
+                "id": "tag",
+                "class": "no-spell-check"
+            },
+            {
+                "include": {"context": [
+                    {"ref": "xml:doctype"},
+                    {"ref": "xml:entity"},
+                    {"ref": "xml:character-reference"},
+                    {"ref": "xml:cdata"},
+                    {"ref": "comment"},
+                    {"ref": "dtd"},
+                    {"ref": "headings"},
+                    {"ref": "style"},
+                    {"ref": "script"},
+                    {"ref": "tag"}
+                ]},
+                "id": "html"
+            }
+        ],
+        "define-regex": {
+            "id": "attribute-name",
+            "content": "[a-z0-9:_-]+"
+        }
+    },
+    "default-regex-options": {"case-sensitive": false}
+}}

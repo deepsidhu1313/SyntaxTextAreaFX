@@ -1,0 +1,246 @@
+{"actionscript.json": [
+    {
+        "start": "\"",
+        "end": "\"",
+        "id": "string",
+        "style-ref": "string",
+        "end-at-line-end": true
+    },
+    {
+        "start": "'",
+        "end": "'",
+        "id": "string-2",
+        "style-ref": "string",
+        "end-at-line-end": true
+    },
+    {
+        "include": {"context": {"ref": "def:in-line-comment"}},
+        "start": "//",
+        "id": "line-comment",
+        "style-ref": "comment",
+        "end-at-line-end": true
+    },
+    {
+        "include": {"context": {"ref": "def:in-comment"}},
+        "start": "/\\*",
+        "end": "\\*/",
+        "id": "block-comment",
+        "style-ref": "comment"
+    },
+    {
+        "match": "\\*/(?!\\*)",
+        "id": "close-comment-outside-comment",
+        "style-ref": "error"
+    },
+    {
+        "id": "externals",
+        "keyword": [
+            "import",
+            "include",
+            "package"
+        ],
+        "style-ref": "external"
+    },
+    {
+        "id": "declarations",
+        "keyword": [
+            "class",
+            "extends",
+            "function",
+            "implements",
+            "instanceof",
+            "interface",
+            "is",
+            "namespace",
+            "throws",
+            "var",
+            "const"
+        ],
+        "style-ref": "declaration"
+    },
+    {
+        "id": "primitive-types",
+        "keyword": [
+            "arguments",
+            "Array",
+            "Boolean",
+            "Class",
+            "Bitmap",
+            "BitmapData",
+            "BitmapDataChannel",
+            "ByteArray",
+            "Camera",
+            "Capabilities",
+            "CapsStyle",
+            "ColorTransform",
+            "ContextMenu",
+            "Dictionary",
+            "DisplayObject",
+            "DisplayObjectContainer",
+            "Endian",
+            "Error",
+            "Event",
+            "EventDispatcher",
+            "ExternalInterface",
+            "FileFilter",
+            "FileReference",
+            "FileReferenceList",
+            "Function",
+            "Graphics",
+            "int",
+            "IBitmapDrawable",
+            "IEventDispatcher",
+            "IOError",
+            "Keyboard",
+            "KeyboardEvent",
+            "KeyLocation",
+            "Loader",
+            "LocalConnection",
+            "Math",
+            "Matrix",
+            "Microphone",
+            "Mouse",
+            "MovieClip",
+            "Namespace",
+            "NetConnection",
+            "NetStream",
+            "Number",
+            "Object",
+            "Point",
+            "PrintJob",
+            "Proxy",
+            "QName",
+            "Rectangle",
+            "RegExp",
+            "Responder",
+            "Scene",
+            "Security",
+            "Shape",
+            "SharedObject",
+            "Socket",
+            "Sound",
+            "SoundChannel",
+            "SoundTransform",
+            "Sprite",
+            "Stage",
+            "String",
+            "StyleSheet",
+            "SWFVersion",
+            "System",
+            "TextField",
+            "TextFormat",
+            "Timer",
+            "uint",
+            "Video",
+            "XML",
+            "XMLDocument",
+            "XMLList",
+            "XMLNode",
+            "XMLNodeType",
+            "XMLSocket"
+        ],
+        "style-ref": "type"
+    },
+    {
+        "id": "storage-class",
+        "keyword": [
+            "dynamic",
+            "internal",
+            "final",
+            "static"
+        ],
+        "style-ref": "storage-class"
+    },
+    {
+        "id": "scope-declarations",
+        "keyword": [
+            "flash_proxy",
+            "internal",
+            "override",
+            "private",
+            "protected",
+            "public",
+            "set",
+            "get"
+        ],
+        "style-ref": "scope-declaration"
+    },
+    {
+        "id": "flow",
+        "keyword": [
+            "break",
+            "case",
+            "catch",
+            "continue",
+            "default",
+            "do",
+            "else",
+            "for",
+            "if",
+            "is",
+            "return",
+            "throw",
+            "switch",
+            "try",
+            "while"
+        ],
+        "style-ref": "keyword"
+    },
+    {
+        "id": "memory",
+        "keyword": [
+            "new",
+            "super",
+            "this",
+            "void"
+        ],
+        "style-ref": "keyword"
+    },
+    {
+        "id": "future-reserved-words",
+        "keyword": "goto",
+        "style-ref": "reserved"
+    },
+    {
+        "id": "null-value",
+        "keyword": null,
+        "style-ref": "null-value"
+    },
+    {
+        "id": "boolean",
+        "keyword": [
+            false,
+            true
+        ],
+        "style-ref": "boolean"
+    },
+    {
+        "match": {
+            "extended": true,
+            "content": "(\\b([0-9]+|0[xX][0-9a-fA-F]+)[Ll]?\\b|\n        \\b(([0-9]+[Ee][-]?[0-9]+|\n        ([0-9]*\\.[0-9]+|[0-9]+\\.)([Ee][-]?[0-9]+)?)[fFdD]?|\n        [0-9]+[FfDd]))"
+        },
+        "id": "numeric",
+        "style-ref": "number"
+    },
+    {
+        "include": {"context": [
+            {"ref": "string"},
+            {"ref": "string-2"},
+            {"ref": "line-comment"},
+            {"ref": "block-comment"},
+            {"ref": "close-comment-outside-comment"},
+            {"ref": "externals"},
+            {"ref": "declarations"},
+            {"ref": "primitive-types"},
+            {"ref": "storage-class"},
+            {"ref": "scope-declarations"},
+            {"ref": "flow"},
+            {"ref": "memory"},
+            {"ref": "future-reserved-words"},
+            {"ref": "null-value"},
+            {"ref": "boolean"},
+            {"ref": "numeric"}
+        ]},
+        "id": "actionscript"
+    }
+]}

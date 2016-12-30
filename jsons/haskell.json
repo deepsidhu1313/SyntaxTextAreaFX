@@ -1,0 +1,292 @@
+{"language": {
+    "metadata": {"property": [
+        {
+            "name": "mimetypes",
+            "content": "text/x-haskell"
+        },
+        {
+            "name": "globs",
+            "content": "*.hs"
+        },
+        {
+            "name": "line-comment-start",
+            "content": "--"
+        }
+    ]},
+    "_name": "Haskell",
+    "_section": "Source",
+    "styles": {"style": [
+        {
+            "_name": "Preprocessor",
+            "map-to": "def:preprocessor",
+            "id": "preprocessor"
+        },
+        {
+            "_name": "Comment",
+            "map-to": "def:comment",
+            "id": "comment"
+        },
+        {
+            "_name": "Variable",
+            "id": "variable"
+        },
+        {
+            "_name": "Symbol",
+            "id": "symbol"
+        },
+        {
+            "_name": "Keyword",
+            "map-to": "def:keyword",
+            "id": "keyword"
+        },
+        {
+            "_name": "Data Type",
+            "map-to": "def:type",
+            "id": "type"
+        },
+        {
+            "_name": "String",
+            "map-to": "def:string",
+            "id": "string"
+        },
+        {
+            "_name": "Character",
+            "map-to": "def:character",
+            "id": "character"
+        },
+        {
+            "_name": "Escaped Character",
+            "map-to": "def:special-char",
+            "id": "char-escape"
+        },
+        {
+            "_name": "Float",
+            "map-to": "def:floating-point",
+            "id": "float"
+        },
+        {
+            "_name": "Decimal",
+            "map-to": "def:decimal",
+            "id": "decimal"
+        },
+        {
+            "_name": "Octal",
+            "map-to": "def:base-n-integer",
+            "id": "octal"
+        },
+        {
+            "_name": "Hex",
+            "map-to": "def:base-n-integer",
+            "id": "hexadecimal"
+        }
+    ]},
+    "id": "haskell",
+    "version": 2,
+    "definitions": {
+        "context": [
+            {
+                "include": {"context": [
+                    {"ref": "def:in-comment"},
+                    {"ref": "haddock:line-paragraph"},
+                    {"ref": "haddock:directive"}
+                ]},
+                "class-disabled": "no-spell-check",
+                "start": "(?<!\\%{symbolchar})--+(?!\\%{symbolchar})",
+                "id": "line-comment",
+                "class": "comment",
+                "style-ref": "comment",
+                "end-at-line-end": true
+            },
+            {
+                "include": {"context": [
+                    {"ref": "def:in-comment"},
+                    {"ref": "haddock:block-paragraph"},
+                    {"ref": "haddock:directive"},
+                    {"ref": "block-comment"}
+                ]},
+                "class-disabled": "no-spell-check",
+                "start": "\\{-",
+                "end": "-\\}",
+                "id": "block-comment",
+                "class": "comment",
+                "style-ref": "comment"
+            },
+            {
+                "start": "\\{-#",
+                "end": "#-\\}",
+                "id": "pragma",
+                "style-ref": "preprocessor"
+            },
+            {
+                "match": "\\b[a-z_][0-9a-zA-Z_'#]*",
+                "id": "variable",
+                "style-ref": "variable"
+            },
+            {
+                "match": "\\b[A-Z][0-9a-zA-Z._'#]*",
+                "id": "type-or-constructor",
+                "style-ref": "type"
+            },
+            {
+                "match": "\\%{symbolchar}+",
+                "id": "symbol",
+                "style-ref": "symbol",
+                "extend-parent": false
+            },
+            {
+                "prefix": "(?<!\\%{symbolchar})",
+                "id": "keysymbol",
+                "suffix": "(?!\\%{symbolchar})",
+                "keyword": [
+                    "\\.\\.",
+                    "::",
+                    "=",
+                    "\\|",
+                    "\\",
+                    "->",
+                    "<-",
+                    "@",
+                    "~",
+                    "=>"
+                ],
+                "style-ref": "keyword"
+            },
+            {
+                "include": {"context": [
+                    {"ref": "def:line-continue"},
+                    {
+                        "match": "\\%{escaped-character}",
+                        "style-ref": "char-escape"
+                    }
+                ]},
+                "class-disabled": "no-spell-check",
+                "start": "\"",
+                "end": "\"",
+                "id": "string",
+                "class": "string",
+                "style-ref": "string",
+                "end-at-line-end": true
+            },
+            {
+                "include": {"context": [
+                    {
+                        "once-only": true,
+                        "match": "\\%{escaped-character}",
+                        "style-ref": "char-escape"
+                    },
+                    {
+                        "once-only": true,
+                        "match": ".",
+                        "extend-parent": false
+                    },
+                    {
+                        "match": ".",
+                        "style-ref": "def:error",
+                        "extend-parent": false
+                    }
+                ]},
+                "start": "'",
+                "end": "'",
+                "id": "char",
+                "style-ref": "character",
+                "end-at-line-end": true
+            },
+            {
+                "match": {
+                    "extended": true,
+                    "content": "[0-9]+ \\. [0-9]+ ([eE][+-]?[0-9]+)?\n        | [0-9]+            [eE][+-]?[0-9]+"
+                },
+                "id": "float",
+                "style-ref": "float"
+            },
+            {
+                "match": "0[xX][0-9a-fA-F]+",
+                "id": "hexadecimal",
+                "style-ref": "hexadecimal"
+            },
+            {
+                "match": "0[oO][0-7]+",
+                "id": "octal",
+                "style-ref": "octal"
+            },
+            {
+                "match": "[0-9]+",
+                "id": "decimal",
+                "style-ref": "decimal"
+            },
+            {
+                "id": "keyword",
+                "keyword": [
+                    "case",
+                    "class",
+                    "data",
+                    "default",
+                    "deriving",
+                    "do",
+                    "mdo",
+                    "else",
+                    "forall",
+                    "foreign",
+                    "hiding",
+                    "if",
+                    "import",
+                    "in",
+                    "infix",
+                    "infixl",
+                    "infixr",
+                    "instance",
+                    "let",
+                    "module",
+                    "newtype",
+                    "of",
+                    "qualified",
+                    "then",
+                    "where",
+                    "type"
+                ],
+                "style-ref": "keyword"
+            },
+            {
+                "include": {"context": [
+                    {"ref": "line-comment"},
+                    {"ref": "pragma"},
+                    {"ref": "block-comment"},
+                    {"ref": "keyword"},
+                    {"ref": "variable"},
+                    {"ref": "type-or-constructor"},
+                    {"ref": "keysymbol"},
+                    {"ref": "symbol"},
+                    {"ref": "string"},
+                    {"ref": "char"},
+                    {"ref": "float"},
+                    {"ref": "hexadecimal"},
+                    {"ref": "octal"},
+                    {"ref": "decimal"}
+                ]},
+                "id": "body"
+            },
+            {
+                "include": {"context": [
+                    {"ref": "def:shebang"},
+                    {"ref": "c:if0-comment"},
+                    {"ref": "c:include"},
+                    {"ref": "c:preprocessor"},
+                    {"ref": "body"}
+                ]},
+                "id": "haskell",
+                "class": "no-spell-check"
+            }
+        ],
+        "define-regex": [
+            {
+                "id": "symbolchar",
+                "content": "[!#$%&*+./>=<?@:\\\\^|~-]"
+            },
+            {
+                "id": "escaped-character",
+                "extended": true,
+                "content": "\\\\(                   # leading backslash\n        [abfnrtv\\\\\"\\'&] | # escaped character\n         [0-9]+ |             # decimal digits\n        o[0-7]+ |             # 'o' followed by octal digits\n        x[0-9A-Fa-f]+ |       # 'x' followed by hex digits\n        \\^[A-Z@\\[\\\\\\]^_] |    # control character codes\n        NUL | SOH | STX | ETX | EOT | ENQ | ACK |\n        BEL | BS | HT | LF | VT | FF | CR | SO |\n        SI | DLE | DC1 | DC2 | DC3 | DC4 | NAK |\n        SYN | ETB | CAN | EM | SUB | ESC | FS | GS |\n        RS | US | SP | DEL    # control char names\n        )"
+            }
+        ]
+    }
+}}

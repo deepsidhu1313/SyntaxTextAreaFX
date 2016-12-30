@@ -1,0 +1,133 @@
+{"language": {
+    "metadata": {"property": [
+        {
+            "name": "mimetypes",
+            "content": "text/x-c++;text/x-cpp;text/x-c++src"
+        },
+        {
+            "name": "globs",
+            "content": "*.cpp;*.cxx;*.cc;*.C;*.c++"
+        },
+        {
+            "name": "line-comment-start",
+            "content": "//"
+        },
+        {
+            "name": "block-comment-start",
+            "content": "/*"
+        },
+        {
+            "name": "block-comment-end",
+            "content": "*/"
+        }
+    ]},
+    "_name": "C++",
+    "_section": "Source",
+    "styles": {"style": [
+        {
+            "_name": "Keyword",
+            "map-to": "c:keyword",
+            "id": "keyword"
+        },
+        {
+            "_name": "Data Type",
+            "map-to": "c:type",
+            "id": "type"
+        },
+        {
+            "_name": "Common Defines",
+            "map-to": "c:common-defines",
+            "id": "common-defines"
+        }
+    ]},
+    "id": "cpp",
+    "version": 2,
+    "definitions": {"context": [
+        {
+            "include": {"context": [
+                {
+                    "id": "keywords",
+                    "keyword": [
+                        "alignas",
+                        "alignof",
+                        "and",
+                        "and_eq",
+                        "bitand",
+                        "bitor",
+                        "catch",
+                        "compl",
+                        "constexpr",
+                        "const_cast",
+                        "decltype",
+                        "delete",
+                        "dynamic_cast",
+                        false,
+                        "final",
+                        "friend",
+                        "new",
+                        "noexcept",
+                        "not",
+                        "not_eq",
+                        "nullptr",
+                        "operator",
+                        "or",
+                        "or_eq",
+                        "override",
+                        "private",
+                        "protected",
+                        "public",
+                        "reinterpret_cast",
+                        "static_assert",
+                        "static_cast",
+                        "this",
+                        "thread_local",
+                        "throw",
+                        true,
+                        "try",
+                        "typeid",
+                        "using",
+                        "xor",
+                        "xor_eq",
+                        "class",
+                        "namespace",
+                        "typename",
+                        "template",
+                        "virtual"
+                    ],
+                    "style-ref": "keyword"
+                },
+                {
+                    "id": "types",
+                    "keyword": [
+                        "bool",
+                        "char16_t",
+                        "char32_t",
+                        "explicit",
+                        "export",
+                        "inline",
+                        "mutable",
+                        "nullptr_t",
+                        "wchar_t"
+                    ],
+                    "style-ref": "type"
+                },
+                {
+                    "id": "common-defines",
+                    "keyword": [
+                        "__STDC__",
+                        "__cplusplus"
+                    ],
+                    "style-ref": "common-defines"
+                }
+            ]},
+            "id": "cpp-proper"
+        },
+        {
+            "include": {"context": [
+                {"ref": "cpp-proper"},
+                {"ref": "c:c"}
+            ]},
+            "id": "cpp"
+        }
+    ]}
+}}

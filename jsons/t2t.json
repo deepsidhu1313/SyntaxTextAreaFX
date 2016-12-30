@@ -1,0 +1,243 @@
+{"language": {
+    "metadata": {"property": [
+        {
+            "name": "globs",
+            "content": "*.t2t"
+        },
+        {
+            "name": "line-comment-start",
+            "content": "%"
+        }
+    ]},
+    "_name": "txt2tags",
+    "_section": "Markup",
+    "styles": {"style": [
+        {
+            "_name": "Comment",
+            "id": "comment"
+        },
+        {
+            "_name": "Option",
+            "id": "option"
+        },
+        {
+            "_name": "Option Name",
+            "map-to": "def:keyword",
+            "id": "option-name"
+        },
+        {
+            "_name": "Header",
+            "map-to": "def:keyword",
+            "id": "header"
+        },
+        {
+            "_name": "Section",
+            "map-to": "def:keyword",
+            "id": "section"
+        },
+        {
+            "_name": "Section 1",
+            "map-to": "t2t:section",
+            "id": "section-1"
+        },
+        {
+            "_name": "Section 2",
+            "map-to": "t2t:section",
+            "id": "section-2"
+        },
+        {
+            "_name": "Section 3",
+            "map-to": "t2t:section",
+            "id": "section-3"
+        },
+        {
+            "_name": "Section 4",
+            "map-to": "t2t:section",
+            "id": "section-4"
+        },
+        {
+            "_name": "Section 5",
+            "map-to": "t2t:section",
+            "id": "section-5"
+        },
+        {
+            "_name": "Anchor",
+            "map-to": "t2t:section",
+            "id": "anchor"
+        },
+        {
+            "_name": "Italic",
+            "id": "italic"
+        },
+        {
+            "_name": "Bold",
+            "id": "bold"
+        },
+        {
+            "_name": "Verbatim",
+            "id": "verbatim"
+        },
+        {
+            "_name": "Verbatim Block",
+            "id": "verbatim-block"
+        }
+    ]},
+    "id": "t2t",
+    "version": 2,
+    "definitions": {"context": [
+        {
+            "match": ".+",
+            "id": "header",
+            "first-line-only": true,
+            "style-ref": "header"
+        },
+        {
+            "include": {"context": [
+                {
+                    "include": {"context": {
+                        "id": "option-name",
+                        "sub-pattern": 1,
+                        "style-ref": "option-name"
+                    }},
+                    "match": "^(%!\\s*(?:[Tt]arget|[Ee]ncoding|[Oo]ptions|[Pp](?:ost|re)proc|[Ii]nclude(?:conf)?|[Ss]tyle|[Gg]uicolors)(?:\\(\\S+\\))?)\\s*:.*",
+                    "id": "option",
+                    "style-ref": "option"
+                },
+                {
+                    "match": "^%!.*",
+                    "id": "invalid-option",
+                    "style-ref": "def:error"
+                }
+            ]},
+            "id": "options"
+        },
+        {
+            "class-disabled": "no-spell-check",
+            "start": "^%",
+            "id": "comment",
+            "class": "comment",
+            "style-ref": "comment",
+            "end-at-line-end": true
+        },
+        {
+            "include": {"context": [
+                {
+                    "include": {"context": [
+                        {
+                            "sub-pattern": 1,
+                            "style-ref": "section-1"
+                        },
+                        {
+                            "sub-pattern": 2,
+                            "style-ref": "anchor"
+                        }
+                    ]},
+                    "match": "^(=(?!=).*(?<!=)=)(?!=)(\\[.*\\])?",
+                    "id": "section-1"
+                },
+                {
+                    "include": {"context": [
+                        {
+                            "sub-pattern": 1,
+                            "style-ref": "section-2"
+                        },
+                        {
+                            "sub-pattern": 2,
+                            "style-ref": "anchor"
+                        }
+                    ]},
+                    "match": "^(==(?!=).*(?<!=)==)(?!=)(\\[.*\\])?",
+                    "id": "section-2"
+                },
+                {
+                    "include": {"context": [
+                        {
+                            "sub-pattern": 1,
+                            "style-ref": "section-3"
+                        },
+                        {
+                            "sub-pattern": 2,
+                            "style-ref": "anchor"
+                        }
+                    ]},
+                    "match": "^(===(?!=).*(?<!=)===)(?!=)(\\[.*\\])?",
+                    "id": "section-3"
+                },
+                {
+                    "include": {"context": [
+                        {
+                            "sub-pattern": 1,
+                            "style-ref": "section-4"
+                        },
+                        {
+                            "sub-pattern": 2,
+                            "style-ref": "anchor"
+                        }
+                    ]},
+                    "match": "^(====(?!=).*(?<!=)====)(?!=)(\\[.*\\])?",
+                    "id": "section-4"
+                },
+                {
+                    "include": {"context": [
+                        {
+                            "sub-pattern": 1,
+                            "style-ref": "section-5"
+                        },
+                        {
+                            "sub-pattern": 2,
+                            "style-ref": "anchor"
+                        }
+                    ]},
+                    "match": "^(=====(?!=).*(?<!=)=====)(?!=)(\\[.*\\])?",
+                    "id": "section-5"
+                }
+            ]},
+            "id": "sections"
+        },
+        {
+            "include": {"context": {
+                "sub-pattern": 1,
+                "style-ref": "italic"
+            }},
+            "match": "//(.*?)//",
+            "id": "italic"
+        },
+        {
+            "include": {"context": {
+                "sub-pattern": 1,
+                "style-ref": "bold"
+            }},
+            "match": "\\*\\*(.*?)\\*\\*",
+            "id": "bold"
+        },
+        {
+            "include": {"context": {
+                "sub-pattern": 1,
+                "style-ref": "verbatim"
+            }},
+            "match": "``(.*?)``",
+            "id": "verbatim"
+        },
+        {
+            "start": "^```$",
+            "end": "^```$",
+            "id": "verbatim-block",
+            "style-inside": true,
+            "style-ref": "verbatim-block"
+        },
+        {
+            "include": {"context": [
+                {"ref": "header"},
+                {"ref": "sections"},
+                {"ref": "options"},
+                {"ref": "comment"},
+                {"ref": "italic"},
+                {"ref": "bold"},
+                {"ref": "verbatim"},
+                {"ref": "verbatim-block"}
+            ]},
+            "id": "t2t",
+            "class": "no-spell-check"
+        }
+    ]}
+}}

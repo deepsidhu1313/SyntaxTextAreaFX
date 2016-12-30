@@ -1,0 +1,251 @@
+{"language": {
+    "metadata": {"property": [
+        {
+            "name": "mimetypes",
+            "content": "text/x-makefile"
+        },
+        {
+            "name": "globs",
+            "content": "[Mm]akefile;GNUmakefile;*.make;*.mak;*.mk"
+        },
+        {
+            "name": "line-comment-start",
+            "content": "#"
+        }
+    ]},
+    "_name": "Makefile",
+    "_section": "Source",
+    "styles": {"style": [
+        {
+            "_name": "Variable",
+            "map-to": "def:type",
+            "id": "variable"
+        },
+        {
+            "_name": "Assignment Right Hand Side",
+            "id": "assignment-rhs"
+        },
+        {
+            "_name": "Assignment Left Hand Side",
+            "id": "assignment-lhs"
+        },
+        {
+            "_name": "targets",
+            "map-to": "def:function",
+            "id": "targets"
+        },
+        {
+            "_name": "prereq",
+            "id": "prereq"
+        },
+        {
+            "_name": "command",
+            "id": "command"
+        },
+        {
+            "_name": "Trailing Tab",
+            "id": "trailing-tab"
+        },
+        {
+            "_name": "function",
+            "map-to": "def:function",
+            "id": "function"
+        },
+        {
+            "_name": "keyword",
+            "map-to": "def:keyword",
+            "id": "keyword"
+        }
+    ]},
+    "id": "makefile",
+    "version": 2,
+    "definitions": {
+        "replace": [
+            {
+                "ref": "command",
+                "id": "sh:sh"
+            },
+            {
+                "ref": "sh-variable",
+                "id": "sh:variable"
+            }
+        ],
+        "context": [
+            {
+                "include": {"context": {
+                    "sub-pattern": 1,
+                    "style-ref": "variable"
+                }},
+                "match": "\\$\\((\\%{variable})\\)",
+                "id": "variable-1"
+            },
+            {
+                "include": {"context": {
+                    "sub-pattern": 1,
+                    "style-ref": "variable"
+                }},
+                "match": "\\$\\{(\\%{variable})\\}",
+                "id": "variable-2"
+            },
+            {
+                "include": {"context": [
+                    {"ref": "variable-1"},
+                    {"ref": "variable-2"}
+                ]},
+                "id": "variable"
+            },
+            {
+                "include": {"context": [
+                    {"ref": "variable"},
+                    {
+                        "ref": "sh:variable",
+                        "original": true
+                    }
+                ]},
+                "id": "sh-variable"
+            },
+            {
+                "include": {"context": [
+                    {"match": "\\\\."},
+                    {"ref": "def:string"}
+                ]},
+                "id": "string"
+            },
+            {
+                "include": {"context": [
+                    {"ref": "def:line-continue"},
+                    {"ref": "def:shell-like-comment"},
+                    {"ref": "variable"},
+                    {"ref": "string"},
+                    {"ref": "def:single-quoted-string"},
+                    {"ref": "sh:backtick-subshell"}
+                ]},
+                "start": "",
+                "id": "assignment-rhs",
+                "style-ref": "assignment-rhs",
+                "end-at-line-end": true
+            },
+            {
+                "include": {"context": [
+                    {"ref": "def:line-continue"},
+                    {
+                        "ref": "sh:sh",
+                        "original": true
+                    }
+                ]},
+                "start": "",
+                "id": "command",
+                "style-ref": "command",
+                "end-at-line-end": true,
+                "extend-parent": false
+            },
+            {
+                "id": "directives",
+                "keyword": [
+                    "define",
+                    "else",
+                    "endef",
+                    "endif",
+                    "if",
+                    "ifdef",
+                    "ifeq",
+                    "ifndef",
+                    "ifneq",
+                    "include",
+                    "override",
+                    "unexport"
+                ],
+                "style-ref": "keyword"
+            },
+            {
+                "id": "functions",
+                "keyword": [
+                    "addprefix",
+                    "addsuffix",
+                    "basename",
+                    "call",
+                    "dir",
+                    "error",
+                    "filter",
+                    "filter-out",
+                    "findstring",
+                    "firstword",
+                    "foreach",
+                    "join",
+                    "notdir",
+                    "origin",
+                    "patsubst",
+                    "shell",
+                    "sort",
+                    "strip",
+                    "subst",
+                    "suffix",
+                    "warning",
+                    "wildcard",
+                    "word",
+                    "words"
+                ],
+                "style-ref": "function"
+            },
+            {
+                "include": {"context": [
+                    {"ref": "def:shebang"},
+                    {"ref": "def:shell-like-comment"},
+                    {
+                        "include": {"context": [
+                            {
+                                "where": "start",
+                                "sub-pattern": 1,
+                                "style-ref": "assignment-lhs"
+                            },
+                            {"ref": "assignment-rhs"}
+                        ]},
+                        "start": "^(\\%{variable})\\s*[\\+\\?:]?=",
+                        "id": "assignment",
+                        "end-at-line-end": true
+                    },
+                    {
+                        "include": {"context": [
+                            {
+                                "where": "start",
+                                "sub-pattern": 1,
+                                "style-ref": "targets"
+                            },
+                            {"ref": "def:shell-like-comment"},
+                            {"ref": "directives"},
+                            {
+                                "include": {"context": [
+                                    {"ref": "def:escape"},
+                                    {"ref": "def:line-continue"},
+                                    {"ref": "variable"},
+                                    {"ref": "functions"}
+                                ]},
+                                "start": "(?<=:)(?=.)",
+                                "end": ";",
+                                "id": "prereq",
+                                "end-at-line-end": true,
+                                "style-ref": "prereq"
+                            },
+                            {
+                                "match": "^\\t+$",
+                                "id": "trailing-tab",
+                                "style-ref": "trailing-tab"
+                            },
+                            {"ref": "command"}
+                        ]},
+                        "start": "^([^\\t\\:][^\\:]*)\\:",
+                        "end": "^(?!\\t)",
+                        "id": "rule"
+                    },
+                    {"ref": "directives"},
+                    {"ref": "functions"}
+                ]},
+                "id": "makefile"
+            }
+        ],
+        "define-regex": {
+            "id": "variable",
+            "content": "[a-zA-Z_][a-zA-Z0-9_]*"
+        }
+    }
+}}

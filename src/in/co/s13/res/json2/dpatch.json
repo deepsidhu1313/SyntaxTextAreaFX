@@ -1,0 +1,18 @@
+{"dpatch.json": {
+    "include": {"context": [
+        {"ref": "sh:sh"},
+        {
+            "include": {"context": [
+                {
+                    "where": "start",
+                    "sub-pattern": 1,
+                    "style-ref": "patch-start"
+                },
+                {"ref": "diff:diff"}
+            ]},
+            "start": "^(\\@DPATCH\\@).*",
+            "id": "patch"
+        }
+    ]},
+    "id": "dpatch"
+}}

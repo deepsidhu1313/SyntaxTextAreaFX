@@ -1,0 +1,62 @@
+{"bibtex.json": [
+    {
+        "prefix": "@",
+        "id": "entry-type",
+        "keyword": [
+            "book",
+            "article",
+            "booklet",
+            "conference",
+            "inbook",
+            "incollection",
+            "inproceedings",
+            "manual",
+            "mastersthesis",
+            "lambda",
+            "misc",
+            "phdthesis",
+            "proceedings",
+            "techreport",
+            "unpublished"
+        ],
+        "class": "no-spell-check",
+        "style-ref": "entry-type"
+    },
+    {
+        "id": "field",
+        "keyword": [
+            "author",
+            "title",
+            "journal",
+            "year",
+            "volume",
+            "number",
+            "pages",
+            "month",
+            "note",
+            "key",
+            "publisher",
+            "editor",
+            "series",
+            "address",
+            "edition",
+            "howpublished",
+            "booktitle",
+            "organization",
+            "chapter",
+            "school",
+            "institution",
+            "type"
+        ],
+        "class": "no-spell-check",
+        "style-ref": "field"
+    },
+    {
+        "include": {"context": [
+            {"ref": "latex:latex"},
+            {"ref": "entry-type"},
+            {"ref": "field"}
+        ]},
+        "id": "bibtex"
+    }
+]}

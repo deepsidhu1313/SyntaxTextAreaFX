@@ -1,0 +1,161 @@
+{"language": {
+    "metadata": {"property": [
+        {
+            "name": "mimetypes",
+            "content": "text/x-objective-j"
+        },
+        {
+            "name": "globs",
+            "content": "*.j"
+        },
+        {
+            "name": "line-comment-start",
+            "content": "//"
+        },
+        {
+            "name": "block-comment-start",
+            "content": "/*"
+        },
+        {
+            "name": "block-comment-end",
+            "content": "*/"
+        }
+    ]},
+    "_name": "Objective-J",
+    "_section": "Source",
+    "styles": {"style": [
+        {
+            "_name": "Boolean",
+            "map-to": "js:boolean",
+            "id": "boolean"
+        },
+        {
+            "_name": "Keyword",
+            "map-to": "js:keyword",
+            "id": "keyword"
+        },
+        {
+            "_name": "Data Type",
+            "map-to": "js:type",
+            "id": "type"
+        },
+        {
+            "_name": "Preprocessor",
+            "map-to": "def:preprocessor",
+            "id": "preprocessor"
+        },
+        {
+            "_name": "Included File",
+            "map-to": "js:string",
+            "id": "included-file"
+        },
+        {
+            "_name": "String",
+            "map-to": "js:string",
+            "id": "string"
+        },
+        {
+            "_name": "Null Value",
+            "map-to": "js:null-value",
+            "id": "null-value"
+        }
+    ]},
+    "id": "objj",
+    "version": 2,
+    "definitions": {"context": [
+        {
+            "include": {"context": [
+                {
+                    "prefix": "\\@",
+                    "keyword": [
+                        "catch",
+                        "class",
+                        "defs",
+                        "encode",
+                        "end",
+                        "finally",
+                        "implementation",
+                        "interface",
+                        "private",
+                        "protected",
+                        "protocol",
+                        "public",
+                        "selector",
+                        "synchronized",
+                        "throw",
+                        "try"
+                    ],
+                    "style-ref": "keyword"
+                },
+                {
+                    "include": {"context": {
+                        "id": "included-file",
+                        "sub-pattern": 2,
+                        "style-ref": "included-file"
+                    }},
+                    "match": {
+                        "extended": true,
+                        "content": "\\@\n            (import)\\s*\n            (\".*?\"|<.*>)"
+                    },
+                    "style-ref": "preprocessor"
+                },
+                {
+                    "class-disabled": "no-spell-check",
+                    "start": "\\@\"",
+                    "end": "\"",
+                    "class": "string",
+                    "style-ref": "string",
+                    "end-at-line-end": true
+                }
+            ]},
+            "id": "headers"
+        },
+        {
+            "include": {"context": [
+                {
+                    "keyword": [
+                        "YES",
+                        "NO"
+                    ],
+                    "style-ref": "boolean"
+                },
+                {
+                    "keyword": [
+                        "self",
+                        "super",
+                        "_cmd"
+                    ],
+                    "style-ref": "keyword"
+                },
+                {
+                    "keyword": [
+                        "BOOL",
+                        "Class",
+                        "id",
+                        "int",
+                        "IMP",
+                        "SEL"
+                    ],
+                    "style-ref": "type"
+                },
+                {
+                    "keyword": [
+                        "nil",
+                        "Nil"
+                    ],
+                    "style-ref": "null-value"
+                }
+            ]},
+            "id": "sources"
+        },
+        {
+            "include": {"context": [
+                {"ref": "headers"},
+                {"ref": "sources"},
+                {"ref": "js:js"}
+            ]},
+            "id": "objj",
+            "class": "no-spell-check"
+        }
+    ]}
+}}

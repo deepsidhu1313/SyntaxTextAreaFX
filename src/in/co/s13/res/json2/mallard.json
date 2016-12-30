@@ -1,0 +1,97 @@
+{"mallard.json": [
+    {
+        "once-only": true,
+        "id": "page-element",
+        "keyword": "page",
+        "class": "no-spell-check",
+        "style-ref": "page"
+    },
+    {
+        "id": "section-element",
+        "keyword": "section",
+        "class": "no-spell-check",
+        "style-ref": "section"
+    },
+    {
+        "id": "block-elements",
+        "keyword": [
+            "code",
+            "p",
+            "example",
+            "screen",
+            "media",
+            "comment",
+            "figure",
+            "listing",
+            "note",
+            "quote",
+            "synopsis",
+            "list",
+            "steps",
+            "terms",
+            "tree",
+            "table",
+            "col",
+            "colgroup",
+            "tr",
+            "td",
+            "item"
+        ],
+        "class": "no-spell-check",
+        "style-ref": "block"
+    },
+    {
+        "id": "inline-elements",
+        "keyword": [
+            "app",
+            "cmd",
+            "code",
+            "em",
+            "file",
+            "gui",
+            "guiseq",
+            "input",
+            "key",
+            "keyseq",
+            "link",
+            "media",
+            "output",
+            "span",
+            "sys",
+            "var",
+            "info",
+            "credit",
+            "name",
+            "email",
+            "copyright",
+            "year",
+            "license",
+            "desc",
+            "link",
+            "revision",
+            "title",
+            "subtitle",
+            "desc",
+            "cite"
+        ],
+        "class": "no-spell-check",
+        "style-ref": "inline"
+    },
+    {
+        "include": {"context": [
+            {"ref": "page-element"},
+            {"ref": "section-element"},
+            {"ref": "block-elements"},
+            {"ref": "inline-elements"},
+            {
+                "ref": "xml:element-name",
+                "original": true
+            }
+        ]},
+        "id": "mallard-tags"
+    },
+    {
+        "include": {"context": {"ref": "xml:xml"}},
+        "id": "mallard"
+    }
+]}

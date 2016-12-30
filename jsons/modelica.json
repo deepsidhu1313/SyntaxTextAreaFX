@@ -1,0 +1,308 @@
+{"language": {
+    "metadata": {"property": [
+        {
+            "name": "mimetypes",
+            "content": "text/x-modelica"
+        },
+        {
+            "name": "globs",
+            "content": "*.mo;*.mop"
+        },
+        {
+            "name": "line-comment-start",
+            "content": "//"
+        },
+        {
+            "name": "block-comment-start",
+            "content": "/*"
+        },
+        {
+            "name": "block-comment-end",
+            "content": "*/"
+        }
+    ]},
+    "_name": "Modelica",
+    "_section": "Scientific",
+    "styles": {"style": [
+        {
+            "_name": "Comment",
+            "map-to": "def:comment",
+            "id": "comment"
+        },
+        {
+            "_name": "String",
+            "map-to": "def:string",
+            "id": "string"
+        },
+        {
+            "_name": "Operator",
+            "map-to": "def:operator",
+            "id": "operator"
+        },
+        {
+            "_name": "Class type",
+            "map-to": "def:type",
+            "id": "class-type"
+        },
+        {
+            "_name": "Data type",
+            "map-to": "def:type",
+            "id": "data-type"
+        },
+        {
+            "_name": "Default Attribute",
+            "map-to": "def:identifier",
+            "id": "default-attribute"
+        },
+        {
+            "_name": "Boolean",
+            "map-to": "def:boolean",
+            "id": "boolean"
+        },
+        {
+            "_name": "Decimal",
+            "map-to": "def:decimal",
+            "id": "decimal"
+        },
+        {
+            "_name": "Floating Point",
+            "map-to": "def:floating-point",
+            "id": "floating-point"
+        },
+        {
+            "_name": "Base-N Integer",
+            "map-to": "def:base-n-integer",
+            "id": "base-n-integer"
+        },
+        {
+            "_name": "Keyword",
+            "map-to": "def:keyword",
+            "id": "keyword"
+        },
+        {
+            "_name": "Builtin",
+            "map-to": "def:builtin",
+            "id": "builtin"
+        }
+    ]},
+    "id": "modelica",
+    "version": 2,
+    "definitions": {"context": [
+        {
+            "class-disabled": "no-spell-check",
+            "start": "\"",
+            "end": "\"",
+            "id": "double-quoted-string",
+            "class": "string",
+            "style-ref": "string",
+            "end-at-line-end": false
+        },
+        {
+            "match": {
+                "extended": true,
+                "content": "(\\.)?\\+{1,2}?(?!\\+) |   # arithmetic operators\n        (\\.)?\\-{1,2}?(?!\\-) |   # already counting\n        (\\.)?\\*{1,2}?(?!\\*) |   # with auto increment,\n        (\\.)?\\/(?!\\^) |         # element by element,\n        (\\.)?\\\\(?!\\^) |         # left division\n        (\\.)?\\^(?!\\^) |         # and both exp\n        (?<=[0-9a-zA-Z_)\\]}])(\\.)?' |                  # transpose operator\n        <=? | >=? | != | ~= | == | <> |       # comparison operators\n        &{1,2}?(?!&) | \\|{1,2}?(?!\\|) | ! | ~ |   # boolean operators\n        = |                                               # assignment operator\n        : |                                               # range operator"
+            },
+            "id": "operator",
+            "style-ref": "operator"
+        },
+        {
+            "id": "class-type",
+            "keyword": [
+                "class",
+                "block",
+                "connector",
+                "function",
+                "model",
+                "package",
+                "record",
+                "type"
+            ],
+            "style-ref": "class-type"
+        },
+        {
+            "id": "data-type",
+            "keyword": [
+                "Boolean",
+                "enumeration",
+                "ExternalObject",
+                "Integer",
+                "Real",
+                "StateSelect",
+                "String"
+            ],
+            "style-ref": "data-type"
+        },
+        {
+            "id": "default-attribute",
+            "keyword": [
+                "display",
+                "fixed",
+                "max",
+                "min",
+                "nominal",
+                "quantity",
+                "start",
+                "stateSelect",
+                "unit",
+                "value"
+            ],
+            "style-ref": "default-attribute"
+        },
+        {
+            "id": "boolean",
+            "suffix": "\\b(?!(\\s)*\\()",
+            "keyword": [
+                false,
+                true
+            ],
+            "style-ref": "boolean"
+        },
+        {
+            "match": "\\b([1-9][0-9]*|0)([Uu]([Ll]|LL|ll)?|([Ll]|LL|ll)[Uu]?)?\\b",
+            "id": "decimal",
+            "style-ref": "decimal"
+        },
+        {
+            "match": "\\b([0-9]+[Ee][-]?[0-9]+|([0-9]*\\.[0-9]+|[0-9]+\\.)([Ee][-]?[0-9]+)?)[fFlL]?",
+            "id": "floating-point-number",
+            "style-ref": "floating-point"
+        },
+        {
+            "id": "keyword",
+            "keyword": [
+                "algorithm",
+                "and",
+                "annotation",
+                "assert",
+                "break",
+                "connect",
+                "constant",
+                "constrainedby",
+                "discrete",
+                "else",
+                "elseif",
+                "elsewhen",
+                "encapsulated",
+                "end",
+                "equation",
+                "expandable",
+                "extends",
+                "external",
+                false,
+                "final",
+                "flow",
+                "for",
+                "if",
+                "import",
+                "in",
+                "inner",
+                "input",
+                "loop",
+                "not",
+                "or",
+                "outer",
+                "output",
+                "parameter",
+                "partial",
+                "protected",
+                "public",
+                "redeclare",
+                "replaceable",
+                "return",
+                "then",
+                true,
+                "when",
+                "while",
+                "within"
+            ],
+            "style-ref": "keyword"
+        },
+        {
+            "id": "builtin",
+            "keyword": [
+                "time",
+                "abs",
+                "ceil",
+                "div",
+                "floor",
+                "integer",
+                "mod",
+                "rem",
+                "sign",
+                "sqrt",
+                "sin",
+                "cos",
+                "tan",
+                "asin",
+                "acos",
+                "atan",
+                "atan2",
+                "sinh",
+                "cosh",
+                "tanh",
+                "exp",
+                "log",
+                "log10",
+                "analysisType",
+                "cardinality",
+                "change",
+                "delay",
+                "der",
+                "direction",
+                "edge",
+                "initial",
+                "isPresent",
+                "noEvent",
+                "pre",
+                "reinit",
+                "sample",
+                "semiLinear",
+                "smooth",
+                "terminal",
+                "terminate",
+                "ndims",
+                "size",
+                "scalar",
+                "vector",
+                "matrix",
+                "array",
+                "zeros",
+                "ones",
+                "fill",
+                "identity",
+                "diagonal",
+                "linspace",
+                "min",
+                "max",
+                "sum",
+                "product",
+                "transpose",
+                "outerProduct",
+                "symmetric",
+                "cross",
+                "skew",
+                "cat"
+            ],
+            "style-ref": "builtin"
+        },
+        {
+            "include": {"context": [
+                {"ref": "def:c-like-comment"},
+                {"ref": "def:c-like-comment-multiline"},
+                {"ref": "def:c-like-close-comment-outside-comment"},
+                {"ref": "double-quoted-string"},
+                {"ref": "operator"},
+                {"ref": "class-type"},
+                {"ref": "data-type"},
+                {"ref": "default-attribute"},
+                {"ref": "boolean"},
+                {"ref": "decimal"},
+                {"ref": "floating-point-number"},
+                {"ref": "keyword"},
+                {"ref": "builtin"}
+            ]},
+            "id": "modelica",
+            "class": "no-spell-check"
+        }
+    ]}
+}}

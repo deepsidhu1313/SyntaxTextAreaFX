@@ -1,0 +1,36 @@
+{"language": {
+    "metadata": {"property": [
+        {
+            "name": "mimetypes",
+            "content": "text/x-chdr"
+        },
+        {
+            "name": "globs",
+            "content": "*.h"
+        },
+        {
+            "name": "line-comment-start",
+            "content": "//"
+        },
+        {
+            "name": "block-comment-start",
+            "content": "/*"
+        },
+        {
+            "name": "block-comment-end",
+            "content": "*/"
+        }
+    ]},
+    "_name": "C/C++/ObjC Header",
+    "_section": "Source",
+    "id": "chdr",
+    "version": 2,
+    "definitions": {"context": {
+        "include": {"context": [
+            {"ref": "objc:objc-header"},
+            {"ref": "cpp:cpp-proper"},
+            {"ref": "c:c"}
+        ]},
+        "id": "chdr"
+    }}
+}}

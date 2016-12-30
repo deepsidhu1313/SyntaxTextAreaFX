@@ -1,0 +1,202 @@
+{"language": {
+    "metadata": {"property": [
+        {
+            "name": "mimetypes",
+            "content": "text/x-dtd"
+        },
+        {
+            "name": "globs",
+            "content": "*.dtd"
+        },
+        {
+            "name": "block-comment-start",
+            "content": "<!--"
+        },
+        {
+            "name": "block-comment-end",
+            "content": "-->"
+        }
+    ]},
+    "_name": "DTD",
+    "_section": "Markup",
+    "styles": {"style": [
+        {
+            "_name": "entity",
+            "map-to": "xml:entity",
+            "id": "entity"
+        },
+        {
+            "_name": "decl",
+            "map-to": "xml:doctype",
+            "id": "decl"
+        },
+        {
+            "_name": "error",
+            "map-to": "xml:error",
+            "id": "error"
+        },
+        {
+            "_name": "Quoted Value",
+            "map-to": "xml:attribute-value",
+            "id": "quoted-value"
+        }
+    ]},
+    "id": "dtd",
+    "version": 2,
+    "definitions": {
+        "context": [
+            {
+                "match": "%\\%{name};",
+                "id": "entity",
+                "style-ref": "entity"
+            },
+            {
+                "include": {"context": [
+                    {
+                        "where": "start",
+                        "sub-pattern": 0,
+                        "style-ref": "decl"
+                    },
+                    {
+                        "where": "end",
+                        "sub-pattern": 0,
+                        "style-ref": "decl"
+                    },
+                    {"ref": "entity"},
+                    {"ref": "quoted-value"}
+                ]},
+                "start": "<!ELEMENT\\b",
+                "end": ">",
+                "id": "decl-element"
+            },
+            {
+                "include": {"context": [
+                    {
+                        "match": "[%&]\\%{name};",
+                        "style-ref": "entity"
+                    },
+                    {
+                        "match": "[%&]\\S*",
+                        "style-ref": "error",
+                        "extend-parent": false
+                    }
+                ]},
+                "start": "\"",
+                "end": "\"",
+                "id": "quoted-value",
+                "style-ref": "quoted-value"
+            },
+            {
+                "include": {"context": [
+                    {
+                        "where": "start",
+                        "sub-pattern": 0,
+                        "style-ref": "decl"
+                    },
+                    {"match": "\\%{name}"},
+                    {"ref": "error"}
+                ]},
+                "start": "\\bNDATA\\b",
+                "id": "NDATA",
+                "extend-parent": false
+            },
+            {
+                "include": {"context": [
+                    {
+                        "where": "start",
+                        "sub-pattern": 0,
+                        "style-ref": "decl"
+                    },
+                    {
+                        "where": "end",
+                        "sub-pattern": 0,
+                        "style-ref": "decl"
+                    },
+                    {"ref": "quoted-value"},
+                    {
+                        "include": {"context": [
+                            {
+                                "where": "start",
+                                "sub-pattern": 0,
+                                "style-ref": "decl"
+                            },
+                            {"ref": "quoted-value"},
+                            {"ref": "NDATA"},
+                            {"ref": "error"}
+                        ]},
+                        "start": "(SYSTEM|PUBLIC)(?=\\s|$)",
+                        "extend-parent": false
+                    },
+                    {"ref": "error"}
+                ]},
+                "start": "<!ENTITY\\s+(%\\s+)?\\%{name}\\b",
+                "end": ">",
+                "id": "decl-entity"
+            },
+            {
+                "include": {"context": [
+                    {
+                        "where": "start",
+                        "sub-pattern": 0,
+                        "style-ref": "decl"
+                    },
+                    {
+                        "where": "end",
+                        "sub-pattern": 0,
+                        "style-ref": "decl"
+                    },
+                    {"ref": "entity"},
+                    {"ref": "quoted-value"}
+                ]},
+                "start": "<!ATTLIST\\b",
+                "end": ">",
+                "id": "decl-attlist"
+            },
+            {
+                "include": {"context": [
+                    {
+                        "where": "start",
+                        "sub-pattern": 0,
+                        "style-ref": "decl"
+                    },
+                    {
+                        "where": "end",
+                        "sub-pattern": 0,
+                        "style-ref": "decl"
+                    },
+                    {"ref": "entity"},
+                    {"ref": "quoted-value"}
+                ]},
+                "start": "<!NOTATION\\b",
+                "end": ">",
+                "id": "decl-notation"
+            },
+            {
+                "match": "\\S+",
+                "id": "error",
+                "style-ref": "error",
+                "extend-parent": false
+            },
+            {
+                "include": {"context": [
+                    {"ref": "xml:comment"},
+                    {"ref": "decl-element"},
+                    {"ref": "decl-entity"},
+                    {"ref": "decl-attlist"},
+                    {"ref": "decl-notation"}
+                ]},
+                "id": "dtd"
+            }
+        ],
+        "define-regex": [
+            {
+                "id": "prefix",
+                "content": "[a-zA-Z_][a-zA-Z0-9._-]*"
+            },
+            {
+                "id": "name",
+                "content": "[a-zA-Z_][a-zA-Z0-9.:_-]*"
+            }
+        ]
+    }
+}}

@@ -1,0 +1,81 @@
+{"language": {
+    "metadata": {"property": [
+        {
+            "name": "mimetypes",
+            "content": "text/csv"
+        },
+        {
+            "name": "globs",
+            "content": "*.csv"
+        }
+    ]},
+    "_name": "CSV",
+    "_section": "Other",
+    "styles": {"style": [
+        {
+            "_name": "Decimal number",
+            "map-to": "def:decimal",
+            "id": "decimal"
+        },
+        {
+            "_name": "Escaped character",
+            "map-to": "def:special-char",
+            "id": "escaped-character"
+        },
+        {
+            "_name": "Floating point number",
+            "map-to": "def:floating-point",
+            "id": "floating-point"
+        },
+        {
+            "_name": "String",
+            "map-to": "def:string",
+            "id": "string"
+        }
+    ]},
+    "id": "csv",
+    "version": 2,
+    "definitions": {"context": [
+        {
+            "match": {
+                "extended": true,
+                "content": "(?<![\\w\\.])\n        [0-9]+\n        (?![\\w\\.])"
+            },
+            "id": "decimal",
+            "style-ref": "decimal"
+        },
+        {
+            "match": {
+                "extended": true,
+                "content": "(?<![\\w\\.])\n        ((\\.[0-9]+ | [0-9]+\\.[0-9]*) ([Ee][+-]?[0-9]*)? | ([0-9]+[Ee][+-]?[0-9]*))\n        (?![\\w\\.])"
+            },
+            "id": "floating-point",
+            "style-ref": "floating-point"
+        },
+        {
+            "include": {"context": {
+                "match": {
+                    "extended": true,
+                    "content": "\\\"\\\"   # escaped double-quote"
+                },
+                "id": "escaped-character",
+                "style-ref": "escaped-character"
+            }},
+            "class-disabled": "no-spell-check",
+            "start": "\"",
+            "end": "\"",
+            "id": "string",
+            "class": "string",
+            "style-ref": "string"
+        },
+        {
+            "include": {"context": [
+                {"ref": "decimal"},
+                {"ref": "floating-point"},
+                {"ref": "string"}
+            ]},
+            "id": "csv",
+            "class": "no-spell-check"
+        }
+    ]}
+}}

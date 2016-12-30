@@ -1,0 +1,35 @@
+{"language": {
+    "metadata": {"property": [
+        {
+            "name": "mimetypes",
+            "content": "text/x-c++hdr"
+        },
+        {
+            "name": "globs",
+            "content": "*.hh;*.hp;*.hpp;*.h++"
+        },
+        {
+            "name": "line-comment-start",
+            "content": "//"
+        },
+        {
+            "name": "block-comment-start",
+            "content": "/*"
+        },
+        {
+            "name": "block-comment-end",
+            "content": "*/"
+        }
+    ]},
+    "_name": "C++ Header",
+    "_section": "Source",
+    "id": "cpphdr",
+    "version": 2,
+    "definitions": {"context": {
+        "include": {"context": [
+            {"ref": "cpp:cpp-proper"},
+            {"ref": "c:c"}
+        ]},
+        "id": "cpphdr"
+    }}
+}}

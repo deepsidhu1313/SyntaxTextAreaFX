@@ -1,0 +1,292 @@
+{"language": {
+    "metadata": {"property": [
+        {
+            "name": "mimetypes",
+            "content": "application/x-yaml"
+        },
+        {
+            "name": "globs",
+            "content": "*.yaml;*.yml;"
+        },
+        {
+            "name": "line-comment-start",
+            "content": "#"
+        }
+    ]},
+    "_name": "YAML",
+    "_section": "Other",
+    "styles": {"style": [
+        {
+            "_name": "Block literal",
+            "map-to": "def:string",
+            "id": "scalar"
+        },
+        {
+            "_name": "Comment",
+            "map-to": "def:comment",
+            "id": "comment"
+        },
+        {
+            "_name": "String",
+            "map-to": "def:string",
+            "id": "string"
+        },
+        {
+            "_name": "Anchor",
+            "map-to": "def:identifier",
+            "id": "anchor"
+        },
+        {
+            "_name": "Tag",
+            "map-to": "def:preprocessor",
+            "id": "tag"
+        },
+        {
+            "_name": "Alias",
+            "map-to": "def:type",
+            "id": "alias"
+        },
+        {
+            "_name": "Map key",
+            "map-to": "def:keyword",
+            "id": "map-key"
+        },
+        {
+            "_name": "Directive",
+            "map-to": "def:shebang",
+            "id": "directive"
+        },
+        {
+            "_name": null,
+            "map-to": "def:special-constant",
+            "id": null
+        },
+        {
+            "_name": "Boolean",
+            "map-to": "def:boolean",
+            "id": "bool"
+        },
+        {
+            "_name": "Integer",
+            "map-to": "def:decimal",
+            "id": "int"
+        },
+        {
+            "_name": "Floating point",
+            "map-to": "def:floating-point",
+            "id": "float"
+        }
+    ]},
+    "id": "yaml",
+    "version": 2,
+    "definitions": {
+        "context": [
+            {
+                "include": {"context": [
+                    {
+                        "end-parent": true,
+                        "start": "^(?'indent'\\s+)",
+                        "end": "^(?!\\%{indent@start})",
+                        "style-ref": "scalar"
+                    },
+                    {
+                        "end-parent": true,
+                        "match": "(?=.)"
+                    }
+                ]},
+                "class-disabled": "no-spell-check",
+                "start": "(?<=^|\\s)[|>]$",
+                "id": "scalar"
+            },
+            {
+                "match": "(?<=^|\\s)\\*\\%{ischar}+(?=$|\\s)",
+                "id": "alias",
+                "style-ref": "alias"
+            },
+            {
+                "match": "(?<=^|\\s)!(?:\\%{ischar}*)?!?\\%{ischar}+(?=$|\\s)",
+                "id": "tag",
+                "style-ref": "tag"
+            },
+            {
+                "match": "(?<=^|\\s)&\\%{ischar}+(?=$|\\s)",
+                "id": "anchor",
+                "style-ref": "anchor"
+            },
+            {
+                "class-disabled": "no-spell-check",
+                "start": "(?<=^|\\%{lschar})(?'q'[\"'])",
+                "end": "[^\\\\]\\%{q@start}",
+                "id": "string",
+                "end-at-line-end": true,
+                "style-ref": "string"
+            },
+            {
+                "class-disabled": "no-spell-check",
+                "start": "(?=\\%{ischar}|[:-\\?\\]\\}]\\S)",
+                "end": "(?=:\\s|:$|\\s#)",
+                "id": "unquoted-string",
+                "end-at-line-end": true,
+                "style-ref": "string"
+            },
+            {
+                "class-disabled": "no-spell-check",
+                "start": "(?=\\%{ischar}|-\\S)",
+                "end": "(?=[:,?\\[\\{\\]\\}]|\\s#)",
+                "id": "inline-unquoted",
+                "end-at-line-end": true,
+                "style-ref": "string"
+            },
+            {
+                "match": "(?:null)(?=\\s*$|\\s+#)",
+                "id": null,
+                "style-ref": null
+            },
+            {
+                "match": "(?:null)(?=\\s*[:,?\\[\\{\\]\\}]|\\s+#)",
+                "id": "inline-null",
+                "style-ref": null
+            },
+            {
+                "match": "(?:true|false)(?=\\s*$|\\s+#)",
+                "id": "bool",
+                "style-ref": "bool"
+            },
+            {
+                "match": "(?:true|false)(?=\\s*[:,?\\[\\{\\]\\}]|\\s+#)",
+                "id": "inline-bool",
+                "style-ref": "bool"
+            },
+            {
+                "match": "-?(?:0|[1-9][0-9]*)(?=\\s*[:,?\\[\\{\\]\\}]|\\s+#)",
+                "id": "inline-int",
+                "style-ref": "int"
+            },
+            {
+                "match": "-?(?:0|[1-9][0-9]*)(?=\\s*$|\\s+#)",
+                "id": "int",
+                "style-ref": "int"
+            },
+            {
+                "match": "-?(?:0|[1-9][0-9]*)(?:[.][0-9]*)?(?:[eE][-+]?[0-9]+)?(?=\\s*[:,?\\[\\{\\]\\}]|\\s+#)",
+                "id": "inline-float",
+                "style-ref": "float"
+            },
+            {
+                "match": "-?(?:0|[1-9][0-9]*)(?:[.][0-9]*)?(?:[eE][-+]?[0-9]+)?(?=\\s*$|\\s+#)",
+                "id": "float",
+                "style-ref": "float"
+            },
+            {
+                "match": "(?<=^|\\s)#.*$",
+                "id": "comment",
+                "style-ref": "comment"
+            },
+            {
+                "include": {"context": [
+                    {"ref": "scalar"},
+                    {"ref": "inline-sequence"},
+                    {"ref": "inline-map"},
+                    {"ref": "comment"},
+                    {"ref": "alias"},
+                    {"ref": "tag"},
+                    {"ref": "anchor"},
+                    {"ref": "string"},
+                    {"ref": "inline-null"},
+                    {"ref": "inline-bool"},
+                    {"ref": "inline-int"},
+                    {"ref": "inline-float"},
+                    {"ref": "inline-unquoted"},
+                    {
+                        "end-parent": true,
+                        "match": "\\]"
+                    }
+                ]},
+                "start": "(?<=^|\\s)\\[",
+                "id": "inline-sequence"
+            },
+            {
+                "include": {"context": [
+                    {"ref": "scalar"},
+                    {"ref": "inline-sequence"},
+                    {"ref": "inline-map"},
+                    {"ref": "comment"},
+                    {"ref": "alias"},
+                    {"ref": "tag"},
+                    {"ref": "anchor"},
+                    {"ref": "string"},
+                    {"ref": "inline-null"},
+                    {"ref": "inline-bool"},
+                    {"ref": "inline-int"},
+                    {"ref": "inline-float"},
+                    {"ref": "inline-unquoted"},
+                    {
+                        "end-parent": true,
+                        "match": "\\}"
+                    }
+                ]},
+                "start": "(?<=^|\\s)\\{",
+                "id": "inline-map"
+            },
+            {
+                "include": {"context": {
+                    "sub-pattern": 1,
+                    "style-ref": "map-key"
+                }},
+                "match": "(?<=^|\\s)((?:[^:]|:(?=\\S))+)(?::\\s+|:$)",
+                "id": "map"
+            },
+            {
+                "match": "^\\s*-\\s+",
+                "id": "sequence"
+            },
+            {
+                "match": "^(?:-{3}|[.]{3})(?:\\s+|$)",
+                "id": "document",
+                "style-ref": "comment"
+            },
+            {
+                "match": "^%\\%{ischar}(?:\\%{ischar}|\\s+)*",
+                "id": "directive",
+                "style-ref": "directive"
+            },
+            {
+                "include": {"context": [
+                    {"ref": "directive"},
+                    {"ref": "document"},
+                    {"ref": "scalar"},
+                    {"ref": "sequence"},
+                    {"ref": "inline-sequence"},
+                    {"ref": "inline-map"},
+                    {"ref": "comment"},
+                    {"ref": null},
+                    {"ref": "bool"},
+                    {"ref": "int"},
+                    {"ref": "float"},
+                    {"ref": "alias"},
+                    {"ref": "tag"},
+                    {"ref": "anchor"},
+                    {"ref": "map"},
+                    {"ref": "string"},
+                    {"ref": "unquoted-string"}
+                ]},
+                "id": "yaml",
+                "class": "no-spell-check"
+            }
+        ],
+        "define-regex": [
+            {
+                "id": "ischar",
+                "content": "[^-\\?:,\\[\\]\\{\\}#&*!|>'\"%@\\s]"
+            },
+            {
+                "id": "lschar",
+                "content": "[\\s\\[\\{,]"
+            },
+            {
+                "id": "rschar",
+                "content": "[\\s\\]\\},]"
+            }
+        ]
+    }
+}}

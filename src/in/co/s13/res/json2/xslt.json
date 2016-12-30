@@ -1,0 +1,89 @@
+{"xslt.json": [
+    {
+        "match": "(?<!:)xsl:",
+        "id": "namespace",
+        "style-ref": "namespace"
+    },
+    {
+        "include": {"context": [
+            {"ref": "namespace"},
+            {
+                "ref": "xml:namespace",
+                "original": true
+            }
+        ]},
+        "id": "xslt-namespace"
+    },
+    {
+        "once-only": true,
+        "id": "elements",
+        "suffix": "\\b(?!\\s*=)",
+        "keyword": [
+            "analyze-string",
+            "apply-imports",
+            "apply-templates",
+            "attribute-set",
+            "attribute",
+            "call-template",
+            "character-map",
+            "choose",
+            "comment",
+            "copy-of",
+            "copy",
+            "decimal-format",
+            "document",
+            "element",
+            "fallback",
+            "for-each-group",
+            "for-each",
+            "function",
+            "if",
+            "import-schema",
+            "import",
+            "include",
+            "key",
+            "matching-substring",
+            "message",
+            "namespace-alias",
+            "namespace",
+            "number",
+            "next-match",
+            "non-matching-substring",
+            "otherwise",
+            "output-character",
+            "output",
+            "param",
+            "perform-sort",
+            "preserve-space",
+            "processing-instruction",
+            "result-document",
+            "script",
+            "sequence",
+            "sort",
+            "strip-space",
+            "stylesheet",
+            "template",
+            "text",
+            "transform",
+            "value-of",
+            "variable",
+            "when",
+            "with-param"
+        ],
+        "style-ref": "element"
+    },
+    {
+        "include": {"context": [
+            {"ref": "elements"},
+            {
+                "ref": "xml:element-name",
+                "original": true
+            }
+        ]},
+        "id": "xslt-tags"
+    },
+    {
+        "include": {"context": {"ref": "xml:xml"}},
+        "id": "xslt"
+    }
+]}

@@ -1,0 +1,49 @@
+{"sweave.json": [
+    {
+        "include": {"context": [
+            {
+                "sub-pattern": 1,
+                "style-ref": "command"
+            },
+            {
+                "sub-pattern": 2,
+                "style-ref": "verbatim"
+            }
+        ]},
+        "match": "(\\\\Sexpr)\\{([^\\}]*)\\}",
+        "id": "inline-R",
+        "class": "no-spell-check"
+    },
+    {
+        "include": {"context": [
+            {
+                "where": "start",
+                "sub-pattern": 0,
+                "style-ref": "command"
+            },
+            {
+                "where": "end",
+                "sub-pattern": 0,
+                "style-ref": "command"
+            },
+            {"ref": "r:r"},
+            {
+                "match": "[[:alnum:]]@[[:alnum:]]",
+                "id": "R-slot",
+                "class": "no-spell-check"
+            }
+        ]},
+        "start": "^\\s*<<.*>>=",
+        "end": "@",
+        "id": "R-block",
+        "class": "no-spell-check"
+    },
+    {
+        "include": {"context": [
+            {"ref": "inline-R"},
+            {"ref": "R-block"},
+            {"ref": "latex:latex"}
+        ]},
+        "id": "sweave"
+    }
+]}

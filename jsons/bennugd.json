@@ -1,0 +1,333 @@
+{"language": {
+    "metadata": {"property": [
+        {
+            "name": "globs",
+            "content": "*.prg"
+        },
+        {
+            "name": "line-comment-start",
+            "content": "//"
+        },
+        {
+            "name": "block-comment-start",
+            "content": "/*"
+        },
+        {
+            "name": "block-comment-end",
+            "content": "*/"
+        }
+    ]},
+    "_name": "BennuGD",
+    "_section": "Source",
+    "styles": {"style": [
+        {
+            "_name": "Comment",
+            "map-to": "def:comment",
+            "id": "comment"
+        },
+        {
+            "_name": "Preprocessor",
+            "map-to": "def:preprocessor",
+            "id": "preprocessor"
+        },
+        {
+            "_name": "Identifier",
+            "map-to": "def:identifier",
+            "id": "identifier"
+        },
+        {
+            "_name": "Operator",
+            "map-to": "def:operator",
+            "id": "operator"
+        },
+        {
+            "_name": "Keyword",
+            "map-to": "def:keyword",
+            "id": "keywords"
+        },
+        {
+            "_name": "Data Type",
+            "map-to": "def:type",
+            "id": "types"
+        },
+        {
+            "_name": "Floating point number",
+            "map-to": "def:floating-point",
+            "id": "floating-point"
+        },
+        {
+            "_name": "Decimal number",
+            "map-to": "def:decimal",
+            "id": "decimal"
+        },
+        {
+            "_name": "Hexadecimal number",
+            "map-to": "def:base-n-integer",
+            "id": "hexadecimal"
+        },
+        {
+            "_name": "Boolean value",
+            "map-to": "def:boolean",
+            "id": "boolean"
+        }
+    ]},
+    "id": "bennugd",
+    "version": 2,
+    "definitions": {
+        "context": [
+            {
+                "include": {"context": [
+                    {
+                        "ref": "def:line-continue",
+                        "ignore-style": true
+                    },
+                    {
+                        "ref": "c:string",
+                        "ignore-style": true
+                    },
+                    {"ref": "def:c-like-comment"},
+                    {"ref": "def:c-like-comment-multiline"}
+                ]},
+                "start": {
+                    "extended": true,
+                    "content": "\\%{preproc-start}\n        (define|if(n?def)?|else|elsif|endif)\n        \\b"
+                },
+                "id": "preprocessor",
+                "style-ref": "preprocessor",
+                "end-at-line-end": true
+            },
+            {
+                "id": "boolean",
+                "keyword": [
+                    false,
+                    true
+                ],
+                "style-ref": "boolean"
+            },
+            {
+                "match": {
+                    "extended": true,
+                    "content": "(?<![\\w\\.])\n        ([0-9]+[Ee][+-]?[0-9]+ |\n        ([0-9]*\\.[0-9]+ | [0-9]+\\.[0-9]*)([Ee][+-]?[0-9]+)?)\n        (?![\\w\\.])"
+                },
+                "id": "float",
+                "style-ref": "floating-point"
+            },
+            {
+                "match": {
+                    "extended": true,
+                    "content": "(?<![\\w\\.])\n         [+-]?([1-9][0-9]*|0)\n         (?![\\w\\.])"
+                },
+                "id": "decimal-number",
+                "style-ref": "decimal"
+            },
+            {
+                "match": {
+                    "extended": true,
+                    "content": "(?<![\\w\\.])\n         [+-]?0x[0-9a-fA-F]+\n         (?![\\w\\.])"
+                },
+                "id": "hexadecimal-number",
+                "style-ref": "hexadecimal"
+            },
+            {
+                "id": "keywords",
+                "keyword": [
+                    "begin",
+                    "break",
+                    "call",
+                    "case",
+                    "clone",
+                    "const",
+                    "continue",
+                    "debug",
+                    "declare",
+                    "default",
+                    "dup",
+                    "elif",
+                    "else",
+                    "elseif",
+                    "elsif",
+                    "end",
+                    "error",
+                    "exit",
+                    "for",
+                    "frame",
+                    "from",
+                    "function",
+                    "global",
+                    "goto",
+                    "if",
+                    "import",
+                    "include",
+                    "jmp",
+                    "local",
+                    "loop",
+                    "mod",
+                    "mouse",
+                    "next",
+                    "offset",
+                    "on",
+                    "onerror",
+                    "onexit",
+                    "private",
+                    "process",
+                    "program",
+                    "public",
+                    "repeat",
+                    "resume",
+                    "return",
+                    "sizeof",
+                    "step",
+                    "switch",
+                    "to",
+                    "until",
+                    "while"
+                ],
+                "style-ref": "keywords"
+            },
+            {
+                "id": "globals",
+                "keyword": [
+                    "argc",
+                    "argv",
+                    "os_id"
+                ],
+                "style-ref": "keywords"
+            },
+            {
+                "id": "locals",
+                "keyword": [
+                    "bigbro",
+                    "father",
+                    "frame_percent",
+                    "id",
+                    "process_type",
+                    "reserved",
+                    "reserved.frame_percent",
+                    "reserved.process_type",
+                    "reserved.saved_priority",
+                    "reserved.saved_status",
+                    "reserved.status",
+                    "saved_priority",
+                    "saved_status",
+                    "smallbro",
+                    "status",
+                    "son"
+                ],
+                "style-ref": "keywords"
+            },
+            {
+                "prefix": "(?<!\\%{symbolchar})",
+                "id": "operators",
+                "suffix": "(?!\\%{symbolchar})",
+                "keyword": [
+                    "==",
+                    "!=",
+                    "!",
+                    "<",
+                    ">",
+                    "<=",
+                    ">=",
+                    "&&",
+                    "&",
+                    "=",
+                    "||",
+                    "|",
+                    "^^",
+                    "^"
+                ],
+                "style-ref": "operator",
+                "extend-parent": false
+            },
+            {
+                "id": "types",
+                "keyword": [
+                    "byte",
+                    "char",
+                    "dword",
+                    "float",
+                    "int",
+                    "pointer",
+                    "short",
+                    "signed",
+                    "string",
+                    "struct",
+                    "type",
+                    "unsigned",
+                    "word"
+                ],
+                "style-ref": "types"
+            },
+            {
+                "id": "commonmacros",
+                "keyword": [
+                    "COMPILER_VERSION",
+                    "__DATE__",
+                    "__FILE__",
+                    "__LINE__",
+                    "max_byte",
+                    "max_dword",
+                    "max_int",
+                    "max_sbyte",
+                    "max_short",
+                    "max_word",
+                    "min_byte",
+                    "min_dword",
+                    "min_int",
+                    "min_sbyte",
+                    "min_short",
+                    "min_word",
+                    null,
+                    "os_beos",
+                    "os_bsd",
+                    "os_dc",
+                    "os_gp32",
+                    "os_linux",
+                    "os_macos",
+                    "os_win32",
+                    "status_dead",
+                    "status_frozen",
+                    "status_killed",
+                    "status_running",
+                    "status_sleeping",
+                    "status_waiting",
+                    "__TIME__",
+                    "__VERSION__"
+                ],
+                "style-ref": "preprocessor"
+            },
+            {
+                "include": {"context": [
+                    {"ref": "def:c-like-comment"},
+                    {"ref": "def:c-like-comment-multiline"},
+                    {"ref": "def:c-like-close-comment-outside-comment"},
+                    {"ref": "preprocessor"},
+                    {"ref": "c:string"},
+                    {"ref": "c:char"},
+                    {"ref": "boolean"},
+                    {"ref": "float"},
+                    {"ref": "decimal-number"},
+                    {"ref": "hexadecimal-number"},
+                    {"ref": "keywords"},
+                    {"ref": "globals"},
+                    {"ref": "locals"},
+                    {"ref": "operators"},
+                    {"ref": "types"},
+                    {"ref": "commonmacros"}
+                ]},
+                "id": "bennugd",
+                "class": "no-spell-check"
+            }
+        ],
+        "define-regex": [
+            {
+                "id": "symbolchar",
+                "content": "[-!+\\\\|=:&><]"
+            },
+            {
+                "id": "preproc-start",
+                "content": "^\\s*#\\s*"
+            }
+        ]
+    },
+    "default-regex-options": {"case-sensitive": false}
+}}

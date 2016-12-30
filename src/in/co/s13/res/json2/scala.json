@@ -1,0 +1,366 @@
+{"scala.json": [
+    {
+        "include": {"context": {
+            "match": "\\%{escaped-character}",
+            "id": "escaped-character",
+            "style-ref": "escaped-character"
+        }},
+        "class-disabled": "no-spell-check",
+        "start": "\"",
+        "end": "\"",
+        "id": "string",
+        "class": "string",
+        "style-ref": "string",
+        "end-at-line-end": true
+    },
+    {
+        "class-disabled": "no-spell-check",
+        "start": "\"\"\"",
+        "end": "\"\"\"",
+        "id": "multiline-string",
+        "class": "string",
+        "style-ref": "string",
+        "end-at-line-end": false
+    },
+    {
+        "match": "[-.~^@,;:/%|\\=\\+\\*\\!\\?&<>()_\\[\\]]",
+        "id": "operators",
+        "style-ref": "operator",
+        "extend-parent": false
+    },
+    {
+        "match": "'(\\%{escaped-character}|.)'",
+        "id": "character",
+        "style-ref": "special"
+    },
+    {
+        "match": "'(\\%{escaped-character}|.)[^\\s]+'",
+        "id": "character-error",
+        "style-ref": "error"
+    },
+    {
+        "match": "'[a-zA-Z_][a-zA-Z0-9_]*",
+        "id": "symbol",
+        "style-ref": "special"
+    },
+    {
+        "include": {"context": [
+            {"ref": "def:in-comment"},
+            {"ref": "block-comment"}
+        ]},
+        "start": "/\\*",
+        "end": "\\*/",
+        "id": "block-comment",
+        "style-ref": "comment"
+    },
+    {
+        "match": {
+            "extended": true,
+            "content": "(\\b([0-9]+|0[xX][0-9a-fA-F]+)[Ll]?\\b|\\b(([0-9]+[Ee][-]?[0-9]+|([0-9]*\\.[0-9]+|[0-9]+\\.)([Ee][-]?[0-9]+)?)[fFdD]?|[0-9]+[FfDd]))"
+        },
+        "id": "numeric",
+        "style-ref": "number"
+    },
+    {
+        "include": {"context": {
+            "sub-pattern": 2,
+            "style-ref": "special"
+        }},
+        "match": "(^\\s*|[^a-zA-Z0-9_\\s]\\s*)(@[a-zA-Z][a-zA-Z0-9_]*)",
+        "id": "annotation"
+    },
+    {
+        "include": {"context": [
+            {
+                "sub-pattern": 1,
+                "style-ref": "xmltag"
+            },
+            {
+                "sub-pattern": 3,
+                "style-ref": "xmltag"
+            },
+            {
+                "sub-pattern": 4,
+                "style-ref": "xmltag"
+            }
+        ]},
+        "match": "(<\/?\\w+)(\\s(\\w+\\=)\\{.*\\})*(/?>)",
+        "id": "xmltag"
+    },
+    {
+        "start": "`",
+        "end": "`",
+        "id": "literal-identifier"
+    },
+    {
+        "id": "external",
+        "keyword": [
+            "import",
+            "package"
+        ],
+        "style-ref": "external"
+    },
+    {
+        "id": "declaration",
+        "keyword": [
+            "case class",
+            "class",
+            "def",
+            "extends",
+            "forSome",
+            "mixin",
+            "object",
+            "trait",
+            "type",
+            "val",
+            "var",
+            "with"
+        ],
+        "style-ref": "declaration"
+    },
+    {
+        "id": "primitive-type",
+        "keyword": [
+            "Boolean",
+            "Byte",
+            "Char",
+            "Double",
+            "Float",
+            "Int",
+            "Long",
+            "Short",
+            "Unit"
+        ],
+        "style-ref": "type"
+    },
+    {
+        "id": "library-type",
+        "keyword": [
+            "Iterator",
+            "Array",
+            "String",
+            "IterableProxy",
+            "SeqProxy",
+            "TraversableProxy",
+            "Cell",
+            "Option",
+            "Some",
+            "None",
+            "Either",
+            "Left",
+            "Right",
+            "Nil",
+            null,
+            "Nothing",
+            "Class",
+            "Any",
+            "AnyVal",
+            "AnyRef",
+            "Pair",
+            "Triple",
+            "BigDecimal",
+            "BigInt",
+            "BitSet",
+            "DefaultMap",
+            "HashMap",
+            "HashSet",
+            "IndexedSeq",
+            "IntMap",
+            "Iterable",
+            "LinearSeq",
+            "List",
+            "ListMap",
+            "ListSet",
+            "LongMap",
+            "Map",
+            "MapLike",
+            "MapProxy",
+            "Nil",
+            "NumericRange",
+            "RangeUtils",
+            "PagedSeq",
+            "Queue",
+            "Range",
+            "RedBlack",
+            "Seq",
+            "Set",
+            "SetProxy",
+            "SortedMap",
+            "SortedSet",
+            "Stack",
+            "Stream",
+            "StreamIterator",
+            "StreamView",
+            "StreamViewLike",
+            "StringLike",
+            "StringOps",
+            "Traversable",
+            "TreeMap",
+            "TreeSet",
+            "Vector",
+            "VectorBuilder",
+            "VectorIterator",
+            "WrappedString",
+            "AddingBuilder",
+            "ArrayBuffer",
+            "ArrayBuilder",
+            "ArrayLike",
+            "ArrayOps",
+            "ArraySeq",
+            "ArrayStack",
+            "BitSet",
+            "Buffer",
+            "BufferLike",
+            "BufferProxy",
+            "Builder",
+            "Cloneable",
+            "ConcurrentMap",
+            "DefaultEntry",
+            "DefaultMapModel",
+            "DoubleLinkedList",
+            "DoubleLinkedListLike",
+            "FlatHashTable",
+            "GrowingBuilder",
+            "HashEntry",
+            "HashMap",
+            "HashSet",
+            "HashTable",
+            "History",
+            "ImmutableMapAdaptor",
+            "ImmutableSetAdaptor",
+            "IndexedSeq",
+            "IndexedSeqLike",
+            "IndexedSeqOptimized",
+            "IndexedSeqView",
+            "Iterable",
+            "LazyBuilder",
+            "LinearSeq",
+            "LinkedEntry",
+            "LinkedHashMap",
+            "LinkedHashSet",
+            "LinkedList",
+            "LinkedListLike",
+            "ListBuffer",
+            "ListMap",
+            "Map",
+            "MapBuilder",
+            "MapLike",
+            "MapProxy",
+            "MultiMap",
+            "MutableList",
+            "ObservableBuffer",
+            "ObservableMap",
+            "ObservableSet",
+            "OpenHashMap",
+            "PriorityQueue",
+            "PriorityQueueProxy",
+            "Publisher",
+            "Queue",
+            "QueueProxy",
+            "ResizableArray",
+            "RevertibleHistory",
+            "Seq",
+            "SeqLike",
+            "Set",
+            "SetBuilder",
+            "SetLike",
+            "SetProxy",
+            "Stack",
+            "StackProxy",
+            "StringBuilder",
+            "Subscriber",
+            "SynchronizedBuffer",
+            "SynchronizedMap",
+            "SynchronizedPriorityQueue",
+            "SynchronizedQueue",
+            "SynchronizedSet",
+            "SynchronizedStack",
+            "Traversable",
+            "Undoable",
+            "UnrolledBuffer",
+            "WeakHashMap",
+            "WrappedArray",
+            "WrappedArrayBuilder"
+        ],
+        "style-ref": "type"
+    },
+    {
+        "id": "modifier",
+        "keyword": [
+            "abstract",
+            "final",
+            "implicit",
+            "lazy",
+            "override",
+            "private",
+            "protected",
+            "sealed"
+        ],
+        "style-ref": "modifier"
+    },
+    {
+        "id": "flow",
+        "keyword": [
+            "case",
+            "catch",
+            "do",
+            "else",
+            "finally",
+            "for",
+            "if",
+            "match",
+            "requires",
+            "return",
+            "throw",
+            "try",
+            "while",
+            "yield"
+        ],
+        "style-ref": "keyword"
+    },
+    {
+        "id": "memory",
+        "keyword": [
+            "new",
+            "super",
+            "this"
+        ],
+        "style-ref": "keyword"
+    },
+    {
+        "id": "special",
+        "keyword": [
+            true,
+            false,
+            null
+        ],
+        "style-ref": "special"
+    },
+    {
+        "include": {"context": [
+            {"ref": "literal-identifier"},
+            {"ref": "multiline-string"},
+            {"ref": "string"},
+            {"ref": "character"},
+            {"ref": "character-error"},
+            {"ref": "symbol"},
+            {"ref": "def:c-like-comment"},
+            {"ref": "block-comment"},
+            {"ref": "def:c-like-close-comment-outside-comment"},
+            {"ref": "annotation"},
+            {"ref": "external"},
+            {"ref": "declaration"},
+            {"ref": "primitive-type"},
+            {"ref": "library-type"},
+            {"ref": "modifier"},
+            {"ref": "flow"},
+            {"ref": "memory"},
+            {"ref": "special"},
+            {"ref": "numeric"},
+            {"ref": "xmltag"},
+            {"ref": "operators"}
+        ]},
+        "id": "scala",
+        "class": "no-spell-check"
+    }
+]}

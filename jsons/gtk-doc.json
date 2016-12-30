@@ -1,0 +1,139 @@
+{"language": {
+    "_name": "gtk-doc",
+    "hidden": true,
+    "_section": "Markup",
+    "styles": {"style": [
+        {
+            "_name": "Inline Documentation Section",
+            "map-to": "def:doc-comment",
+            "id": "inline-docs-section"
+        },
+        {
+            "_name": "Function Name",
+            "map-to": "def:doc-comment-element",
+            "id": "function-name"
+        },
+        {
+            "_name": "Signal Name",
+            "map-to": "def:doc-comment-element",
+            "id": "signal-name"
+        },
+        {
+            "_name": "Property Name",
+            "map-to": "def:doc-comment-element",
+            "id": "property-name"
+        },
+        {
+            "_name": "Parameter",
+            "map-to": "def:doc-comment-element",
+            "id": "parameter"
+        },
+        {
+            "_name": "Constant",
+            "map-to": "def:doc-comment-element",
+            "id": "constant"
+        },
+        {
+            "_name": "Type",
+            "map-to": "def:doc-comment-element",
+            "id": "type"
+        },
+        {
+            "_name": "Function",
+            "map-to": "def:doc-comment-element",
+            "id": "function"
+        },
+        {
+            "_name": "Return",
+            "map-to": "def:doc-comment-element",
+            "id": "return"
+        },
+        {
+            "_name": "Since",
+            "map-to": "def:doc-comment-element",
+            "id": "since"
+        },
+        {
+            "_name": "Deprecated",
+            "map-to": "def:doc-comment-element",
+            "id": "deprecated"
+        }
+    ]},
+    "id": "gtk-doc",
+    "version": 2,
+    "definitions": {"context": [
+        {
+            "match": "^\\s*\\*(?!/)\\s*",
+            "id": "skip-asterisk"
+        },
+        {
+            "include": {"context": [
+                {"ref": "skip-asterisk"},
+                {"ref": "def:in-comment"},
+                {
+                    "match": "\\@[\\w_]+",
+                    "style-ref": "parameter"
+                },
+                {
+                    "match": "%[\\w_]+",
+                    "style-ref": "constant"
+                },
+                {
+                    "match": "\\#[\\w_]+",
+                    "style-ref": "type"
+                },
+                {
+                    "match": "[\\w_]+\\(\\s*\\)",
+                    "style-ref": "function"
+                },
+                {
+                    "match": "(Returns|Return value)\\:",
+                    "style-ref": "return"
+                },
+                {
+                    "match": "Since\\:",
+                    "style-ref": "since"
+                },
+                {
+                    "match": "Deprecated\\:",
+                    "style-ref": "deprecated"
+                }
+            ]},
+            "id": "inline-docs-body"
+        },
+        {
+            "include": {"context": [
+                {"ref": "skip-asterisk"},
+                {
+                    "include": {"context": [
+                        {
+                            "where": "start",
+                            "sub-pattern": 2,
+                            "style-ref": "function-name"
+                        },
+                        {
+                            "where": "start",
+                            "sub-pattern": 3,
+                            "style-ref": "signal-name"
+                        },
+                        {
+                            "where": "start",
+                            "sub-pattern": 4,
+                            "style-ref": "property-name"
+                        },
+                        {"ref": "inline-docs-body"}
+                    ]},
+                    "start": "(([\\w_]+\\:\\:[\\w_-]+)|([\\w_]+\\:[\\w_-]+)|([\\w_]+))\\:\\s*$",
+                    "extend-parent": false
+                },
+                {"ref": "inline-docs-body"}
+            ]},
+            "class-disabled": "no-spell-check",
+            "start": "/\\*\\*(?!\\S)",
+            "end": "\\*/",
+            "id": "inline-docs-section",
+            "class": "comment",
+            "style-ref": "inline-docs-section"
+        }
+    ]}
+}}

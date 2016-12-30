@@ -1,0 +1,262 @@
+{"xml.json": [
+    {
+        "match": "&\\%{name};",
+        "id": "entity",
+        "class": "no-spell-check",
+        "style-ref": "entity"
+    },
+    {
+        "match": "#([0-9]+|x[a-fA-F0-9]+)",
+        "id": "character-reference",
+        "style-ref": "entity"
+    },
+    {
+        "match": "[&<]",
+        "id": "unallowed-chars",
+        "style-ref": "error",
+        "extend-parent": false
+    },
+    {
+        "include": {"context": [
+            {
+                "match": "--+",
+                "style-ref": "error",
+                "extend-parent": false
+            },
+            {"ref": "def:in-comment"}
+        ]},
+        "start": "<!--",
+        "end": "-->",
+        "id": "comment",
+        "class": "comment",
+        "style-ref": "comment"
+    },
+    {
+        "include": {"context": [
+            {
+                "where": "start",
+                "sub-pattern": 1,
+                "style-ref": "doctype"
+            },
+            {
+                "where": "start",
+                "sub-pattern": 2,
+                "style-ref": "doctype"
+            },
+            {
+                "where": "end",
+                "sub-pattern": 0,
+                "style-ref": "doctype"
+            },
+            {
+                "include": {"context": [
+                    {
+                        "sub-pattern": 1,
+                        "style-ref": "doctype"
+                    },
+                    {
+                        "sub-pattern": 2,
+                        "style-ref": "attribute-value"
+                    }
+                ]},
+                "match": "(SYSTEM)\\s+(\\\"[^\\\"]*\\\")"
+            },
+            {
+                "include": {"context": [
+                    {
+                        "sub-pattern": 1,
+                        "style-ref": "doctype"
+                    },
+                    {
+                        "sub-pattern": 2,
+                        "style-ref": "attribute-value"
+                    },
+                    {
+                        "sub-pattern": 3,
+                        "style-ref": "attribute-value"
+                    }
+                ]},
+                "match": "(PUBLIC)\\s+(\\\"[^\\\"]*\\\")\\s+(\\\"[^\\\"]*\\\")"
+            },
+            {
+                "include": {"context": [
+                    {
+                        "where": "start",
+                        "sub-pattern": 0,
+                        "style-ref": "doctype"
+                    },
+                    {
+                        "where": "end",
+                        "sub-pattern": 0,
+                        "style-ref": "doctype"
+                    },
+                    {"ref": "dtd:dtd"}
+                ]},
+                "start": "\\[",
+                "end": "\\]"
+            }
+        ]},
+        "start": "(<!DOCTYPE)\\s+(\\%{name})",
+        "end": ">",
+        "id": "doctype",
+        "class": "no-spell-check"
+    },
+    {
+        "include": {"context": [
+            {
+                "where": "start",
+                "class": "no-spell-check",
+                "sub-pattern": 0,
+                "style-ref": "cdata-delim"
+            },
+            {
+                "where": "end",
+                "sub-pattern": 0,
+                "style-ref": "cdata-delim"
+            }
+        ]},
+        "start": "<!\\[CDATA\\[",
+        "end": "\\]\\]>",
+        "id": "cdata",
+        "class": "no-spell-check"
+    },
+    {
+        "start": "<\\?",
+        "end": "\\?>",
+        "id": "processing-instruction",
+        "style-ref": "processing-instruction"
+    },
+    {
+        "match": "(?<!:)\\%{prefix}:",
+        "id": "namespace",
+        "class": "no-spell-check",
+        "style-ref": "namespace"
+    },
+    {
+        "match": "\\b\\%{name}\\s*=",
+        "id": "attribute-name",
+        "class": "no-spell-check",
+        "style-ref": "attribute-name"
+    },
+    {
+        "include": {"context": [
+            {"ref": "entity"},
+            {"ref": "character-reference"},
+            {"ref": "unallowed-chars"}
+        ]},
+        "class-disabled": "no-spell-check",
+        "start": "[\"']",
+        "end": "\\%{0@start}",
+        "id": "attribute-value",
+        "class": "string",
+        "style-ref": "attribute-value"
+    },
+    {
+        "once-only": true,
+        "match": "\\b\\%{name}\\b(?!\\s*=)",
+        "id": "element-name",
+        "class": "no-spell-check",
+        "style-ref": "element-name"
+    },
+    {
+        "include": {"context": [
+            {
+                "where": "start",
+                "sub-pattern": 0,
+                "style-ref": "processing-instruction"
+            },
+            {
+                "where": "end",
+                "sub-pattern": 0,
+                "style-ref": "processing-instruction"
+            },
+            {"ref": "attribute-value"},
+            {"ref": "attribute-name"}
+        ]},
+        "start": "<\\?xml",
+        "end": "\\?>",
+        "id": "prolog",
+        "class": "no-spell-check"
+    },
+    {
+        "include": {"context": [
+            {
+                "where": "start",
+                "sub-pattern": 0,
+                "style-ref": "element-name"
+            },
+            {
+                "where": "end",
+                "sub-pattern": 0,
+                "style-ref": "element-name"
+            },
+            {"ref": "entity"},
+            {"ref": "character-reference"},
+            {"ref": "unallowed-chars"},
+            {"ref": "namespace"},
+            {"ref": "attribute-name"},
+            {"ref": "attribute-value"},
+            {"ref": "element-name"},
+            {
+                "match": "\\S",
+                "style-ref": "error",
+                "extend-parent": false
+            }
+        ]},
+        "start": "<(?!/)",
+        "end": "/?>",
+        "id": "start-tag",
+        "class": "no-spell-check",
+        "style-ref": "tag"
+    },
+    {
+        "include": {"context": [
+            {
+                "where": "start",
+                "sub-pattern": 0,
+                "style-ref": "element-name"
+            },
+            {
+                "where": "end",
+                "sub-pattern": 0,
+                "style-ref": "element-name"
+            },
+            {"ref": "entity"},
+            {"ref": "character-reference"},
+            {"ref": "unallowed-chars"},
+            {"ref": "namespace"},
+            {"ref": "element-name"},
+            {
+                "match": "\\S",
+                "style-ref": "error",
+                "extend-parent": false
+            }
+        ]},
+        "start": "<\/",
+        "end": ">",
+        "id": "end-tag",
+        "class": "no-spell-check",
+        "style-ref": "tag"
+    },
+    {
+        "match": "/>",
+        "id": "close-tag-outside-tag",
+        "style-ref": "error"
+    },
+    {
+        "include": {"context": [
+            {"ref": "comment"},
+            {"ref": "doctype"},
+            {"ref": "cdata"},
+            {"ref": "prolog"},
+            {"ref": "processing-instruction"},
+            {"ref": "start-tag"},
+            {"ref": "end-tag"},
+            {"ref": "entity"},
+            {"ref": "character-reference"},
+            {"ref": "unallowed-chars"},
+            {"ref": "close-tag-outside-tag"}
+        ]},
+        "id": "xml"
+    }
+]}

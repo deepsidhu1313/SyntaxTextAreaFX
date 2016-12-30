@@ -1,0 +1,105 @@
+{"language": {
+    "metadata": {"property": [
+        {
+            "name": "mimetypes",
+            "content": "text/x-diff;text/x-patch;text/x-reject"
+        },
+        {
+            "name": "globs",
+            "content": "*.diff;*.patch;*.rej"
+        }
+    ]},
+    "_name": "Diff",
+    "_section": "Other",
+    "styles": {"style": [
+        {
+            "_name": "Added line",
+            "id": "added-line"
+        },
+        {
+            "_name": "Removed line",
+            "id": "removed-line"
+        },
+        {
+            "_name": "Changed line",
+            "id": "changed-line"
+        },
+        {
+            "_name": "Special case",
+            "id": "special-case"
+        },
+        {
+            "_name": "Location",
+            "id": "location"
+        },
+        {
+            "_name": "Ignore",
+            "map-to": "def:comment",
+            "id": "ignore"
+        },
+        {
+            "_name": "",
+            "id": "diff-file"
+        }
+    ]},
+    "id": "diff",
+    "version": 2,
+    "definitions": {
+        "context": {
+            "include": {"context": [
+                {
+                    "start": "\\%{diff-file}",
+                    "id": "diff-file",
+                    "style-ref": "diff-file",
+                    "end-at-line-end": true
+                },
+                {
+                    "match": "^(<|-).*$",
+                    "id": "removed-line",
+                    "style-ref": "removed-line"
+                },
+                {
+                    "match": "^(\\+|>).*$",
+                    "id": "added-line",
+                    "style-ref": "added-line"
+                },
+                {
+                    "match": "^\\! .*$",
+                    "id": "changed-line",
+                    "style-ref": "changed-line"
+                },
+                {
+                    "include": {"context": {"ref": "def:escape"}},
+                    "start": "^((@@)|[0-9]|\\*\\*\\*\\*)",
+                    "id": "location",
+                    "style-ref": "location",
+                    "end-at-line-end": true
+                },
+                {
+                    "prefix": "^",
+                    "id": "special-case",
+                    "suffix": "\\b",
+                    "keyword": [
+                        "Only in .*",
+                        "Files .* and .* are identical$",
+                        "Files .* and .* differ$",
+                        "Binary files .* and .* differ$",
+                        "File .* is a .* while file .* is a .*",
+                        "No newline at end of file .*"
+                    ],
+                    "style-ref": "special-case"
+                },
+                {
+                    "start": "^\\S",
+                    "style-ref": "ignore",
+                    "end-at-line-end": true
+                }
+            ]},
+            "id": "diff"
+        },
+        "define-regex": {
+            "id": "diff-file",
+            "content": "^(diff |\\+\\+\\+ |Index: |==== |\\*\\*\\* |--- )"
+        }
+    }
+}}
