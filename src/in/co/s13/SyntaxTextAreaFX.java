@@ -17,6 +17,7 @@ import java.time.Duration;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.logging.Level;
@@ -71,7 +72,7 @@ public class SyntaxTextAreaFX {
 //            + "|(?<COMMENT>" + COMMENT_PATTERN + ")"
 //    );
     private static String Theme = "default";
-    private  Pattern PATTERN;
+    private Pattern PATTERN;
     private CodeArea codeArea;
     private ExecutorService executor;
     private String filePath = "";
@@ -81,7 +82,7 @@ public class SyntaxTextAreaFX {
         actionscript, ada, ansforth94, asp, automake, awk, bennugd, bibtex, bluespec, boo, c, cg, changelog, cmake, cobol, cpp, cpphdr, csharp, css, cuda, d, def, desktop, diff, docbook, dosbatch, dot, dpatch, dtd, eiffel, erlang, fcl, fortran, fsharp, gap, gdblog, genie, glsl, gtkdoc, gtkrc, haddock, haskell, haskellliterate, html, idlexelis, imagej, ini, j, jade, java, javascript, json, julia, latex, lex, libtool, llvm, m4, makefile, mallard, markdown, matlab, mediawiki, modelica, mxml, nemerle, nemo_action, netrexx, nsis, objj, ocaml, ocl, octave, ooc, opal, pascal, perl, php, pig, pkgconfig, po, protobuf, puppet, python, python3, R, rpmspec, ruby, rust, scala, scheme, scilab, sh, sparql, sql, sweave, systemverilog, t2t, tcl, thrift, vala, vbnet, verilog, vhdl, xml, yacc, yaml
     };
 
-    private static FILE_TYPES CodingStyle;
+    private static FILE_TYPES CodingStyle = FILE_TYPES.java;
 
     public SyntaxTextAreaFX() {
         this("");
@@ -98,6 +99,16 @@ public class SyntaxTextAreaFX {
     public static void setThemeDefault() {
         SyntaxTextAreaFX.Theme = "default";
     }
+    public static boolean contains(String test) {
+
+    for (FILE_TYPES c : FILE_TYPES.values()) {
+        if (c.name().equals(test)) {
+            return true;
+        }
+    }
+
+    return false;
+}
 
     public SyntaxTextAreaFX(String file) {
         filePath = file;
@@ -105,27 +116,45 @@ public class SyntaxTextAreaFX {
         codeArea = new CodeArea();
 
         codeArea.setParagraphGraphicFactory(LineNumberFactory.get(codeArea));
-        EventStream<PlainTextChange> textChanges = codeArea.plainTextChanges();
-        textChanges
-                .successionEnds(Duration.ofMillis(500))
-                .supplyTask(this::computeHighlightingAsync)
-                .awaitLatest(textChanges)
-                .map(Try::get)
-                .subscribe(this::applyHighlighting);
+//        EventStream<PlainTextChange> textChanges = codeArea.plainTextChanges();
+//        textChanges
+//                .successionEnds(Duration.ofMillis(500))
+//                .supplyTask(this::computeHighlightingAsync)
+//                .awaitLatest(textChanges)
+//                .map(Try::get)
+//                .subscribe(this::applyHighlighting);
         String fileExtension = "";
         if (file.trim().length() > 1 && file.contains(".")) {
-            fileExtension = file.substring(file.lastIndexOf(".")).trim().toLowerCase();
+            fileExtension = file.substring(file.lastIndexOf(".")+1).trim().toLowerCase();
         }
-        if (file.trim().length() > 1 && file.contains(".") && Arrays.asList(FILE_TYPES.values()).contains(fileExtension)) {
+        if (file.trim().length() > 1 && file.contains(".") && SyntaxTextAreaFX.contains(fileExtension)) {
             // setCodingStyle();
-           // setCodingStyle(FILE_TYPES.valueOf(fileExtension));
+            System.out.println("HERE");
+            setCodingStyle(FILE_TYPES.valueOf(fileExtension));
             codeArea.getStylesheets().add(SyntaxTextAreaFX.class.getResource("res/css/" + getTheme() + "/" + getCodingStyle() + ".css").toExternalForm());
 
         } else {
+            generatePattern();
             codeArea.getStylesheets().add(SyntaxTextAreaFX.class.getResource("res/css/default/java.css").toExternalForm());
 
         }
-       // this.setText(this.readFile(filePath));
+        codeArea.richChanges()
+                .filter(ch -> !ch.getInserted().equals(ch.getRemoved())) // XXX
+                .successionEnds(Duration.ofMillis(500))
+                .supplyTask(this::computeHighlightingAsync)
+                .awaitLatest(codeArea.richChanges())
+                .filterMap(t -> {
+                    if (t.isSuccess()) {
+                        return Optional.of(t.get());
+                    } else {
+                        t.getFailure().printStackTrace();
+                        return Optional.empty();
+                    }
+                })
+                .subscribe(this::applyHighlighting);
+
+        this.setText(this.readFile(filePath));
+
     }
 
     public void setText(String text) {
@@ -196,12 +225,14 @@ public class SyntaxTextAreaFX {
 
     private String readFile(String path) {
         String str = "";
-        try {
-            Charset encoding = Charset.defaultCharset();
-            byte[] encoded = Files.readAllBytes(Paths.get(path));
-            str = new String(encoded, encoding);
-        } catch (IOException ex) {
-            Logger.getLogger(Generator.class.getName()).log(Level.SEVERE, null, ex);
+        if (path.trim().length() > 1) {
+            try {
+                Charset encoding = Charset.defaultCharset();
+                byte[] encoded = Files.readAllBytes(Paths.get(path));
+                str = new String(encoded, encoding);
+            } catch (IOException ex) {
+                Logger.getLogger(Generator.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         return str;
     }
@@ -227,7 +258,7 @@ public class SyntaxTextAreaFX {
         int lastKwEnd = 0;
         StyleSpansBuilder<Collection<String>> spansBuilder
                 = new StyleSpansBuilder<>();
-        generatePattern();
+        //generatePattern();
         while (matcher.find()) {
             String styleClass
                     = getStyleClass(matcher);
@@ -240,24 +271,8 @@ public class SyntaxTextAreaFX {
         return spansBuilder.create();
     }
 
-    private String getStyleClass(Matcher matcher) {
-        String styleClass = matcher.group("DECLARATIONS") != null ? "declarations"
-                : matcher.group("PRIMITIVES") != null ? "primitives"
-                : matcher.group("EXTERNALS") != null ? "externals"
-                : matcher.group("STORAGECLASS") != null ? "storageclass"
-                : matcher.group("SCOPEDECLARATIONS") != null ? "scopedeclarations"
-                : matcher.group("FLOW") != null ? "flow"
-                : matcher.group("MEMORY") != null ? "memory"
-                : matcher.group("FUTURE") != null ? "future"
-                : matcher.group("NULL") != null ? "nullvalue"
-                : matcher.group("BOOLEAN") != null ? "boolean"
-                : matcher.group("PAREN") != null ? "paren"
-                : matcher.group("BRACE") != null ? "brace"
-                : matcher.group("BRACKET") != null ? "bracket"
-                : matcher.group("SEMICOLON") != null ? "semicolon"
-                : matcher.group("STRING") != null ? "string"
-                : matcher.group("COMMENT") != null ? "comment"
-                : null;
+    String getStyleClass(Matcher matcher) {
+        String styleClass = "";
         switch (getCodingStyle()) {
             case actionscript:
                 break;
@@ -356,25 +371,6 @@ public class SyntaxTextAreaFX {
             case j:
                 break;
             case jade:
-                break;
-            case java:
-                styleClass = matcher.group("DECLARATIONS") != null ? "declarations"
-                        : matcher.group("PRIMITIVES") != null ? "primitives"
-                        : matcher.group("EXTERNALS") != null ? "externals"
-                        : matcher.group("STORAGECLASS") != null ? "storageclass"
-                        : matcher.group("SCOPEDECLARATIONS") != null ? "scopedeclarations"
-                        : matcher.group("FLOW") != null ? "flow"
-                        : matcher.group("MEMORY") != null ? "memory"
-                        : matcher.group("FUTURE") != null ? "future"
-                        : matcher.group("NULL") != null ? "nullvalue"
-                        : matcher.group("BOOLEAN") != null ? "boolean"
-                        : matcher.group("PAREN") != null ? "paren"
-                        : matcher.group("BRACE") != null ? "brace"
-                        : matcher.group("BRACKET") != null ? "bracket"
-                        : matcher.group("SEMICOLON") != null ? "semicolon"
-                        : matcher.group("STRING") != null ? "string"
-                        : matcher.group("COMMENT") != null ? "comment"
-                        : null;
                 break;
             case javascript:
                 break;
@@ -490,12 +486,32 @@ public class SyntaxTextAreaFX {
                 break;
             case yaml:
                 break;
+            default:
+                styleClass = matcher.group("DECLARATIONS") != null ? "declarations"
+                        : matcher.group("PRIMITIVES") != null ? "primitives"
+                        : matcher.group("EXTERNALS") != null ? "externals"
+                        : matcher.group("STORAGECLASS") != null ? "storageclass"
+                        : matcher.group("SCOPEDECLARATIONS") != null ? "scopedeclarations"
+                        : matcher.group("FLOW") != null ? "flow"
+                        : matcher.group("MEMORY") != null ? "memory"
+                        : matcher.group("FUTURE") != null ? "future"
+                        : matcher.group("NULL") != null ? "nullvalue"
+                        : matcher.group("BOOLEAN") != null ? "boolean"
+                        : matcher.group("PAREN") != null ? "paren"
+                        : matcher.group("BRACE") != null ? "brace"
+                        : matcher.group("BRACKET") != null ? "bracket"
+                        : matcher.group("SEMICOLON") != null ? "semicolon"
+                        : matcher.group("STRING") != null ? "string"
+                        : matcher.group("COMMENT") != null ? "comment"
+                        : null;
+                break;
+
         }
 
         return styleClass;
     }
 
-    private void generatePattern() {
+    void generatePattern() {
         switch (getCodingStyle()) {
             case actionscript:
                 break;
@@ -595,7 +611,122 @@ public class SyntaxTextAreaFX {
                 break;
             case jade:
                 break;
-            case java:
+
+            case javascript:
+                break;
+            case json:
+                break;
+            case julia:
+                break;
+            case latex:
+                break;
+            case lex:
+                break;
+            case libtool:
+                break;
+            case llvm:
+                break;
+            case m4:
+                break;
+            case makefile:
+                break;
+            case mallard:
+                break;
+            case markdown:
+                break;
+            case matlab:
+                break;
+            case mediawiki:
+                break;
+            case modelica:
+                break;
+            case mxml:
+                break;
+            case nemerle:
+                break;
+            case nemo_action:
+                break;
+            case netrexx:
+                break;
+            case nsis:
+                break;
+            case objj:
+                break;
+            case ocaml:
+                break;
+            case ocl:
+                break;
+            case octave:
+                break;
+            case ooc:
+                break;
+            case opal:
+                break;
+            case pascal:
+                break;
+            case perl:
+                break;
+            case php:
+                break;
+            case pig:
+                break;
+            case pkgconfig:
+                break;
+            case po:
+                break;
+            case protobuf:
+                break;
+            case puppet:
+                break;
+            case python:
+                break;
+            case python3:
+                break;
+            case R:
+                break;
+            case rpmspec:
+                break;
+            case ruby:
+                break;
+            case rust:
+                break;
+            case scala:
+                break;
+            case scheme:
+                break;
+            case scilab:
+                break;
+            case sh:
+                break;
+            case sparql:
+                break;
+            case sql:
+                break;
+            case sweave:
+                break;
+            case systemverilog:
+                break;
+            case t2t:
+                break;
+            case tcl:
+                break;
+            case thrift:
+                break;
+            case vala:
+                break;
+            case vbnet:
+                break;
+            case verilog:
+                break;
+            case vhdl:
+                break;
+            case xml:
+                break;
+            case yacc:
+                break;
+            case yaml:
+                break;
+            default: //JAVA case is default
                 String DECLARATIONS[] = new String[]{"class", "enum",
                     "extends", "implements",
                     "instanceof", "interface",
@@ -658,120 +789,6 @@ public class SyntaxTextAreaFX {
                         + "|(?<COMMENT>" + COMMENT_PATTERN + ")"
                 );
 
-                break;
-            case javascript:
-                break;
-            case json:
-                break;
-            case julia:
-                break;
-            case latex:
-                break;
-            case lex:
-                break;
-            case libtool:
-                break;
-            case llvm:
-                break;
-            case m4:
-                break;
-            case makefile:
-                break;
-            case mallard:
-                break;
-            case markdown:
-                break;
-            case matlab:
-                break;
-            case mediawiki:
-                break;
-            case modelica:
-                break;
-            case mxml:
-                break;
-            case nemerle:
-                break;
-            case nemo_action:
-                break;
-            case netrexx:
-                break;
-            case nsis:
-                break;
-            case objj:
-                break;
-            case ocaml:
-                break;
-            case ocl:
-                break;
-            case octave:
-                break;
-            case ooc:
-                break;
-            case opal:
-                break;
-            case pascal:
-                break;
-            case perl:
-                break;
-            case php:
-                break;
-            case pig:
-                break;
-            case pkgconfig:
-                break;
-            case po:
-                break;
-            case protobuf:
-                break;
-            case puppet:
-                break;
-            case python:
-                break;
-            case python3:
-                break;
-            case R:
-                break;
-            case rpmspec:
-                break;
-            case ruby:
-                break;
-            case rust:
-                break;
-            case scala:
-                break;
-            case scheme:
-                break;
-            case scilab:
-                break;
-            case sh:
-                break;
-            case sparql:
-                break;
-            case sql:
-                break;
-            case sweave:
-                break;
-            case systemverilog:
-                break;
-            case t2t:
-                break;
-            case tcl:
-                break;
-            case thrift:
-                break;
-            case vala:
-                break;
-            case vbnet:
-                break;
-            case verilog:
-                break;
-            case vhdl:
-                break;
-            case xml:
-                break;
-            case yacc:
-                break;
-            case yaml:
                 break;
         }
 
