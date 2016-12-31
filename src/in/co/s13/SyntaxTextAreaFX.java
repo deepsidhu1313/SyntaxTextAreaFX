@@ -24,6 +24,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.scene.Scene;
 import javafx.scene.text.Font;
@@ -75,41 +76,85 @@ public class SyntaxTextAreaFX {
     private Pattern PATTERN;
     private CodeArea codeArea;
     private ExecutorService executor;
-    private String filePath = "";
+    private String filePath = "", externalThemePath = "";
     public Scene scene;
 
     public static enum FILE_TYPES {
-        actionscript, ada, ansforth94, asp, automake, awk, bennugd, bibtex, bluespec, boo, c, cg, changelog, cmake, cobol, cpp, cpphdr, csharp, css, cuda, d, def, desktop, diff, docbook, dosbatch, dot, dpatch, dtd, eiffel, erlang, fcl, fortran, fsharp, gap, gdblog, genie, glsl, gtkdoc, gtkrc, haddock, haskell, haskellliterate, html, idlexelis, imagej, ini, j, jade, java, javascript, json, julia, latex, lex, libtool, llvm, m4, makefile, mallard, markdown, matlab, mediawiki, modelica, mxml, nemerle, nemo_action, netrexx, nsis, objj, ocaml, ocl, octave, ooc, opal, pascal, perl, php, pig, pkgconfig, po, protobuf, puppet, python, python3, R, rpmspec, ruby, rust, scala, scheme, scilab, sh, sparql, sql, sweave, systemverilog, t2t, tcl, thrift, vala, vbnet, verilog, vhdl, xml, yacc, yaml
+        as, adb, ads, ansforth94, asp, automake, awk,
+        bennugd, bibtex, bluespec, boo, c, cg, changelog,
+        cmake, cobol, cpp, cpphdr, csharp, css, cuda, d,
+        def, desktop, diff, docbook, dosbatch, dot, dpatch,
+        dtd, eiffel, erlang, fcl, fortran, fsharp, gap, gdblog,
+        genie, glsl, gtkdoc, gtkrc, haddock, haskell, haskellliterate,
+        html, idlexelis, imagej, ini, j, jade, java, javascript, json,
+        julia, latex, lex, libtool, llvm, m4, makefile, mallard, markdown,
+        matlab, mediawiki, modelica, mxml, nemerle, nemo_action, netrexx,
+        nsis, objj, ocaml, ocl, octave, ooc, opal, pascal, perl, php, pig,
+        pkgconfig, po, protobuf, puppet, python, python3, r, rpmspec, ruby,
+        rust, scala, scheme, scilab, sh, sparql, sql, sweave, systemverilog,
+        t2t, tcl, thrift, vala, vbnet, verilog, vhdl, xml, yacc, yaml
     };
 
     private static FILE_TYPES CodingStyle = FILE_TYPES.java;
 
+    /**
+     * *
+     * Default Constructor
+     */
     public SyntaxTextAreaFX() {
         this("");
     }
 
+    /**
+     *
+     * @return Theme Name as String
+     */
     public static String getTheme() {
         return Theme;
     }
 
+    /**
+     * *
+     *
+     * @param Theme- Name of theme as String, where Theme is the name of the
+     * directory available in res/css/<Theme>/
+     *
+     */
     public static void setTheme(String Theme) {
         SyntaxTextAreaFX.Theme = Theme;
     }
 
+    /**
+     * *
+     * Sets theme to default
+     */
     public static void setThemeDefault() {
         SyntaxTextAreaFX.Theme = "default";
     }
-    public static boolean contains(String test) {
 
-    for (FILE_TYPES c : FILE_TYPES.values()) {
-        if (c.name().equals(test)) {
-            return true;
+    /**
+     * *
+     *
+     * @param fileExtension- a string file extension
+     * @return boolean value true/false if fileExtension is supported
+     */
+    private static boolean contains(String fileExtension) {
+
+        for (FILE_TYPES c : FILE_TYPES.values()) {
+            if (c.name().equals(fileExtension)) {
+                return true;
+            }
         }
+
+        return false;
     }
 
-    return false;
-}
-
+    /**
+     * *
+     *
+     * @param file- String Path to file Reads file from given path and set
+     * contents to SyntaxTextAreaFX
+     */
     public SyntaxTextAreaFX(String file) {
         filePath = file;
         executor = Executors.newSingleThreadExecutor();
@@ -125,13 +170,11 @@ public class SyntaxTextAreaFX {
 //                .subscribe(this::applyHighlighting);
         String fileExtension = "";
         if (file.trim().length() > 1 && file.contains(".")) {
-            fileExtension = file.substring(file.lastIndexOf(".")+1).trim().toLowerCase();
+            fileExtension = file.substring(file.lastIndexOf(".") + 1).trim().toLowerCase();
         }
         if (file.trim().length() > 1 && file.contains(".") && SyntaxTextAreaFX.contains(fileExtension)) {
             // setCodingStyle();
-            System.out.println("HERE");
             setCodingStyle(FILE_TYPES.valueOf(fileExtension));
-            codeArea.getStylesheets().add(SyntaxTextAreaFX.class.getResource("res/css/" + getTheme() + "/" + getCodingStyle() + ".css").toExternalForm());
 
         } else {
             generatePattern();
@@ -157,6 +200,11 @@ public class SyntaxTextAreaFX {
 
     }
 
+    /**
+     * *
+     *
+     * @param text - sets text to SyntaxTextAreaFX
+     */
     public void setText(String text) {
         codeArea.replaceText(0, 0, text);
         codeArea.getUndoManager().forgetHistory();
@@ -164,26 +212,67 @@ public class SyntaxTextAreaFX {
 
     }
 
+    /**
+     *
+     * @return Text as String from SyntaxTextAreaFX
+     */
     public String getText() {
         return codeArea.getText();
 
     }
 
+    /**
+     * *
+     *
+     * @param text- appends text to SyntaxTextAreaFX
+     */
     public void appendText(String text) {
         codeArea.appendText(text);
 
     }
 
+    /**
+     * **
+     *
+     * @param v- sets Font of SyntaxTextAreaFX
+     */
     public void setFont(Font v) {
         codeArea.setFont(v);
     }
 
+    /**
+     * **
+     *
+     * @return the Graphical Node, which can be added to Layout
+     */
     public CodeArea getNode() {
         return codeArea;
     }
 
+    /**
+     * *
+     *
+     * @return Path to External Theme
+     */
+    public String getExternalThemePath() {
+        return externalThemePath;
+    }
+
+    /**
+     * *
+     *
+     * @param externalThemePath- sets external theme path
+     */
+    public void setExternalThemePath(String externalThemePath) {
+        this.externalThemePath = externalThemePath;
+    }
+
+    /**
+     * *
+     * saves the contents of SyntaxTextAreaFX to @FilePath
+     */
     public void save() {
-        if (filePath.trim().length() > 1) {
+        if (filePath.trim().length() > 0) {
             try {
                 write(new File(filePath), getText());
             } catch (IOException ex) {
@@ -194,6 +283,11 @@ public class SyntaxTextAreaFX {
         }
     }
 
+    /**
+     * *
+     *
+     * @param filePath - saves content to filePath
+     */
     public void saveAs(String filePath) {
         this.filePath = filePath;
         try {
@@ -203,18 +297,66 @@ public class SyntaxTextAreaFX {
         }
     }
 
+    /**
+     * *
+     *
+     * @return get the Coding Style of SyntaxTextAreaFX
+     */
     public FILE_TYPES getCodingStyle() {
         return CodingStyle;
     }
 
+    /**
+     * *
+     *
+     * @param CodingStyle- sets the coding style of the SyntaxTextAreaFX
+     */
     public void setCodingStyle(FILE_TYPES CodingStyle) {
         SyntaxTextAreaFX.CodingStyle = CodingStyle;
+        if (externalThemePath.trim().length() == 0) {
+            codeArea.getStylesheets().add(SyntaxTextAreaFX.class.getResource("res/css/" + getTheme() + "/" + getCodingStyle() + ".css").toExternalForm());
+        } else {
+            codeArea.getStylesheets().add(readFile(externalThemePath + "/" + getCodingStyle() + ".css"));
+        }
         generatePattern();
     }
 
-    private void write(File f, String text) throws IOException {
-        f.mkdirs();
-        try (FileWriter fw = new FileWriter(f);
+    /**
+     * *
+     *
+     * @param CSScode- add CSS code to SyntaxTextAreaFX
+     */
+    public void addStyleSheet(String CSScode) {
+        codeArea.getStylesheets().add(CSScode);
+    }
+
+    /**
+     * **
+     * Remove all CSS coding sheets
+     */
+    public void clearStyleSheets() {
+        codeArea.getStylesheets().clear();
+    }
+
+    /**
+     * *
+     *
+     * @return all CSS file as a List of Strings
+     */
+    public ObservableList<String> getAllStyleSheets() {
+        return codeArea.getStylesheets();
+    }
+
+    /**
+     * *
+     *
+     * @param file - File to be saved
+     * @param text - Content to write
+     * @throws IOException - if unable to find the file path
+     */
+    private void write(File file, String text) throws IOException {
+        file.getParentFile().mkdirs();
+        try (FileWriter fw = new FileWriter(file);
                 PrintWriter pw = new PrintWriter(fw)) {
             pw.print(text);
             pw.close();
@@ -223,6 +365,12 @@ public class SyntaxTextAreaFX {
 
     }
 
+    /**
+     * *
+     *
+     * @param path - path to file
+     * @return - contents of the file
+     */
     private String readFile(String path) {
         String str = "";
         if (path.trim().length() > 1) {
@@ -237,6 +385,11 @@ public class SyntaxTextAreaFX {
         return str;
     }
 
+    /**
+     * *
+     *
+     * @return - which computes the Highlighting
+     */
     private Task<StyleSpans<Collection<String>>> computeHighlightingAsync() {
         String text = codeArea.getText();
         Task<StyleSpans<Collection<String>>> task = new Task<StyleSpans<Collection<String>>>() {
@@ -249,10 +402,21 @@ public class SyntaxTextAreaFX {
         return task;
     }
 
+    /**
+     * *
+     *
+     * @param highlighting - Apply Highlighting style to SyntaxTextAreaFX
+     */
     private void applyHighlighting(StyleSpans<Collection<String>> highlighting) {
         codeArea.setStyleSpans(0, highlighting);
     }
 
+    /**
+     * **
+     *
+     * @param text - computes Hihlighting on provided text
+     * @return - Collection
+     */
     private StyleSpans<Collection<String>> computeHighlighting(String text) {
         Matcher matcher = PATTERN.matcher(text);
         int lastKwEnd = 0;
@@ -271,12 +435,37 @@ public class SyntaxTextAreaFX {
         return spansBuilder.create();
     }
 
-    String getStyleClass(Matcher matcher) {
+    /**
+     * *
+     * @param
+     *
+     * @return - s
+     */
+    private String getStyleClass(Matcher matcher) {
         String styleClass = "";
         switch (getCodingStyle()) {
-            case actionscript:
+            case as:
+                styleClass = matcher.group("DECLARATIONS") != null ? "declarations"
+                        : matcher.group("PRIMITIVES") != null ? "primitives"
+                        : matcher.group("EXTERNALS") != null ? "externals"
+                        : matcher.group("STORAGECLASS") != null ? "storageclass"
+                        : matcher.group("SCOPEDECLARATIONS") != null ? "scopedeclarations"
+                        : matcher.group("FLOW") != null ? "flow"
+                        : matcher.group("MEMORY") != null ? "memory"
+                        : matcher.group("FUTURE") != null ? "future"
+                        : matcher.group("NULL") != null ? "nullvalue"
+                        : matcher.group("BOOLEAN") != null ? "boolean"
+                        : matcher.group("PAREN") != null ? "paren"
+                        : matcher.group("BRACE") != null ? "brace"
+                        : matcher.group("BRACKET") != null ? "bracket"
+                        : matcher.group("SEMICOLON") != null ? "semicolon"
+                        : matcher.group("STRING") != null ? "string"
+                        : matcher.group("COMMENT") != null ? "comment"
+                        : null;
                 break;
-            case ada:
+            case adb:
+                break;
+            case ads:
                 break;
             case ansforth94:
                 break;
@@ -442,7 +631,7 @@ public class SyntaxTextAreaFX {
                 break;
             case python3:
                 break;
-            case R:
+            case r:
                 break;
             case rpmspec:
                 break;
@@ -512,10 +701,145 @@ public class SyntaxTextAreaFX {
     }
 
     void generatePattern() {
+        String DECLARATIONS[];
+        String PRIMITIVES[];
+        String EXTERNALS[];
+        String STORAGECLASS[];
+        String SCOPEDECLARATIONS[];
+        String FLOW[];
+        String MEMORY[];
+        String FUTURE[];
+        String NULL[];
+        String BOOLEAN[];
+        String DECLARATIONS_PATTERN;
+        String PRIMITIVES_PATTERN;
+        String EXTERNALS_PATTERN;
+        String STORAGECLASS_PATTERN;
+        String SCOPEDECLARATIONS_PATTERN;
+        String FLOW_PATTERN;
+        String MEMORY_PATTERN;
+        String FUTURE_PATTERN;
+        String NULL_PATTERN;
+        String BOOLEAN_PATTERN;
+        String PAREN_PATTERN;
+        String BRACE_PATTERN;
+        String BRACKET_PATTERN;
+        String SEMICOLON_PATTERN;
+        String STRING_PATTERN;
+        String COMMENT_PATTERN;
+
         switch (getCodingStyle()) {
-            case actionscript:
+            case as:
+                DECLARATIONS = new String[]{"class", "extends",
+                    "function", "implements", "instanceof", "interface",
+                    "is", "namespace", "throws", "var", "const"};
+                PRIMITIVES = new String[]{
+                    "arguments", "Array",
+                    "Boolean", "Class",
+                    "Bitmap", "BitmapData",
+                    "BitmapDataChannel", "ByteArray",
+                    "Camera", "Capabilities",
+                    "CapsStyle", "ColorTransform",
+                    "ContextMenu", "Dictionary",
+                    "DisplayObject", "DisplayObjectContainer",
+                    "Endian", "Error",
+                    "Event", "EventDispatcher",
+                    "ExternalInterface", "FileFilter",
+                    "FileReference", "FileReferenceList",
+                    "Function", "Graphics",
+                    "int", "IBitmapDrawable",
+                    "IEventDispatcher", "IOError",
+                    "Keyboard", "KeyboardEvent",
+                    "KeyLocation", "Loader",
+                    "LocalConnection", "Math",
+                    "Matrix", "Microphone",
+                    "Mouse", "MovieClip",
+                    "Namespace", "NetConnection",
+                    "NetStream", "Number",
+                    "Object", "Point",
+                    "PrintJob", "Proxy",
+                    "QName", "Rectangle",
+                    "RegExp", "Responder",
+                    "Scene", "Security",
+                    "Shape", "SharedObject",
+                    "Socket", "Sound",
+                    "SoundChannel", "SoundTransform",
+                    "Sprite", "Stage",
+                    "String", "StyleSheet",
+                    "SWFVersion", "System",
+                    "TextField", "TextFormat",
+                    "Timer", "uint",
+                    "Video", "XML",
+                    "XMLDocument", "XMLList",
+                    "XMLNode", "XMLNodeType",
+                    "XMLSocket"};
+                EXTERNALS = new String[]{
+                    "import", "include", "package"};
+                STORAGECLASS = new String[]{
+                    "dynamic", "internal",
+                    "final", "static"};
+                SCOPEDECLARATIONS = new String[]{
+                    "flash_proxy", "internal",
+                    "override", "private",
+                    "protected", "public",
+                    "set", "get"};
+                FLOW = new String[]{
+                    "break", "case",
+                    "catch", "continue",
+                    "default", "do",
+                    "else", "for",
+                    "if", "is",
+                    "return", "throw",
+                    "switch", "try",
+                    "while"};
+                MEMORY = new String[]{
+                    "new", "super",
+                    "this", "void"};
+                FUTURE = new String[]{
+                    "goto"};
+                NULL = new String[]{
+                    "null"};
+                BOOLEAN = new String[]{"true", "false"};
+
+                DECLARATIONS_PATTERN = "\\b(" + String.join("|", DECLARATIONS) + ")\\b";
+                PRIMITIVES_PATTERN = "\\b(" + String.join("|", PRIMITIVES) + ")\\b";
+                EXTERNALS_PATTERN = "\\b(" + String.join("|", EXTERNALS) + ")\\b";
+                STORAGECLASS_PATTERN = "\\b(" + String.join("|", STORAGECLASS) + ")\\b";
+                SCOPEDECLARATIONS_PATTERN = "\\b(" + String.join("|", SCOPEDECLARATIONS) + ")\\b";
+                FLOW_PATTERN = "\\b(" + String.join("|", FLOW) + ")\\b";
+                MEMORY_PATTERN = "\\b(" + String.join("|", MEMORY) + ")\\b";
+                FUTURE_PATTERN = "\\b(" + String.join("|", FUTURE) + ")\\b";
+                NULL_PATTERN = "\\b(" + String.join("|", NULL) + ")\\b";
+                BOOLEAN_PATTERN = "\\b(" + String.join("|", BOOLEAN) + ")\\b";
+                PAREN_PATTERN = "\\(|\\)";
+                BRACE_PATTERN = "\\{|\\}";
+                BRACKET_PATTERN = "\\[|\\]";
+                SEMICOLON_PATTERN = "\\;";
+                STRING_PATTERN = "\"([^\"\\\\]|\\\\.)*\"";
+                COMMENT_PATTERN = "//[^\n]*" + "|" + "/\\*(.|\\R)*?\\*/";
+
+                PATTERN = Pattern.compile(
+                        "(?<DECLARATIONS>" + DECLARATIONS_PATTERN + ")"
+                        + "|(?<PRIMITIVES>" + PRIMITIVES_PATTERN + ")"
+                        + "|(?<EXTERNALS>" + EXTERNALS_PATTERN + ")"
+                        + "|(?<STORAGECLASS>" + STORAGECLASS_PATTERN + ")"
+                        + "|(?<SCOPEDECLARATIONS>" + SCOPEDECLARATIONS_PATTERN + ")"
+                        + "|(?<FLOW>" + FLOW_PATTERN + ")"
+                        + "|(?<MEMORY>" + MEMORY_PATTERN + ")"
+                        + "|(?<FUTURE>" + FUTURE_PATTERN + ")"
+                        + "|(?<NULL>" + NULL_PATTERN + ")"
+                        + "|(?<BOOLEAN>" + BOOLEAN_PATTERN + ")"
+                        + "|(?<PAREN>" + PAREN_PATTERN + ")"
+                        + "|(?<BRACE>" + BRACE_PATTERN + ")"
+                        + "|(?<BRACKET>" + BRACKET_PATTERN + ")"
+                        + "|(?<SEMICOLON>" + SEMICOLON_PATTERN + ")"
+                        + "|(?<STRING>" + STRING_PATTERN + ")"
+                        + "|(?<COMMENT>" + COMMENT_PATTERN + ")"
+                );
                 break;
-            case ada:
+            case adb:
+                break;
+            case ads:
                 break;
             case ansforth94:
                 break;
@@ -682,7 +1006,7 @@ public class SyntaxTextAreaFX {
                 break;
             case python3:
                 break;
-            case R:
+            case r:
                 break;
             case rpmspec:
                 break;
@@ -727,48 +1051,50 @@ public class SyntaxTextAreaFX {
             case yaml:
                 break;
             default: //JAVA case is default
-                String DECLARATIONS[] = new String[]{"class", "enum",
+
+                DECLARATIONS = new String[]{"class", "enum",
                     "extends", "implements",
                     "instanceof", "interface",
                     "native", "throws"};
-                String PRIMITIVES[] = new String[]{
+                PRIMITIVES = new String[]{
                     "boolean", "byte", "char", "double",
                     "float", "int", "long", "short",
                     "void"};
-                String EXTERNALS[] = new String[]{
+                EXTERNALS = new String[]{
                     "import", "package"};
-                String STORAGECLASS[] = new String[]{
+                STORAGECLASS = new String[]{
                     "abstract", "final", "static", "strictfp",
                     "synchronized", "transient", "volatile"};
-                String SCOPEDECLARATIONS[] = new String[]{
+                SCOPEDECLARATIONS = new String[]{
                     "private", "protected", "public"};
-                String FLOW[] = new String[]{
+                FLOW = new String[]{
                     "assert", "break", "case", "catch", "continue", "default", "do", "else",
                     "finally", "for", "if", "return", "throw", "switch", "try", "while"};
-                String MEMORY[] = new String[]{
+                MEMORY = new String[]{
                     "new", "super", "this"};
-                String FUTURE[] = new String[]{
+                FUTURE = new String[]{
                     "const", "goto"};
-                String NULL[] = new String[]{
-                    "null"};
-                String BOOLEAN[] = new String[]{"true", "false"};
+                NULL = new String[]{
+                    "null"
+                };
+                BOOLEAN = new String[]{"true", "false"};
 
-                String DECLARATIONS_PATTERN = "\\b(" + String.join("|", DECLARATIONS) + ")\\b";
-                String PRIMITIVES_PATTERN = "\\b(" + String.join("|", PRIMITIVES) + ")\\b";
-                String EXTERNALS_PATTERN = "\\b(" + String.join("|", EXTERNALS) + ")\\b";
-                String STORAGECLASS_PATTERN = "\\b(" + String.join("|", STORAGECLASS) + ")\\b";
-                String SCOPEDECLARATIONS_PATTERN = "\\b(" + String.join("|", SCOPEDECLARATIONS) + ")\\b";
-                String FLOW_PATTERN = "\\b(" + String.join("|", FLOW) + ")\\b";
-                String MEMORY_PATTERN = "\\b(" + String.join("|", MEMORY) + ")\\b";
-                String FUTURE_PATTERN = "\\b(" + String.join("|", FUTURE) + ")\\b";
-                String NULL_PATTERN = "\\b(" + String.join("|", NULL) + ")\\b";
-                String BOOLEAN_PATTERN = "\\b(" + String.join("|", BOOLEAN) + ")\\b";
-                String PAREN_PATTERN = "\\(|\\)";
-                String BRACE_PATTERN = "\\{|\\}";
-                String BRACKET_PATTERN = "\\[|\\]";
-                String SEMICOLON_PATTERN = "\\;";
-                String STRING_PATTERN = "\"([^\"\\\\]|\\\\.)*\"";
-                String COMMENT_PATTERN = "//[^\n]*" + "|" + "/\\*(.|\\R)*?\\*/";
+                DECLARATIONS_PATTERN = "\\b(" + String.join("|", DECLARATIONS) + ")\\b";
+                PRIMITIVES_PATTERN = "\\b(" + String.join("|", PRIMITIVES) + ")\\b";
+                EXTERNALS_PATTERN = "\\b(" + String.join("|", EXTERNALS) + ")\\b";
+                STORAGECLASS_PATTERN = "\\b(" + String.join("|", STORAGECLASS) + ")\\b";
+                SCOPEDECLARATIONS_PATTERN = "\\b(" + String.join("|", SCOPEDECLARATIONS) + ")\\b";
+                FLOW_PATTERN = "\\b(" + String.join("|", FLOW) + ")\\b";
+                MEMORY_PATTERN = "\\b(" + String.join("|", MEMORY) + ")\\b";
+                FUTURE_PATTERN = "\\b(" + String.join("|", FUTURE) + ")\\b";
+                NULL_PATTERN = "\\b(" + String.join("|", NULL) + ")\\b";
+                BOOLEAN_PATTERN = "\\b(" + String.join("|", BOOLEAN) + ")\\b";
+                PAREN_PATTERN = "\\(|\\)";
+                BRACE_PATTERN = "\\{|\\}";
+                BRACKET_PATTERN = "\\[|\\]";
+                SEMICOLON_PATTERN = "\\;";
+                STRING_PATTERN = "\"([^\"\\\\]|\\\\.)*\"";
+                COMMENT_PATTERN = "//[^\n]*" + "|" + "/\\*(.|\\R)*?\\*/";
 
                 PATTERN = Pattern.compile(
                         "(?<DECLARATIONS>" + DECLARATIONS_PATTERN + ")"

@@ -1,0 +1,52 @@
+.line-comment {
+    -fx-fill:#39CCCC;
+    -fx-font-weight: bold;
+}
+.string {
+    -fx-fill:#3D9970;
+    -fx-font-weight: bold;
+}
+.character-constant {
+    -fx-fill:#2ECC40;
+    -fx-font-weight: bold;
+}
+.preprocessor-keyword {
+    -fx-fill:#01FF70;
+    -fx-font-weight: bold;
+}
+.function {
+    -fx-fill:#FFDC00;
+    -fx-font-weight: bold;
+}
+.keyword {
+    -fx-fill:#FF851B;
+    -fx-font-weight: bold;
+}
+.storage-class {
+    -fx-fill:#FF4136;
+    -fx-font-weight: bold;
+}
+.type {
+    -fx-fill:#F012BE;
+    -fx-font-weight: bold;
+}
+.based-numeral {
+    -fx-fill:#B10DC9;
+    -fx-font-weight: bold;
+}
+.real {
+    -fx-fill:#85144B;
+    -fx-font-weight: bold;
+}
+.number {
+    -fx-fill:#FFFFFF;
+    -fx-font-weight: bold;
+}
+.boolean {
+    -fx-fill:#AAAAAA;
+    -fx-font-weight: bold;
+}
+.ada {
+    -fx-fill:#111111;
+    -fx-font-weight: bold;
+}
