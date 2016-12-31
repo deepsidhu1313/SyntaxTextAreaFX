@@ -10,7 +10,7 @@
     -fx-fill:#2ECC40;
     -fx-font-weight: bold;
 }
-.preprocessor-keyword {
+.preprocessor {
     -fx-fill:#01FF70;
     -fx-font-weight: bold;
 }
@@ -18,11 +18,11 @@
     -fx-fill:#FFDC00;
     -fx-font-weight: bold;
 }
-.keyword {
+.keywords {
     -fx-fill:#FF851B;
     -fx-font-weight: bold;
 }
-.storage-class {
+.storageclass {
     -fx-fill:#FF4136;
     -fx-font-weight: bold;
 }
@@ -49,4 +49,22 @@
 .ada {
     -fx-fill:#111111;
     -fx-font-weight: bold;
+}
+.semicolon {
+    -fx-font-weight: bold;
+}
+.paren {
+    -fx-fill: firebrick;
+    -fx-font-weight: bold;
+}
+.bracket {
+    -fx-fill: darkgreen;
+    -fx-font-weight: bold;
+}
+.brace {
+    -fx-fill: teal;
+    -fx-font-weight: bold;
+}
+.comment {
+	-fx-fill: cadetblue;
 }

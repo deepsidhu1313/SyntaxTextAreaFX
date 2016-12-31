@@ -116,8 +116,8 @@ public class SyntaxTextAreaFX {
     /**
      * *
      *
-     * @param Theme- Name of theme as String, where Theme is the name of the
-     * directory available in res/css/<Theme>/
+     * @param Theme Name of theme as String, where Theme is the name of the
+     * directory available in res/css/Theme/
      *
      */
     public static void setTheme(String Theme) {
@@ -135,7 +135,7 @@ public class SyntaxTextAreaFX {
     /**
      * *
      *
-     * @param fileExtension- a string file extension
+     * @param fileExtension a string file extension
      * @return boolean value true/false if fileExtension is supported
      */
     private static boolean contains(String fileExtension) {
@@ -152,7 +152,7 @@ public class SyntaxTextAreaFX {
     /**
      * *
      *
-     * @param file- String Path to file Reads file from given path and set
+     * @param file String Path to file Reads file from given path and set
      * contents to SyntaxTextAreaFX
      */
     public SyntaxTextAreaFX(String file) {
@@ -203,7 +203,7 @@ public class SyntaxTextAreaFX {
     /**
      * *
      *
-     * @param text - sets text to SyntaxTextAreaFX
+     * @param text sets text to SyntaxTextAreaFX
      */
     public void setText(String text) {
         codeArea.replaceText(0, 0, text);
@@ -224,7 +224,7 @@ public class SyntaxTextAreaFX {
     /**
      * *
      *
-     * @param text- appends text to SyntaxTextAreaFX
+     * @param text appends text to SyntaxTextAreaFX
      */
     public void appendText(String text) {
         codeArea.appendText(text);
@@ -234,7 +234,7 @@ public class SyntaxTextAreaFX {
     /**
      * **
      *
-     * @param v- sets Font of SyntaxTextAreaFX
+     * @param v sets Font of SyntaxTextAreaFX
      */
     public void setFont(Font v) {
         codeArea.setFont(v);
@@ -261,7 +261,7 @@ public class SyntaxTextAreaFX {
     /**
      * *
      *
-     * @param externalThemePath- sets external theme path
+     * @param externalThemePath sets external theme path
      */
     public void setExternalThemePath(String externalThemePath) {
         this.externalThemePath = externalThemePath;
@@ -286,7 +286,7 @@ public class SyntaxTextAreaFX {
     /**
      * *
      *
-     * @param filePath - saves content to filePath
+     * @param filePath saves content to filePath
      */
     public void saveAs(String filePath) {
         this.filePath = filePath;
@@ -309,7 +309,7 @@ public class SyntaxTextAreaFX {
     /**
      * *
      *
-     * @param CodingStyle- sets the coding style of the SyntaxTextAreaFX
+     * @param CodingStyle sets the coding style of the SyntaxTextAreaFX
      */
     public void setCodingStyle(FILE_TYPES CodingStyle) {
         SyntaxTextAreaFX.CodingStyle = CodingStyle;
@@ -324,7 +324,7 @@ public class SyntaxTextAreaFX {
     /**
      * *
      *
-     * @param CSScode- add CSS code to SyntaxTextAreaFX
+     * @param CSScode add CSS code to SyntaxTextAreaFX
      */
     public void addStyleSheet(String CSScode) {
         codeArea.getStylesheets().add(CSScode);
@@ -350,9 +350,9 @@ public class SyntaxTextAreaFX {
     /**
      * *
      *
-     * @param file - File to be saved
-     * @param text - Content to write
-     * @throws IOException - if unable to find the file path
+     * @param file File to be saved
+     * @param text Content to write
+     * @throws IOException if unable to find the file path
      */
     private void write(File file, String text) throws IOException {
         file.getParentFile().mkdirs();
@@ -368,8 +368,8 @@ public class SyntaxTextAreaFX {
     /**
      * *
      *
-     * @param path - path to file
-     * @return - contents of the file
+     * @param path path to file
+     * @return contents of the file
      */
     private String readFile(String path) {
         String str = "";
@@ -388,7 +388,7 @@ public class SyntaxTextAreaFX {
     /**
      * *
      *
-     * @return - which computes the Highlighting
+     * @return which computes the Highlighting
      */
     private Task<StyleSpans<Collection<String>>> computeHighlightingAsync() {
         String text = codeArea.getText();
@@ -405,7 +405,7 @@ public class SyntaxTextAreaFX {
     /**
      * *
      *
-     * @param highlighting - Apply Highlighting style to SyntaxTextAreaFX
+     * @param highlighting Apply Highlighting style to SyntaxTextAreaFX
      */
     private void applyHighlighting(StyleSpans<Collection<String>> highlighting) {
         codeArea.setStyleSpans(0, highlighting);
@@ -414,8 +414,8 @@ public class SyntaxTextAreaFX {
     /**
      * **
      *
-     * @param text - computes Hihlighting on provided text
-     * @return - Collection
+     * @param text computes Hihlighting on provided text
+     * @return Collection
      */
     private StyleSpans<Collection<String>> computeHighlighting(String text) {
         Matcher matcher = PATTERN.matcher(text);
@@ -439,7 +439,7 @@ public class SyntaxTextAreaFX {
      * *
      * @param
      *
-     * @return - s
+     * @return s
      */
     private String getStyleClass(Matcher matcher) {
         String styleClass = "";
@@ -464,6 +464,19 @@ public class SyntaxTextAreaFX {
                         : null;
                 break;
             case adb:
+                styleClass = matcher.group("PREPROCESSOR") != null ? "preprocessor"
+                        : matcher.group("FUNCTION") != null ? "function"
+                        : matcher.group("KEYWORDS") != null ? "keywords"
+                        : matcher.group("STORAGECLASS") != null ? "storageclass"
+                        : matcher.group("TYPE") != null ? "type"
+                        : matcher.group("BOOLEAN") != null ? "boolean"
+                        : matcher.group("PAREN") != null ? "paren"
+                        : matcher.group("BRACE") != null ? "brace"
+                        : matcher.group("BRACKET") != null ? "bracket"
+                        : matcher.group("SEMICOLON") != null ? "semicolon"
+                        : matcher.group("STRING") != null ? "string"
+                        : matcher.group("COMMENT") != null ? "comment"
+                        : null;
                 break;
             case ads:
                 break;
@@ -711,6 +724,10 @@ public class SyntaxTextAreaFX {
         String FUTURE[];
         String NULL[];
         String BOOLEAN[];
+        String PREPROCESSOR[];
+        String FUNCTION[];
+        String KEYWORDS[];
+        String TYPE[];
         String DECLARATIONS_PATTERN;
         String PRIMITIVES_PATTERN;
         String EXTERNALS_PATTERN;
@@ -721,6 +738,10 @@ public class SyntaxTextAreaFX {
         String FUTURE_PATTERN;
         String NULL_PATTERN;
         String BOOLEAN_PATTERN;
+        String PREPROCESSOR_PATTERN;
+        String FUNCTION_PATTERN;
+        String KEYWORDS_PATTERN;
+        String TYPE_PATTERN;
         String PAREN_PATTERN;
         String BRACE_PATTERN;
         String BRACKET_PATTERN;
@@ -838,8 +859,132 @@ public class SyntaxTextAreaFX {
                 );
                 break;
             case adb:
+                PREPROCESSOR = new String[]{"package",
+                    "pragma", "use", "with"};
+                FUNCTION = new String[]{"function",
+                    "procedure", "return"};
+                KEYWORDS = new String[]{
+                    "abort", "abs", "accept", "all",
+                    "and", "begin", "body", "case",
+                    "declare", "delay", "do", "else",
+                    "elsif", "end", "entry", "exception",
+                    "exit", "for", "generic", "goto",
+                    "if", "in", "is", "loop",
+                    "mod", "new", "not", "null",
+                    "or", "others", "out", "protected",
+                    "raise", "record", "rem", "renames",
+                    "requeue", "reverse", "select", "separate",
+                    "subtype", "task", "terminate", "then",
+                    "type", "until", "when", "while",
+                    "xor"};
+
+                STORAGECLASS = new String[]{
+                    "abstract", "access", "aliased", "array",
+                    "at", "constant", "delta", "digits",
+                    "interface", "limited", "of", "private",
+                    "range", "tagged", "synchronized"};
+                TYPE = new String[]{
+                    "boolean", "character",
+                    "count", "duration",
+                    "float", "integer",
+                    "long_float", "long_integer",
+                    "priority", "short_float",
+                    "short_integer", "string"};
+
+                BOOLEAN = new String[]{"true", "false"};
+
+                PREPROCESSOR_PATTERN = "\\b(" + String.join("|", PREPROCESSOR) + ")\\b";
+                FUNCTION_PATTERN = "\\b(" + String.join("|", FUNCTION) + ")\\b";
+                KEYWORDS_PATTERN = "\\b(" + String.join("|", KEYWORDS) + ")\\b";
+                STORAGECLASS_PATTERN = "\\b(" + String.join("|", STORAGECLASS) + ")\\b";
+                TYPE_PATTERN = "\\b(" + String.join("|", TYPE) + ")\\b";
+                BOOLEAN_PATTERN = "\\b(" + String.join("|", BOOLEAN) + ")\\b";
+                PAREN_PATTERN = "\\(|\\)";
+                BRACE_PATTERN = "\\{|\\}";
+                BRACKET_PATTERN = "\\[|\\]";
+                SEMICOLON_PATTERN = "\\;";
+                STRING_PATTERN = "\"([^\"\\\\]|\\\\.)*\"";
+                COMMENT_PATTERN = "--[^\n]*" + "|" + "/\\*(.|\\R)*?\\*/";
+
+                PATTERN = Pattern.compile(
+                        "(?<PREPROCESSOR>" + PREPROCESSOR_PATTERN + ")"
+                        + "|(?<FUNCTION>" + FUNCTION_PATTERN + ")"
+                        + "|(?<KEYWORDS>" + KEYWORDS_PATTERN + ")"
+                        + "|(?<STORAGECLASS>" + STORAGECLASS_PATTERN + ")"
+                        + "|(?<TYPE>" + TYPE_PATTERN + ")"
+                        + "|(?<BOOLEAN>" + BOOLEAN_PATTERN + ")"
+                        + "|(?<PAREN>" + PAREN_PATTERN + ")"
+                        + "|(?<BRACE>" + BRACE_PATTERN + ")"
+                        + "|(?<BRACKET>" + BRACKET_PATTERN + ")"
+                        + "|(?<SEMICOLON>" + SEMICOLON_PATTERN + ")"
+                        + "|(?<STRING>" + STRING_PATTERN + ")"
+                        + "|(?<COMMENT>" + COMMENT_PATTERN + ")"
+                );
+
                 break;
             case ads:
+                PREPROCESSOR = new String[]{"package",
+                    "pragma", "use", "with"};
+                FUNCTION = new String[]{"function",
+                    "procedure", "return"};
+                KEYWORDS = new String[]{
+                    "abort", "abs", "accept", "all",
+                    "and", "begin", "body", "case",
+                    "declare", "delay", "do", "else",
+                    "elsif", "end", "entry", "exception",
+                    "exit", "for", "generic", "goto",
+                    "if", "in", "is", "loop",
+                    "mod", "new", "not", "null",
+                    "or", "others", "out", "protected",
+                    "raise", "record", "rem", "renames",
+                    "requeue", "reverse", "select", "separate",
+                    "subtype", "task", "terminate", "then",
+                    "type", "until", "when", "while",
+                    "xor"};
+
+                STORAGECLASS = new String[]{
+                    "abstract", "access", "aliased", "array",
+                    "at", "constant", "delta", "digits",
+                    "interface", "limited", "of", "private",
+                    "range", "tagged", "synchronized"};
+                TYPE = new String[]{
+                    "boolean", "character",
+                    "count", "duration",
+                    "float", "integer",
+                    "long_float", "long_integer",
+                    "priority", "short_float",
+                    "short_integer", "string"};
+
+                BOOLEAN = new String[]{"true", "false"};
+
+                PREPROCESSOR_PATTERN = "\\b(" + String.join("|", PREPROCESSOR) + ")\\b";
+                FUNCTION_PATTERN = "\\b(" + String.join("|", FUNCTION) + ")\\b";
+                KEYWORDS_PATTERN = "\\b(" + String.join("|", KEYWORDS) + ")\\b";
+                STORAGECLASS_PATTERN = "\\b(" + String.join("|", STORAGECLASS) + ")\\b";
+                TYPE_PATTERN = "\\b(" + String.join("|", TYPE) + ")\\b";
+                BOOLEAN_PATTERN = "\\b(" + String.join("|", BOOLEAN) + ")\\b";
+                PAREN_PATTERN = "\\(|\\)";
+                BRACE_PATTERN = "\\{|\\}";
+                BRACKET_PATTERN = "\\[|\\]";
+                SEMICOLON_PATTERN = "\\;";
+                STRING_PATTERN = "\"([^\"\\\\]|\\\\.)*\"";
+                COMMENT_PATTERN = "--[^\n]*" + "|" + "/\\*(.|\\R)*?\\*/";
+
+                PATTERN = Pattern.compile(
+                        "(?<PREPROCESSOR>" + PREPROCESSOR_PATTERN + ")"
+                        + "|(?<FUNCTION>" + FUNCTION_PATTERN + ")"
+                        + "|(?<KEYWORDS>" + KEYWORDS_PATTERN + ")"
+                        + "|(?<STORAGECLASS>" + STORAGECLASS_PATTERN + ")"
+                        + "|(?<TYPE>" + TYPE_PATTERN + ")"
+                        + "|(?<BOOLEAN>" + BOOLEAN_PATTERN + ")"
+                        + "|(?<PAREN>" + PAREN_PATTERN + ")"
+                        + "|(?<BRACE>" + BRACE_PATTERN + ")"
+                        + "|(?<BRACKET>" + BRACKET_PATTERN + ")"
+                        + "|(?<SEMICOLON>" + SEMICOLON_PATTERN + ")"
+                        + "|(?<STRING>" + STRING_PATTERN + ")"
+                        + "|(?<COMMENT>" + COMMENT_PATTERN + ")"
+                );
+
                 break;
             case ansforth94:
                 break;
