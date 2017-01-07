@@ -6,3 +6,7 @@ import SyntaxTextAreaFX.java from in.co.s13 package, use `getNode()` method to a
 TO DO
 * Add support for all languages
 * Add grammer and autocomplete support
+
+
+Build Status
+* linux [![Build Status](https://travis-ci.org/deepsidhu1313/SyntaxTextAreaFX.svg?branch=master)](https://travis-ci.org/deepsidhu1313/SyntaxTextAreaFX)
