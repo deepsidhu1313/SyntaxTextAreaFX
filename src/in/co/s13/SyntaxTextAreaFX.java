@@ -5,6 +5,9 @@
  */
 package in.co.s13;
 
+import in.co.s13.langs.ActionScript;
+import in.co.s13.langs.Ada;
+import in.co.s13.langs.Text;
 import in.co.s13.meta.Generator;
 import in.co.s13.meta.Syntax;
 import java.io.File;
@@ -94,7 +97,7 @@ public class SyntaxTextAreaFX {
         nsis, objj, ocaml, ocl, octave, ooc, opal, pascal, perl, php, pig,
         pkgconfig, po, protobuf, puppet, python, python3, r, rpmspec, ruby,
         rust, scala, scheme, scilab, sh, sparql, sql, sweave, systemverilog,
-        t2t, tcl, thrift, vala, vbnet, verilog, vhdl, xml, yacc, yaml
+        text,txt,t2t, tcl, thrift, vala, vbnet, verilog, vhdl, xml, yacc, yaml
     };
 
     public static enum LANGS {
@@ -125,14 +128,14 @@ public class SyntaxTextAreaFX {
         rust, scala, scheme, scilab,
         sh, sml, sparql, sql,
         sweave, systemverilog, t2t, tcl,
-        texinfo, thrift, vala, vbnet,
+        texinfo,text, thrift, vala, vbnet,
         verilog, vhdl, xml, xslt,
         yacc, yaml
     };
 
     public static String[] ALT_FILE_TYPES = {"4th"};
 
-    private static LANGS CodingStyle = LANGS.java;
+    private static LANGS CodingStyle = LANGS.text;
 
     /**
      * *
@@ -356,6 +359,7 @@ public class SyntaxTextAreaFX {
         } else {
             codeArea.getStylesheets().add(readFile(externalThemePath + "/" + getCodingStyle() + ".css"));
         }
+        loadLanguage();
         generatePattern();
     }
 
@@ -690,6 +694,7 @@ public class SyntaxTextAreaFX {
             case yaml:
                 break;
             default:
+                language= LANGS.text;
                 break;
         }
         return language;
@@ -698,9 +703,12 @@ public class SyntaxTextAreaFX {
     private void loadLanguage() {
         switch (getCodingStyle()) {
             case actionscript:
+                syntax = new Syntax(new ActionScript());
                 break;
 
             case ada:
+                syntax = new Syntax(new Ada());
+
                 break;
             case ansforth94:
                 break;
@@ -913,6 +921,7 @@ public class SyntaxTextAreaFX {
             case yaml:
                 break;
             default:
+                syntax = new Syntax(new Text());
                 break;
 
         }
@@ -925,235 +934,13 @@ public class SyntaxTextAreaFX {
      * @return s
      */
     private String getStyleClass(Matcher matcher) {
-        String styleClass = "";
 
-        return styleClass;
+        return syntax.getStyleClass(matcher);
     }
 
-    void generatePattern() {
+    private void generatePattern() {
 
-        switch (getCodingStyle()) {
-            case actionscript:
-                break;
-
-            case ada:
-
-                break;
-            case forth:
-
-                break;
-            case asp:
-                break;
-            case automake:
-                break;
-            case awk:
-                break;
-            case bennugd:
-                break;
-            case bibtex:
-                break;
-            case bluespec:
-                break;
-            case boo:
-                break;
-            case c:
-                break;
-            case cg:
-                break;
-            case changelog:
-                break;
-            case cmake:
-                break;
-            case cobol:
-                break;
-            case cpp:
-                break;
-            case cpphdr:
-                break;
-            case csharp:
-                break;
-            case css:
-                break;
-            case cuda:
-                break;
-            case d:
-                break;
-            case def:
-                break;
-            case desktop:
-                break;
-            case diff:
-                break;
-            case docbook:
-                break;
-            case dosbatch:
-                break;
-            case dot:
-                break;
-            case dpatch:
-                break;
-            case dtd:
-                break;
-            case eiffel:
-                break;
-            case erlang:
-                break;
-            case fcl:
-                break;
-            case fortran:
-                break;
-            case fsharp:
-                break;
-            case gap:
-                break;
-            case gdb_log:
-                break;
-            case genie:
-                break;
-            case glsl:
-                break;
-            case gtk_doc:
-                break;
-            case gtkrc:
-                break;
-            case haddock:
-                break;
-            case haskell:
-                break;
-            case haskell_literate:
-                break;
-            case html:
-                break;
-            case idl_exelis:
-                break;
-            case imagej:
-                break;
-            case ini:
-                break;
-            case j:
-                break;
-            case jade:
-                break;
-
-            case javascript:
-                break;
-            case json:
-                break;
-            case julia:
-                break;
-            case latex:
-                break;
-            case lex:
-                break;
-            case libtool:
-                break;
-            case llvm:
-                break;
-            case m4:
-                break;
-            case makefile:
-                break;
-            case mallard:
-                break;
-            case markdown:
-                break;
-            case matlab:
-                break;
-            case mediawiki:
-                break;
-            case modelica:
-                break;
-            case mxml:
-                break;
-            case nemerle:
-                break;
-            case nemo_action:
-                break;
-            case netrexx:
-                break;
-            case nsis:
-                break;
-            case objj:
-                break;
-            case ocaml:
-                break;
-            case ocl:
-                break;
-            case octave:
-                break;
-            case ooc:
-                break;
-            case opal:
-                break;
-            case pascal:
-                break;
-            case perl:
-                break;
-            case php:
-                break;
-            case pig:
-                break;
-            case pkgconfig:
-                break;
-            case po:
-                break;
-            case protobuf:
-                break;
-            case puppet:
-                break;
-            case python:
-                break;
-            case python3:
-                break;
-            case R:
-                break;
-            case rpmspec:
-                break;
-            case ruby:
-                break;
-            case rust:
-                break;
-            case scala:
-                break;
-            case scheme:
-                break;
-            case scilab:
-                break;
-            case sh:
-                break;
-            case sparql:
-                break;
-            case sql:
-                break;
-            case sweave:
-                break;
-            case systemverilog:
-                break;
-            case t2t:
-                break;
-            case tcl:
-                break;
-            case thrift:
-                break;
-            case vala:
-                break;
-            case vbnet:
-                break;
-            case verilog:
-                break;
-            case vhdl:
-                break;
-            case xml:
-                break;
-            case yacc:
-                break;
-            case yaml:
-                break;
-            default: //JAVA case is default
-
-                break;
-        }
-
+        PATTERN = syntax.generatePattern();
     }
 
 }
