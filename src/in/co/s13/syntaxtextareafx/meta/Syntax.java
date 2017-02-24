@@ -3,9 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package in.co.s13.langs;
+package in.co.s13.syntaxtextareafx.meta;
 
-import in.co.s13.meta.Language;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -14,21 +13,23 @@ import java.util.regex.Pattern;
  *
  * @author nika
  */
-public class Text implements Language {
+public class Syntax {
 
-    @Override
+    private Language language;
+
+    public Syntax(Language language) {
+        this.language = language;
+    }
+
     public Pattern generatePattern() {
-    return Pattern.compile("");
+        return language.generatePattern();
     }
 
-    @Override
     public String getStyleClass(Matcher matcher) {
-    return "";
+        return language.getStyleClass(matcher);
     }
 
-    @Override
     public ArrayList<String> getKeywords() {
-        return new ArrayList<>();
+        return language.getKeywords();
     }
-
 }

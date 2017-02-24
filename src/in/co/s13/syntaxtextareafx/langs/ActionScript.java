@@ -3,51 +3,94 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package in.co.s13.langs;
+package in.co.s13.syntaxtextareafx.langs;
 
+import in.co.s13.syntaxtextareafx.meta.Language;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import in.co.s13.meta.Language;
-import java.util.Collections;
 
 /**
  *
  * @author nika
  */
-public class Java implements Language {
+public class ActionScript implements Language {
 
-    String DECLARATIONS[] = new String[]{"class", "enum",
-        "extends", "implements",
-        "instanceof", "interface",
-        "native", "throws"};
+    String DECLARATIONS[] = new String[]{"class", "extends",
+        "function", "implements", "instanceof", "interface",
+        "is", "namespace", "throws", "var", "const"};
     String PRIMITIVES[] = new String[]{
-        "boolean", "byte", "char", "double",
-        "float", "int", "long", "short",
-        "void"};
+        "arguments", "Array",
+        "Boolean", "Class",
+        "Bitmap", "BitmapData",
+        "BitmapDataChannel", "ByteArray",
+        "Camera", "Capabilities",
+        "CapsStyle", "ColorTransform",
+        "ContextMenu", "Dictionary",
+        "DisplayObject", "DisplayObjectContainer",
+        "Endian", "Error",
+        "Event", "EventDispatcher",
+        "ExternalInterface", "FileFilter",
+        "FileReference", "FileReferenceList",
+        "Function", "Graphics",
+        "int", "IBitmapDrawable",
+        "IEventDispatcher", "IOError",
+        "Keyboard", "KeyboardEvent",
+        "KeyLocation", "Loader",
+        "LocalConnection", "Math",
+        "Matrix", "Microphone",
+        "Mouse", "MovieClip",
+        "Namespace", "NetConnection",
+        "NetStream", "Number",
+        "Object", "Point",
+        "PrintJob", "Proxy",
+        "QName", "Rectangle",
+        "RegExp", "Responder",
+        "Scene", "Security",
+        "Shape", "SharedObject",
+        "Socket", "Sound",
+        "SoundChannel", "SoundTransform",
+        "Sprite", "Stage",
+        "String", "StyleSheet",
+        "SWFVersion", "System",
+        "TextField", "TextFormat",
+        "Timer", "uint",
+        "Video", "XML",
+        "XMLDocument", "XMLList",
+        "XMLNode", "XMLNodeType",
+        "XMLSocket"};
     String EXTERNALS[] = new String[]{
-        "import", "package"};
+        "import", "include", "package"};
     String STORAGECLASS[] = new String[]{
-        "abstract", "final", "static", "strictfp",
-        "synchronized", "transient", "volatile"};
+        "dynamic", "internal",
+        "final", "static"};
     String SCOPEDECLARATIONS[] = new String[]{
-        "private", "protected", "public"};
+        "flash_proxy", "internal",
+        "override", "private",
+        "protected", "public",
+        "set", "get"};
     String FLOW[] = new String[]{
-        "assert", "break", "case", "catch", "continue", "default", "do", "else",
-        "finally", "for", "if", "return", "throw", "switch", "try", "while"};
+        "break", "case",
+        "catch", "continue",
+        "default", "do",
+        "else", "for",
+        "if", "is",
+        "return", "throw",
+        "switch", "try",
+        "while"};
     String MEMORY[] = new String[]{
-        "new", "super", "this"};
+        "new", "super",
+        "this", "void"};
     String FUTURE[] = new String[]{
-        "const", "goto"};
+        "goto"};
     String NULL[] = new String[]{
-        "null"
-    };
+        "null"};
     String BOOLEAN[] = new String[]{"true", "false"};
 
     @Override
     public Pattern generatePattern() {
-        Pattern pattern;
         String DECLARATIONS_PATTERN;
         String PRIMITIVES_PATTERN;
         String EXTERNALS_PATTERN;
@@ -82,7 +125,7 @@ public class Java implements Language {
         STRING_PATTERN = "\"([^\"\\\\]|\\\\.)*\"";
         COMMENT_PATTERN = "//[^\n]*" + "|" + "/\\*(.|\\R)*?\\*/";
 
-        pattern = Pattern.compile(
+        Pattern pattern = Pattern.compile(
                 "(?<DECLARATIONS>" + DECLARATIONS_PATTERN + ")"
                 + "|(?<PRIMITIVES>" + PRIMITIVES_PATTERN + ")"
                 + "|(?<EXTERNALS>" + EXTERNALS_PATTERN + ")"

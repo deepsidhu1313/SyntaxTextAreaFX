@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package in.co.s13.meta;
+package in.co.s13.syntaxtextareafx.meta;
 
 import java.util.ArrayList;
 import java.util.regex.Matcher;

@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package in.co.s13.langs;
+package in.co.s13.syntaxtextareafx.langs;
 
-import in.co.s13.meta.Language;
+import in.co.s13.syntaxtextareafx.meta.Language;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;

@@ -3,94 +3,51 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package in.co.s13.langs;
+package in.co.s13.syntaxtextareafx.langs;
 
-import in.co.s13.meta.Language;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import in.co.s13.syntaxtextareafx.meta.Language;
+import java.util.Collections;
 
 /**
  *
  * @author nika
  */
-public class ActionScript implements Language {
+public class Java implements Language {
 
-    String DECLARATIONS[] = new String[]{"class", "extends",
-        "function", "implements", "instanceof", "interface",
-        "is", "namespace", "throws", "var", "const"};
+    String DECLARATIONS[] = new String[]{"class", "enum",
+        "extends", "implements",
+        "instanceof", "interface",
+        "native", "throws"};
     String PRIMITIVES[] = new String[]{
-        "arguments", "Array",
-        "Boolean", "Class",
-        "Bitmap", "BitmapData",
-        "BitmapDataChannel", "ByteArray",
-        "Camera", "Capabilities",
-        "CapsStyle", "ColorTransform",
-        "ContextMenu", "Dictionary",
-        "DisplayObject", "DisplayObjectContainer",
-        "Endian", "Error",
-        "Event", "EventDispatcher",
-        "ExternalInterface", "FileFilter",
-        "FileReference", "FileReferenceList",
-        "Function", "Graphics",
-        "int", "IBitmapDrawable",
-        "IEventDispatcher", "IOError",
-        "Keyboard", "KeyboardEvent",
-        "KeyLocation", "Loader",
-        "LocalConnection", "Math",
-        "Matrix", "Microphone",
-        "Mouse", "MovieClip",
-        "Namespace", "NetConnection",
-        "NetStream", "Number",
-        "Object", "Point",
-        "PrintJob", "Proxy",
-        "QName", "Rectangle",
-        "RegExp", "Responder",
-        "Scene", "Security",
-        "Shape", "SharedObject",
-        "Socket", "Sound",
-        "SoundChannel", "SoundTransform",
-        "Sprite", "Stage",
-        "String", "StyleSheet",
-        "SWFVersion", "System",
-        "TextField", "TextFormat",
-        "Timer", "uint",
-        "Video", "XML",
-        "XMLDocument", "XMLList",
-        "XMLNode", "XMLNodeType",
-        "XMLSocket"};
+        "boolean", "byte", "char", "double",
+        "float", "int", "long", "short",
+        "void"};
     String EXTERNALS[] = new String[]{
-        "import", "include", "package"};
+        "import", "package"};
     String STORAGECLASS[] = new String[]{
-        "dynamic", "internal",
-        "final", "static"};
+        "abstract", "final", "static", "strictfp",
+        "synchronized", "transient", "volatile"};
     String SCOPEDECLARATIONS[] = new String[]{
-        "flash_proxy", "internal",
-        "override", "private",
-        "protected", "public",
-        "set", "get"};
+        "private", "protected", "public"};
     String FLOW[] = new String[]{
-        "break", "case",
-        "catch", "continue",
-        "default", "do",
-        "else", "for",
-        "if", "is",
-        "return", "throw",
-        "switch", "try",
-        "while"};
+        "assert", "break", "case", "catch", "continue", "default", "do", "else",
+        "finally", "for", "if", "return", "throw", "switch", "try", "while"};
     String MEMORY[] = new String[]{
-        "new", "super",
-        "this", "void"};
+        "new", "super", "this"};
     String FUTURE[] = new String[]{
-        "goto"};
+        "const", "goto"};
     String NULL[] = new String[]{
-        "null"};
+        "null"
+    };
     String BOOLEAN[] = new String[]{"true", "false"};
 
     @Override
     public Pattern generatePattern() {
+        Pattern pattern;
         String DECLARATIONS_PATTERN;
         String PRIMITIVES_PATTERN;
         String EXTERNALS_PATTERN;
@@ -125,7 +82,7 @@ public class ActionScript implements Language {
         STRING_PATTERN = "\"([^\"\\\\]|\\\\.)*\"";
         COMMENT_PATTERN = "//[^\n]*" + "|" + "/\\*(.|\\R)*?\\*/";
 
-        Pattern pattern = Pattern.compile(
+        pattern = Pattern.compile(
                 "(?<DECLARATIONS>" + DECLARATIONS_PATTERN + ")"
                 + "|(?<PRIMITIVES>" + PRIMITIVES_PATTERN + ")"
                 + "|(?<EXTERNALS>" + EXTERNALS_PATTERN + ")"

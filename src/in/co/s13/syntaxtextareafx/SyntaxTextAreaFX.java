@@ -3,14 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package in.co.s13;
+package in.co.s13.syntaxtextareafx;
 
-import in.co.s13.langs.ActionScript;
-import in.co.s13.langs.Ada;
-import in.co.s13.langs.Ansforth94;
-import in.co.s13.langs.Text;
-import in.co.s13.meta.Generator;
-import in.co.s13.meta.Syntax;
+import in.co.s13.syntaxtextareafx.langs.ActionScript;
+import in.co.s13.syntaxtextareafx.langs.Ada;
+import in.co.s13.syntaxtextareafx.langs.Ansforth94;
+import in.co.s13.syntaxtextareafx.langs.Text;
+import in.co.s13.syntaxtextareafx.meta.Generator;
+import in.co.s13.syntaxtextareafx.meta.Syntax;
 import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.FileWriter;

@@ -5,7 +5,7 @@
  */
 package syntaxtextarea;
 
-import in.co.s13.SyntaxTextAreaFX;
+import in.co.s13.syntaxtextareafx.SyntaxTextAreaFX;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;

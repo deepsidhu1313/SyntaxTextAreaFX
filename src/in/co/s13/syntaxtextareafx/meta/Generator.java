@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package in.co.s13.meta;
+package in.co.s13.syntaxtextareafx.meta;
 
-import in.co.s13.SyntaxTextAreaFX;
+import in.co.s13.syntaxtextareafx.SyntaxTextAreaFX;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
