@@ -7,9 +7,11 @@ package in.co.s13;
 
 import in.co.s13.langs.ActionScript;
 import in.co.s13.langs.Ada;
+import in.co.s13.langs.Ansforth94;
 import in.co.s13.langs.Text;
 import in.co.s13.meta.Generator;
 import in.co.s13.meta.Syntax;
+import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -18,6 +20,7 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -28,17 +31,19 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.scene.Scene;
-import javafx.scene.text.Font;
+import javafx.scene.input.KeyCode;
+import javax.swing.AbstractAction;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import org.fxmisc.richtext.CodeArea;
 import org.fxmisc.richtext.LineNumberFactory;
-import org.fxmisc.richtext.PlainTextChange;
 import org.fxmisc.richtext.StyleSpans;
 import org.fxmisc.richtext.StyleSpansBuilder;
-import org.reactfx.EventStream;
-import org.reactfx.util.Try;
+import org.reactfx.Subscription;
 
 /**
  *
@@ -84,6 +89,14 @@ public class SyntaxTextAreaFX {
     public Scene scene;
     private Syntax syntax;
 
+    public static enum Mode {
+        INSERT, COMPLETION
+    };
+
+    private Mode mode = Mode.INSERT;
+    ArrayList<String> suggestions;
+    private static final String COMMIT_ACTION = "commit";
+
     public static enum FILE_TYPES {
         as, adb, ads, forth, asp, automake, awk,
         bennugd, bibtex, bluespec, boo, c, cg, changelog,
@@ -97,7 +110,7 @@ public class SyntaxTextAreaFX {
         nsis, objj, ocaml, ocl, octave, ooc, opal, pascal, perl, php, pig,
         pkgconfig, po, protobuf, puppet, python, python3, r, rpmspec, ruby,
         rust, scala, scheme, scilab, sh, sparql, sql, sweave, systemverilog,
-        text,txt,t2t, tcl, thrift, vala, vbnet, verilog, vhdl, xml, yacc, yaml
+        text, txt, t2t, tcl, thrift, vala, vbnet, verilog, vhdl, xml, yacc, yaml
     };
 
     public static enum LANGS {
@@ -128,7 +141,7 @@ public class SyntaxTextAreaFX {
         rust, scala, scheme, scilab,
         sh, sml, sparql, sql,
         sweave, systemverilog, t2t, tcl,
-        texinfo,text, thrift, vala, vbnet,
+        texinfo, text, thrift, vala, vbnet,
         verilog, vhdl, xml, xslt,
         yacc, yaml
     };
@@ -199,6 +212,22 @@ public class SyntaxTextAreaFX {
         filePath = file;
         executor = Executors.newSingleThreadExecutor();
         codeArea = new CodeArea();
+        codeArea.setOnKeyPressed((event) -> {
+            if (event.getCode() == KeyCode.ENTER) {
+//                if (suggestion != null) {
+//                    if (suggestion.insertSelection()) {
+//                        event.consume();
+//                        final int position = codeArea.getCaretPosition();
+//                        Platform.runLater(new Runnable() {
+//                            @Override
+//                            public void run() {
+//                                codeArea.replaceText(position - 1, 1,"");
+//                            }
+//                        });
+//                    }
+//                }
+            }
+        });
 
         codeArea.setParagraphGraphicFactory(LineNumberFactory.get(codeArea));
 //        EventStream<PlainTextChange> textChanges = codeArea.plainTextChanges();
@@ -214,7 +243,7 @@ public class SyntaxTextAreaFX {
         }
         if (file.trim().length() > 1 && file.contains(".") && SyntaxTextAreaFX.contains(fileExtension)) {
             // setCodingStyle();
-            setCodingStyle(getCodingStyleFromFileType(FILE_TYPES.valueOf(fileExtension)));
+            setCodingStyle(getCodingStyleFromFileType(getFileTypeFromFileExtension(fileExtension)));
 
         } else {
             generatePattern();
@@ -237,6 +266,19 @@ public class SyntaxTextAreaFX {
                 .subscribe(this::applyHighlighting);
 
         this.setText(this.readFile(filePath));
+
+        Subscription s = codeArea.plainTextChanges().subscribe(tc -> {
+            String removed = tc.getRemoved();
+            String inserted = tc.getInserted();
+
+            if (!removed.isEmpty() && inserted.isEmpty()) {
+                // deletion
+            } else if (!inserted.isEmpty() && removed.isEmpty()) {
+                // insertion
+            } else {
+                // replacement
+            }
+        });
 
     }
 
@@ -269,15 +311,6 @@ public class SyntaxTextAreaFX {
     public void appendText(String text) {
         codeArea.appendText(text);
 
-    }
-
-    /**
-     * **
-     *
-     * @param v sets Font of SyntaxTextAreaFX
-     */
-    public void setFont(Font v) {
-        codeArea.setFont(v);
     }
 
     /**
@@ -353,13 +386,14 @@ public class SyntaxTextAreaFX {
      */
     public void setCodingStyle(LANGS CodingStyle) {
         SyntaxTextAreaFX.CodingStyle = CodingStyle;
-
+        clearStyleSheets();
         if (externalThemePath.trim().length() == 0) {
             codeArea.getStylesheets().add(SyntaxTextAreaFX.class.getResource("res/css/" + getTheme() + "/" + getCodingStyle() + ".css").toExternalForm());
         } else {
             codeArea.getStylesheets().add(readFile(externalThemePath + "/" + getCodingStyle() + ".css"));
         }
         loadLanguage();
+        loadKeywordSuggestions();
         generatePattern();
     }
 
@@ -477,6 +511,26 @@ public class SyntaxTextAreaFX {
         return spansBuilder.create();
     }
 
+    private FILE_TYPES getFileTypeFromFileExtension(String fileExtension) {
+        FILE_TYPES fileType = null;
+        if (Arrays.asList(ALT_FILE_TYPES).contains(fileExtension)) {
+            int index = Arrays.asList(ALT_FILE_TYPES).indexOf(fileExtension);
+            switch (index) {
+                case 0:
+                    fileType = FILE_TYPES.forth;
+                    break;
+                default:
+                    break;
+
+            }
+        } else {
+            fileType = FILE_TYPES.valueOf(fileExtension);
+
+        }
+
+        return fileType;
+    }
+
     private LANGS getCodingStyleFromFileType(FILE_TYPES filetype) {
         LANGS language = LANGS.java;
         switch (filetype) {
@@ -487,6 +541,7 @@ public class SyntaxTextAreaFX {
             case ads:
                 language = LANGS.ada;
                 break;
+            
             case asp:
                 break;
             case automake:
@@ -544,6 +599,9 @@ public class SyntaxTextAreaFX {
             case erlang:
                 break;
             case fcl:
+                break;
+            case forth:
+                language=LANGS.ansforth94;
                 break;
             case fortran:
                 break;
@@ -694,10 +752,14 @@ public class SyntaxTextAreaFX {
             case yaml:
                 break;
             default:
-                language= LANGS.text;
+                language = LANGS.text;
                 break;
         }
         return language;
+    }
+
+    private void loadKeywordSuggestions() {
+        suggestions = syntax.getKeywords();
     }
 
     private void loadLanguage() {
@@ -705,12 +767,11 @@ public class SyntaxTextAreaFX {
             case actionscript:
                 syntax = new Syntax(new ActionScript());
                 break;
-
             case ada:
                 syntax = new Syntax(new Ada());
-
                 break;
             case ansforth94:
+                syntax= new Syntax(new Ansforth94());
                 break;
             case asp:
                 break;
@@ -941,6 +1002,131 @@ public class SyntaxTextAreaFX {
     private void generatePattern() {
 
         PATTERN = syntax.generatePattern();
+    }
+
+//    private void insertUpdate(CodeArea ca){
+////            if (ca.plainTextChanges().getLength() != 1) {
+////                return;
+////            }
+////       
+////            int pos = ev.getOffset();
+//            String content = null;
+//            content = codeArea.getText(0, pos + 1);
+//
+//            // Find where the word starts
+//            int w;
+//            for (w = pos; w >= 0; w--) {
+//                if (!Character.isLetter(content.charAt(w))) {
+//                    break;
+//                }
+//            }
+//            if (pos - w < 2) {
+//                // Too few chars
+//                return;
+//            }
+//
+//            String prefix = content.substring(w + 1).toLowerCase();
+//            int n = Collections.binarySearch(suggestions, prefix);
+//            if (n < 0 && -n <= suggestions.size()) {
+//                String match = suggestions.get(-n - 1);
+//                if (match.startsWith(prefix)) {
+//                    // A completion is found
+//                    String completion = match.substring(pos - w);
+//                    // We cannot modify Document from within notification,
+//                    // so we submit a task that does the change later
+//                    Platform.runLater(
+//                            new CompletionTask(completion, pos + 1));
+//                }
+//            } else {
+//                // Nothing found
+//                mode = Mode.INSERT;
+//            }
+//    
+//    }
+    private class CompletionTask implements Runnable {
+
+        String completion;
+        int position;
+
+        CompletionTask(String completion, int position) {
+            this.completion = completion;
+            this.position = position;
+        }
+
+        public void run() {
+            codeArea.insertText(position, completion);
+            codeArea.positionCaret(position + completion.length());
+            codeArea.moveTo(position);
+            mode = Mode.COMPLETION;
+        }
+    }
+
+    private class CommitAction extends AbstractAction {
+
+        public void actionPerformed(ActionEvent ev) {
+            if (mode == Mode.COMPLETION) {
+                int pos = codeArea.getSelection().getEnd();
+                codeArea.insertText(pos, " ");
+                codeArea.positionCaret(pos + 1);
+                mode = Mode.INSERT;
+            } else {
+                codeArea.replaceSelection("\n");
+            }
+        }
+    }
+
+    private class SyntaxDocumentListener implements DocumentListener {
+
+        @Override
+        public void insertUpdate(DocumentEvent ev) {
+            if (ev.getLength() != 1) {
+                return;
+            }
+
+            int pos = ev.getOffset();
+            String content = null;
+            content = codeArea.getText(0, pos + 1);
+
+            // Find where the word starts
+            int w;
+            for (w = pos; w >= 0; w--) {
+                if (!Character.isLetter(content.charAt(w))) {
+                    break;
+                }
+            }
+            if (pos - w < 2) {
+                // Too few chars
+                return;
+            }
+
+            String prefix = content.substring(w + 1).toLowerCase();
+            int n = Collections.binarySearch(suggestions, prefix);
+            if (n < 0 && -n <= suggestions.size()) {
+                String match = suggestions.get(-n - 1);
+                if (match.startsWith(prefix)) {
+                    // A completion is found
+                    String completion = match.substring(pos - w);
+                    // We cannot modify Document from within notification,
+                    // so we submit a task that does the change later
+                    Platform.runLater(
+                            new CompletionTask(completion, pos + 1));
+                }
+            } else {
+                // Nothing found
+                mode = Mode.INSERT;
+            }
+        }
+
+        @Override
+        public void removeUpdate(DocumentEvent e) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public void changedUpdate(DocumentEvent e) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
     }
 
 }

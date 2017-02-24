@@ -10,3 +10,7 @@ TO DO
 
 Build Status
 * linux [![Build Status](https://travis-ci.org/deepsidhu1313/SyntaxTextAreaFX.svg?branch=master)](https://travis-ci.org/deepsidhu1313/SyntaxTextAreaFX)
+
+
+[Supported Lannguages](https://github.com/deepsidhu1313/SyntaxTextAreaFX/wiki/Supported-Languages#supported-languages)
+

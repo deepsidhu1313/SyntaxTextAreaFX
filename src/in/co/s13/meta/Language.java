@@ -14,7 +14,23 @@ import java.util.regex.Pattern;
  * @author nika
  */
 public interface Language {
-    public Pattern generatePattern();
+    /***
+     * Generates a Pattern for Syntax Area
+     * which then be matched to highlight special keywords
+     * @return 
+     */
+         public Pattern generatePattern();
+         /****
+          * Matches special keywords with css fields 
+          * @param matcher
+          * @return 
+          */
     public String getStyleClass(Matcher matcher);
+    
+    
+    /***
+     * Return all special keywords for suggestions Auto complete
+     * @return 
+     */
     public ArrayList<String> getKeywords();
 }
