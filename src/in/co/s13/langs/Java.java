@@ -10,6 +10,7 @@ import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import in.co.s13.meta.Language;
+import java.util.Collections;
 
 /**
  *
@@ -136,6 +137,7 @@ public class Java implements Language {
         keywordList.addAll(Arrays.asList(FUTURE));
         keywordList.addAll(Arrays.asList(NULL));
         keywordList.addAll(Arrays.asList(BOOLEAN));
+        Collections.sort(keywordList);
         return keywordList;
     }
 

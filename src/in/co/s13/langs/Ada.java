@@ -8,6 +8,7 @@ package in.co.s13.langs;
 import in.co.s13.meta.Language;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -122,7 +123,8 @@ public class Ada implements Language {
         keywordList.addAll(Arrays.asList(STORAGECLASS));
         keywordList.addAll(Arrays.asList(TYPE));
         keywordList.addAll(Arrays.asList(BOOLEAN));
-        return keywordList;
+       Collections.sort(keywordList);
+         return keywordList;
     }
 
 }
