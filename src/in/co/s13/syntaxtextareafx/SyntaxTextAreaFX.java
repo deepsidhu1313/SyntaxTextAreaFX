@@ -210,7 +210,13 @@ public class SyntaxTextAreaFX {
      */
     public SyntaxTextAreaFX(String file) {
         filePath = file;
-        executor = Executors.newSingleThreadExecutor();
+        // executor = Executors.newSingleThreadExecutor();
+        executor = Executors.newSingleThreadExecutor(runnable -> {
+            Thread thread = Executors.defaultThreadFactory().newThread(runnable);
+            thread.setDaemon(true);
+            return thread;
+        });
+
         codeArea = new CodeArea();
         codeArea.setOnKeyPressed((event) -> {
             if (event.getCode() == KeyCode.ENTER) {
@@ -541,7 +547,7 @@ public class SyntaxTextAreaFX {
             case ads:
                 language = LANGS.ada;
                 break;
-            
+
             case asp:
                 break;
             case automake:
@@ -601,7 +607,7 @@ public class SyntaxTextAreaFX {
             case fcl:
                 break;
             case forth:
-                language=LANGS.ansforth94;
+                language = LANGS.ansforth94;
                 break;
             case fortran:
                 break;
@@ -771,7 +777,7 @@ public class SyntaxTextAreaFX {
                 syntax = new Syntax(new Ada());
                 break;
             case ansforth94:
-                syntax= new Syntax(new Ansforth94());
+                syntax = new Syntax(new Ansforth94());
                 break;
             case asp:
                 break;
