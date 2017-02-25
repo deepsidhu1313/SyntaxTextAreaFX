@@ -9,6 +9,7 @@ import in.co.s13.syntaxtextareafx.langs.ActionScript;
 import in.co.s13.syntaxtextareafx.langs.Ada;
 import in.co.s13.syntaxtextareafx.langs.Ansforth94;
 import in.co.s13.syntaxtextareafx.langs.Asp;
+import in.co.s13.syntaxtextareafx.langs.Automake;
 import in.co.s13.syntaxtextareafx.langs.Text;
 import in.co.s13.syntaxtextareafx.meta.Generator;
 import in.co.s13.syntaxtextareafx.meta.Syntax;
@@ -98,8 +99,12 @@ public class SyntaxTextAreaFX {
     ArrayList<String> suggestions;
     private static final String COMMIT_ACTION = "commit";
 
+    public static enum SPECIAL_FILENAMES {
+        Makefile,GNUmakefile
+    };
+
     public static enum FILE_TYPES {
-        as, adb, ads, forth, asp, automake, awk,
+        as, adb, ads, forth, asp, am, awk,
         bennugd, bibtex, bluespec, boo, c, cg, changelog,
         cmake, cobol, cpp, cpphdr, csharp, css, cuda, d,
         def, desktop, diff, docbook, dosbatch, dot, dpatch,
@@ -147,7 +152,7 @@ public class SyntaxTextAreaFX {
         yacc, yaml
     };
 
-    public static String[] ALT_FILE_TYPES = new String[]{"4th",""};
+    public static String[] ALT_FILE_TYPES = new String[]{"4th", ""};
 
     private static LANGS CodingStyle = LANGS.text;
 
@@ -192,7 +197,7 @@ public class SyntaxTextAreaFX {
      * @param fileExtension a string file extension
      * @return boolean value true/false if fileExtension is supported
      */
-    private static boolean contains(String fileExtension) {
+    private static boolean supports(String fileExtension) {
 
         for (FILE_TYPES c : FILE_TYPES.values()) {
             if (c.name().equals(fileExtension)) {
@@ -247,8 +252,10 @@ public class SyntaxTextAreaFX {
         String fileExtension = "";
         if (file.trim().length() > 1 && file.contains(".")) {
             fileExtension = file.substring(file.lastIndexOf(".") + 1).trim().toLowerCase();
+        } else if(file.trim().length()>1 && !file.contains(".")) {
+            setCodingStyle(getCodingStyleFromFileType(getFileTypeFromSpecialFileName(new File(file).getName())));
         }
-        if (file.trim().length() > 1 && file.contains(".") && SyntaxTextAreaFX.contains(fileExtension)) {
+        if (file.trim().length() > 1 && file.contains(".") && SyntaxTextAreaFX.supports(fileExtension)) {
             // setCodingStyle();
             setCodingStyle(getCodingStyleFromFileType(getFileTypeFromFileExtension(fileExtension)));
 
@@ -519,16 +526,16 @@ public class SyntaxTextAreaFX {
     }
 
     private FILE_TYPES getFileTypeFromFileExtension(String fileExtension) {
-        FILE_TYPES fileType = null;
+        FILE_TYPES fileType = FILE_TYPES.txt;
         if (Arrays.asList(ALT_FILE_TYPES).contains(fileExtension)) {
             int index = Arrays.asList(ALT_FILE_TYPES).indexOf(fileExtension);
             switch (index) {
                 case 0:
                     fileType = FILE_TYPES.forth;
                     break;
-                default:
-                    fileType= FILE_TYPES.txt;
-                    break;
+//                default:
+//                    fileType= FILE_TYPES.txt;
+//                    break;
 
             }
         } else {
@@ -536,6 +543,18 @@ public class SyntaxTextAreaFX {
 
         }
 
+        return fileType;
+    }
+
+    private FILE_TYPES getFileTypeFromSpecialFileName(String FileName) {
+        FILE_TYPES fileType = FILE_TYPES.text;
+        SPECIAL_FILENAMES sFileName = SPECIAL_FILENAMES.valueOf(FileName);
+        switch (sFileName) {
+            case Makefile:
+            case GNUmakefile:
+                fileType = FILE_TYPES.am;
+                break;
+        }
         return fileType;
     }
 
@@ -551,9 +570,10 @@ public class SyntaxTextAreaFX {
                 break;
 
             case asp:
-                language=LANGS.asp;
+                language = LANGS.asp;
                 break;
-            case automake:
+            case am:
+                language=LANGS.automake;
                 break;
             case awk:
                 break;
@@ -783,9 +803,10 @@ public class SyntaxTextAreaFX {
                 syntax = new Syntax(new Ansforth94());
                 break;
             case asp:
-                syntax= new Syntax(new Asp());
+                syntax = new Syntax(new Asp());
                 break;
             case automake:
+                syntax= new Syntax(new Automake());
                 break;
             case awk:
                 break;
