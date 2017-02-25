@@ -10,6 +10,7 @@ import in.co.s13.syntaxtextareafx.langs.Ada;
 import in.co.s13.syntaxtextareafx.langs.Ansforth94;
 import in.co.s13.syntaxtextareafx.langs.Asp;
 import in.co.s13.syntaxtextareafx.langs.Automake;
+import in.co.s13.syntaxtextareafx.langs.Awk;
 import in.co.s13.syntaxtextareafx.langs.Text;
 import in.co.s13.syntaxtextareafx.meta.Generator;
 import in.co.s13.syntaxtextareafx.meta.Syntax;
@@ -576,6 +577,7 @@ public class SyntaxTextAreaFX {
                 language=LANGS.automake;
                 break;
             case awk:
+                language=LANGS.awk;
                 break;
             case bennugd:
                 break;
@@ -809,6 +811,7 @@ public class SyntaxTextAreaFX {
                 syntax= new Syntax(new Automake());
                 break;
             case awk:
+                syntax= new Syntax(new Awk());
                 break;
             case bennugd:
                 break;
