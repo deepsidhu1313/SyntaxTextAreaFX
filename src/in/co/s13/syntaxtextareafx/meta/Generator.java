@@ -36,9 +36,131 @@ public class Generator {
     static int colorCounter = 0;
 
     public static void main(String[] args) {
-       // System.out.println("" + (( "R".equalsIgnoreCase(""+SyntaxTextAreaFX.FILE_TYPES.R))));
-System.out.println(""+(SyntaxTextAreaFX.FILE_TYPES.valueOf("java")));
+        // System.out.println("" + (( "R".equalsIgnoreCase(""+SyntaxTextAreaFX.FILE_TYPES.R))));
+        //      System.out.println("" + (SyntaxTextAreaFX.FILE_TYPES.valueOf("java")));
+        generateJavaFiles();
+
 //generateJSONsAndCSS();
+    }
+
+    public static void generateJavaFiles() {
+        File f = new File("jsons/");
+        File files[] = f.listFiles((File dir, String name) -> name.toLowerCase().endsWith(".json"));
+        for (int i = 0; i < files.length; i++) {
+            File file = files[i];
+
+            String className = file.getName().substring(0, file.getName().indexOf("."));
+
+            StringBuilder javaContent = new StringBuilder();
+
+            StringBuilder arrayDecs = new StringBuilder();
+            StringBuilder patternDecs = new StringBuilder();
+            StringBuilder patternInits = new StringBuilder();
+            StringBuilder patternCompiles = new StringBuilder();
+            StringBuilder matcherStrings = new StringBuilder();
+            StringBuilder addVartoArrayLists = new StringBuilder();
+
+            JSONObject rules = new JSONObject(readFile(file.getAbsolutePath()));
+            Object arr2 = rules.getJSONObject("language").getJSONObject("definitions").get("context");
+            if (arr2 instanceof JSONArray) {
+                JSONArray arr = (JSONArray) (arr2);
+                for (int j = 0; j < arr.length(); j++) {
+                    JSONObject arg = arr.getJSONObject(j);
+                    if (arg.has("keyword")) {
+                        String arrayName = arg.get("id").toString().toUpperCase().replaceAll("-", "_");
+                        String arrayContent = arg.get("keyword").toString();//.substring(1, arg.get("keyword").toString().length()-1);
+                        String arrayDec = "    String " + arrayName + "[] = new String[]{" + arrayContent + "};\n";
+                        arrayDecs.append(arrayDec);
+                        String patternDec = "        String " + arrayName + "_PATTERN;\n";
+                        patternDecs.append(patternDec);
+                        String patternInit = "        " + arrayName + "_PATTERN = \"\\\\b(\" + String.join(\"|\", " + arrayName + ") + \")\\\\b\";\n";
+                        patternInits.append(patternInit);
+                        String patternCompile = "                + \"|(?<" + arrayName + ">\" + " + arrayName + "_PATTERN + \")\"\n";
+                        patternCompiles.append(patternCompile);
+                        String matcherString = "                : matcher.group(\"" + arrayName + "\") != null ? \"" + arrayName.toLowerCase().replaceAll("_", "-") + "\"\n";
+                        matcherStrings.append(matcherString);
+                        String addVartoArrayList = "        keywordList.addAll(Arrays.asList(" + arrayName + "));\n";
+                        addVartoArrayLists.append(addVartoArrayList);
+                    }
+                }
+
+            } else {
+                JSONObject arg = ((JSONObject) arr2);
+                if (arg.has("keyword")) {
+                    String arrayName = arg.getString("id").toUpperCase().replaceAll("-", "_");
+                    String arrayContent = arg.get("keyword").toString();
+                    String arrayDec = "    String " + arrayName + "[] = new String[]{" + arrayContent + "}\n";
+                    arrayDecs.append(arrayDec);
+                    String patternDec = "        String " + arrayName + "_PATTERN;\n";
+                    patternDecs.append(patternDec);
+                    String patternInit = "        " + arrayName + "_PATTERN = \"\\\\b(\" + String.join(\"|\", " + arrayName + ") + \")\\\\b\";\n";
+                    patternInits.append(patternInit);
+                    String patternCompile = "                + \"|(?<" + arrayName + ">\" + " + arrayName + "_PATTERN + \")\"\n";
+                    patternCompiles.append(patternCompile);
+                    String matcherString = "                : matcher.group(\"" + arrayName + "\") != null ? \"" + arrayName.toLowerCase().replaceAll("_", "-") + "\"\n";
+                    matcherStrings.append(matcherString);
+                    String addVartoArrayList = "        keywordList.addAll(Arrays.asList(" + arrayName + "));\n";
+                    addVartoArrayLists.append(addVartoArrayList);
+                }
+            }
+            javaContent.append("/*\n"
+                    + " * To change this license header, choose License Headers in Project Properties.\n"
+                    + " * To change this template file, choose Tools | Templates\n"
+                    + " * and open the template in the editor.\n"
+                    + " */\n"
+                    + "package in.co.s13.syntaxtextareafx.langs;\n"
+                    + "\n"
+                    + "import java.util.ArrayList;\n"
+                    + "import java.util.Arrays;\n"
+                    + "import java.util.regex.Matcher;\n"
+                    + "import java.util.regex.Pattern;\n"
+                    + "import in.co.s13.syntaxtextareafx.meta.Language;\n"
+                    + "import java.util.Collections;\n"
+                    + "\n"
+                    + "/**\n"
+                    + " *\n"
+                    + " * @author nika\n"
+                    + " */\n"
+                    + "public class " + className + " implements Language {\n"
+                    + "\n"
+                    + arrayDecs.toString()
+                    + "\n"
+                    + "    @Override\n"
+                    + "    public Pattern generatePattern() {\n"
+                    + "        Pattern pattern;\n"
+                    + patternDecs.toString()
+                    + "\n"
+                    + patternInits.toString()
+                    + "\n"
+                    + "        pattern = Pattern.compile(\n"
+                    + patternCompiles.toString()
+                    + "        );\n"
+                    + "        return pattern;\n"
+                    + "    }\n"
+                    + "\n"
+                    + "    @Override\n"
+                    + "    public String getStyleClass(Matcher matcher) {\n"
+                    + "        return matcher.group(\"DECLARATIONS\") != null ? \"declarations\"\n"
+                    + matcherStrings.toString()
+                    + "                : null;\n"
+                    + "    }\n"
+                    + "\n"
+                    + "    @Override\n"
+                    + "    public ArrayList<String> getKeywords() {\n"
+                    + "        ArrayList<String> keywordList = new ArrayList<>();\n"
+                    + addVartoArrayLists.toString()
+                    + "        Collections.sort(keywordList);\n"
+                    + "        return keywordList;\n"
+                    + "    }\n"
+                    + "\n"
+                    + "}\n"
+                    + "");
+            try {
+                write(new File("java/" + file.getName().substring(0, file.getName().lastIndexOf(".")) + ".java"), javaContent.toString());
+            } catch (IOException ex) {
+                Logger.getLogger(Generator.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
 
     public static void generateJSONsAndCSS() {

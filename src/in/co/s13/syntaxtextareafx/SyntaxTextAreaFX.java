@@ -8,6 +8,7 @@ package in.co.s13.syntaxtextareafx;
 import in.co.s13.syntaxtextareafx.langs.ActionScript;
 import in.co.s13.syntaxtextareafx.langs.Ada;
 import in.co.s13.syntaxtextareafx.langs.Ansforth94;
+import in.co.s13.syntaxtextareafx.langs.Asp;
 import in.co.s13.syntaxtextareafx.langs.Text;
 import in.co.s13.syntaxtextareafx.meta.Generator;
 import in.co.s13.syntaxtextareafx.meta.Syntax;
@@ -146,7 +147,7 @@ public class SyntaxTextAreaFX {
         yacc, yaml
     };
 
-    public static String[] ALT_FILE_TYPES = {"4th"};
+    public static String[] ALT_FILE_TYPES = new String[]{"4th",""};
 
     private static LANGS CodingStyle = LANGS.text;
 
@@ -526,6 +527,7 @@ public class SyntaxTextAreaFX {
                     fileType = FILE_TYPES.forth;
                     break;
                 default:
+                    fileType= FILE_TYPES.txt;
                     break;
 
             }
@@ -549,6 +551,7 @@ public class SyntaxTextAreaFX {
                 break;
 
             case asp:
+                language=LANGS.asp;
                 break;
             case automake:
                 break;
@@ -780,6 +783,7 @@ public class SyntaxTextAreaFX {
                 syntax = new Syntax(new Ansforth94());
                 break;
             case asp:
+                syntax= new Syntax(new Asp());
                 break;
             case automake:
                 break;
