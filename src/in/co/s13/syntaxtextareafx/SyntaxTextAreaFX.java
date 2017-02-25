@@ -12,6 +12,7 @@ import in.co.s13.syntaxtextareafx.langs.Asp;
 import in.co.s13.syntaxtextareafx.langs.Automake;
 import in.co.s13.syntaxtextareafx.langs.Awk;
 import in.co.s13.syntaxtextareafx.langs.Bennugd;
+import in.co.s13.syntaxtextareafx.langs.Bibtex;
 import in.co.s13.syntaxtextareafx.langs.Text;
 import in.co.s13.syntaxtextareafx.meta.Generator;
 import in.co.s13.syntaxtextareafx.meta.Syntax;
@@ -107,7 +108,7 @@ public class SyntaxTextAreaFX {
 
     public static enum FILE_TYPES {
         as, adb, ads, forth, asp, am, awk,
-        prg, bibtex, bluespec, boo, c, cg, changelog,
+        prg, bib, bluespec, boo, c, cg, changelog,
         cmake, cobol, cpp, cpphdr, csharp, css, cuda, d,
         def, desktop, diff, docbook, dosbatch, dot, dpatch,
         dtd, eiffel, erlang, fcl, fortran, fsharp, gap, gdblog,
@@ -583,7 +584,8 @@ public class SyntaxTextAreaFX {
             case prg:
                 language=LANGS.bennugd;
                 break;
-            case bibtex:
+            case bib:
+                language=LANGS.bibtex;
                 break;
             case bluespec:
                 break;
@@ -819,6 +821,7 @@ public class SyntaxTextAreaFX {
                 syntax= new Syntax(new Bennugd());
                 break;
             case bibtex:
+                syntax= new Syntax(new Bibtex());
                 break;
             case bluespec:
                 break;
