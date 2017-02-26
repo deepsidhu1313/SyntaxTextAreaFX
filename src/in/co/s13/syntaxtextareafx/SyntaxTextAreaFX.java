@@ -13,6 +13,8 @@ import in.co.s13.syntaxtextareafx.langs.Automake;
 import in.co.s13.syntaxtextareafx.langs.Awk;
 import in.co.s13.syntaxtextareafx.langs.Bennugd;
 import in.co.s13.syntaxtextareafx.langs.Bibtex;
+import in.co.s13.syntaxtextareafx.langs.Bluespec;
+import in.co.s13.syntaxtextareafx.langs.Boo;
 import in.co.s13.syntaxtextareafx.langs.Text;
 import in.co.s13.syntaxtextareafx.meta.Generator;
 import in.co.s13.syntaxtextareafx.meta.Syntax;
@@ -108,7 +110,7 @@ public class SyntaxTextAreaFX {
 
     public static enum FILE_TYPES {
         as, adb, ads, forth, asp, am, awk,
-        prg, bib, bluespec, boo, c, cg, changelog,
+        prg, bib, bsv, boo, c, cg, changelog,
         cmake, cobol, cpp, cpphdr, csharp, css, cuda, d,
         def, desktop, diff, docbook, dosbatch, dot, dpatch,
         dtd, eiffel, erlang, fcl, fortran, fsharp, gap, gdblog,
@@ -587,9 +589,11 @@ public class SyntaxTextAreaFX {
             case bib:
                 language=LANGS.bibtex;
                 break;
-            case bluespec:
+            case bsv:
+                language=LANGS.bluespec;
                 break;
             case boo:
+                language= LANGS.boo;
                 break;
             case c:
                 break;
@@ -824,8 +828,10 @@ public class SyntaxTextAreaFX {
                 syntax= new Syntax(new Bibtex());
                 break;
             case bluespec:
+                syntax= new Syntax(new Bluespec());
                 break;
             case boo:
+                syntax= new Syntax(new Boo());
                 break;
             case c:
                 break;

@@ -43,8 +43,8 @@ public class Awk implements Language {
                  "(?<KEYWORDS>" + KEYWORDS_PATTERN + ")"
                 + "|(?<PATTERNS>" + PATTERNS_PATTERN + ")"
                 + "|(?<VARIABLES>" + VARIABLES_PATTERN + ")"
-                + "|(?<BUILT_IN_FUNCTIONS>" + BUILT_IN_FUNCTIONS_PATTERN + ")"
-                + "|(?<ARITHMETIC_FUNCTIONS>" + ARITHMETIC_FUNCTIONS_PATTERN + ")"
+                + "|(?<BUILTINFUNCTIONS>" + BUILT_IN_FUNCTIONS_PATTERN + ")"
+                + "|(?<ARITHMETICFUNCTIONS>" + ARITHMETIC_FUNCTIONS_PATTERN + ")"
         );
         return pattern;
     }
@@ -54,8 +54,8 @@ public class Awk implements Language {
         return  matcher.group("KEYWORDS") != null ? "keywords"
                 : matcher.group("PATTERNS") != null ? "patterns"
                 : matcher.group("VARIABLES") != null ? "variables"
-                : matcher.group("BUILT_IN_FUNCTIONS") != null ? "built-in-functions"
-                : matcher.group("ARITHMETIC_FUNCTIONS") != null ? "arithmetic-functions"
+                : matcher.group("BUILTINFUNCTIONS") != null ? "built-in-functions"
+                : matcher.group("ARITHMETICFUNCTIONS") != null ? "arithmetic-functions"
                 : null;
     }
 

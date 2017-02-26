@@ -31,7 +31,7 @@ public class Bibtex implements Language {
         FIELD_PATTERN = "\\b(" + String.join("|", FIELD) + ")\\b";
 
         pattern = Pattern.compile(
-                 "(?<ENTRY_TYPE>" + ENTRY_TYPE_PATTERN + ")"
+                 "(?<ENTRYTYPE>" + ENTRY_TYPE_PATTERN + ")"
                 + "|(?<FIELD>" + FIELD_PATTERN + ")"
         );
         return pattern;
@@ -39,7 +39,7 @@ public class Bibtex implements Language {
 
     @Override
     public String getStyleClass(Matcher matcher) {
-        return  matcher.group("ENTRY_TYPE") != null ? "entry-type"
+        return  matcher.group("ENTRYTYPE") != null ? "entry-type"
                 : matcher.group("FIELD") != null ? "field"
                 : null;
     }

@@ -51,7 +51,7 @@ public class Asp implements Language {
                 + "|(?<OBJECTS>" + OBJECTS_PATTERN + ")"
                 + "|(?<CONSTANTS>" + CONSTANTS_PATTERN + ")"
                 + "|(?<TYPES>" + TYPES_PATTERN + ")"
-                + "|(?<SPECIAL_CONSTANTS>" + SPECIAL_CONSTANTS_PATTERN + ")"
+                + "|(?<SPECIALCONSTANTS>" + SPECIAL_CONSTANTS_PATTERN + ")"
                 + "|(?<BOOLEAN>" + BOOLEAN_PATTERN + ")"
         );
         return pattern;
@@ -64,7 +64,7 @@ public class Asp implements Language {
                 : matcher.group("OBJECTS") != null ? "objects"
                 : matcher.group("CONSTANTS") != null ? "constants"
                 : matcher.group("TYPES") != null ? "types"
-                : matcher.group("SPECIAL_CONSTANTS") != null ? "special-constants"
+                : matcher.group("SPECIALCONSTANTS") != null ? "special-constants"
                 : matcher.group("BOOLEAN") != null ? "boolean"
                 : null;
     }
