@@ -75,9 +75,9 @@ public class Generator {
                         patternDecs.append(patternDec);
                         String patternInit = "        " + arrayName + "_PATTERN = \"\\\\b(\" + String.join(\"|\", " + arrayName + ") + \")\\\\b\";\n";
                         patternInits.append(patternInit);
-                        String patternCompile = "                + \"|(?<" + arrayName + ">\" + " + arrayName + "_PATTERN + \")\"\n";
+                        String patternCompile = "                + \"|(?<" + arrayName.replaceAll("_", "") + ">\" + " + arrayName + "_PATTERN + \")\"\n";
                         patternCompiles.append(patternCompile);
-                        String matcherString = "                : matcher.group(\"" + arrayName + "\") != null ? \"" + arrayName.toLowerCase().replaceAll("_", "-") + "\"\n";
+                        String matcherString = "                : matcher.group(\"" + arrayName.replaceAll("_", "") + "\") != null ? \"" + arrayName.toLowerCase().replaceAll("_", "-") + "\"\n";
                         matcherStrings.append(matcherString);
                         String addVartoArrayList = "        keywordList.addAll(Arrays.asList(" + arrayName + "));\n";
                         addVartoArrayLists.append(addVartoArrayList);
@@ -95,9 +95,9 @@ public class Generator {
                     patternDecs.append(patternDec);
                     String patternInit = "        " + arrayName + "_PATTERN = \"\\\\b(\" + String.join(\"|\", " + arrayName + ") + \")\\\\b\";\n";
                     patternInits.append(patternInit);
-                    String patternCompile = "                + \"|(?<" + arrayName + ">\" + " + arrayName + "_PATTERN + \")\"\n";
+                    String patternCompile = "                + \"|(?<" + arrayName.replaceAll("_", "") + ">\" + " + arrayName + "_PATTERN + \")\"\n";
                     patternCompiles.append(patternCompile);
-                    String matcherString = "                : matcher.group(\"" + arrayName + "\") != null ? \"" + arrayName.toLowerCase().replaceAll("_", "-") + "\"\n";
+                    String matcherString = "                : matcher.group(\"" + arrayName.replaceAll("_", "") + "\") != null ? \"" + arrayName.toLowerCase().replaceAll("_", "-") + "\"\n";
                     matcherStrings.append(matcherString);
                     String addVartoArrayList = "        keywordList.addAll(Arrays.asList(" + arrayName + "));\n";
                     addVartoArrayLists.append(addVartoArrayList);
