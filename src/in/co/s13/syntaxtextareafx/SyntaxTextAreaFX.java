@@ -15,6 +15,7 @@ import in.co.s13.syntaxtextareafx.langs.Bennugd;
 import in.co.s13.syntaxtextareafx.langs.Bibtex;
 import in.co.s13.syntaxtextareafx.langs.Bluespec;
 import in.co.s13.syntaxtextareafx.langs.Boo;
+import in.co.s13.syntaxtextareafx.langs.Diff;
 import in.co.s13.syntaxtextareafx.langs.Text;
 import in.co.s13.syntaxtextareafx.meta.Generator;
 import in.co.s13.syntaxtextareafx.meta.Syntax;
@@ -105,14 +106,14 @@ public class SyntaxTextAreaFX {
     private static final String COMMIT_ACTION = "commit";
 
     public static enum SPECIAL_FILENAMES {
-        Makefile,GNUmakefile
+        Makefile, GNUmakefile
     };
 
     public static enum FILE_TYPES {
         as, adb, ads, forth, asp, am, awk,
         prg, bib, bsv, boo, c, cg, changelog,
         cmake, cobol, cpp, cpphdr, csharp, css, cuda, d,
-        def, desktop, diff, docbook, dosbatch, dot, dpatch,
+        def, desktop, diff, patch, rej, docbook, dosbatch, dot, dpatch,
         dtd, eiffel, erlang, fcl, fortran, fsharp, gap, gdblog,
         genie, glsl, gtkdoc, gtkrc, haddock, haskell, haskellliterate,
         html, idlexelis, imagej, ini, j, jade, java, javascript, json,
@@ -257,12 +258,17 @@ public class SyntaxTextAreaFX {
         String fileExtension = "";
         if (file.trim().length() > 1 && file.contains(".")) {
             fileExtension = file.substring(file.lastIndexOf(".") + 1).trim().toLowerCase();
-        } else if(file.trim().length()>1 && !file.contains(".")) {
+        } else if (file.trim().length() > 1 && !file.contains(".")) {
             setCodingStyle(getCodingStyleFromFileType(getFileTypeFromSpecialFileName(new File(file).getName())));
+
         }
         if (file.trim().length() > 1 && file.contains(".") && SyntaxTextAreaFX.supports(fileExtension)) {
             // setCodingStyle();
             setCodingStyle(getCodingStyleFromFileType(getFileTypeFromFileExtension(fileExtension)));
+
+        } else if (file.trim().length() > 1 && !file.contains(".") && SyntaxTextAreaFX.supports(file.substring(file.lastIndexOf("/")))) {
+            // setCodingStyle();
+            setCodingStyle(getCodingStyleFromFileType(getFileTypeFromFileExtension(file.substring(file.lastIndexOf("/")))));
 
         } else {
             generatePattern();
@@ -578,22 +584,22 @@ public class SyntaxTextAreaFX {
                 language = LANGS.asp;
                 break;
             case am:
-                language=LANGS.automake;
+                language = LANGS.automake;
                 break;
             case awk:
-                language=LANGS.awk;
+                language = LANGS.awk;
                 break;
             case prg:
-                language=LANGS.bennugd;
+                language = LANGS.bennugd;
                 break;
             case bib:
-                language=LANGS.bibtex;
+                language = LANGS.bibtex;
                 break;
             case bsv:
-                language=LANGS.bluespec;
+                language = LANGS.bluespec;
                 break;
             case boo:
-                language= LANGS.boo;
+                language = LANGS.boo;
                 break;
             case c:
                 break;
@@ -621,7 +627,8 @@ public class SyntaxTextAreaFX {
                 break;
             case desktop:
                 break;
-            case diff:
+            case diff: case patch: case rej:
+                language = LANGS.diff;
                 break;
             case docbook:
                 break;
@@ -816,22 +823,22 @@ public class SyntaxTextAreaFX {
                 syntax = new Syntax(new Asp());
                 break;
             case automake:
-                syntax= new Syntax(new Automake());
+                syntax = new Syntax(new Automake());
                 break;
             case awk:
-                syntax= new Syntax(new Awk());
+                syntax = new Syntax(new Awk());
                 break;
             case bennugd:
-                syntax= new Syntax(new Bennugd());
+                syntax = new Syntax(new Bennugd());
                 break;
             case bibtex:
-                syntax= new Syntax(new Bibtex());
+                syntax = new Syntax(new Bibtex());
                 break;
             case bluespec:
-                syntax= new Syntax(new Bluespec());
+                syntax = new Syntax(new Bluespec());
                 break;
             case boo:
-                syntax= new Syntax(new Boo());
+                syntax = new Syntax(new Boo());
                 break;
             case c:
                 break;
@@ -860,6 +867,7 @@ public class SyntaxTextAreaFX {
             case desktop:
                 break;
             case diff:
+                syntax= new Syntax(new Diff());
                 break;
             case docbook:
                 break;
