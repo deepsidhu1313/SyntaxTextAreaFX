@@ -19,15 +19,15 @@
     -fx-font-weight: bold;
 }
 .storageclass {
-    -fx-fill:#FFFFFF;
+    -fx-fill:#85144b;
     -fx-font-weight: bold;
 }
 .scopedeclarations {
-    -fx-fill:#AAAAAA;
+    -fx-fill:#85144b;
     -fx-font-weight: bold;
 }
 .flow {
-    -fx-fill:#111111;
+    -fx-fill:#85144b;
     -fx-font-weight: bold;
 }
 .memory {
@@ -58,7 +58,7 @@
     -fx-font-weight: bold;
 }
 .paren {
-    -fx-fill: firebrick;
+    -fx-fill: red;
     -fx-font-weight: bold;
 }
 .bracket {
