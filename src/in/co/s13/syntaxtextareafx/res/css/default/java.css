@@ -1,7 +1,4 @@
-.string {
-    -fx-fill:#FF851B;
-    -fx-font-weight: bold;
-}
+
 .char {
     -fx-fill:#FF4136;
     -fx-font-weight: bold;
@@ -71,4 +68,8 @@
 }
 .comment {
 	-fx-fill: cadetblue;
+}
+.string {
+    -fx-fill:#FF851B;
+    -fx-font-weight: bold;
 }

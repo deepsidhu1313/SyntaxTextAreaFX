@@ -1,7 +1,0 @@
-{"cpphdr.json": {
-    "include": {"context": [
-        {"ref": "cpp:cpp-proper"},
-        {"ref": "c:c"}
-    ]},
-    "id": "cpphdr"
-}}

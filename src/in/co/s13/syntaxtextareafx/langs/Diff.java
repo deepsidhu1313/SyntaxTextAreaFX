@@ -22,17 +22,23 @@ public class Diff implements Language {
     public Pattern generatePattern() {
         Pattern pattern;
         String ADDITION_PATTERN;
-        ADDITION_PATTERN = "\\+[^\n]*" + "|" + "\\>[^\n]*";
+        ADDITION_PATTERN = "(?m)^[\\+][^\n]*$" ;
         String REM_PATTERN;
-        REM_PATTERN = "\\-[^\n]*" + "|" + "\\<[^\n]*";
+        REM_PATTERN = "(?m)^[\\-][^\n]*$";
+        String ADDITION_ALT_PATTERN;
+        ADDITION_ALT_PATTERN =  "(?m)^\\>[^\n]*$";
+        String REM_ALT_PATTERN;
+        REM_ALT_PATTERN =  "(?m)^\\<[^\n]*$";
         String DIFF_PATTERN;
-        DIFF_PATTERN = "\\%[^\n]*";
+        DIFF_PATTERN = "(?m)^\\%[^\n]*$";
         String CHANGE_PATTERN;
-        CHANGE_PATTERN = "\\![^\n]*";
-        String COMMON_PATTERN="\\@[^\n]*";
+        CHANGE_PATTERN = "(?m)^\\![^\n]*$";
+        String COMMON_PATTERN="(?m)^\\@@[^\n]*$";
         pattern = Pattern.compile(
                 "(?<ADD>" + ADDITION_PATTERN + ")"
                 + "|(?<REM>" + REM_PATTERN + ")"
+                + "|(?<ADDALT>" + ADDITION_ALT_PATTERN + ")"
+                + "|(?<REMALT>" + REM_ALT_PATTERN + ")"
                 + "|(?<DIFF>" + DIFF_PATTERN + ")"
                 + "|(?<CHANGE>" + CHANGE_PATTERN + ")"
                 + "|(?<COMMON>" + COMMON_PATTERN + ")"
@@ -44,6 +50,8 @@ public class Diff implements Language {
     public String getStyleClass(Matcher matcher) {
         return matcher.group("ADD") != null ? "add"
                 : matcher.group("REM") != null ? "rem"
+                : matcher.group("ADDALT") != null ? "add"
+                : matcher.group("REMALT") != null ? "rem"
                 : matcher.group("DIFF") != null ? "diff"
                 : matcher.group("CHANGE") != null ? "change"
                 : matcher.group("COMMON") != null ? "common"

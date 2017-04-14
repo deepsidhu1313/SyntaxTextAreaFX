@@ -18,8 +18,12 @@ import in.co.s13.syntaxtextareafx.langs.Bennugd;
 import in.co.s13.syntaxtextareafx.langs.Bibtex;
 import in.co.s13.syntaxtextareafx.langs.Bluespec;
 import in.co.s13.syntaxtextareafx.langs.Boo;
+import in.co.s13.syntaxtextareafx.langs.C;
+import in.co.s13.syntaxtextareafx.langs.Cpp;
+import in.co.s13.syntaxtextareafx.langs.CppHdr;
 import in.co.s13.syntaxtextareafx.langs.Diff;
 import in.co.s13.syntaxtextareafx.langs.Java;
+import in.co.s13.syntaxtextareafx.langs.Objc;
 import in.co.s13.syntaxtextareafx.langs.Text;
 import in.co.s13.syntaxtextareafx.meta.Generator;
 import in.co.s13.syntaxtextareafx.meta.Syntax;
@@ -109,12 +113,12 @@ public class SyntaxTextAreaFX extends CodeArea {
         public static enum FILE_TYPES {
             as, adb, ads, forth, asp, am, awk,
             prg, bib, bsv, boo, c, cg, changelog,
-            cmake, cobol, cpp, cpphdr, csharp, css, cuda, d,
+            cmake, cobol, cpp,cxx,cc,C, h, csharp, css, cuda, d,
             def, desktop, diff, patch, rej, docbook, dosbatch, dot, dpatch,
             dtd, eiffel, erlang, fcl, fortran, fsharp, gap, gdblog,
             genie, glsl, gtkdoc, gtkrc, haddock, haskell, haskellliterate,
             html, idlexelis, imagej, ini, j, jade, java, javascript, json,
-            julia, latex, lex, libtool, llvm, m4, makefile, Makefile, GNUmakefile, mallard, markdown,
+            julia, latex, lex, libtool, llvm,m, m4, makefile, Makefile, GNUmakefile, mallard, markdown,
             matlab, mediawiki, modelica, mxml, nemerle, nemo_action, netrexx,
             nsis, objj, ocaml, ocl, octave, ooc, opal, pascal, perl, php, pig,
             pkgconfig, po, protobuf, puppet, python, python3, r, rpmspec, ruby,
@@ -127,7 +131,7 @@ public class SyntaxTextAreaFX extends CodeArea {
             automake, awk, bennugd, bibtex,
             bluespec, boo, c, cg, changelog,
             chdr, cmake, cobol, cpp,
-            cpphdr, csharp, css, csv,
+             csharp, css, csv,
             cuda, d, def, desktop,
             diff, docbook, dosbatch, dot,
             dpatch, dtd, eiffel, erlang,
@@ -155,7 +159,7 @@ public class SyntaxTextAreaFX extends CodeArea {
             yacc, yaml
         };
 
-        public static String[] ALT_FILE_TYPES = new String[]{"4th", ""};
+        public static String[] ALT_FILE_TYPES = new String[]{"4th", "","c++"};
 
     }
 
@@ -317,7 +321,8 @@ public class SyntaxTextAreaFX extends CodeArea {
      * @param text sets text to SyntaxTextAreaFX
      */
     public void setText(String text) {
-        this.replaceText(0, 0, text);
+        
+        this.replaceText(0, this.getText().length(), text);
         this.getUndoManager().forgetHistory();
         this.getUndoManager().mark();
 
@@ -545,6 +550,9 @@ public class SyntaxTextAreaFX extends CodeArea {
                 case 0:
                     fileType = FILE_TYPES.forth;
                     break;
+                    case 2:
+                    fileType = FILE_TYPES.cpp;
+                    break;
 //                default:
 //                    fileType= FILE_TYPES.txt;
 //                    break;
@@ -606,6 +614,7 @@ public class SyntaxTextAreaFX extends CodeArea {
                 language = LANGS.boo;
                 break;
             case c:
+                language= LANGS.c;
                 break;
             case cg:
                 break;
@@ -615,9 +624,11 @@ public class SyntaxTextAreaFX extends CodeArea {
                 break;
             case cobol:
                 break;
-            case cpp:
+            case cpp:case cxx:case cc:case C:
+                language=LANGS.cpp;
                 break;
-            case cpphdr:
+            case h:
+                language=LANGS.chdr;
                 break;
             case csharp:
                 break;
@@ -705,6 +716,10 @@ public class SyntaxTextAreaFX extends CodeArea {
             case libtool:
                 break;
             case llvm:
+                break;
+            case m:
+                language = LANGS.objc;
+                
                 break;
             case m4:
                 break;
@@ -853,6 +868,8 @@ public class SyntaxTextAreaFX extends CodeArea {
                 syntax = new Syntax(new Boo());
                 break;
             case c:
+                syntax = new Syntax(new C());
+                
                 break;
             case cg:
                 break;
@@ -863,8 +880,12 @@ public class SyntaxTextAreaFX extends CodeArea {
             case cobol:
                 break;
             case cpp:
+                syntax = new Syntax(new Cpp());
+                
                 break;
-            case cpphdr:
+            case chdr:
+                syntax = new Syntax(new CppHdr());
+                
                 break;
             case csharp:
                 break;
@@ -974,6 +995,10 @@ public class SyntaxTextAreaFX extends CodeArea {
             case netrexx:
                 break;
             case nsis:
+                break;
+            case objc:
+                syntax = new Syntax(new Objc());
+                
                 break;
             case objj:
                 break;

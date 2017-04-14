@@ -22,7 +22,7 @@ public class SyntaxTextArea extends Application {
     
     @Override
     public void start(Stage primaryStage) {
-        SyntaxTextAreaFX ta= new SyntaxTextAreaFX("test/HelloWorld.java");
+        SyntaxTextAreaFX ta= new SyntaxTextAreaFX("test/test.diff");
         
         StackPane root = new StackPane();
         root.getChildren().add(ta.getNode());

@@ -82,3 +82,10 @@
     -fx-fill:#FFDC00;
     -fx-font-weight: bold;
 }
+.comment {
+	-fx-fill: cadetblue;
+}
+.string {
+    -fx-fill:#FF851B;
+    -fx-font-weight: bold;
+}
