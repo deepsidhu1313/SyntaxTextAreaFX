@@ -19,9 +19,26 @@ import java.util.Collections;
 public class C implements Language {
 
     String KEYWORDS[] = new String[]{"asm", "break", "case", "continue", "default", "do", "else", "enum", "for", "fortran", "goto", "if", "return", "struct", "switch", "typedef", "union", "while"};
-    String OPERATORS[] = new String[]{"(_A|a)lignof", "_Generic", "offsetof", "(_S|s)tatic_assert", "sizeof", "typeof"};
-    String TYPES[] = new String[]{"_Bool", "_Complex", "_Imaginary", "bool", "char", "char(16|32)_t", "double", "float", "int", "(u)?int(_least|_fast)?(8|16|32|64)_t", "(u)?intmax_t", "(u)?intptr_t", "long", "ptrdiff_t", "off(64)?_t", "short", "signed", "size_t", "ssize_t", "unsigned", "void", "wchar_t", "wint_t"};
-    String STORAGE_CLASS[] = new String[]{"(_A|a)lignas", "_Atomic", "(_N|n)oreturn", "(_T|t)hread_local", "auto", "const", "extern", "inline", "register", "restrict", "static", "volatile"};
+    String OPERATORS[] = new String[]{"alignof","_Alignof", "_Generic", "offsetof", "static_assert","_Static_assert", "sizeof", "typeof"};
+    String TYPES[] = new String[]{"_Bool", "_Complex", "_Imaginary", "bool", "char", "char16_t","char32_t", "double", "float", "int", 
+        "int_least8_t",
+        "int_least16_t",
+        "int_least32_t",
+        "int_least64_t",
+        "int_fast8_t",
+        "int_fast16_t",
+        "int_fast32_t",
+        "int_fast64_t",
+        "uint_least8_t",
+        "uint_least16_t",
+        "uint_least32_t",
+        "uint_least64_t",
+        "uint_fast8_t",
+        "uint_fast16_t",
+        "uint_fast32_t",
+        "uint_fast64_t",
+         "intmax_t","uintmax_t", "uintptr_t","intptr_t", "long", "ptrdiff_t", "off_t","off64_t", "short", "signed", "size_t", "ssize_t", "unsigned", "void", "wchar_t", "wint_t"};
+    String STORAGE_CLASS[] = new String[]{"_Alignas","alignas", "_Atomic", "noreturn","_Noreturn", "thread_local","_Thread_local", "auto", "const", "extern", "inline", "register", "restrict", "static", "volatile"};
     String BOOLEAN[] = new String[]{"true", "false"};
 
     String COMMON_DEFINES[] = new String[]{"null", "MAX", "MIN", "true", "false", "__LINE__", "__DATA__", "__FILE__", "__func__", "__TIME__", "__STDC__"};
@@ -53,7 +70,7 @@ public class C implements Language {
         COMMENT_PATTERN = "//[^\n]*" + "|" + "/\\*(.|\\R)*?\\*/";
 
         pattern = Pattern.compile(
-                "|(?<KEYWORDS>" + KEYWORDS_PATTERN + ")"
+                "(?<KEYWORDS>" + KEYWORDS_PATTERN + ")"
                 + "|(?<OPERATORS>" + OPERATORS_PATTERN + ")"
                 + "|(?<TYPES>" + TYPES_PATTERN + ")"
                 + "|(?<STORAGECLASS>" + STORAGE_CLASS_PATTERN + ")"
@@ -69,8 +86,7 @@ public class C implements Language {
 
     @Override
     public String getStyleClass(Matcher matcher) {
-        return matcher.group("DECLARATIONS") != null ? "declarations"
-                : matcher.group("KEYWORDS") != null ? "keywords"
+        return  matcher.group("KEYWORDS") != null ? "keywords"
                 : matcher.group("OPERATORS") != null ? "operators"
                 : matcher.group("TYPES") != null ? "types"
                 : matcher.group("STORAGECLASS") != null ? "storage-class"

@@ -83,7 +83,7 @@ public class Objc implements Language {
         COMMENT_PATTERN = "//[^\n]*" + "|" + "/\\*(.|\\R)*?\\*/";
 
         pattern = Pattern.compile(
-                "|(?<KEYWORDS>" + KEYWORDS_PATTERN + ")"
+                "(?<KEYWORDS>" + KEYWORDS_PATTERN + ")"
                 + "|(?<OPERATORS>" + OPERATORS_PATTERN + ")"
                 + "|(?<TYPES>" + TYPES_PATTERN + ")"
                 + "|(?<STORAGECLASS>" + STORAGE_CLASS_PATTERN + ")"
@@ -99,8 +99,7 @@ public class Objc implements Language {
 
     @Override
     public String getStyleClass(Matcher matcher) {
-        return matcher.group("DECLARATIONS") != null ? "declarations"
-                : matcher.group("KEYWORDS") != null ? "keywords"
+        return  matcher.group("KEYWORDS") != null ? "keywords"
                 : matcher.group("OPERATORS") != null ? "operators"
                 : matcher.group("TYPES") != null ? "types"
                 : matcher.group("STORAGECLASS") != null ? "storage-class"

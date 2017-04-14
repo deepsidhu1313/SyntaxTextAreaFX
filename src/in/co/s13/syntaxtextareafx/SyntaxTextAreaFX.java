@@ -113,12 +113,12 @@ public class SyntaxTextAreaFX extends CodeArea {
         public static enum FILE_TYPES {
             as, adb, ads, forth, asp, am, awk,
             prg, bib, bsv, boo, c, cg, changelog,
-            cmake, cobol, cpp,cxx,cc,C, h, csharp, css, cuda, d,
+            cmake, cobol, cpp, cxx, cc, C, h, csharp, css, cuda, d,
             def, desktop, diff, patch, rej, docbook, dosbatch, dot, dpatch,
             dtd, eiffel, erlang, fcl, fortran, fsharp, gap, gdblog,
             genie, glsl, gtkdoc, gtkrc, haddock, haskell, haskellliterate,
             html, idlexelis, imagej, ini, j, jade, java, javascript, json,
-            julia, latex, lex, libtool, llvm,m, m4, makefile, Makefile, GNUmakefile, mallard, markdown,
+            julia, latex, lex, libtool, llvm, m, m4, makefile, Makefile, GNUmakefile, mallard, markdown,
             matlab, mediawiki, modelica, mxml, nemerle, nemo_action, netrexx,
             nsis, objj, ocaml, ocl, octave, ooc, opal, pascal, perl, php, pig,
             pkgconfig, po, protobuf, puppet, python, python3, r, rpmspec, ruby,
@@ -131,7 +131,7 @@ public class SyntaxTextAreaFX extends CodeArea {
             automake, awk, bennugd, bibtex,
             bluespec, boo, c, cg, changelog,
             chdr, cmake, cobol, cpp,
-             csharp, css, csv,
+            csharp, css, csv,
             cuda, d, def, desktop,
             diff, docbook, dosbatch, dot,
             dpatch, dtd, eiffel, erlang,
@@ -159,7 +159,7 @@ public class SyntaxTextAreaFX extends CodeArea {
             yacc, yaml
         };
 
-        public static String[] ALT_FILE_TYPES = new String[]{"4th", "","c++"};
+        public static String[] ALT_FILE_TYPES = new String[]{"4th", "", "c++"};
 
     }
 
@@ -260,17 +260,17 @@ public class SyntaxTextAreaFX extends CodeArea {
 //                .subscribe(this::applyHighlighting);
         String fileExtension = "";
         if (file.trim().length() > 1 && file.contains(".")) {
-            fileExtension = file.substring(file.lastIndexOf(".") + 1).trim().toLowerCase();
+            fileExtension = file.substring(file.lastIndexOf(".") + 1).trim();
         } else if (file.trim().length() > 1 && (!file.contains("."))) {
             fileExtension = new File(file).getName();
 // setCodingStyle(getCodingStyleFromFileType(getFileTypeFromSpecialFileName(new File(file).getName())));
 
         }
-       // System.out.println("File Extension is: "+fileExtension+" for "+file);
+        // System.out.println("File Extension is: "+fileExtension+" for "+file);
         if (file.trim().length() > 1 && file.contains(".") && SyntaxTextAreaFX.supports(fileExtension)) {
             // setCodingStyle();
             setCodingStyle(getCodingStyleFromFileType(getFileTypeFromFileExtension(fileExtension)));
-          //  System.out.println("1");
+//              System.out.println("1");
         } //        else if (file.trim().length() > 1 && !file.contains(".") && SyntaxTextAreaFX.supports(file.substring(file.lastIndexOf("/")))) {
         //            // setCodingStyle();
         //            setCodingStyle(getCodingStyleFromFileType(getFileTypeFromFileExtension(file.substring(file.lastIndexOf("/")))));
@@ -280,8 +280,8 @@ public class SyntaxTextAreaFX extends CodeArea {
             setCodingStyle(getCodingStyleFromFileType(FILE_TYPES.text));
             generatePattern();
 //            codeArea.getStylesheets().add(SyntaxTextAreaFX.class.getResource("res/css/default/java.css").toExternalForm());
-      //   System.out.println("12");
-   
+//               System.out.println("12");
+
         }
         this.richChanges()
                 .filter(ch -> !ch.getInserted().equals(ch.getRemoved())) // XXX
@@ -321,7 +321,7 @@ public class SyntaxTextAreaFX extends CodeArea {
      * @param text sets text to SyntaxTextAreaFX
      */
     public void setText(String text) {
-        
+
         this.replaceText(0, this.getText().length(), text);
         this.getUndoManager().forgetHistory();
         this.getUndoManager().mark();
@@ -422,7 +422,7 @@ public class SyntaxTextAreaFX extends CodeArea {
         } else {
             this.getStylesheets().add(readFile(externalThemePath + "/" + getCodingStyle() + ".css"));
         }
-//        System.out.println(""+this.getStylesheets().toString());
+        System.out.println(""+this.getStylesheets().toString());
         loadLanguage();
         loadKeywordSuggestions();
         generatePattern();
@@ -533,6 +533,7 @@ public class SyntaxTextAreaFX extends CodeArea {
         while (matcher.find()) {
             String styleClass
                     = getStyleClass(matcher);
+            System.out.println(styleClass);
             /* never happens */ assert styleClass != null;
             spansBuilder.add(Collections.emptyList(), matcher.start() - lastKwEnd);
             spansBuilder.add(Collections.singleton(styleClass), matcher.end() - matcher.start());
@@ -550,7 +551,7 @@ public class SyntaxTextAreaFX extends CodeArea {
                 case 0:
                     fileType = FILE_TYPES.forth;
                     break;
-                    case 2:
+                case 2:
                     fileType = FILE_TYPES.cpp;
                     break;
 //                default:
@@ -614,7 +615,7 @@ public class SyntaxTextAreaFX extends CodeArea {
                 language = LANGS.boo;
                 break;
             case c:
-                language= LANGS.c;
+                language = LANGS.c;
                 break;
             case cg:
                 break;
@@ -624,12 +625,13 @@ public class SyntaxTextAreaFX extends CodeArea {
                 break;
             case cobol:
                 break;
-            case cpp:case cxx:case cc:case C:
-                language=LANGS.cpp;
+            case cpp:
+            case cxx:
+            case cc:
+            case C:
+                language = LANGS.cpp;
                 break;
-            case h:
-                language=LANGS.chdr;
-                break;
+            
             case csharp:
                 break;
             case css:
@@ -682,6 +684,9 @@ public class SyntaxTextAreaFX extends CodeArea {
                 break;
             case gtkrc:
                 break;
+            case h:
+                language = LANGS.chdr;
+                break;
             case haddock:
                 break;
             case haskell:
@@ -719,7 +724,7 @@ public class SyntaxTextAreaFX extends CodeArea {
                 break;
             case m:
                 language = LANGS.objc;
-                
+
                 break;
             case m4:
                 break;
@@ -869,7 +874,7 @@ public class SyntaxTextAreaFX extends CodeArea {
                 break;
             case c:
                 syntax = new Syntax(new C());
-                
+
                 break;
             case cg:
                 break;
@@ -881,11 +886,11 @@ public class SyntaxTextAreaFX extends CodeArea {
                 break;
             case cpp:
                 syntax = new Syntax(new Cpp());
-                
+
                 break;
             case chdr:
                 syntax = new Syntax(new CppHdr());
-                
+
                 break;
             case csharp:
                 break;
@@ -955,7 +960,7 @@ public class SyntaxTextAreaFX extends CodeArea {
             case jade:
                 break;
             case java:
-                 syntax = new Syntax(new Java());
+                syntax = new Syntax(new Java());
                 break;
             case javascript:
                 break;
@@ -998,7 +1003,7 @@ public class SyntaxTextAreaFX extends CodeArea {
                 break;
             case objc:
                 syntax = new Syntax(new Objc());
-                
+
                 break;
             case objj:
                 break;
