@@ -1,0 +1,73 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package in.co.s13.syntaxtextareafx.langs;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import in.co.s13.syntaxtextareafx.meta.Language;
+import java.util.Collections;
+
+/**
+ *
+ * @author nika
+ */
+public class D implements Language {
+
+    String KEYWORDS[] = new String[]{"abstract", "align", "asm", "assert", "body", "break", "case", "cast", "catch", "continue", "debug", "default", "delegate", "delete", "deprecated", "do", "else", "final", "finally", "for", "foreach", "function", "goto", "if", "import", "in", "inout", "is", "mixin", "new", "out", "override", "pragma", "private", "protected", "public", "ref", "return", "scope", "super", "switch", "synchronized", "this", "throw", "try", "typeid", "typeof", "unittest", "version", "while", "with", "lazy", "pure", "nothrow"};
+    String TYPES[] = new String[]{"alias", "bool", "byte", "cdouble", "cent", "cfloat", "char", "class", "creal", "dchar", "double", "enum", "export", "float", "idouble", "ifloat", "int", "interface", "invariant", "ireal", "long", "module", "package", "ptrdiff_t", "real", "short", "size_t", "struct", "template", "typedef", "ubyte", "ucent", "uint", "ulong", "union", "ushort", "void", "wchar", "auto", "const", "extern", "static", "volatile", "__gshared", "__traits", "__vector", "__parameters", "shared", "string", "dstring", "wstring", "immutable"};
+    String SPECIAL_TOKENS[] = new String[]{"#line", "__DATE__", "__FILE__", "__FUNCTION__", "__LINE__", "__MODULE__", "__PRETTY_FUNCTION__", "__TIME__", "__TIMESTAMP__", "__VENDOR__", "__VERSION__"};
+    String NULL_VALUE[] = new String[]{"null"};
+    String BOOLEAN[] = new String[]{"false", "true"};
+
+    @Override
+    public Pattern generatePattern() {
+        String STRING_PATTERN = "\"[^\"\\\\]*+(?:\\\\.[^\"\\\\]*+)*+\"|'[^'\\\\]*+(?:\\\\.[^'\\\\]*+)*+'";
+        String COMMENT_PATTERN = "\\Q//\\E[^\\n]*|\\Q/*\\E[\\s\\S]*?\\Q*/\\E";
+        String KEYWORDS_PATTERN = "\\b(" + String.join("|", KEYWORDS) + ")\\b";
+        String TYPES_PATTERN = "\\b(" + String.join("|", TYPES) + ")\\b";
+        String SPECIAL_TOKENS_PATTERN = "\\b(" + String.join("|", SPECIAL_TOKENS) + ")\\b";
+        String NULL_VALUE_PATTERN = "\\b(" + String.join("|", NULL_VALUE) + ")\\b";
+        String BOOLEAN_PATTERN = "\\b(" + String.join("|", BOOLEAN) + ")\\b";
+
+        Pattern pattern = Pattern.compile(
+                "(?<STRING>" + STRING_PATTERN + ")"
+                + "|(?<COMMENT>" + COMMENT_PATTERN + ")"
+                + "|(?<KEYWORDS>" + KEYWORDS_PATTERN + ")"
+                + "|(?<TYPES>" + TYPES_PATTERN + ")"
+                + "|(?<SPECIALTOKENS>" + SPECIAL_TOKENS_PATTERN + ")"
+                + "|(?<NULLVALUE>" + NULL_VALUE_PATTERN + ")"
+                + "|(?<BOOLEAN>" + BOOLEAN_PATTERN + ")"
+        );
+        return pattern;
+    }
+
+    @Override
+    public String getStyleClass(Matcher matcher) {
+        return matcher.group("STRING") != null ? "string"
+                : matcher.group("COMMENT") != null ? "comment"
+                : matcher.group("KEYWORDS") != null ? "keywords"
+                : matcher.group("TYPES") != null ? "types"
+                : matcher.group("SPECIALTOKENS") != null ? "special-tokens"
+                : matcher.group("NULLVALUE") != null ? "null-value"
+                : matcher.group("BOOLEAN") != null ? "boolean"
+                : null;
+    }
+
+    @Override
+    public ArrayList<String> getKeywords() {
+        ArrayList<String> keywordList = new ArrayList<>();
+        keywordList.addAll(Arrays.asList(KEYWORDS));
+        keywordList.addAll(Arrays.asList(TYPES));
+        keywordList.addAll(Arrays.asList(SPECIAL_TOKENS));
+        keywordList.addAll(Arrays.asList(NULL_VALUE));
+        keywordList.addAll(Arrays.asList(BOOLEAN));
+        Collections.sort(keywordList);
+        return keywordList;
+    }
+
+}

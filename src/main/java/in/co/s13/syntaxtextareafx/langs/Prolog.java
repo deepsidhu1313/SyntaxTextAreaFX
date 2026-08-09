@@ -1,0 +1,63 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package in.co.s13.syntaxtextareafx.langs;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import in.co.s13.syntaxtextareafx.meta.Language;
+import java.util.Collections;
+
+/**
+ *
+ * @author nika
+ */
+public class Prolog implements Language {
+
+    String OPERATORS[] = new String[]{"=", "==", "=\\\\=", "=:=", "\\|", "<", ">", "=<", ">=", "\\\\=", "\\\\==", "\\\\\\+"};
+    String ARITH[] = new String[]{"mod", "div", "abs", "exp", "ln", "log", "sqrt", "round", "trunc", "val", "cos", "sin", "tan", "arctan", "random", "randominit"};
+    String KEYWORD[] = new String[]{"module", "meta_predicate", "multifile", "dynamic", "abolish", "current_output", "peek_code", "append", "current_predicate", "put_byte", "arg", "current_prolog_flag", "put_char", "asserta", "assert", "fail", "put_code", "assertz", "findall", "read", "at_end_of_stream", "float", "read_term", "atom", "flush_output", "repeat", "atom_chars", "functor", "retract", "atom_codes", "get_byte", "set_input", "atom_concat", "get_char", "set_output", "atom_length", "get_code", "set_prolog_flag", "atomic", "halt", "set_stream_position", "bagof", "integer", "setof", "call", "is", "stream_property", "catch", "nl", "sub_atom", "char_code", "nonvar", "throw", "char_conversion", "number", "clause", "number_chars", "unify_with_occurs_check", "close", "number_codes", "var", "compound", "once", "copy_term", "op", "write", "writeln", "write_canonical", "write_term", "writeq", "current_char_conversion", "open", "current_input", "peek_byte", "current_op", "peek_char", "false", "true", "consult", "member", "memberchk", "reverse", "permutation", "delete"};
+
+    @Override
+    public Pattern generatePattern() {
+        String STRING_PATTERN = "\"[^\"\\\\]*+(?:\\\\.[^\"\\\\]*+)*+\"|'[^'\\\\]*+(?:\\\\.[^'\\\\]*+)*+'";
+        String COMMENT_PATTERN = "\\Q%\\E[^\\n]*|\\Q/*\\E[\\s\\S]*?\\Q*/\\E";
+        String OPERATORS_PATTERN = "\\b(" + String.join("|", OPERATORS) + ")\\b";
+        String ARITH_PATTERN = "\\b(" + String.join("|", ARITH) + ")\\b";
+        String KEYWORD_PATTERN = "\\b(" + String.join("|", KEYWORD) + ")\\b";
+
+        Pattern pattern = Pattern.compile(
+                "(?<STRING>" + STRING_PATTERN + ")"
+                + "|(?<COMMENT>" + COMMENT_PATTERN + ")"
+                + "|(?<OPERATORS>" + OPERATORS_PATTERN + ")"
+                + "|(?<ARITH>" + ARITH_PATTERN + ")"
+                + "|(?<KEYWORD>" + KEYWORD_PATTERN + ")"
+        );
+        return pattern;
+    }
+
+    @Override
+    public String getStyleClass(Matcher matcher) {
+        return matcher.group("STRING") != null ? "string"
+                : matcher.group("COMMENT") != null ? "comment"
+                : matcher.group("OPERATORS") != null ? "operators"
+                : matcher.group("ARITH") != null ? "arith"
+                : matcher.group("KEYWORD") != null ? "keyword"
+                : null;
+    }
+
+    @Override
+    public ArrayList<String> getKeywords() {
+        ArrayList<String> keywordList = new ArrayList<>();
+        keywordList.addAll(Arrays.asList(OPERATORS));
+        keywordList.addAll(Arrays.asList(ARITH));
+        keywordList.addAll(Arrays.asList(KEYWORD));
+        Collections.sort(keywordList);
+        return keywordList;
+    }
+
+}

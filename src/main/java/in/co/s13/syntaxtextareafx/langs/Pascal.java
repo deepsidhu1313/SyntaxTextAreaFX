@@ -1,0 +1,93 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package in.co.s13.syntaxtextareafx.langs;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import in.co.s13.syntaxtextareafx.meta.Language;
+import java.util.Collections;
+
+/**
+ *
+ * @author nika
+ */
+public class Pascal implements Language {
+
+    String GENERAL_FORMAT[] = new String[]{"Program", "Library", "Unit", "Uses", "Interface", "Implementation", "Initialization", "Finalization", "Begin", "End", "Var", "Const"};
+    String FUNCTIONS_AND_FUNCTION_MODIFIERS[] = new String[]{"Function", "Procedure", "Overload", "cdecl"};
+    String BOOLEAN_BITWISE_OPERATORS[] = new String[]{"if", "then", "else", "is", "and", "and_then", "not", "or", "or_else", "xor", "shr", "shl", "otherwise"};
+    String MATH_OPERATORS[] = new String[]{"div", "mod"};
+    String LOOP_FLOW_AND_EXCEPTIONS_KEYWORDS[] = new String[]{"while", "do", "for", "to", "case", "of", "repeat", "until", "break", "continue", "try", "except", "finally", "raise", "downto", "in"};
+    String TYPE_CLASS_AND_OBJECT_KEYWORDS[] = new String[]{"Type", "Packed", "Array", "Record", "Object", "Class", "Interface", "Public", "Private", "Protected", "Constructor", "Destructor", "Virtual", "Abstract", "Override", "Property", "ReadLn", "Read", "WriteLn", "Write", "default", "With", "As", "self", "Inherited", "Forward", "Implements", "varargs", "far", "near", "absolute", "all", "asm", "attribute", "bindable", "export", "exports", "external", "file", "goto", "import", "interrupt", "published", "qualified", "resident", "restricted", "segment", "set", "value"};
+    String BUILTIN_TYPES[] = new String[]{"Char", "String", "Integer", "Real", "Boolean", "Pointer", "Byte", "LongInt"};
+    String BUILTIN_FUNCTIONS[] = new String[]{"chr", "ord", "succ", "pred", "abs", "round", "trunc", "sqr", "sqrt", "arctan", "cos", "sin", "exp", "ln", "odd", "eof", "eoln", "pow"};
+    String BUILTIN_VALUES[] = new String[]{"nil", "false", "true"};
+
+    @Override
+    public Pattern generatePattern() {
+        String STRING_PATTERN = "\"[^\"\\\\]*+(?:\\\\.[^\"\\\\]*+)*+\"|'[^'\\\\]*+(?:\\\\.[^'\\\\]*+)*+'";
+        String COMMENT_PATTERN = "\\Q//\\E[^\\n]*";
+        String GENERAL_FORMAT_PATTERN = "\\b(" + String.join("|", GENERAL_FORMAT) + ")\\b";
+        String FUNCTIONS_AND_FUNCTION_MODIFIERS_PATTERN = "\\b(" + String.join("|", FUNCTIONS_AND_FUNCTION_MODIFIERS) + ")\\b";
+        String BOOLEAN_BITWISE_OPERATORS_PATTERN = "\\b(" + String.join("|", BOOLEAN_BITWISE_OPERATORS) + ")\\b";
+        String MATH_OPERATORS_PATTERN = "\\b(" + String.join("|", MATH_OPERATORS) + ")\\b";
+        String LOOP_FLOW_AND_EXCEPTIONS_KEYWORDS_PATTERN = "\\b(" + String.join("|", LOOP_FLOW_AND_EXCEPTIONS_KEYWORDS) + ")\\b";
+        String TYPE_CLASS_AND_OBJECT_KEYWORDS_PATTERN = "\\b(" + String.join("|", TYPE_CLASS_AND_OBJECT_KEYWORDS) + ")\\b";
+        String BUILTIN_TYPES_PATTERN = "\\b(" + String.join("|", BUILTIN_TYPES) + ")\\b";
+        String BUILTIN_FUNCTIONS_PATTERN = "\\b(" + String.join("|", BUILTIN_FUNCTIONS) + ")\\b";
+        String BUILTIN_VALUES_PATTERN = "\\b(" + String.join("|", BUILTIN_VALUES) + ")\\b";
+
+        Pattern pattern = Pattern.compile(
+                "(?<STRING>" + STRING_PATTERN + ")"
+                + "|(?<COMMENT>" + COMMENT_PATTERN + ")"
+                + "|(?<GENERALFORMAT>" + GENERAL_FORMAT_PATTERN + ")"
+                + "|(?<FUNCTIONSANDFUNCTIONMODIFIERS>" + FUNCTIONS_AND_FUNCTION_MODIFIERS_PATTERN + ")"
+                + "|(?<BOOLEANBITWISEOPERATORS>" + BOOLEAN_BITWISE_OPERATORS_PATTERN + ")"
+                + "|(?<MATHOPERATORS>" + MATH_OPERATORS_PATTERN + ")"
+                + "|(?<LOOPFLOWANDEXCEPTIONSKEYWORDS>" + LOOP_FLOW_AND_EXCEPTIONS_KEYWORDS_PATTERN + ")"
+                + "|(?<TYPECLASSANDOBJECTKEYWORDS>" + TYPE_CLASS_AND_OBJECT_KEYWORDS_PATTERN + ")"
+                + "|(?<BUILTINTYPES>" + BUILTIN_TYPES_PATTERN + ")"
+                + "|(?<BUILTINFUNCTIONS>" + BUILTIN_FUNCTIONS_PATTERN + ")"
+                + "|(?<BUILTINVALUES>" + BUILTIN_VALUES_PATTERN + ")"
+        );
+        return pattern;
+    }
+
+    @Override
+    public String getStyleClass(Matcher matcher) {
+        return matcher.group("STRING") != null ? "string"
+                : matcher.group("COMMENT") != null ? "comment"
+                : matcher.group("GENERALFORMAT") != null ? "general-format"
+                : matcher.group("FUNCTIONSANDFUNCTIONMODIFIERS") != null ? "functions-and-function-modifiers"
+                : matcher.group("BOOLEANBITWISEOPERATORS") != null ? "boolean-bitwise-operators"
+                : matcher.group("MATHOPERATORS") != null ? "math-operators"
+                : matcher.group("LOOPFLOWANDEXCEPTIONSKEYWORDS") != null ? "loop-flow-and-exceptions-keywords"
+                : matcher.group("TYPECLASSANDOBJECTKEYWORDS") != null ? "type-class-and-object-keywords"
+                : matcher.group("BUILTINTYPES") != null ? "builtin-types"
+                : matcher.group("BUILTINFUNCTIONS") != null ? "builtin-functions"
+                : matcher.group("BUILTINVALUES") != null ? "builtin-values"
+                : null;
+    }
+
+    @Override
+    public ArrayList<String> getKeywords() {
+        ArrayList<String> keywordList = new ArrayList<>();
+        keywordList.addAll(Arrays.asList(GENERAL_FORMAT));
+        keywordList.addAll(Arrays.asList(FUNCTIONS_AND_FUNCTION_MODIFIERS));
+        keywordList.addAll(Arrays.asList(BOOLEAN_BITWISE_OPERATORS));
+        keywordList.addAll(Arrays.asList(MATH_OPERATORS));
+        keywordList.addAll(Arrays.asList(LOOP_FLOW_AND_EXCEPTIONS_KEYWORDS));
+        keywordList.addAll(Arrays.asList(TYPE_CLASS_AND_OBJECT_KEYWORDS));
+        keywordList.addAll(Arrays.asList(BUILTIN_TYPES));
+        keywordList.addAll(Arrays.asList(BUILTIN_FUNCTIONS));
+        keywordList.addAll(Arrays.asList(BUILTIN_VALUES));
+        Collections.sort(keywordList);
+        return keywordList;
+    }
+
+}

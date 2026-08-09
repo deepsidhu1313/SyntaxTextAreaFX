@@ -1,0 +1,53 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package in.co.s13.syntaxtextareafx.langs;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import in.co.s13.syntaxtextareafx.meta.Language;
+import java.util.Collections;
+
+/**
+ *
+ * @author nika
+ */
+public class Gap implements Language {
+
+    String KEYWORD[] = new String[]{"and", "break", "continue", "do", "elif", "else", "end", "fail", "false", "fi", "for", "function", "if", "in", "infinity", "local", "not", "od", "or", "rec", "repeat", "return", "then", "true", "until", "while"};
+
+    @Override
+    public Pattern generatePattern() {
+        String STRING_PATTERN = "\"[^\"\\\\]*+(?:\\\\.[^\"\\\\]*+)*+\"|'[^'\\\\]*+(?:\\\\.[^'\\\\]*+)*+'";
+        String COMMENT_PATTERN = "\\Q#\\E[^\\n]*";
+        String KEYWORD_PATTERN = "\\b(" + String.join("|", KEYWORD) + ")\\b";
+
+        Pattern pattern = Pattern.compile(
+                "(?<STRING>" + STRING_PATTERN + ")"
+                + "|(?<COMMENT>" + COMMENT_PATTERN + ")"
+                + "|(?<KEYWORD>" + KEYWORD_PATTERN + ")"
+        );
+        return pattern;
+    }
+
+    @Override
+    public String getStyleClass(Matcher matcher) {
+        return matcher.group("STRING") != null ? "string"
+                : matcher.group("COMMENT") != null ? "comment"
+                : matcher.group("KEYWORD") != null ? "keyword"
+                : null;
+    }
+
+    @Override
+    public ArrayList<String> getKeywords() {
+        ArrayList<String> keywordList = new ArrayList<>();
+        keywordList.addAll(Arrays.asList(KEYWORD));
+        Collections.sort(keywordList);
+        return keywordList;
+    }
+
+}

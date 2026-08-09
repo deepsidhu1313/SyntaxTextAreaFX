@@ -48,62 +48,86 @@ public class Generator {
         File files[] = f.listFiles((File dir, String name) -> name.toLowerCase().endsWith(".json"));
         for (int i = 0; i < files.length; i++) {
             File file = files[i];
+            String baseName = file.getName().substring(0, file.getName().lastIndexOf("."));
+            String className = toClassName(baseName);
 
-            String className = file.getName().substring(0, file.getName().indexOf("."));
+            JSONObject rules = new JSONObject(readFile(file.getAbsolutePath()));
+            JSONObject language = rules.getJSONObject("language");
+            JSONObject metadata = language.optJSONObject("metadata");
+            if (metadata == null) {
+                metadata = new JSONObject();
+            }
 
-            StringBuilder javaContent = new StringBuilder();
+            ArrayList<JSONObject> contexts = new ArrayList<>();
+            Object arr2 = language.getJSONObject("definitions").get("context");
+            if (arr2 instanceof JSONArray) {
+                JSONArray arr = (JSONArray) arr2;
+                for (int j = 0; j < arr.length(); j++) {
+                    contexts.add(arr.getJSONObject(j));
+                }
+            } else if (arr2 instanceof JSONObject) {
+                contexts.add((JSONObject) arr2);
+            }
 
             StringBuilder arrayDecs = new StringBuilder();
             StringBuilder patternDecs = new StringBuilder();
-            StringBuilder patternInits = new StringBuilder();
-            StringBuilder patternCompiles = new StringBuilder();
-            StringBuilder matcherStrings = new StringBuilder();
             StringBuilder addVartoArrayLists = new StringBuilder();
+            ArrayList<String> groupClauses = new ArrayList<>();
+            ArrayList<String> matcherClauses = new ArrayList<>();
 
-            JSONObject rules = new JSONObject(readFile(file.getAbsolutePath()));
-            Object arr2 = rules.getJSONObject("language").getJSONObject("definitions").get("context");
-            if (arr2 instanceof JSONArray) {
-                JSONArray arr = (JSONArray) (arr2);
-                for (int j = 0; j < arr.length(); j++) {
-                    JSONObject arg = arr.getJSONObject(j);
-                    if (arg.has("keyword")) {
-                        String arrayName = arg.get("id").toString().toUpperCase().replaceAll("-", "_");
-                        String arrayContent = arg.get("keyword").toString();//.substring(1, arg.get("keyword").toString().length()-1);
-                        String arrayDec = "    String " + arrayName + "[] = new String[]{" + arrayContent + "};\n";
-                        arrayDecs.append(arrayDec);
-                        String patternDec = "        String " + arrayName + "_PATTERN;\n";
-                        patternDecs.append(patternDec);
-                        String patternInit = "        " + arrayName + "_PATTERN = \"\\\\b(\" + String.join(\"|\", " + arrayName + ") + \")\\\\b\";\n";
-                        patternInits.append(patternInit);
-                        String patternCompile = "                + \"|(?<" + arrayName.replaceAll("_", "") + ">\" + " + arrayName + "_PATTERN + \")\"\n";
-                        patternCompiles.append(patternCompile);
-                        String matcherString = "                : matcher.group(\"" + arrayName.replaceAll("_", "") + "\") != null ? \"" + arrayName.toLowerCase().replaceAll("_", "-") + "\"\n";
-                        matcherStrings.append(matcherString);
-                        String addVartoArrayList = "        keywordList.addAll(Arrays.asList(" + arrayName + "));\n";
-                        addVartoArrayLists.append(addVartoArrayList);
-                    }
+            for (JSONObject arg : contexts) {
+                if (!arg.has("keyword") || !arg.has("id")) {
+                    continue;
                 }
+                String keywordContent = keywordArrayLiteral(arg.get("keyword"));
+                if (keywordContent.isEmpty()) {
+                    continue;
+                }
+                String arrayName = toFieldName(arg.get("id").toString());
+                String groupName = arrayName.replaceAll("_", "");
 
-            } else {
-                JSONObject arg = ((JSONObject) arr2);
-                if (arg.has("keyword")) {
-                    String arrayName = arg.getString("id").toUpperCase().replaceAll("-", "_");
-                    String arrayContent = arg.get("keyword").toString();
-                    String arrayDec = "    String " + arrayName + "[] = new String[]{" + arrayContent + "}\n";
-                    arrayDecs.append(arrayDec);
-                    String patternDec = "        String " + arrayName + "_PATTERN;\n";
-                    patternDecs.append(patternDec);
-                    String patternInit = "        " + arrayName + "_PATTERN = \"\\\\b(\" + String.join(\"|\", " + arrayName + ") + \")\\\\b\";\n";
-                    patternInits.append(patternInit);
-                    String patternCompile = "                + \"|(?<" + arrayName.replaceAll("_", "") + ">\" + " + arrayName + "_PATTERN + \")\"\n";
-                    patternCompiles.append(patternCompile);
-                    String matcherString = "                : matcher.group(\"" + arrayName.replaceAll("_", "") + "\") != null ? \"" + arrayName.toLowerCase().replaceAll("_", "-") + "\"\n";
-                    matcherStrings.append(matcherString);
-                    String addVartoArrayList = "        keywordList.addAll(Arrays.asList(" + arrayName + "));\n";
-                    addVartoArrayLists.append(addVartoArrayList);
-                }
+                arrayDecs.append("    String ").append(arrayName).append("[] = new String[]{")
+                        .append(keywordContent).append("};\n");
+                patternDecs.append("        String ").append(arrayName)
+                        .append("_PATTERN = \"\\\\b(\" + String.join(\"|\", ").append(arrayName)
+                        .append(") + \")\\\\b\";\n");
+                groupClauses.add("(?<" + groupName + ">\" + " + arrayName + "_PATTERN + \")");
+                matcherClauses.add("matcher.group(\"" + groupName + "\") != null ? \""
+                        + arrayName.toLowerCase().replaceAll("_", "-") + "\"");
+                addVartoArrayLists.append("        keywordList.addAll(Arrays.asList(").append(arrayName).append("));\n");
             }
-            javaContent.append("/*\n"
+
+            String literalDecs = literalRules(metadata);
+            boolean hasComment = literalDecs.contains("COMMENT_PATTERN");
+
+            ArrayList<String> allGroupClauses = new ArrayList<>();
+            allGroupClauses.add("(?<STRING>\" + STRING_PATTERN + \")");
+            if (hasComment) {
+                allGroupClauses.add("(?<COMMENT>\" + COMMENT_PATTERN + \")");
+            }
+            allGroupClauses.addAll(groupClauses);
+
+            ArrayList<String> allMatcherClauses = new ArrayList<>();
+            allMatcherClauses.add("matcher.group(\"STRING\") != null ? \"string\"");
+            if (hasComment) {
+                allMatcherClauses.add("matcher.group(\"COMMENT\") != null ? \"comment\"");
+            }
+            allMatcherClauses.addAll(matcherClauses);
+
+            StringBuilder patternCompiles = new StringBuilder();
+            for (int j = 0; j < allGroupClauses.size(); j++) {
+                patternCompiles.append(j == 0 ? "                \"" : "                + \"|")
+                        .append(allGroupClauses.get(j)).append("\"\n");
+            }
+
+            StringBuilder styleClassBody = new StringBuilder();
+            for (int j = 0; j < allMatcherClauses.size(); j++) {
+                styleClassBody.append(j == 0 ? "        return " : "                : ")
+                        .append(allMatcherClauses.get(j)).append("\n");
+            }
+            styleClassBody.append("                : null;\n");
+
+            String javaContent = "/*\n"
                     + " * To change this license header, choose License Headers in Project Properties.\n"
                     + " * To change this template file, choose Tools | Templates\n"
                     + " * and open the template in the editor.\n"
@@ -127,12 +151,10 @@ public class Generator {
                     + "\n"
                     + "    @Override\n"
                     + "    public Pattern generatePattern() {\n"
-                    + "        Pattern pattern;\n"
+                    + literalDecs
                     + patternDecs.toString()
                     + "\n"
-                    + patternInits.toString()
-                    + "\n"
-                    + "        pattern = Pattern.compile(\n"
+                    + "        Pattern pattern = Pattern.compile(\n"
                     + patternCompiles.toString()
                     + "        );\n"
                     + "        return pattern;\n"
@@ -140,9 +162,7 @@ public class Generator {
                     + "\n"
                     + "    @Override\n"
                     + "    public String getStyleClass(Matcher matcher) {\n"
-                    + "        return matcher.group(\"DECLARATIONS\") != null ? \"declarations\"\n"
-                    + matcherStrings.toString()
-                    + "                : null;\n"
+                    + styleClassBody.toString()
                     + "    }\n"
                     + "\n"
                     + "    @Override\n"
@@ -153,14 +173,69 @@ public class Generator {
                     + "        return keywordList;\n"
                     + "    }\n"
                     + "\n"
-                    + "}\n"
-                    + "");
+                    + "}\n";
             try {
-                write(new File("java/" + file.getName().substring(0, file.getName().lastIndexOf(".")) + ".java"), javaContent.toString());
+                write(new File("java/" + className + ".java"), javaContent);
             } catch (IOException ex) {
                 Logger.getLogger(Generator.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+    }
+
+    /**
+     * Turns a definition id such as {@code 2x-only-keywords} into a valid,
+     * collision-resistant field name — uppercased, non-identifier characters
+     * folded to underscores, and prefixed if it would otherwise start with a
+     * digit.
+     */
+    static String toFieldName(String id) {
+        String name = id.toUpperCase().replaceAll("[^A-Z0-9]+", "_").replaceAll("^_+|_+$", "");
+        if (name.isEmpty() || Character.isDigit(name.charAt(0))) {
+            name = "K_" + name;
+        }
+        return name;
+    }
+
+    /**
+     * Turns a JSON basename such as {@code haskell-literate} into a
+     * PascalCase Java class name.
+     */
+    static String toClassName(String baseName) {
+        StringBuilder out = new StringBuilder();
+        for (String part : baseName.split("[-_]+")) {
+            if (part.isEmpty()) {
+                continue;
+            }
+            out.append(Character.toUpperCase(part.charAt(0))).append(part.substring(1));
+        }
+        return out.length() == 0 ? "Lang" : out.toString();
+    }
+
+    /**
+     * Renders a definition's {@code keyword} value — normally a JSON array of
+     * strings, but gtksourceview's XML-to-JSON conversion turns bare
+     * {@code True}/{@code False} keyword text into JSON booleans — as the
+     * comma-separated, double-quoted contents of a Java {@code String[]}
+     * initializer.
+     */
+    static String keywordArrayLiteral(Object keyword) {
+        ArrayList<Object> items = new ArrayList<>();
+        if (keyword instanceof JSONArray) {
+            JSONArray arr = (JSONArray) keyword;
+            for (int i = 0; i < arr.length(); i++) {
+                items.add(arr.get(i));
+            }
+        } else {
+            items.add(keyword);
+        }
+        StringBuilder out = new StringBuilder();
+        for (int i = 0; i < items.size(); i++) {
+            if (i > 0) {
+                out.append(", ");
+            }
+            out.append('"').append(escape(String.valueOf(items.get(i)))).append('"');
+        }
+        return out.toString();
     }
 
     public static void generateJSONsAndCSS() {
@@ -278,4 +353,70 @@ public class Generator {
         return str;
     }
 
+
+    /**
+     * Builds the STRING and COMMENT alternatives for a language.
+     *
+     * <p>Generated classes previously carried keywords only, so a generated
+     * language highlighted keywords and left strings and comments plain —
+     * visibly worse than the hand-written ones. The definitions have always
+     * carried line-comment-start, block-comment-start and block-comment-end;
+     * the generator simply ignored them.
+     *
+     * <p>Patterns avoid alternation inside a quantifier. Java's regex engine
+     * recurses per repetition of a group, which is what made long comments
+     * throw StackOverflowError (issue #5).
+     */
+    static String literalRules(JSONObject metadata) {
+        String lineStart = property(metadata, "line-comment-start");
+        String blockStart = property(metadata, "block-comment-start");
+        String blockEnd = property(metadata, "block-comment-end");
+
+        StringBuilder comment = new StringBuilder();
+        if (!lineStart.isEmpty()) {
+            comment.append(java.util.regex.Pattern.quote(lineStart)).append("[^\\n]*");
+        }
+        if (!blockStart.isEmpty() && !blockEnd.isEmpty()) {
+            if (comment.length() > 0) {
+                comment.append("|");
+            }
+            // [\s\S] is a character class, so it cannot recurse.
+            comment.append(java.util.regex.Pattern.quote(blockStart))
+                   .append("[\\s\\S]*?")
+                   .append(java.util.regex.Pattern.quote(blockEnd));
+        }
+
+        // Double and single quoting, unrolled with possessive quantifiers so a
+        // long literal cannot build a recursion chain.
+        String string = "\"[^\"\\\\]*+(?:\\\\.[^\"\\\\]*+)*+\""
+                + "|'[^'\\\\]*+(?:\\\\.[^'\\\\]*+)*+'";
+
+        StringBuilder out = new StringBuilder();
+        out.append("        String STRING_PATTERN = \"").append(escape(string)).append("\";\n");
+        if (comment.length() > 0) {
+            out.append("        String COMMENT_PATTERN = \"").append(escape(comment.toString())).append("\";\n");
+        }
+        return out.toString();
+    }
+
+    /** Reads a named property from a language's metadata block. */
+    static String property(JSONObject metadata, String name) {
+        try {
+            org.json.JSONArray props = metadata.getJSONArray("property");
+            for (int i = 0; i < props.length(); i++) {
+                JSONObject prop = props.getJSONObject(i);
+                if (name.equals(prop.optString("name"))) {
+                    return prop.optString("content", "");
+                }
+            }
+        } catch (RuntimeException absent) {
+            // Not every definition carries every property.
+        }
+        return "";
+    }
+
+    /** Escapes a regex for embedding in generated Java source. */
+    static String escape(String regex) {
+        return regex.replace("\\", "\\\\").replace("\"", "\\\"");
+    }
 }

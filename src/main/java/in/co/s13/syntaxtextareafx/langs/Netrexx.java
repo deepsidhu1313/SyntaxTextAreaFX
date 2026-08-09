@@ -1,0 +1,93 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package in.co.s13.syntaxtextareafx.langs;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import in.co.s13.syntaxtextareafx.meta.Language;
+import java.util.Collections;
+
+/**
+ *
+ * @author nika
+ */
+public class Netrexx implements Language {
+
+    String EXTERNALS[] = new String[]{"package", "import", "options"};
+    String OPTIONS[] = new String[]{"binary", "nobinary", "comments", "nocomments", "compact", "nocompact", "crossref", "nocrossref", "decimal", "nodecimal", "diag", "nodiag", "explicit", "noexplicit", "format", "noformat", "java", "nojava", "logo", "nologo", "replace", "noreplace", "sourcedir", "nosourcedir", "strictargs", "nostrictargs", "strictassign", "nostrictassign", "strictcase", "nostrictcase", "strictimport", "nostrictimport", "strictprops", "nostrictprops", "strictsignal", "nostrictsignal", "symbols", "nosymbols", "notrace", "trace1", "trace2", "verbose", "verbose0", "verbose1", "verbose2", "verbose3", "verbose4", "verbose5", "utf8", "noutf8"};
+    String PRIMITIVE_TYPES[] = new String[]{"boolean", "byte", "char", "double", "float", "int", "long", "short"};
+    String SPECIAL[] = new String[]{"ask", "class", "digits", "form", "length", "null", "source", "sourceline", "super", "this", "trace", "version"};
+    String VISIBILITY[] = new String[]{"inheritable", "private", "public", "shared"};
+    String MODIFIERS[] = new String[]{"abstract", "adapter", "constant", "final", "interface", "native", "static", "transient", "volatile", "protect", "binary", "deprecated", "returns", "signals", "extends", "uses", "implements", "unused"};
+    String KEYWORDS[] = new String[]{"catch", "do", "else", "end", "exit", "finally", "if", "iterate", "leave", "loop", "method", "nop", "numeric", "otherwise", "parse", "properties", "return", "say", "select", "signal", "then", "when"};
+    String SUB_KEYWORDS[] = new String[]{"all", "by", "case", "engineering", "for", "forever", "label", "methods", "off", "over", "results", "scientific", "to", "until", "var", "while"};
+    String BUILTIN_FUNCTION[] = new String[]{"abbrev", "abs", "b2x", "center", "centre", "changestr", "compare", "copies", "copyindexed", "countstr", "c2d", "c2x", "datatype", "delstr", "delword", "d2c", "d2x", "exists", "format", "insert", "lastpos", "left", "lower", "max", "min", "overlay", "pos", "right", "sequence", "sign", "space", "strip", "substr", "subword", "translate", "trunc", "upper", "verify", "word", "wordindex", "wordlength", "wordpos", "words", "x2b", "x2c", "x2d"};
+
+    @Override
+    public Pattern generatePattern() {
+        String STRING_PATTERN = "\"[^\"\\\\]*+(?:\\\\.[^\"\\\\]*+)*+\"|'[^'\\\\]*+(?:\\\\.[^'\\\\]*+)*+'";
+        String COMMENT_PATTERN = "\\Q--\\E[^\\n]*|\\Q/*\\E[\\s\\S]*?\\Q*/\\E";
+        String EXTERNALS_PATTERN = "\\b(" + String.join("|", EXTERNALS) + ")\\b";
+        String OPTIONS_PATTERN = "\\b(" + String.join("|", OPTIONS) + ")\\b";
+        String PRIMITIVE_TYPES_PATTERN = "\\b(" + String.join("|", PRIMITIVE_TYPES) + ")\\b";
+        String SPECIAL_PATTERN = "\\b(" + String.join("|", SPECIAL) + ")\\b";
+        String VISIBILITY_PATTERN = "\\b(" + String.join("|", VISIBILITY) + ")\\b";
+        String MODIFIERS_PATTERN = "\\b(" + String.join("|", MODIFIERS) + ")\\b";
+        String KEYWORDS_PATTERN = "\\b(" + String.join("|", KEYWORDS) + ")\\b";
+        String SUB_KEYWORDS_PATTERN = "\\b(" + String.join("|", SUB_KEYWORDS) + ")\\b";
+        String BUILTIN_FUNCTION_PATTERN = "\\b(" + String.join("|", BUILTIN_FUNCTION) + ")\\b";
+
+        Pattern pattern = Pattern.compile(
+                "(?<STRING>" + STRING_PATTERN + ")"
+                + "|(?<COMMENT>" + COMMENT_PATTERN + ")"
+                + "|(?<EXTERNALS>" + EXTERNALS_PATTERN + ")"
+                + "|(?<OPTIONS>" + OPTIONS_PATTERN + ")"
+                + "|(?<PRIMITIVETYPES>" + PRIMITIVE_TYPES_PATTERN + ")"
+                + "|(?<SPECIAL>" + SPECIAL_PATTERN + ")"
+                + "|(?<VISIBILITY>" + VISIBILITY_PATTERN + ")"
+                + "|(?<MODIFIERS>" + MODIFIERS_PATTERN + ")"
+                + "|(?<KEYWORDS>" + KEYWORDS_PATTERN + ")"
+                + "|(?<SUBKEYWORDS>" + SUB_KEYWORDS_PATTERN + ")"
+                + "|(?<BUILTINFUNCTION>" + BUILTIN_FUNCTION_PATTERN + ")"
+        );
+        return pattern;
+    }
+
+    @Override
+    public String getStyleClass(Matcher matcher) {
+        return matcher.group("STRING") != null ? "string"
+                : matcher.group("COMMENT") != null ? "comment"
+                : matcher.group("EXTERNALS") != null ? "externals"
+                : matcher.group("OPTIONS") != null ? "options"
+                : matcher.group("PRIMITIVETYPES") != null ? "primitive-types"
+                : matcher.group("SPECIAL") != null ? "special"
+                : matcher.group("VISIBILITY") != null ? "visibility"
+                : matcher.group("MODIFIERS") != null ? "modifiers"
+                : matcher.group("KEYWORDS") != null ? "keywords"
+                : matcher.group("SUBKEYWORDS") != null ? "sub-keywords"
+                : matcher.group("BUILTINFUNCTION") != null ? "builtin-function"
+                : null;
+    }
+
+    @Override
+    public ArrayList<String> getKeywords() {
+        ArrayList<String> keywordList = new ArrayList<>();
+        keywordList.addAll(Arrays.asList(EXTERNALS));
+        keywordList.addAll(Arrays.asList(OPTIONS));
+        keywordList.addAll(Arrays.asList(PRIMITIVE_TYPES));
+        keywordList.addAll(Arrays.asList(SPECIAL));
+        keywordList.addAll(Arrays.asList(VISIBILITY));
+        keywordList.addAll(Arrays.asList(MODIFIERS));
+        keywordList.addAll(Arrays.asList(KEYWORDS));
+        keywordList.addAll(Arrays.asList(SUB_KEYWORDS));
+        keywordList.addAll(Arrays.asList(BUILTIN_FUNCTION));
+        Collections.sort(keywordList);
+        return keywordList;
+    }
+
+}

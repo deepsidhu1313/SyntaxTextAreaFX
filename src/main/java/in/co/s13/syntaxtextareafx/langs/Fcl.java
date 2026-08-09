@@ -1,0 +1,58 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package in.co.s13.syntaxtextareafx.langs;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import in.co.s13.syntaxtextareafx.meta.Language;
+import java.util.Collections;
+
+/**
+ *
+ * @author nika
+ */
+public class Fcl implements Language {
+
+    String KEYWORD[] = new String[]{"ACCU", "ACT", "AND", "ASUM", "BDIF", "BSUM", "COA", "COG", "COGS", "DEFAULT", "IF", "IS", "LM", "MAX", "METHOD", "MIN", "NC", "NOT", "NSUM", "OR", "PROD", "RANGE", "RM", "RULE", "TERM", "THEN", "WITH"};
+    String BLOCK[] = new String[]{"DEFUZZIFY", "END_DEFUZZIFY", "END_FUNCTION_BLOCK", "END_FUZZIFY", "END_OPTIONS", "END_RULEBLOCK", "END_VAR", "FUNCTION_BLOCK", "FUZZIFY", "OPTIONS", "RULEBLOCK", "VAR", "VAR_INPUT", "VAR_OUTPUT"};
+
+    @Override
+    public Pattern generatePattern() {
+        String STRING_PATTERN = "\"[^\"\\\\]*+(?:\\\\.[^\"\\\\]*+)*+\"|'[^'\\\\]*+(?:\\\\.[^'\\\\]*+)*+'";
+        String COMMENT_PATTERN = "\\Q//\\E[^\\n]*";
+        String KEYWORD_PATTERN = "\\b(" + String.join("|", KEYWORD) + ")\\b";
+        String BLOCK_PATTERN = "\\b(" + String.join("|", BLOCK) + ")\\b";
+
+        Pattern pattern = Pattern.compile(
+                "(?<STRING>" + STRING_PATTERN + ")"
+                + "|(?<COMMENT>" + COMMENT_PATTERN + ")"
+                + "|(?<KEYWORD>" + KEYWORD_PATTERN + ")"
+                + "|(?<BLOCK>" + BLOCK_PATTERN + ")"
+        );
+        return pattern;
+    }
+
+    @Override
+    public String getStyleClass(Matcher matcher) {
+        return matcher.group("STRING") != null ? "string"
+                : matcher.group("COMMENT") != null ? "comment"
+                : matcher.group("KEYWORD") != null ? "keyword"
+                : matcher.group("BLOCK") != null ? "block"
+                : null;
+    }
+
+    @Override
+    public ArrayList<String> getKeywords() {
+        ArrayList<String> keywordList = new ArrayList<>();
+        keywordList.addAll(Arrays.asList(KEYWORD));
+        keywordList.addAll(Arrays.asList(BLOCK));
+        Collections.sort(keywordList);
+        return keywordList;
+    }
+
+}

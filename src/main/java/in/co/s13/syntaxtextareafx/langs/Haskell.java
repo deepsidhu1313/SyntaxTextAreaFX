@@ -1,0 +1,58 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package in.co.s13.syntaxtextareafx.langs;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import in.co.s13.syntaxtextareafx.meta.Language;
+import java.util.Collections;
+
+/**
+ *
+ * @author nika
+ */
+public class Haskell implements Language {
+
+    String KEYSYMBOL[] = new String[]{"\\.\\.", "::", "=", "\\|", "\\", "->", "<-", "@", "~", "=>"};
+    String KEYWORD[] = new String[]{"case", "class", "data", "default", "deriving", "do", "mdo", "else", "forall", "foreign", "hiding", "if", "import", "in", "infix", "infixl", "infixr", "instance", "let", "module", "newtype", "of", "qualified", "then", "where", "type"};
+
+    @Override
+    public Pattern generatePattern() {
+        String STRING_PATTERN = "\"[^\"\\\\]*+(?:\\\\.[^\"\\\\]*+)*+\"|'[^'\\\\]*+(?:\\\\.[^'\\\\]*+)*+'";
+        String COMMENT_PATTERN = "\\Q--\\E[^\\n]*";
+        String KEYSYMBOL_PATTERN = "\\b(" + String.join("|", KEYSYMBOL) + ")\\b";
+        String KEYWORD_PATTERN = "\\b(" + String.join("|", KEYWORD) + ")\\b";
+
+        Pattern pattern = Pattern.compile(
+                "(?<STRING>" + STRING_PATTERN + ")"
+                + "|(?<COMMENT>" + COMMENT_PATTERN + ")"
+                + "|(?<KEYSYMBOL>" + KEYSYMBOL_PATTERN + ")"
+                + "|(?<KEYWORD>" + KEYWORD_PATTERN + ")"
+        );
+        return pattern;
+    }
+
+    @Override
+    public String getStyleClass(Matcher matcher) {
+        return matcher.group("STRING") != null ? "string"
+                : matcher.group("COMMENT") != null ? "comment"
+                : matcher.group("KEYSYMBOL") != null ? "keysymbol"
+                : matcher.group("KEYWORD") != null ? "keyword"
+                : null;
+    }
+
+    @Override
+    public ArrayList<String> getKeywords() {
+        ArrayList<String> keywordList = new ArrayList<>();
+        keywordList.addAll(Arrays.asList(KEYSYMBOL));
+        keywordList.addAll(Arrays.asList(KEYWORD));
+        Collections.sort(keywordList);
+        return keywordList;
+    }
+
+}

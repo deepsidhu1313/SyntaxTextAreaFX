@@ -1,0 +1,63 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package in.co.s13.syntaxtextareafx.langs;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import in.co.s13.syntaxtextareafx.meta.Language;
+import java.util.Collections;
+
+/**
+ *
+ * @author nika
+ */
+public class Thrift implements Language {
+
+    String KEYWORDS[] = new String[]{"const", "cpp_include", "extends", "false", "include", "namespace", "oneway", "optional", "required", "throws", "true", "typedef"};
+    String TYPES[] = new String[]{"binary", "bool", "byte", "double", "enum", "exception", "i16", "i32", "i64", "list", "map", "service", "set", "string", "struct", "union", "void"};
+    String RESERVED[] = new String[]{"async", "cocoa_prefix", "cpp_namespace", "csharp_namespace", "delphi_namespace", "java_package", "perl_package", "php_namespace", "py_module", "ruby_namespace", "senum", "smalltalk_category", "slist", "smalltalk_prefix", "xsd_all", "xsd_attrs", "xsd_namespace", "xsd_nillable", "xsd_optional", "BEGIN", "END", "__CLASS__", "__DIR__", "__FILE__", "__FUNCTION__", "__LINE__", "__METHOD__", "__NAMESPACE__", "abstract", "alias", "and", "args", "as", "assert", "begin", "break", "case", "catch", "class", "clone", "continue", "declare", "def", "default", "del", "delete", "do", "dynamic", "elif", "else", "elseif", "elsif", "end", "enddeclare", "endfor", "endforeach", "endif", "endswitch", "endwhile", "ensure", "except", "exec", "finally", "float", "for", "foreach", "function", "global", "goto", "if", "implements", "import", "in", "inline", "instanceof", "interface", "is", "lambda", "module", "native", "new", "next", "nil", "not", "or", "pass", "public", "print", "private", "protected", "public", "raise", "redo", "rescue", "retry", "register", "return", "self", "sizeof", "static", "super", "switch", "synchronized", "then", "this", "throw", "transient", "try", "undef", "union", "unless", "unsigned", "until", "use", "var", "virtual", "volatile", "when", "while", "with", "xor", "yield"};
+
+    @Override
+    public Pattern generatePattern() {
+        String STRING_PATTERN = "\"[^\"\\\\]*+(?:\\\\.[^\"\\\\]*+)*+\"|'[^'\\\\]*+(?:\\\\.[^'\\\\]*+)*+'";
+        String COMMENT_PATTERN = "\\Q//\\E[^\\n]*|\\Q/*\\E[\\s\\S]*?\\Q*/\\E";
+        String KEYWORDS_PATTERN = "\\b(" + String.join("|", KEYWORDS) + ")\\b";
+        String TYPES_PATTERN = "\\b(" + String.join("|", TYPES) + ")\\b";
+        String RESERVED_PATTERN = "\\b(" + String.join("|", RESERVED) + ")\\b";
+
+        Pattern pattern = Pattern.compile(
+                "(?<STRING>" + STRING_PATTERN + ")"
+                + "|(?<COMMENT>" + COMMENT_PATTERN + ")"
+                + "|(?<KEYWORDS>" + KEYWORDS_PATTERN + ")"
+                + "|(?<TYPES>" + TYPES_PATTERN + ")"
+                + "|(?<RESERVED>" + RESERVED_PATTERN + ")"
+        );
+        return pattern;
+    }
+
+    @Override
+    public String getStyleClass(Matcher matcher) {
+        return matcher.group("STRING") != null ? "string"
+                : matcher.group("COMMENT") != null ? "comment"
+                : matcher.group("KEYWORDS") != null ? "keywords"
+                : matcher.group("TYPES") != null ? "types"
+                : matcher.group("RESERVED") != null ? "reserved"
+                : null;
+    }
+
+    @Override
+    public ArrayList<String> getKeywords() {
+        ArrayList<String> keywordList = new ArrayList<>();
+        keywordList.addAll(Arrays.asList(KEYWORDS));
+        keywordList.addAll(Arrays.asList(TYPES));
+        keywordList.addAll(Arrays.asList(RESERVED));
+        Collections.sort(keywordList);
+        return keywordList;
+    }
+
+}

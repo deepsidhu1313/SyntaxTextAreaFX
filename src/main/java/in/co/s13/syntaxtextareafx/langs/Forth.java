@@ -7,6 +7,8 @@ package in.co.s13.syntaxtextareafx.langs;
 
 import in.co.s13.syntaxtextareafx.meta.Language;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -119,12 +121,32 @@ public class Forth implements Language {
 
     @Override
     public String getStyleClass(Matcher matcher) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return matcher.group("KEYWORDS") != null ? "keywords"
+                : matcher.group("EXTKEYWORDS") != null ? "ext-keywords"
+                : matcher.group("OBSEXTKEYWORDS") != null ? "obs-ext-keywords"
+                : matcher.group("BLOCKKEYWORDS") != null ? "block-keywords"
+                : matcher.group("BLOCKEXTKEYWORDS") != null ? "block-ext-keywords"
+                : matcher.group("BOOLEAN") != null ? "boolean"
+                : matcher.group("PAREN") != null ? "paren"
+                : matcher.group("BRACE") != null ? "brace"
+                : matcher.group("BRACKET") != null ? "bracket"
+                : matcher.group("SEMICOLON") != null ? "semicolon"
+                : matcher.group("STRING") != null ? "string"
+                : matcher.group("COMMENT") != null ? "comment"
+                : null;
     }
 
     @Override
     public ArrayList<String> getKeywords() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        ArrayList<String> keywordList = new ArrayList<>();
+        keywordList.addAll(Arrays.asList(KEYWORDS));
+        keywordList.addAll(Arrays.asList(EXT_KEYWORDS));
+        keywordList.addAll(Arrays.asList(OBS_EXT_KEYWORDS));
+        keywordList.addAll(Arrays.asList(BLOCK_KEYWORDS));
+        keywordList.addAll(Arrays.asList(BLOCK_EXT_KEYWORDS));
+        keywordList.addAll(Arrays.asList(BOOLEAN));
+        Collections.sort(keywordList);
+        return keywordList;
     }
 
 }

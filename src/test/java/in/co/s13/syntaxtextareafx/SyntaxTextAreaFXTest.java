@@ -138,8 +138,11 @@ class SyntaxTextAreaFXTest {
         assertTrue(SyntaxTextAreaFX.isLanguageImplemented(LANGS.java));
         assertTrue(SyntaxTextAreaFX.isLanguageImplemented(LANGS.c));
         assertTrue(SyntaxTextAreaFX.isLanguageImplemented(LANGS.text));
-        assertFalse(SyntaxTextAreaFX.isLanguageImplemented(LANGS.javascript),
-                "javascript has no rules yet; saying otherwise would mislead callers");
+        assertTrue(SyntaxTextAreaFX.isLanguageImplemented(LANGS.javascript));
+        assertFalse(SyntaxTextAreaFX.isLanguageImplemented(LANGS.j),
+                "j's keyword definitions embed gtksourceview template syntax "
+                + "(\"%{valid-name}\") that isn't valid regex on its own, so no "
+                + "rules were generated for it");
     }
 
     @Test

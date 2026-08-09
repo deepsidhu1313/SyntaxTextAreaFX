@@ -1,0 +1,88 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package in.co.s13.syntaxtextareafx.langs;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import in.co.s13.syntaxtextareafx.meta.Language;
+import java.util.Collections;
+
+/**
+ *
+ * @author nika
+ */
+public class Genie implements Language {
+
+    String NAMESPACE[] = new String[]{"uses", "namespace"};
+    String PRIMITIVES[] = new String[]{"bool", "byte", "char", "date", "datetime", "decimal", "double", "float", "int", "long", "object", "sbyte", "short", "single", "string", "ulong", "ushort"};
+    String DEFINITIONS[] = new String[]{"const", "class", "construct", "def", "delegate", "enum", "exception", "extern", "event", "final", "get", "init", "inline", "interface", "override", "prop", "return", "set", "static", "struct", "var", "virtual", "weak"};
+    String KEYWORDS[] = new String[]{"abstract", "as", "and", "break", "case", "cast", "continue", "default", "delete", "div", "do", "downto", "dynamic", "else", "ensures", "except", "extern", "finally", "for", "if", "implements", "in", "isa", "is", "lock", "new", "not", "of", "out", "or", "otherwise", "pass", "private", "raise", "raises", "readonly", "ref", "requires", "to", "try", "unless", "when", "while"};
+    String SPECIAL_VARIABLES[] = new String[]{"self", "super"};
+    String NULL_VALUE[] = new String[]{"null"};
+    String BOOLEAN[] = new String[]{"false", "true"};
+    String BUILTINS[] = new String[]{"array", "assert", "dict", "list", "max", "min", "print", "prop", "sizeof", "typeof"};
+
+    @Override
+    public Pattern generatePattern() {
+        String STRING_PATTERN = "\"[^\"\\\\]*+(?:\\\\.[^\"\\\\]*+)*+\"|'[^'\\\\]*+(?:\\\\.[^'\\\\]*+)*+'";
+        String COMMENT_PATTERN = "\\Q//\\E[^\\n]*|\\Q/*\\E[\\s\\S]*?\\Q*/\\E";
+        String NAMESPACE_PATTERN = "\\b(" + String.join("|", NAMESPACE) + ")\\b";
+        String PRIMITIVES_PATTERN = "\\b(" + String.join("|", PRIMITIVES) + ")\\b";
+        String DEFINITIONS_PATTERN = "\\b(" + String.join("|", DEFINITIONS) + ")\\b";
+        String KEYWORDS_PATTERN = "\\b(" + String.join("|", KEYWORDS) + ")\\b";
+        String SPECIAL_VARIABLES_PATTERN = "\\b(" + String.join("|", SPECIAL_VARIABLES) + ")\\b";
+        String NULL_VALUE_PATTERN = "\\b(" + String.join("|", NULL_VALUE) + ")\\b";
+        String BOOLEAN_PATTERN = "\\b(" + String.join("|", BOOLEAN) + ")\\b";
+        String BUILTINS_PATTERN = "\\b(" + String.join("|", BUILTINS) + ")\\b";
+
+        Pattern pattern = Pattern.compile(
+                "(?<STRING>" + STRING_PATTERN + ")"
+                + "|(?<COMMENT>" + COMMENT_PATTERN + ")"
+                + "|(?<NAMESPACE>" + NAMESPACE_PATTERN + ")"
+                + "|(?<PRIMITIVES>" + PRIMITIVES_PATTERN + ")"
+                + "|(?<DEFINITIONS>" + DEFINITIONS_PATTERN + ")"
+                + "|(?<KEYWORDS>" + KEYWORDS_PATTERN + ")"
+                + "|(?<SPECIALVARIABLES>" + SPECIAL_VARIABLES_PATTERN + ")"
+                + "|(?<NULLVALUE>" + NULL_VALUE_PATTERN + ")"
+                + "|(?<BOOLEAN>" + BOOLEAN_PATTERN + ")"
+                + "|(?<BUILTINS>" + BUILTINS_PATTERN + ")"
+        );
+        return pattern;
+    }
+
+    @Override
+    public String getStyleClass(Matcher matcher) {
+        return matcher.group("STRING") != null ? "string"
+                : matcher.group("COMMENT") != null ? "comment"
+                : matcher.group("NAMESPACE") != null ? "namespace"
+                : matcher.group("PRIMITIVES") != null ? "primitives"
+                : matcher.group("DEFINITIONS") != null ? "definitions"
+                : matcher.group("KEYWORDS") != null ? "keywords"
+                : matcher.group("SPECIALVARIABLES") != null ? "special-variables"
+                : matcher.group("NULLVALUE") != null ? "null-value"
+                : matcher.group("BOOLEAN") != null ? "boolean"
+                : matcher.group("BUILTINS") != null ? "builtins"
+                : null;
+    }
+
+    @Override
+    public ArrayList<String> getKeywords() {
+        ArrayList<String> keywordList = new ArrayList<>();
+        keywordList.addAll(Arrays.asList(NAMESPACE));
+        keywordList.addAll(Arrays.asList(PRIMITIVES));
+        keywordList.addAll(Arrays.asList(DEFINITIONS));
+        keywordList.addAll(Arrays.asList(KEYWORDS));
+        keywordList.addAll(Arrays.asList(SPECIAL_VARIABLES));
+        keywordList.addAll(Arrays.asList(NULL_VALUE));
+        keywordList.addAll(Arrays.asList(BOOLEAN));
+        keywordList.addAll(Arrays.asList(BUILTINS));
+        Collections.sort(keywordList);
+        return keywordList;
+    }
+
+}

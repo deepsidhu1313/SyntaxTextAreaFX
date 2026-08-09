@@ -24,7 +24,7 @@ public class Bennugd implements Language {
     String LOCALS[] = new String[]{"bigbro", "father", "frame_percent", "id", "process_type", "reserved", "reserved.frame_percent", "reserved.process_type", "reserved.saved_priority", "reserved.saved_status", "reserved.status", "saved_priority", "saved_status", "smallbro", "status", "son"};
     String OPERATORS[] = new String[]{"==", "!=", "!", "<", ">", "<=", ">=", "&&", "&", "=", "||", "|", "^^", "^"};
     String TYPES[] = new String[]{"byte", "char", "dword", "float", "int", "pointer", "short", "signed", "string", "struct", "type", "unsigned", "word"};
-    String COMMONMACROS[] = new String[]{"COMPILER_VERSION", "__DATE__", "__FILE__", "__LINE__", "max_byte", "max_dword", "max_int", "max_sbyte", "max_short", "max_word", "min_byte", "min_dword", "min_int", "min_sbyte", "min_short", "min_word", null, "os_beos", "os_bsd", "os_dc", "os_gp32", "os_linux", "os_macos", "os_win32", "status_dead", "status_frozen", "status_killed", "status_running", "status_sleeping", "status_waiting", "__TIME__", "__VERSION__"};
+    String COMMONMACROS[] = new String[]{"COMPILER_VERSION", "__DATE__", "__FILE__", "__LINE__", "max_byte", "max_dword", "max_int", "max_sbyte", "max_short", "max_word", "min_byte", "min_dword", "min_int", "min_sbyte", "min_short", "min_word", "os_beos", "os_bsd", "os_dc", "os_gp32", "os_linux", "os_macos", "os_win32", "status_dead", "status_frozen", "status_killed", "status_running", "status_sleeping", "status_waiting", "__TIME__", "__VERSION__"};
 
     @Override
     public Pattern generatePattern() {

@@ -1,0 +1,63 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package in.co.s13.syntaxtextareafx.langs;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import in.co.s13.syntaxtextareafx.meta.Language;
+import java.util.Collections;
+
+/**
+ *
+ * @author nika
+ */
+public class Vhdl implements Language {
+
+    String KEYWORDS[] = new String[]{"access", "after", "alias", "all", "architecture", "array", "assert", "attribute", "begin", "block", "body", "buffer", "bus", "case", "component", "configuration", "constant", "disconnect", "downto", "else", "elsif", "end", "entity", "exit", "file", "for", "function", "generate", "generic", "group", "guarded", "if", "impure", "in", "inertial", "inout", "is", "label", "library", "linkage", "literal", "loop", "map", "new", "next", "null", "of", "on", "open", "others", "out", "package", "port", "postponed", "procedure", "process", "pure", "range", "record", "register", "reject", "report", "return", "select", "severity", "signal", "shared", "subtype", "then", "to", "transport", "type", "unaffected", "units", "until", "use", "variable", "wait", "when", "while", "with", "note", "warning", "error", "failure", "and", "nand", "or", "nor", "xor", "xnor", "rol", "ror", "sla", "sll", "sra", "srl", "mod", "rem", "abs", "not"};
+    String TYPES[] = new String[]{"bit", "bit_vector", "character", "boolean", "integer", "real", "time", "string", "severity_level", "positive", "natural", "signed", "unsigned", "line", "text", "std_logic", "std_logic_vector", "std_ulogic", "std_ulogic_vector", "qsim_state", "qsim_state_vector", "qsim_12state", "qsim_12state_vector", "qsim_strength", "mux_bit", "mux_vectory", "reg_bit", "reg_vector", "wor_bit", "wor_vector"};
+    String BOOLEAN[] = new String[]{"false", "true"};
+
+    @Override
+    public Pattern generatePattern() {
+        String STRING_PATTERN = "\"[^\"\\\\]*+(?:\\\\.[^\"\\\\]*+)*+\"|'[^'\\\\]*+(?:\\\\.[^'\\\\]*+)*+'";
+        String COMMENT_PATTERN = "\\Q--\\E[^\\n]*";
+        String KEYWORDS_PATTERN = "\\b(" + String.join("|", KEYWORDS) + ")\\b";
+        String TYPES_PATTERN = "\\b(" + String.join("|", TYPES) + ")\\b";
+        String BOOLEAN_PATTERN = "\\b(" + String.join("|", BOOLEAN) + ")\\b";
+
+        Pattern pattern = Pattern.compile(
+                "(?<STRING>" + STRING_PATTERN + ")"
+                + "|(?<COMMENT>" + COMMENT_PATTERN + ")"
+                + "|(?<KEYWORDS>" + KEYWORDS_PATTERN + ")"
+                + "|(?<TYPES>" + TYPES_PATTERN + ")"
+                + "|(?<BOOLEAN>" + BOOLEAN_PATTERN + ")"
+        );
+        return pattern;
+    }
+
+    @Override
+    public String getStyleClass(Matcher matcher) {
+        return matcher.group("STRING") != null ? "string"
+                : matcher.group("COMMENT") != null ? "comment"
+                : matcher.group("KEYWORDS") != null ? "keywords"
+                : matcher.group("TYPES") != null ? "types"
+                : matcher.group("BOOLEAN") != null ? "boolean"
+                : null;
+    }
+
+    @Override
+    public ArrayList<String> getKeywords() {
+        ArrayList<String> keywordList = new ArrayList<>();
+        keywordList.addAll(Arrays.asList(KEYWORDS));
+        keywordList.addAll(Arrays.asList(TYPES));
+        keywordList.addAll(Arrays.asList(BOOLEAN));
+        Collections.sort(keywordList);
+        return keywordList;
+    }
+
+}

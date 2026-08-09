@@ -1,0 +1,78 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package in.co.s13.syntaxtextareafx.langs;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import in.co.s13.syntaxtextareafx.meta.Language;
+import java.util.Collections;
+
+/**
+ *
+ * @author nika
+ */
+public class Julia implements Language {
+
+    String BOOLEAN[] = new String[]{"true|false"};
+    String SPECIAL_CONSTANT[] = new String[]{"nothing", "ARGS", "LOAD_PATH", "CPU_CORES", "OS_NAME", "C_NULL", "WORD_SIZE", "VERSION", "ENDIAN_BOM", "ENV", "STDERR", "STDIN", "STDOUT", "T", "ANY"};
+    String KEYWORD[] = new String[]{"begin", "do", "for", "in", "function", "if", "immutable", "let", "quote", "try", "type", "while", "catch", "finally", "else", "elseif", "end", "abstract", "bitstype", "break", "ccall", "const", "continue", "export", "global", "import", "importall", "local", "macro", "module", "baremodule", "return", "typealias", "using"};
+    String BUILTIN_FUNCTION[] = new String[]{"is", "typeof", "subtype", "isa", "typeassert", "apply", "kwcall", "throw", "tuple", "Union", "method_exists", "applicable", "invoke", "eval", "isdefined", "yieldto"};
+    String MODULE[] = new String[]{"Base", "Core", "Main", "PCRE", "FFTW", "Collections", "DSP", "LinAlg", "LibRandom", "Random", "Math", "MPFR", "GMP", "Sort", "Test", "Pkg", "Operators", "Errno", "Meta", "Graphics"};
+    String TYPE[] = new String[]{"Any|None|Nothing|Void", "Type(Constructor|Name|Var|_Array)?|(Union|Data|NonTuple)Type", "(Abstract|Strided|Bit)?(Array|Matrix|Vector)", "Abstract(Cmd|RNG|SparseMatrix)", "(Abstract|Strided)?VecOrMat", "SparseMatrixCSC", "(D|Sub((Or)?D)?)Array", "Chars?", "(ASCII|Byte|Char|DirectIndex|Generic|Rep|Rev|Rope|Sub|UTF8)?String", "Bool", "Number", "Real", "Rational", "ImaginaryUnit", "Signed|Unsigned", "Int(eger|Set|8|16|32|64|128)?", "Uint(8|16|32|64|128)?", "Float(ingPoint|32|64)", "Complex(Pair|64|128)?", "Big(Int|Float)", "C(float|double|ptrdiff_t|u?(int|long(long)?|char|short)|s?size_t|wchar_t)", "(Argument|Bounds|Divide|Domain|EOF|Inexact|Key|Load|Memory|Method|Parse|(Stack)?Overflow|System|Type|UV|UndefRef)Error", "(Error|Interrupt|Disconnect)?Exception", "Algorithm", "Associative", "AsyncStream", "Box", "BunchKaufman", "CPUinfo", "CallStack", "Callback", "Cholesky", "CholeskyPivoted", "Cmd(Redirect)?", "(And|Or)Cmds", "Colon", "LU|(((Sym|LDLT|LU)?Tr|B)id|D)iagonal", "Dict", "EachLine", "Eigen", "EmptyCallStack", "Enumerate", "EnvHash", "Executable", "Expr(Node)?", "Factorization", "FDWatcher", "(Abstract)?File", "File(Monitor|Offset)", "Filter", "(Intrinsic)?Function", "Hermitian", "Hessenberg", "IO(Buffer|Stream)?", "InetAddr", "IpAddr|IPv[46]", "(Key|Value)Iterator", "LambdaStaticData", "LocalProcess", "Long(Expr|Symbol|Tuple)", "MersenneTwister", "Method(Table)?", "MmapArrayInfo", "Module", "NTuple", "NamedPipe", "(Getfield|Goto|Label|LineNumber|Quote)Node", "NotFound", "OS_FD", "ObjectIdDict", "PollingFileWatcher", "Process(Chain(OrNot)?|Group)?", "Ptr", "QR(Pivoted)?", "Range(s|1|Index|VecIntList)?", "RawOrBoxedHandle", "Redirectable", "Regex(Match(Iterator)?)?", "RemoteRef", "Rest", "Reverse", "(Generalized)?(SVD|Schur)", "Set", "Socket", "(Merge|Insertion|Tim|Quick)Sort", "SpawnNullStream", "Stat", "StateUpdate", "StaticVarInfo", "Symbol(Node)?", "TTY", "Task", "TcpSocket", "TmStruct", "Top(Node)?", "Triangular", "UV(Handle|PollingWatcher|Stream)", "UdpSocket", "Undef(RefTag)?", "VarTable", "Vararg", "VersionNumber", "Wait(For|Task)", "Weak(KeyDict|Ref)", "Woodbury", "(Timeout|Idle|Single)?AsyncWork", "Work(er|Item)", "Zip"};
+
+    @Override
+    public Pattern generatePattern() {
+        String STRING_PATTERN = "\"[^\"\\\\]*+(?:\\\\.[^\"\\\\]*+)*+\"|'[^'\\\\]*+(?:\\\\.[^'\\\\]*+)*+'";
+        String COMMENT_PATTERN = "\\Q#\\E[^\\n]*";
+        String BOOLEAN_PATTERN = "\\b(" + String.join("|", BOOLEAN) + ")\\b";
+        String SPECIAL_CONSTANT_PATTERN = "\\b(" + String.join("|", SPECIAL_CONSTANT) + ")\\b";
+        String KEYWORD_PATTERN = "\\b(" + String.join("|", KEYWORD) + ")\\b";
+        String BUILTIN_FUNCTION_PATTERN = "\\b(" + String.join("|", BUILTIN_FUNCTION) + ")\\b";
+        String MODULE_PATTERN = "\\b(" + String.join("|", MODULE) + ")\\b";
+        String TYPE_PATTERN = "\\b(" + String.join("|", TYPE) + ")\\b";
+
+        Pattern pattern = Pattern.compile(
+                "(?<STRING>" + STRING_PATTERN + ")"
+                + "|(?<COMMENT>" + COMMENT_PATTERN + ")"
+                + "|(?<BOOLEAN>" + BOOLEAN_PATTERN + ")"
+                + "|(?<SPECIALCONSTANT>" + SPECIAL_CONSTANT_PATTERN + ")"
+                + "|(?<KEYWORD>" + KEYWORD_PATTERN + ")"
+                + "|(?<BUILTINFUNCTION>" + BUILTIN_FUNCTION_PATTERN + ")"
+                + "|(?<MODULE>" + MODULE_PATTERN + ")"
+                + "|(?<TYPE>" + TYPE_PATTERN + ")"
+        );
+        return pattern;
+    }
+
+    @Override
+    public String getStyleClass(Matcher matcher) {
+        return matcher.group("STRING") != null ? "string"
+                : matcher.group("COMMENT") != null ? "comment"
+                : matcher.group("BOOLEAN") != null ? "boolean"
+                : matcher.group("SPECIALCONSTANT") != null ? "special-constant"
+                : matcher.group("KEYWORD") != null ? "keyword"
+                : matcher.group("BUILTINFUNCTION") != null ? "builtin-function"
+                : matcher.group("MODULE") != null ? "module"
+                : matcher.group("TYPE") != null ? "type"
+                : null;
+    }
+
+    @Override
+    public ArrayList<String> getKeywords() {
+        ArrayList<String> keywordList = new ArrayList<>();
+        keywordList.addAll(Arrays.asList(BOOLEAN));
+        keywordList.addAll(Arrays.asList(SPECIAL_CONSTANT));
+        keywordList.addAll(Arrays.asList(KEYWORD));
+        keywordList.addAll(Arrays.asList(BUILTIN_FUNCTION));
+        keywordList.addAll(Arrays.asList(MODULE));
+        keywordList.addAll(Arrays.asList(TYPE));
+        Collections.sort(keywordList);
+        return keywordList;
+    }
+
+}

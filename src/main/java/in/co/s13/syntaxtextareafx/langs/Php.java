@@ -1,0 +1,73 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package in.co.s13.syntaxtextareafx.langs;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import in.co.s13.syntaxtextareafx.meta.Language;
+import java.util.Collections;
+
+/**
+ *
+ * @author nika
+ */
+public class Php implements Language {
+
+    String KEYWORDS[] = new String[]{"abstract", "and", "as", "break", "case", "catch", "class", "clone", "const", "continue", "declare", "default", "die", "do", "echo", "else", "elseif", "empty", "enddeclare", "endfor", "endforeach", "endif", "endswitch", "endwhile", "eval", "exit", "extends", "final", "finally", "for", "foreach", "function", "global", "goto", "if", "implements", "include", "include_once", "instanceof", "insteadof", "interface", "isset", "list", "namespace", "new", "or", "print", "private", "protected", "public", "require", "require_once", "return", "static", "switch", "throw", "trait", "try", "unset", "use", "var", "while", "xor", "yield"};
+    String COMMON_FUNCTION[] = new String[]{"doubleval", "floatval", "gettype", "intval", "print_r", "serialize", "settype", "strval", "unserialize", "var_dump", "var_export"};
+    String TYPE[] = new String[]{"array", "bool", "boolean", "callable", "double", "float", "int", "integer", "numeric", "object", "resource", "string", "unset"};
+    String NULL_VALUE[] = new String[]{"null"};
+    String BOOLEAN[] = new String[]{"false", "true"};
+
+    @Override
+    public Pattern generatePattern() {
+        String STRING_PATTERN = "\"[^\"\\\\]*+(?:\\\\.[^\"\\\\]*+)*+\"|'[^'\\\\]*+(?:\\\\.[^'\\\\]*+)*+'";
+        String COMMENT_PATTERN = "\\Q#\\E[^\\n]*|\\Q/*\\E[\\s\\S]*?\\Q*/\\E";
+        String KEYWORDS_PATTERN = "\\b(" + String.join("|", KEYWORDS) + ")\\b";
+        String COMMON_FUNCTION_PATTERN = "\\b(" + String.join("|", COMMON_FUNCTION) + ")\\b";
+        String TYPE_PATTERN = "\\b(" + String.join("|", TYPE) + ")\\b";
+        String NULL_VALUE_PATTERN = "\\b(" + String.join("|", NULL_VALUE) + ")\\b";
+        String BOOLEAN_PATTERN = "\\b(" + String.join("|", BOOLEAN) + ")\\b";
+
+        Pattern pattern = Pattern.compile(
+                "(?<STRING>" + STRING_PATTERN + ")"
+                + "|(?<COMMENT>" + COMMENT_PATTERN + ")"
+                + "|(?<KEYWORDS>" + KEYWORDS_PATTERN + ")"
+                + "|(?<COMMONFUNCTION>" + COMMON_FUNCTION_PATTERN + ")"
+                + "|(?<TYPE>" + TYPE_PATTERN + ")"
+                + "|(?<NULLVALUE>" + NULL_VALUE_PATTERN + ")"
+                + "|(?<BOOLEAN>" + BOOLEAN_PATTERN + ")"
+        );
+        return pattern;
+    }
+
+    @Override
+    public String getStyleClass(Matcher matcher) {
+        return matcher.group("STRING") != null ? "string"
+                : matcher.group("COMMENT") != null ? "comment"
+                : matcher.group("KEYWORDS") != null ? "keywords"
+                : matcher.group("COMMONFUNCTION") != null ? "common-function"
+                : matcher.group("TYPE") != null ? "type"
+                : matcher.group("NULLVALUE") != null ? "null-value"
+                : matcher.group("BOOLEAN") != null ? "boolean"
+                : null;
+    }
+
+    @Override
+    public ArrayList<String> getKeywords() {
+        ArrayList<String> keywordList = new ArrayList<>();
+        keywordList.addAll(Arrays.asList(KEYWORDS));
+        keywordList.addAll(Arrays.asList(COMMON_FUNCTION));
+        keywordList.addAll(Arrays.asList(TYPE));
+        keywordList.addAll(Arrays.asList(NULL_VALUE));
+        keywordList.addAll(Arrays.asList(BOOLEAN));
+        Collections.sort(keywordList);
+        return keywordList;
+    }
+
+}

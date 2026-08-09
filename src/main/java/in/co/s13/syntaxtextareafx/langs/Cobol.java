@@ -1,0 +1,73 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package in.co.s13.syntaxtextareafx.langs;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import in.co.s13.syntaxtextareafx.meta.Language;
+import java.util.Collections;
+
+/**
+ *
+ * @author nika
+ */
+public class Cobol implements Language {
+
+    String CONSTANT[] = new String[]{"space", "spaces", "null", "zero", "zeroes", "zeros", "low-values", "low-value", "high-values", "high-value", "quotes", "quote"};
+    String KEYWORD[] = new String[]{"accept", "access", "active-class", "add", "address", "advancing", "after", "all", "allocate", "alphabet", "alphabetic-lower", "alphabetic-upper", "alphabetic", "alphanumeric-edited", "alphanumeric", "also", "alter", "alternate", "and", "any", "anycase", "are", "area", "areas", "as", "ascending", "assign", "at", "author", "b-and", "b-not", "b-or", "b-xor", "based", "before", "beginning", "binary-char", "binary-double", "binary-long", "binary-short", "binary", "bit", "blank", "block", "boolean", "bottom", "by", "case", "cbl-ctr", "cf", "ch", "character", "characters", "checking", "class-id", "class-units", "class", "close", "code", "code-set", "col", "collating", "cols", "column", "columns", "comma", "commit", "common", "communication", "comp-1", "comp-2", "comp-3", "comp-5", "comp", "computational-1", "computational-2", "computational-3", "computational-5", "computational", "compute", "condition", "connect", "console", "constant", "contains", "content", "continue", "control", "controls", "converting", "copy", "corr", "corresponding", "count", "creating", "crt", "currency", "current", "cursor", "data-pointer", "database-exception", "database-key-long", "database-key", "date-compiled", "date-written", "date", "day", "day-of-week", "db", "de", "debug-contents", "debug-item", "debug-line", "debug-name", "debug-sub-1", "debug-sub-2", "debug-sub-3", "debugging", "decimal-point", "declaratives", "default", "delete", "delimited", "delimiter", "depending", "descending", "detail", "disable", "disc", "disconnect", "display", "divide", "division", "down", "duplicate", "duplicates", "dynamic", "ebcdic", "ec", "else", "empty", "enable", "end-accept", "end-add", "end-compute", "end-delete", "end-display", "end-divide", "end-evaluate", "end-invoke", "end-multiply", "end-of-page", "end-read", "end-receive", "end-return", "end-rewrite", "end-search", "end-start", "end-string", "end-subtract", "end-unstring", "end-write", "end", "ending", "entry", "eo", "eop", "equal", "equals", "erase", "error", "escape", "evaluate", "every", "exception-object", "exception", "exclusive", "exit", "extend", "extended", "external", "factory", "false", "fd", "fetch", "file-control", "filler", "final", "find", "finish", "first", "float-extended", "float-long", "float-short", "footing", "for", "format", "free", "from", "function-id", "function", "generate", "get", "giving", "global", "go", "greater", "group-usage", "group", "heading", "i-o-control", "i-o", "id", "ignoring", "in", "including", "index", "indexed", "indicate", "inherits", "initial", "initialize", "initiate", "input", "inspect", "installation", "interface", "interface-id", "into", "invalid", "is", "just", "justified", "keep", "key", "label", "last", "leading", "left", "length", "less", "limit", "limited", "limits", "linage", "line", "line-counter", "lines", "locale", "lock", "mask", "matching", "member", "members", "membership", "memory", "merge", "message", "method", "method-id", "minus", "mode", "modify", "modules", "more-labels", "move", "multiple", "multiply", "national-edited", "national", "native", "negative", "nested", "next", "no", "not", "number", "numeric-edited", "numeric", "object-computer", "object-reference", "object", "occurence", "occurs", "of", "off", "omitted", "on", "open", "optional", "options", "or", "order", "organization", "other", "output", "overflow", "override", "owner", "packed-decimal", "padding", "page-counter", "page", "permanent", "pf", "ph", "pic", "picture", "plus", "pointer", "position", "positive", "present", "print-switch", "printing", "prior", "proceed", "program-begin", "program-done", "program-id", "program-pointer", "program", "property", "protected", "prototype", "purge", "raise", "raising", "random", "rd", "read", "ready", "realm-name", "realm", "receive", "record", "recording", "records", "redefines", "reel", "reference", "relative", "release", "remainder", "removal", "renames", "repeated", "replace", "replacing", "report", "reporting", "reports", "repository", "rerun", "reserve", "reset", "result", "resume", "retaining", "retrieval", "retry", "return", "returning", "reversed", "rewind", "rewrite", "rf", "rh", "right", "rollback", "rounded", "run", "same", "screen", "sd", "search", "section", "security", "segment-limit", "select", "selective", "self", "send", "sentence", "separate", "sequence", "sequential", "set-selection", "set", "sets", "sharing", "sign", "size", "sort-merge", "sort-tape", "sort-tapes", "sort", "sorted", "source-computer", "source", "sources", "special-names", "standard-1", "standard-2", "standard", "start", "status", "stop", "store", "string", "sub-schema", "subtract", "sum", "super", "suppress", "suppressing", "symbolic", "sync", "synchronized", "system-default", "system", "table", "tally", "tallying", "tape", "tapes", "tenant", "terminal", "terminate", "test", "than", "then", "through", "thru", "time", "times", "to", "top", "trailing", "true", "try", "type", "typedef", "unit", "units", "universal", "unlock", "unstring", "until", "up", "update", "upon", "usage-mode", "usage", "use", "user-default", "using", "val-status", "valid", "validate-status", "validate", "value", "values", "varying", "via", "when", "with", "within", "words", "write"};
+    String SECTION_NAME[] = new String[]{"configuration", "input-output", "file", "working-storage", "local-storage", "linkage"};
+    String DIVISION_NAME[] = new String[]{"identification", "environment", "data", "procedure"};
+    String CALL[] = new String[]{"end-call", "call", "cancel", "goback", "end-perform", "perform", "invoke", "end-if", "if"};
+
+    @Override
+    public Pattern generatePattern() {
+        String STRING_PATTERN = "\"[^\"\\\\]*+(?:\\\\.[^\"\\\\]*+)*+\"|'[^'\\\\]*+(?:\\\\.[^'\\\\]*+)*+'";
+        String COMMENT_PATTERN = "\\Q*\\E[^\\n]*";
+        String CONSTANT_PATTERN = "\\b(" + String.join("|", CONSTANT) + ")\\b";
+        String KEYWORD_PATTERN = "\\b(" + String.join("|", KEYWORD) + ")\\b";
+        String SECTION_NAME_PATTERN = "\\b(" + String.join("|", SECTION_NAME) + ")\\b";
+        String DIVISION_NAME_PATTERN = "\\b(" + String.join("|", DIVISION_NAME) + ")\\b";
+        String CALL_PATTERN = "\\b(" + String.join("|", CALL) + ")\\b";
+
+        Pattern pattern = Pattern.compile(
+                "(?<STRING>" + STRING_PATTERN + ")"
+                + "|(?<COMMENT>" + COMMENT_PATTERN + ")"
+                + "|(?<CONSTANT>" + CONSTANT_PATTERN + ")"
+                + "|(?<KEYWORD>" + KEYWORD_PATTERN + ")"
+                + "|(?<SECTIONNAME>" + SECTION_NAME_PATTERN + ")"
+                + "|(?<DIVISIONNAME>" + DIVISION_NAME_PATTERN + ")"
+                + "|(?<CALL>" + CALL_PATTERN + ")"
+        );
+        return pattern;
+    }
+
+    @Override
+    public String getStyleClass(Matcher matcher) {
+        return matcher.group("STRING") != null ? "string"
+                : matcher.group("COMMENT") != null ? "comment"
+                : matcher.group("CONSTANT") != null ? "constant"
+                : matcher.group("KEYWORD") != null ? "keyword"
+                : matcher.group("SECTIONNAME") != null ? "section-name"
+                : matcher.group("DIVISIONNAME") != null ? "division-name"
+                : matcher.group("CALL") != null ? "call"
+                : null;
+    }
+
+    @Override
+    public ArrayList<String> getKeywords() {
+        ArrayList<String> keywordList = new ArrayList<>();
+        keywordList.addAll(Arrays.asList(CONSTANT));
+        keywordList.addAll(Arrays.asList(KEYWORD));
+        keywordList.addAll(Arrays.asList(SECTION_NAME));
+        keywordList.addAll(Arrays.asList(DIVISION_NAME));
+        keywordList.addAll(Arrays.asList(CALL));
+        Collections.sort(keywordList);
+        return keywordList;
+    }
+
+}

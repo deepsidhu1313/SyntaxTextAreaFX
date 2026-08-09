@@ -1,0 +1,68 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package in.co.s13.syntaxtextareafx.langs;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import in.co.s13.syntaxtextareafx.meta.Language;
+import java.util.Collections;
+
+/**
+ *
+ * @author nika
+ */
+public class Eiffel implements Language {
+
+    String KEYWORDS[] = new String[]{"indexing", "deferred", "expanded", "class", "obsolete", "inherit", "insert", "rename", "as", "export", "all", "undefine", "redefine", "select", "end", "(create|creation)", "feature", "frozen", "prefix", "infix", "is", "obsolete", "require\\s*(else)?", "local", "deferred", "do", "once", "external", "alias", "ensure\\s*(then)?", "rescue", "end", "unique", "invariant", "end", "and\\s*(then)?", "or\\s*(else)?", "xor", "implies", "not", "retry", "if", "then", "elseif", "else", "end", "inspect", "when", "end", "from", "invariant", "variant", "until", "loop", "do", "end", "strip", "old", "separate", "expanded", "like"};
+    String PREDEFINED_VARIABLES[] = new String[]{"Current", "Precursor", "Result"};
+    String VOID_VALUE[] = new String[]{"Void"};
+    String BOOLEAN[] = new String[]{"false", "true"};
+
+    @Override
+    public Pattern generatePattern() {
+        String STRING_PATTERN = "\"[^\"\\\\]*+(?:\\\\.[^\"\\\\]*+)*+\"|'[^'\\\\]*+(?:\\\\.[^'\\\\]*+)*+'";
+        String COMMENT_PATTERN = "\\Q--\\E[^\\n]*";
+        String KEYWORDS_PATTERN = "\\b(" + String.join("|", KEYWORDS) + ")\\b";
+        String PREDEFINED_VARIABLES_PATTERN = "\\b(" + String.join("|", PREDEFINED_VARIABLES) + ")\\b";
+        String VOID_VALUE_PATTERN = "\\b(" + String.join("|", VOID_VALUE) + ")\\b";
+        String BOOLEAN_PATTERN = "\\b(" + String.join("|", BOOLEAN) + ")\\b";
+
+        Pattern pattern = Pattern.compile(
+                "(?<STRING>" + STRING_PATTERN + ")"
+                + "|(?<COMMENT>" + COMMENT_PATTERN + ")"
+                + "|(?<KEYWORDS>" + KEYWORDS_PATTERN + ")"
+                + "|(?<PREDEFINEDVARIABLES>" + PREDEFINED_VARIABLES_PATTERN + ")"
+                + "|(?<VOIDVALUE>" + VOID_VALUE_PATTERN + ")"
+                + "|(?<BOOLEAN>" + BOOLEAN_PATTERN + ")"
+        );
+        return pattern;
+    }
+
+    @Override
+    public String getStyleClass(Matcher matcher) {
+        return matcher.group("STRING") != null ? "string"
+                : matcher.group("COMMENT") != null ? "comment"
+                : matcher.group("KEYWORDS") != null ? "keywords"
+                : matcher.group("PREDEFINEDVARIABLES") != null ? "predefined-variables"
+                : matcher.group("VOIDVALUE") != null ? "void-value"
+                : matcher.group("BOOLEAN") != null ? "boolean"
+                : null;
+    }
+
+    @Override
+    public ArrayList<String> getKeywords() {
+        ArrayList<String> keywordList = new ArrayList<>();
+        keywordList.addAll(Arrays.asList(KEYWORDS));
+        keywordList.addAll(Arrays.asList(PREDEFINED_VARIABLES));
+        keywordList.addAll(Arrays.asList(VOID_VALUE));
+        keywordList.addAll(Arrays.asList(BOOLEAN));
+        Collections.sort(keywordList);
+        return keywordList;
+    }
+
+}
