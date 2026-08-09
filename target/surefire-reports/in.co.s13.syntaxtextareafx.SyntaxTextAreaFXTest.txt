@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: in.co.s13.syntaxtextareafx.SyntaxTextAreaFXTest
 -------------------------------------------------------------------------------
-Tests run: 18, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.210 s -- in in.co.s13.syntaxtextareafx.SyntaxTextAreaFXTest
+Tests run: 18, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.023 s -- in in.co.s13.syntaxtextareafx.SyntaxTextAreaFXTest

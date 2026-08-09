@@ -45,7 +45,7 @@ public class Bennugd implements Language {
         OPERATORS_PATTERN = "\\b(" + String.join("|", OPERATORS) + ")\\b";
         TYPES_PATTERN = "\\b(" + String.join("|", TYPES) + ")\\b";
         COMMONMACROS_PATTERN = "\\b(" + String.join("|", COMMONMACROS) + ")\\b";
-        COMMENT_PATTERN = "//[^\n]*" + "|" + "/\\*(.|\\R)*?\\*/";
+        COMMENT_PATTERN = "//[^\n]*" + "|" + "/\\*[\\s\\S]*?\\*/";
 
         pattern = Pattern.compile(
                 "(?<BOOLEAN>" + BOOLEAN_PATTERN + ")"

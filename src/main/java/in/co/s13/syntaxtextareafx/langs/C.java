@@ -66,8 +66,8 @@ public class C implements Language {
         COMMON_DEFINES_PATTERN = "\\b(" + String.join("|", COMMON_DEFINES) + ")\\b";
         STANDARD_STREAMS_PATTERN = "\\b(" + String.join("|", STANDARD_STREAMS) + ")\\b";
         SIGNALS_PATTERN = "\\b(" + String.join("|", SIGNALS) + ")\\b";
-        STRING_PATTERN = "\"([^\"\\\\]|\\\\.)*\"";
-        COMMENT_PATTERN = "//[^\n]*" + "|" + "/\\*(.|\\R)*?\\*/";
+        STRING_PATTERN = "\"[^\"\\\\]*+(?:\\\\.[^\"\\\\]*+)*+\"";
+        COMMENT_PATTERN = "//[^\n]*" + "|" + "/\\*[\\s\\S]*?\\*/";
 
         pattern = Pattern.compile(
                 "(?<KEYWORDS>" + KEYWORDS_PATTERN + ")"

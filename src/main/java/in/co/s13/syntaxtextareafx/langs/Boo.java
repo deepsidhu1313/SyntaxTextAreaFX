@@ -49,8 +49,8 @@ public class Boo implements Language {
         NULL_VALUE_PATTERN = "\\b(" + String.join("|", NULL_VALUE) + ")\\b";
         BOOLEAN_PATTERN = "\\b(" + String.join("|", BOOLEAN) + ")\\b";
         BUILTINS_PATTERN = "\\b(" + String.join("|", BUILTINS) + ")\\b";
-        STRING_PATTERN = "\"(.|\\R)*?\"" + "|" + "\"'([^\"\\\\]|\\\\.)*\'";
-        COMMENT_PATTERN = "#[^\n]*" + "|" + "//[^\n]*" + "|" + "/\\*(.|\\R)*?\\*/";
+        STRING_PATTERN = "\"[\\s\\S]*?\"" + "|" + "\"'([^\"\\\\]|\\\\.)*\'";
+        COMMENT_PATTERN = "#[^\n]*" + "|" + "//[^\n]*" + "|" + "/\\*[\\s\\S]*?\\*/";
 
         pattern = Pattern.compile(
                 "(?<NAMESPACE>" + NAMESPACE_PATTERN + ")"

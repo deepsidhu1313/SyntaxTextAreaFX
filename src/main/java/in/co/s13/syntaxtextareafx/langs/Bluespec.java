@@ -39,7 +39,7 @@ public class Bluespec implements Language {
         KEYWORD_PATTERN = "\\b(" + String.join("|", KEYWORD) + ")\\b";
         TYPE_PATTERN = "\\b(" + String.join("|", TYPE) + ")\\b";
         STANDARD_INTERFACE_PATTERN = "\\b(" + String.join("|", STANDARD_INTERFACE) + ")\\b";
-        COMMENT_PATTERN = "//[^\n]*" + "|" + "/\\*(.|\\R)*?\\*/";
+        COMMENT_PATTERN = "//[^\n]*" + "|" + "/\\*[\\s\\S]*?\\*/";
 
         pattern = Pattern.compile(
                 "(?<SYSTEMTASK>" + SYSTEM_TASK_PATTERN + ")"

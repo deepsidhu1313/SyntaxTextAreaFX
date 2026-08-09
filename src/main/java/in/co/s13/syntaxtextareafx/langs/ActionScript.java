@@ -122,8 +122,8 @@ public class ActionScript implements Language {
         BRACE_PATTERN = "\\{|\\}";
         BRACKET_PATTERN = "\\[|\\]";
         SEMICOLON_PATTERN = "\\;";
-        STRING_PATTERN = "\"([^\"\\\\]|\\\\.)*\"";
-        COMMENT_PATTERN = "//[^\n]*" + "|" + "/\\*(.|\\R)*?\\*/";
+        STRING_PATTERN = "\"[^\"\\\\]*+(?:\\\\.[^\"\\\\]*+)*+\"";
+        COMMENT_PATTERN = "//[^\n]*" + "|" + "/\\*[\\s\\S]*?\\*/";
 
         Pattern pattern = Pattern.compile(
                 "(?<DECLARATIONS>" + DECLARATIONS_PATTERN + ")"

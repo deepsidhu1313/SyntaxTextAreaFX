@@ -197,8 +197,8 @@ public class Ansforth94 implements Language {
         BRACE_PATTERN = "\\{|\\}";
         BRACKET_PATTERN = "\\[|\\]";
         SEMICOLON_PATTERN = "\\;";
-        STRING_PATTERN = "\"([^\"\\\\]|\\\\.)*\"";
-        COMMENT_PATTERN = "/[^\n]*" + "|" + "(\\(.|\\R)*?\\)";
+        STRING_PATTERN = "\"[^\"\\\\]*+(?:\\\\.[^\"\\\\]*+)*+\"";
+        COMMENT_PATTERN = "/[^\n]*" + "|" + "(\\[\\s\\S]*?\\)";
 
         pattern = Pattern.compile(
                 "(?<COREEXTKEYWORDS>" + CORE_EXT_KEYWORDS_PATTERN + ")"

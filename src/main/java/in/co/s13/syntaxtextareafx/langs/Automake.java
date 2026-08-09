@@ -23,7 +23,7 @@ public class Automake implements Language {
     public Pattern generatePattern() {
         Pattern pattern;
 String COMMENT_PATTERN;
-COMMENT_PATTERN = "#[^\n]*" ;//+ "|" + "/\\*(.|\\R)*?\\*/";
+COMMENT_PATTERN = "#[^\n]*" ;//+ "|" + "/\\*[\\s\\S]*?\\*/";
 
 
         pattern = Pattern.compile(
