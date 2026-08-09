@@ -898,7 +898,50 @@ public class SyntaxTextAreaFX extends CodeArea {
         suggestions = syntax.getKeywords();
     }
 
+    /**
+     * Selects the highlighting rules for the current language.
+     *
+     * <p>The {@code LANGS} enum lists 121 languages but only some have rules
+     * written for them. An unimplemented one used to fall through an empty
+     * {@code case} and leave {@code syntax} unset, so the editor silently did
+     * no highlighting at all and gave the caller no clue why. It now falls back
+     * to plain text and says so.
+     */
+    /**
+     * Whether highlighting rules exist for a language.
+     *
+     * <p>{@code LANGS} lists far more languages than have rules written; the
+     * rest render as plain text.
+     */
+    /**
+     * Languages that actually have highlighting rules.
+     *
+     * <p>{@code LANGS} lists 121 languages because the enum was generated from
+     * the full definition set in {@code jsons/}; rules have been written for
+     * these. The rest render as plain text.
+     */
+    private static final java.util.EnumSet<LANGS> IMPLEMENTED = java.util.EnumSet.of(
+            LANGS.actionscript, LANGS.ada, LANGS.ansforth94, LANGS.asp, LANGS.automake,
+            LANGS.awk, LANGS.bennugd, LANGS.bibtex, LANGS.bluespec, LANGS.boo,
+            LANGS.c, LANGS.cpp, LANGS.chdr, LANGS.diff, LANGS.forth,
+            LANGS.fortran, LANGS.java, LANGS.objc, LANGS.text);
+
+    /**
+     * Whether highlighting rules exist for a language.
+     *
+     * <p>Ask before selecting: an unimplemented language renders as plain text.
+     */
+    public static boolean isLanguageImplemented(LANGS language) {
+        return language != null && IMPLEMENTED.contains(language);
+    }
+
+    /** The languages that have highlighting rules, for populating a menu. */
+    public static java.util.Set<LANGS> implementedLanguages() {
+        return java.util.Collections.unmodifiableSet(IMPLEMENTED);
+    }
+
     private void loadLanguage() {
+        syntax = null;
         switch (getCodingStyle()) {
             case actionscript:
                 syntax = new Syntax(new ActionScript());
@@ -1143,6 +1186,13 @@ public class SyntaxTextAreaFX extends CodeArea {
                 syntax = new Syntax(new Text());
                 break;
 
+        }
+    
+        if (syntax == null) {
+            Logger.getLogger(SyntaxTextAreaFX.class.getName()).log(Level.INFO,
+                    "No highlighting rules for {0}; showing it as plain text. "
+                    + "See isLanguageImplemented(LANGS).", getCodingStyle());
+            syntax = new Syntax(new Text());
         }
     }
 

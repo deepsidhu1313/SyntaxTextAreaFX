@@ -127,4 +127,30 @@ class SyntaxTextAreaFXTest {
             }
         }
     }
+
+    // ---- which languages actually have rules (issue #6) ----
+
+    @Test
+    void reportsWhichLanguagesActuallyHaveRules() {
+        // The enum lists far more languages than have highlighting written.
+        // Callers need to be able to ask, rather than select one and get
+        // silence.
+        assertTrue(SyntaxTextAreaFX.isLanguageImplemented(LANGS.java));
+        assertTrue(SyntaxTextAreaFX.isLanguageImplemented(LANGS.c));
+        assertTrue(SyntaxTextAreaFX.isLanguageImplemented(LANGS.text));
+        assertFalse(SyntaxTextAreaFX.isLanguageImplemented(LANGS.javascript),
+                "javascript has no rules yet; saying otherwise would mislead callers");
+    }
+
+    @Test
+    void farMoreLanguagesAreDeclaredThanImplemented() {
+        long implemented = java.util.Arrays.stream(LANGS.values())
+                .filter(SyntaxTextAreaFX::isLanguageImplemented)
+                .count();
+        assertTrue(implemented > 0, "at least some languages must work");
+        assertTrue(implemented < LANGS.values().length,
+                "if this ever fails, every declared language has rules and the "
+                + "isLanguageImplemented caveat can be dropped");
+    }
 }
+
