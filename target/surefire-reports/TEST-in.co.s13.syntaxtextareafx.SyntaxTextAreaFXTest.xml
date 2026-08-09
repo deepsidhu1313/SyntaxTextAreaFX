@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" version="3.0.2" name="in.co.s13.syntaxtextareafx.SyntaxTextAreaFXTest" time="1.21" tests="18" errors="0" skipped="0" failures="0">
+  <properties>
+    <property name="java.specification.version" value="26"/>
+    <property name="javafx.runtime.version" value="21.0.5+1"/>
+    <property name="sun.jnu.encoding" value="UTF-8"/>
+    <property name="java.class.path" value="/Users/navdeepsingh/repo/s13/SIPS/SyntaxTextAreaFX/target/test-classes:/Users/navdeepsingh/repo/s13/SIPS/SyntaxTextAreaFX/target/classes:/Users/navdeepsingh/.m2/repository/org/openjfx/javafx-controls/21.0.5/javafx-controls-21.0.5.jar:/Users/navdeepsingh/.m2/repository/org/openjfx/javafx-controls/21.0.5/javafx-controls-21.0.5-mac.jar:/Users/navdeepsingh/.m2/repository/org/openjfx/javafx-graphics/21.0.5/javafx-graphics-21.0.5.jar:/Users/navdeepsingh/.m2/repository/org/openjfx/javafx-graphics/21.0.5/javafx-graphics-21.0.5-mac.jar:/Users/navdeepsingh/.m2/repository/org/openjfx/javafx-base/21.0.5/javafx-base-21.0.5.jar:/Users/navdeepsingh/.m2/repository/org/openjfx/javafx-base/21.0.5/javafx-base-21.0.5-mac.jar:/Users/navdeepsingh/.m2/repository/org/fxmisc/richtext/richtextfx/0.11.5/richtextfx-0.11.5.jar:/Users/navdeepsingh/.m2/repository/org/reactfx/reactfx/2.0-M5/reactfx-2.0-M5.jar:/Users/navdeepsingh/.m2/repository/org/fxmisc/undo/undofx/2.1.1/undofx-2.1.1.jar:/Users/navdeepsingh/.m2/repository/org/fxmisc/flowless/flowless/0.7.4/flowless-0.7.4.jar:/Users/navdeepsingh/.m2/repository/org/fxmisc/wellbehaved/wellbehavedfx/0.3.3/wellbehavedfx-0.3.3.jar:/Users/navdeepsingh/.m2/repository/in/co/s13/common-json/1.1.0/common-json-1.1.0.jar:/Users/navdeepsingh/.m2/repository/org/junit/jupiter/junit-jupiter/5.11.4/junit-jupiter-5.11.4.jar:/Users/navdeepsingh/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.11.4/junit-jupiter-api-5.11.4.jar:/Users/navdeepsingh/.m2/repository/org/opentest4j/opentest4j/1.3.0/opentest4j-1.3.0.jar:/Users/navdeepsingh/.m2/repository/org/junit/platform/junit-platform-commons/1.11.4/junit-platform-commons-1.11.4.jar:/Users/navdeepsingh/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:/Users/navdeepsingh/.m2/repository/org/junit/jupiter/junit-jupiter-params/5.11.4/junit-jupiter-params-5.11.4.jar:/Users/navdeepsingh/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.11.4/junit-jupiter-engine-5.11.4.jar:/Users/navdeepsingh/.m2/repository/org/junit/platform/junit-platform-engine/1.11.4/junit-platform-engine-1.11.4.jar:"/>
+    <property name="java.vm.vendor" value="Homebrew"/>
+    <property name="sun.arch.data.model" value="64"/>
+    <property name="java.vendor.url" value="https://github.com/Homebrew/homebrew-core/issues"/>
+    <property name="javafx.version" value="21.0.5"/>
+    <property name="os.name" value="Mac OS X"/>
+    <property name="java.vm.specification.version" value="26"/>
+    <property name="sun.java.launcher" value="SUN_STANDARD"/>
+    <property name="user.country" value="CA"/>
+    <property name="sun.boot.library.path" value="/usr/local/Cellar/openjdk/26.0.2/libexec/openjdk.jdk/Contents/Home/lib"/>
+    <property name="sun.java.command" value="/Users/navdeepsingh/repo/s13/SIPS/SyntaxTextAreaFX/target/surefire/surefirebooter-20260809160800953_3.jar /Users/navdeepsingh/repo/s13/SIPS/SyntaxTextAreaFX/target/surefire 2026-08-09T16-08-00_729-jvmRun1 surefire-20260809160800953_1tmp surefire_0-20260809160800953_2tmp"/>
+    <property name="http.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
+    <property name="jdk.debug" value="release"/>
+    <property name="surefire.test.class.path" value="/Users/navdeepsingh/repo/s13/SIPS/SyntaxTextAreaFX/target/test-classes:/Users/navdeepsingh/repo/s13/SIPS/SyntaxTextAreaFX/target/classes:/Users/navdeepsingh/.m2/repository/org/openjfx/javafx-controls/21.0.5/javafx-controls-21.0.5.jar:/Users/navdeepsingh/.m2/repository/org/openjfx/javafx-controls/21.0.5/javafx-controls-21.0.5-mac.jar:/Users/navdeepsingh/.m2/repository/org/openjfx/javafx-graphics/21.0.5/javafx-graphics-21.0.5.jar:/Users/navdeepsingh/.m2/repository/org/openjfx/javafx-graphics/21.0.5/javafx-graphics-21.0.5-mac.jar:/Users/navdeepsingh/.m2/repository/org/openjfx/javafx-base/21.0.5/javafx-base-21.0.5.jar:/Users/navdeepsingh/.m2/repository/org/openjfx/javafx-base/21.0.5/javafx-base-21.0.5-mac.jar:/Users/navdeepsingh/.m2/repository/org/fxmisc/richtext/richtextfx/0.11.5/richtextfx-0.11.5.jar:/Users/navdeepsingh/.m2/repository/org/reactfx/reactfx/2.0-M5/reactfx-2.0-M5.jar:/Users/navdeepsingh/.m2/repository/org/fxmisc/undo/undofx/2.1.1/undofx-2.1.1.jar:/Users/navdeepsingh/.m2/repository/org/fxmisc/flowless/flowless/0.7.4/flowless-0.7.4.jar:/Users/navdeepsingh/.m2/repository/org/fxmisc/wellbehaved/wellbehavedfx/0.3.3/wellbehavedfx-0.3.3.jar:/Users/navdeepsingh/.m2/repository/in/co/s13/common-json/1.1.0/common-json-1.1.0.jar:/Users/navdeepsingh/.m2/repository/org/junit/jupiter/junit-jupiter/5.11.4/junit-jupiter-5.11.4.jar:/Users/navdeepsingh/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.11.4/junit-jupiter-api-5.11.4.jar:/Users/navdeepsingh/.m2/repository/org/opentest4j/opentest4j/1.3.0/opentest4j-1.3.0.jar:/Users/navdeepsingh/.m2/repository/org/junit/platform/junit-platform-commons/1.11.4/junit-platform-commons-1.11.4.jar:/Users/navdeepsingh/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:/Users/navdeepsingh/.m2/repository/org/junit/jupiter/junit-jupiter-params/5.11.4/junit-jupiter-params-5.11.4.jar:/Users/navdeepsingh/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.11.4/junit-jupiter-engine-5.11.4.jar:/Users/navdeepsingh/.m2/repository/org/junit/platform/junit-platform-engine/1.11.4/junit-platform-engine-1.11.4.jar:"/>
+    <property name="sun.cpu.endian" value="little"/>
+    <property name="user.home" value="/Users/navdeepsingh"/>
+    <property name="user.language" value="en"/>
+    <property name="java.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.version.date" value="2026-07-21"/>
+    <property name="java.home" value="/usr/local/Cellar/openjdk/26.0.2/libexec/openjdk.jdk/Contents/Home"/>
+    <property name="file.separator" value="/"/>
+    <property name="basedir" value="/Users/navdeepsingh/repo/s13/SIPS/SyntaxTextAreaFX"/>
+    <property name="java.vm.compressedOopsMode" value="Zero based"/>
+    <property name="line.separator" value="&#10;"/>
+    <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.specification.name" value="Java Platform API Specification"/>
+    <property name="apple.awt.application.name" value="ForkedBooter"/>
+    <property name="surefire.real.class.path" value="/Users/navdeepsingh/repo/s13/SIPS/SyntaxTextAreaFX/target/surefire/surefirebooter-20260809160800953_3.jar"/>
+    <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
+    <property name="ftp.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
+    <property name="java.runtime.version" value="26.0.2"/>
+    <property name="user.name" value="navdeepsingh"/>
+    <property name="stdout.encoding" value="UTF-8"/>
+    <property name="path.separator" value=":"/>
+    <property name="os.version" value="26.5.1"/>
+    <property name="java.runtime.name" value="OpenJDK Runtime Environment"/>
+    <property name="file.encoding" value="UTF-8"/>
+    <property name="java.vm.name" value="OpenJDK 64-Bit Server VM"/>
+    <property name="java.vendor.version" value="Homebrew"/>
+    <property name="localRepository" value="/Users/navdeepsingh/.m2/repository"/>
+    <property name="java.vendor.url.bug" value="https://github.com/Homebrew/homebrew-core/issues"/>
+    <property name="java.io.tmpdir" value="/var/folders/xk/_kwj4y_17638sx8szjftm3s80000gn/T/"/>
+    <property name="java.version" value="26.0.2"/>
+    <property name="user.dir" value="/Users/navdeepsingh/repo/s13/SIPS/SyntaxTextAreaFX"/>
+    <property name="os.arch" value="x86_64"/>
+    <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
+    <property name="native.encoding" value="UTF-8"/>
+    <property name="java.library.path" value="/Users/navdeepsingh/Library/Java/Extensions:/Library/Java/Extensions:/Network/Library/Java/Extensions:/System/Library/Java/Extensions:/usr/lib/java:."/>
+    <property name="java.vm.info" value="mixed mode, sharing"/>
+    <property name="stderr.encoding" value="UTF-8"/>
+    <property name="java.vendor" value="Homebrew"/>
+    <property name="java.vm.version" value="26.0.2"/>
+    <property name="stdin.encoding" value="UTF-8"/>
+    <property name="sun.io.unicode.encoding" value="UnicodeBig"/>
+    <property name="socksNonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
+    <property name="java.class.version" value="70.0"/>
+  </properties>
+  <testcase name="theLanguageIsPerEditorNotSharedAcrossAllOfThem" classname="in.co.s13.syntaxtextareafx.SyntaxTextAreaFXTest" time="0.217"/>
+  <testcase name="anUnknownExtensionOpensAsPlainTextRatherThanFailing" classname="in.co.s13.syntaxtextareafx.SyntaxTextAreaFXTest" time="0.706"/>
+  <testcase name="nullAndBlankNamesAreTolerated" classname="in.co.s13.syntaxtextareafx.SyntaxTextAreaFXTest" time="0.003"/>
+  <testcase name="noPerDocumentStateIsHeldStatically" classname="in.co.s13.syntaxtextareafx.SyntaxTextAreaFXTest" time="0.003"/>
+  <testcase name="extensionMatchingIsCaseInsensitive" classname="in.co.s13.syntaxtextareafx.SyntaxTextAreaFXTest" time="0.024"/>
+  <testcase name="filesWithoutAnExtensionOpenAsPlainText(String)[1]" classname="in.co.s13.syntaxtextareafx.SyntaxTextAreaFXTest" time="0.014"/>
+  <testcase name="filesWithoutAnExtensionOpenAsPlainText(String)[2]" classname="in.co.s13.syntaxtextareafx.SyntaxTextAreaFXTest" time="0.002"/>
+  <testcase name="filesWithoutAnExtensionOpenAsPlainText(String)[3]" classname="in.co.s13.syntaxtextareafx.SyntaxTextAreaFXTest" time="0.003"/>
+  <testcase name="isNotConfusedByDirectoriesInThePath" classname="in.co.s13.syntaxtextareafx.SyntaxTextAreaFXTest" time="0.002"/>
+  <testcase name="supportsReportsKnownExtensions" classname="in.co.s13.syntaxtextareafx.SyntaxTextAreaFXTest" time="0.005"/>
+  <testcase name="aUsefulNumberOfLanguagesIsAvailable" classname="in.co.s13.syntaxtextareafx.SyntaxTextAreaFXTest" time="0.003"/>
+  <testcase name="aTrailingDotIsNotAnExtension" classname="in.co.s13.syntaxtextareafx.SyntaxTextAreaFXTest" time="0.001"/>
+  <testcase name="picksTheLanguageFromTheFileExtension(String, String)[1]" classname="in.co.s13.syntaxtextareafx.SyntaxTextAreaFXTest" time="0.007"/>
+  <testcase name="picksTheLanguageFromTheFileExtension(String, String)[2]" classname="in.co.s13.syntaxtextareafx.SyntaxTextAreaFXTest" time="0.002"/>
+  <testcase name="picksTheLanguageFromTheFileExtension(String, String)[3]" classname="in.co.s13.syntaxtextareafx.SyntaxTextAreaFXTest" time="0.002"/>
+  <testcase name="picksTheLanguageFromTheFileExtension(String, String)[4]" classname="in.co.s13.syntaxtextareafx.SyntaxTextAreaFXTest" time="0.002"/>
+  <testcase name="picksTheLanguageFromTheFileExtension(String, String)[5]" classname="in.co.s13.syntaxtextareafx.SyntaxTextAreaFXTest" time="0.002"/>
+  <testcase name="picksTheLanguageFromTheFileExtension(String, String)[6]" classname="in.co.s13.syntaxtextareafx.SyntaxTextAreaFXTest" time="0.002"/>
+</testsuite>
