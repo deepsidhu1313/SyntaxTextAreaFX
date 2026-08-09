@@ -1,0 +1,68 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package in.co.s13.syntaxtextareafx.langs;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import in.co.s13.syntaxtextareafx.meta.Language;
+import java.util.Collections;
+
+/**
+ *
+ * @author nika
+ */
+public class Scilab implements Language {
+
+    String BOOLEAN[] = new String[]{"%f", "%F", "%t", "%T"};
+    String RESERVED_CONSTANT[] = new String[]{"%pi", "%eps", "%inf", "%nan", "%e", "%i", "%z", "%s"};
+    String KEYWORD[] = new String[]{"abort", "break", "case", "clear", "catch", "continue", "do", "elseif", "else", "endfunction", "end", "for", "function", "global", "if", "pause", "return", "resume", "select", "try", "then", "while"};
+    String FUNCTION[] = new String[]{"abs", "and", "acos", "asin", "atan", "ceil", "cd", "chdir", "clearglobal", "cosh", "cos", "cumprod", "deff", "disp", "error", "exec", "execstr", "exists", "exp", "eye", "gettext", "floor", "fprintf", "fread", "fsolve", "imag", "isdef", "isempty", "isinf", "isnan", "isvector", "lasterror", "length", "load", "linspace", "list", "listfiles", "log10", "log2", "log", "max", "min", "msprintf", "mclose", "mopen", "ones", "or", "pathconvert", "poly", "printf", "prod", "pwd", "rand", "real", "round", "sinh", "sin", "size", "gsort", "sprintf", "sqrt", "strcat", "strcmp", "string", "sum", "system", "tanh", "tan", "type", "typename", "warning", "zeros"};
+
+    @Override
+    public Pattern generatePattern() {
+        String STRING_PATTERN = "\"[^\"\\\\]*+(?:\\\\.[^\"\\\\]*+)*+\"|'[^'\\\\]*+(?:\\\\.[^'\\\\]*+)*+'";
+        String COMMENT_PATTERN = "\\Q//\\E[^\\n]*";
+        String BOOLEAN_PATTERN = "\\b(" + String.join("|", BOOLEAN) + ")\\b";
+        String RESERVED_CONSTANT_PATTERN = "\\b(" + String.join("|", RESERVED_CONSTANT) + ")\\b";
+        String KEYWORD_PATTERN = "\\b(" + String.join("|", KEYWORD) + ")\\b";
+        String FUNCTION_PATTERN = "\\b(" + String.join("|", FUNCTION) + ")\\b";
+
+        Pattern pattern = Pattern.compile(
+                "(?<STRING>" + STRING_PATTERN + ")"
+                + "|(?<COMMENT>" + COMMENT_PATTERN + ")"
+                + "|(?<BOOLEAN>" + BOOLEAN_PATTERN + ")"
+                + "|(?<RESERVEDCONSTANT>" + RESERVED_CONSTANT_PATTERN + ")"
+                + "|(?<KEYWORD>" + KEYWORD_PATTERN + ")"
+                + "|(?<FUNCTION>" + FUNCTION_PATTERN + ")"
+        );
+        return pattern;
+    }
+
+    @Override
+    public String getStyleClass(Matcher matcher) {
+        return matcher.group("STRING") != null ? "string"
+                : matcher.group("COMMENT") != null ? "comment"
+                : matcher.group("BOOLEAN") != null ? "boolean"
+                : matcher.group("RESERVEDCONSTANT") != null ? "reserved-constant"
+                : matcher.group("KEYWORD") != null ? "keyword"
+                : matcher.group("FUNCTION") != null ? "function"
+                : null;
+    }
+
+    @Override
+    public ArrayList<String> getKeywords() {
+        ArrayList<String> keywordList = new ArrayList<>();
+        keywordList.addAll(Arrays.asList(BOOLEAN));
+        keywordList.addAll(Arrays.asList(RESERVED_CONSTANT));
+        keywordList.addAll(Arrays.asList(KEYWORD));
+        keywordList.addAll(Arrays.asList(FUNCTION));
+        Collections.sort(keywordList);
+        return keywordList;
+    }
+
+}

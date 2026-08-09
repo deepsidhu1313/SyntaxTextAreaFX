@@ -1,0 +1,68 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package in.co.s13.syntaxtextareafx.langs;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import in.co.s13.syntaxtextareafx.meta.Language;
+import java.util.Collections;
+
+/**
+ *
+ * @author nika
+ */
+public class Perl implements Language {
+
+    String FILE_DESCRIPTOR[] = new String[]{"STDIN", "STDOUT", "STDERR"};
+    String CONTROL[] = new String[]{"BEGIN", "END", "CHECK", "INIT"};
+    String KEYWORD[] = new String[]{"break", "continue", "do", "default", "each", "else", "elsif", "foreach", "for", "given", "if", "last", "local", "my", "next", "our", "package", "return", "sub", "state", "unless", "until", "when", "while", "__FILE__", "__LINE__", "__PACKAGE__"};
+    String BUILTIN[] = new String[]{"abs", "accept", "alarm", "atan2", "bind", "binmode", "bless", "caller", "chdir", "chmod", "chomp", "chop", "chown", "chr", "chroot", "closedir", "close", "connect", "cos", "crypt", "dbmclose", "dbmopen", "defined", "delete", "die", "dump", "each", "endgrent", "endhostent", "endnetent", "endprotoent", "endpwent", "endservent", "eof", "eval", "exec", "exists", "exit", "exp", "fcntl", "fileno", "flock", "fork", "format", "formline", "getc", "getgrent", "getgrgid", "getgrnam", "gethostbyaddr", "gethostbyname", "gethostent", "getlogin", "getnetbyaddr", "getnetbyname", "getnetent", "getpeername", "getpgrp", "getppid", "getpriority", "getprotobyname", "getprotobynumber", "getprotoent", "getpwent", "getpwnam", "getpwuid", "getservbyname", "getservbyport", "getservent", "getsockname", "getsockopt", "glob", "gmtime", "goto", "grep", "hex", "import", "index", "int", "ioctl", "join", "keys", "kill", "lcfirst", "lc", "length", "link", "listen", "localtime", "log", "lstat", "map", "mkdir", "msgctl", "msgget", "msgrcv", "msgsnd", "new", "oct", "opendir", "open", "ord", "pack", "pipe", "pop", "pos", "printf", "print", "prototype", "push", "quotemeta", "rand", "readdir", "read", "readlink", "recv", "redo", "ref", "rename", "reset", "reverse", "rewinddir", "rindex", "rmdir", "say", "scalar", "seekdir", "seek", "select", "semctl", "semget", "semop", "send", "setgrent", "sethostent", "setnetent", "setpgrp", "setpriority", "setprotoent", "setpwent", "setservent", "setsockopt", "shift", "shmctl", "shmget", "shmread", "shmwrite", "shutdown", "sin", "sleep", "socket", "socketpair", "sort", "splice", "split", "sprintf", "sqrt", "srand", "stat", "study", "substr", "symlink", "syscall", "sysread", "sysseek", "system", "syswrite", "telldir", "tell", "tied", "tie", "time", "times", "truncate", "ucfirst", "uc", "umask", "undef", "unlink", "unpack", "unshift", "untie", "utime", "values", "vec", "wait", "waitpid", "wantarray", "warn", "write"};
+
+    @Override
+    public Pattern generatePattern() {
+        String STRING_PATTERN = "\"[^\"\\\\]*+(?:\\\\.[^\"\\\\]*+)*+\"|'[^'\\\\]*+(?:\\\\.[^'\\\\]*+)*+'";
+        String COMMENT_PATTERN = "\\Q#\\E[^\\n]*";
+        String FILE_DESCRIPTOR_PATTERN = "\\b(" + String.join("|", FILE_DESCRIPTOR) + ")\\b";
+        String CONTROL_PATTERN = "\\b(" + String.join("|", CONTROL) + ")\\b";
+        String KEYWORD_PATTERN = "\\b(" + String.join("|", KEYWORD) + ")\\b";
+        String BUILTIN_PATTERN = "\\b(" + String.join("|", BUILTIN) + ")\\b";
+
+        Pattern pattern = Pattern.compile(
+                "(?<STRING>" + STRING_PATTERN + ")"
+                + "|(?<COMMENT>" + COMMENT_PATTERN + ")"
+                + "|(?<FILEDESCRIPTOR>" + FILE_DESCRIPTOR_PATTERN + ")"
+                + "|(?<CONTROL>" + CONTROL_PATTERN + ")"
+                + "|(?<KEYWORD>" + KEYWORD_PATTERN + ")"
+                + "|(?<BUILTIN>" + BUILTIN_PATTERN + ")"
+        );
+        return pattern;
+    }
+
+    @Override
+    public String getStyleClass(Matcher matcher) {
+        return matcher.group("STRING") != null ? "string"
+                : matcher.group("COMMENT") != null ? "comment"
+                : matcher.group("FILEDESCRIPTOR") != null ? "file-descriptor"
+                : matcher.group("CONTROL") != null ? "control"
+                : matcher.group("KEYWORD") != null ? "keyword"
+                : matcher.group("BUILTIN") != null ? "builtin"
+                : null;
+    }
+
+    @Override
+    public ArrayList<String> getKeywords() {
+        ArrayList<String> keywordList = new ArrayList<>();
+        keywordList.addAll(Arrays.asList(FILE_DESCRIPTOR));
+        keywordList.addAll(Arrays.asList(CONTROL));
+        keywordList.addAll(Arrays.asList(KEYWORD));
+        keywordList.addAll(Arrays.asList(BUILTIN));
+        Collections.sort(keywordList);
+        return keywordList;
+    }
+
+}

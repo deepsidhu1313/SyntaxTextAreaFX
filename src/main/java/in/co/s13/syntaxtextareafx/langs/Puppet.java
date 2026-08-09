@@ -1,0 +1,88 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package in.co.s13.syntaxtextareafx.langs;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import in.co.s13.syntaxtextareafx.meta.Language;
+import java.util.Collections;
+
+/**
+ *
+ * @author nika
+ */
+public class Puppet implements Language {
+
+    String KEYWORDS[] = new String[]{"class", "define", "inherits", "import", "node"};
+    String KEYWORDS_INLINE[] = new String[]{"case", "class", "default", "define", "if", "else"};
+    String RESOURCES[] = new String[]{"augeas", "computer", "cron", "exec", "file", "filebucket", "group", "host", "interface", "k5login", "macauthorization", "mailalias", "maillist", "mcx", "mount", "nagios_command", "nagios_contact", "nagios_contactgroup", "nagios_host", "nagios_hostdependency", "nagios_hostescalation", "nagios_hostextinfo", "nagios_hostgroup", "nagios_service", "nagios_servicedependency", "nagios_serviceescalation", "nagios_serviceextinfo", "nagios_servicegroup", "nagios_timeperiod", "notify", "package", "resources", "router", "schedule", "scheduled_task", "selboolean", "selmodule", "service", "ssh_authorized_key", "sshkey", "stage", "tidy", "user", "vlan", "yumrepo", "zfs", "zone", "zpool"};
+    String OBJECTS[] = new String[]{"Augeas", "Class", "Computer", "Cron", "Exec", "File", "Filebucket", "Group", "Host", "Interface", "K5login", "Macauthorization", "Mailalias", "Maillist", "Mcx", "Mount", "Nagios_Command", "Nagios_Contact", "Nagios_Contactgroup", "Nagios_Host", "Nagios_Hostdependency", "Nagios_Hostescalation", "Nagios_Hostextinfo", "Nagios_Hostgroup", "Nagios_Service", "Nagios_Servicedependency", "Nagios_Serviceescalation", "Nagios_Serviceextinfo", "Nagios_Servicegroup", "Nagios_Timeperiod", "Notify", "Package", "Resources", "Router", "Schedule", "Scheduled_Task", "Selboolean", "Selmodule", "Service", "Ssh_Authorized_Key", "Sshkey", "Tidy", "User", "Vlan", "Yumrepo", "Zfs", "Zone", "Zpool"};
+    String PARAMETERS[] = new String[]{"aclinherit", "aclmode", "action_url", "active_checks_enabled", "address", "address1", "address2", "address3", "address4", "address5", "address6", "admin", "adminfile", "age", "alias", "allowcdrom", "allowdupe", "allowed_trunk_vlans", "allow_root", "arguments", "atboot", "atime", "attribute_membership", "attributes", "authenticate_user", "auths", "auth_class", "auth_type", "auth_membership", "autoboot", "backup", "baseurl", "binary", "blockdevice", "canmount", "can_submit_commands", "category", "changes", "checksum", "check_command", "check_freshness", "check_interval", "check_period", "clone", "command", "command_line", "command_name", "comment", "compression", "configfiles", "contactgroups", "contactgroup_members", "contactgroup_name", "contacts", "contact_groups", "contact_name", "content", "context", "control", "copies", "cost", "creates", "create_args", "ctime", "cwd", "dataset", "dependency_period", "dependent_hostgroup_name", "dependent_host_name", "dependent_service_description", "descr", "description", "device", "devices", "device_url", "disk", "display_name", "ds_name", "ds_type", "dump", "duplex", "email", "en_address", "enable", "enabled", "enablegroups", "encapsulation", "ensure", "escalation_options", "escalation_period", "event_handler", "event_handler_enabled", "environment", "etherchannel", "exclude", "exec", "execution_failure_criteria", "expiry", "failovermethod", "failure_prediction_enabled", "first_notification", "first_notification_delay", "flap_detection_enabled", "flap_detection_options", "flavor", "force", "freshness_threshold", "friday", "fstype", "gid", "gpgcheck", "gpgkey", "group", "groups", "hasrestart", "hasstatus", "high_flap_threshold", "home", "hostgroups", "hostgroup_members", "hostgroup_name", "host_aliases", "host_name", "host_notifications_enabled", "host_notification_commands", "host_notification_options", "host_notification_period", "hour", "http_caching", "ia_load_module", "icon_image", "icon_image_alt", "id", "ignore", "incl", "include", "includepkgs", "inherit", "inherits_parent", "initial_state", "install_args", "install_options", "instance", "ip", "ipaddress", "iptype", "ip_address", "is_volatile", "keepalive", "key", "key_membership", "keys", "k_of_n", "last_notification", "lens", "links", "load_path", "log", "logbias", "logoutput", "low_flap_threshold", "mailserver", "managehome", "manifest", "matches", "max_check_attempts", "mechanisms", "members", "membership", "message", "metadata_expire", "minute", "mirror", "mirrorlist", "mode", "monday", "month", "monthday", "mountpoint", "mtime", "name", "native_vlan", "nbmand", "normal_check_interval", "notes", "notes_url", "notifications_enabled", "notification_failure_criteria", "notification_interval", "notification_options", "notification_period", "obsess_over_host", "obsess_over_service", "onlyif", "options", "owner", "pager", "parallelize_check", "parents", "pass", "passive_checks_enabled", "password", "password_max_age", "password_min_age", "path", "pattern", "period", "periodmatch", "persistent", "platform", "pool", "port", "primarycache", "principals", "priority", "process_perf_data", "profiles", "profile_membership", "project", "protect", "proxy", "proxy_password", "proxy_username", "provider", "purge", "quota", "raid_parity", "raidz", "range", "readonly", "realhostname", "realname", "recipient", "recordsize", "recurse", "recurselimit", "refquota", "refreservation", "refresh", "refreshonly", "register", "remounts", "repeat", "replace", "responsefile", "reservation", "restart", "retain_nonstatus_information", "retain_status_information", "retry_check_interval", "retry_interval", "returns", "rmdirs", "roles", "role_membership", "root", "rule", "saturday", "secondarycache", "selinux_ignore_defaults", "selmoduledir", "selmodulepath", "selrange", "selrole", "seltype", "seluser", "server", "servicegroups", "servicegroup_name", "service_description", "service_notifications_enabled", "service_notification_commands", "service_notification_options", "service_notification_period", "setuid", "shared", "shareiscsi", "sharenfs", "shares", "sharesmb", "shell", "size", "session_owner", "snapdir", "source", "sourceselect", "spare", "speed", "stalking_options", "start", "status", "statusmap_image", "stop", "sysidcfg", "system", "special", "sunday", "syncversion", "target", "thursday", "timeout", "timeperiod_name", "tries", "trigger", "try_sleep", "tuesday", "type", "type_check", "uid", "unless", "unless_system_user", "url", "use", "user", "value", "vendor", "version", "volsize", "vrml_image", "vscan", "webserver", "wednesday", "weekday", "withpath", "working_dir", "xattr", "zoned", "_naginator_name"};
+    String METAPARAMETERS[] = new String[]{"alias", "audit", "before", "check", "loglevel", "noop", "notify", "require", "schedule", "stage", "subscribe", "tag"};
+    String FUNCTIONS[] = new String[]{"alert", "create_resources", "crit", "debug", "defined", "emerg", "err", "extlookup", "fail", "file", "fqdn_rand", "generate", "include", "info", "inline_template", "md5", "notice", "realize", "regsubst", "require", "search", "sha1", "shellquote", "split", "sprintf", "tag", "tagged", "template", "versioncmp", "warning"};
+    String VALUES[] = new String[]{"absent", "access", "all", "allow", "auto", "current", "daily", "deny", "directory", "discard", "distance", "dot1q", "evaluate-mechanisms", "exclusive", "false", "file", "first", "fletcher2", "fletcher4", "full", "follow", "groupmask", "gzip", "gzip-1", "gzip-2", "gzip-3", "gzip-4", "gzip-5", "gzip-6", "gzip-7", "gzip-8", "gzip-9", "half", "held", "hidden", "hourly", "inclusive", "inf", "installed", "isl", "keep", "latest", "latency", "legacy", "link", "lzjb", "manage", "manual", "metadata", "minimum", "monthly", "mounted", "never", "no", "noallow", "noauto", "none", "notlink", "no_shutdown", "number", "off", "on", "once", "on_failure", "packages", "passthrough", "passthrough-x", "present", "priority", "purged", "remote", "restricted", "right", "role", "roundrobin", "running", "shared", "sha256", "shutdown", "ssh-dss", "ssh-rsa", "stopped", "throughput", "true", "trunk", "unmounted", "visible", "weekly", "yes", "zle"};
+
+    @Override
+    public Pattern generatePattern() {
+        String STRING_PATTERN = "\"[^\"\\\\]*+(?:\\\\.[^\"\\\\]*+)*+\"|'[^'\\\\]*+(?:\\\\.[^'\\\\]*+)*+'";
+        String COMMENT_PATTERN = "\\Q#\\E[^\\n]*";
+        String KEYWORDS_PATTERN = "\\b(" + String.join("|", KEYWORDS) + ")\\b";
+        String KEYWORDS_INLINE_PATTERN = "\\b(" + String.join("|", KEYWORDS_INLINE) + ")\\b";
+        String RESOURCES_PATTERN = "\\b(" + String.join("|", RESOURCES) + ")\\b";
+        String OBJECTS_PATTERN = "\\b(" + String.join("|", OBJECTS) + ")\\b";
+        String PARAMETERS_PATTERN = "\\b(" + String.join("|", PARAMETERS) + ")\\b";
+        String METAPARAMETERS_PATTERN = "\\b(" + String.join("|", METAPARAMETERS) + ")\\b";
+        String FUNCTIONS_PATTERN = "\\b(" + String.join("|", FUNCTIONS) + ")\\b";
+        String VALUES_PATTERN = "\\b(" + String.join("|", VALUES) + ")\\b";
+
+        Pattern pattern = Pattern.compile(
+                "(?<STRING>" + STRING_PATTERN + ")"
+                + "|(?<COMMENT>" + COMMENT_PATTERN + ")"
+                + "|(?<KEYWORDS>" + KEYWORDS_PATTERN + ")"
+                + "|(?<KEYWORDSINLINE>" + KEYWORDS_INLINE_PATTERN + ")"
+                + "|(?<RESOURCES>" + RESOURCES_PATTERN + ")"
+                + "|(?<OBJECTS>" + OBJECTS_PATTERN + ")"
+                + "|(?<PARAMETERS>" + PARAMETERS_PATTERN + ")"
+                + "|(?<METAPARAMETERS>" + METAPARAMETERS_PATTERN + ")"
+                + "|(?<FUNCTIONS>" + FUNCTIONS_PATTERN + ")"
+                + "|(?<VALUES>" + VALUES_PATTERN + ")"
+        );
+        return pattern;
+    }
+
+    @Override
+    public String getStyleClass(Matcher matcher) {
+        return matcher.group("STRING") != null ? "string"
+                : matcher.group("COMMENT") != null ? "comment"
+                : matcher.group("KEYWORDS") != null ? "keywords"
+                : matcher.group("KEYWORDSINLINE") != null ? "keywords-inline"
+                : matcher.group("RESOURCES") != null ? "resources"
+                : matcher.group("OBJECTS") != null ? "objects"
+                : matcher.group("PARAMETERS") != null ? "parameters"
+                : matcher.group("METAPARAMETERS") != null ? "metaparameters"
+                : matcher.group("FUNCTIONS") != null ? "functions"
+                : matcher.group("VALUES") != null ? "values"
+                : null;
+    }
+
+    @Override
+    public ArrayList<String> getKeywords() {
+        ArrayList<String> keywordList = new ArrayList<>();
+        keywordList.addAll(Arrays.asList(KEYWORDS));
+        keywordList.addAll(Arrays.asList(KEYWORDS_INLINE));
+        keywordList.addAll(Arrays.asList(RESOURCES));
+        keywordList.addAll(Arrays.asList(OBJECTS));
+        keywordList.addAll(Arrays.asList(PARAMETERS));
+        keywordList.addAll(Arrays.asList(METAPARAMETERS));
+        keywordList.addAll(Arrays.asList(FUNCTIONS));
+        keywordList.addAll(Arrays.asList(VALUES));
+        Collections.sort(keywordList);
+        return keywordList;
+    }
+
+}

@@ -1,0 +1,68 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package in.co.s13.syntaxtextareafx.langs;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import in.co.s13.syntaxtextareafx.meta.Language;
+import java.util.Collections;
+
+/**
+ *
+ * @author nika
+ */
+public class Go implements Language {
+
+    String KEYWORDS[] = new String[]{"break", "case", "const", "continue", "default", "defer", "else", "fallthrough", "for", "func", "go", "goto", "if", "import", "interface", "package", "range", "return", "select", "struct", "switch", "type", "var"};
+    String TYPES[] = new String[]{"bool", "byte", "chan", "complex64", "complex128", "error", "float32", "float64", "func", "int", "int8", "int16", "int32", "int64", "map", "rune", "string", "uint", "uint8", "uint16", "uint32", "uint64", "uintptr"};
+    String BUILTIN_CONSTANT[] = new String[]{"iota", "nil"};
+    String BUILTIN_FUNCTION[] = new String[]{"append", "cap", "close", "complex", "copy", "delete", "imag", "len", "make", "new", "panic", "real", "recover"};
+
+    @Override
+    public Pattern generatePattern() {
+        String STRING_PATTERN = "\"[^\"\\\\]*+(?:\\\\.[^\"\\\\]*+)*+\"|'[^'\\\\]*+(?:\\\\.[^'\\\\]*+)*+'";
+        String COMMENT_PATTERN = "\\Q//\\E[^\\n]*|\\Q/*\\E[\\s\\S]*?\\Q*/\\E";
+        String KEYWORDS_PATTERN = "\\b(" + String.join("|", KEYWORDS) + ")\\b";
+        String TYPES_PATTERN = "\\b(" + String.join("|", TYPES) + ")\\b";
+        String BUILTIN_CONSTANT_PATTERN = "\\b(" + String.join("|", BUILTIN_CONSTANT) + ")\\b";
+        String BUILTIN_FUNCTION_PATTERN = "\\b(" + String.join("|", BUILTIN_FUNCTION) + ")\\b";
+
+        Pattern pattern = Pattern.compile(
+                "(?<STRING>" + STRING_PATTERN + ")"
+                + "|(?<COMMENT>" + COMMENT_PATTERN + ")"
+                + "|(?<KEYWORDS>" + KEYWORDS_PATTERN + ")"
+                + "|(?<TYPES>" + TYPES_PATTERN + ")"
+                + "|(?<BUILTINCONSTANT>" + BUILTIN_CONSTANT_PATTERN + ")"
+                + "|(?<BUILTINFUNCTION>" + BUILTIN_FUNCTION_PATTERN + ")"
+        );
+        return pattern;
+    }
+
+    @Override
+    public String getStyleClass(Matcher matcher) {
+        return matcher.group("STRING") != null ? "string"
+                : matcher.group("COMMENT") != null ? "comment"
+                : matcher.group("KEYWORDS") != null ? "keywords"
+                : matcher.group("TYPES") != null ? "types"
+                : matcher.group("BUILTINCONSTANT") != null ? "builtin-constant"
+                : matcher.group("BUILTINFUNCTION") != null ? "builtin-function"
+                : null;
+    }
+
+    @Override
+    public ArrayList<String> getKeywords() {
+        ArrayList<String> keywordList = new ArrayList<>();
+        keywordList.addAll(Arrays.asList(KEYWORDS));
+        keywordList.addAll(Arrays.asList(TYPES));
+        keywordList.addAll(Arrays.asList(BUILTIN_CONSTANT));
+        keywordList.addAll(Arrays.asList(BUILTIN_FUNCTION));
+        Collections.sort(keywordList);
+        return keywordList;
+    }
+
+}

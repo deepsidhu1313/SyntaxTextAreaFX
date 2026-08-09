@@ -4,8 +4,9 @@ TextArea for JavaFX (based on RichTextFX) which supports Syntax Highlighting for
 import `SyntaxTextAreaFX.java` from `in.co.s13.syntaxareafx` package, use `getNode()` method to add SyntaxTextAreaFX in your layout.
 
 TO DO
-* Add support for all languages
 * Add grammer and autocomplete support
+* `LANGS.j` has no highlighting rules — its keyword definitions embed
+  gtksourceview template syntax that isn't valid regex on its own
 
 
 Build Status

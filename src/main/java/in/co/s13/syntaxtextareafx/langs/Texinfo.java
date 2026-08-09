@@ -1,0 +1,113 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package in.co.s13.syntaxtextareafx.langs;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import in.co.s13.syntaxtextareafx.meta.Language;
+import java.util.Collections;
+
+/**
+ *
+ * @author nika
+ */
+public class Texinfo implements Language {
+
+    String MACROS_B[] = new String[]{"alias", "clear", "defcodeindex", "defindex", "definfoenclose", "ifclear", "ifset", "macro", "set", "syncodeindex", "synindex"};
+    String MACROS_DOLLAR[] = new String[]{"bye", "(end )?docbook", "(end )?html", "end ifclear", "(end )?if(not)?docbook", "(end )?if(not)?html", "(end )?if(not)?info", "(end )?if(not)?plaintext", "(end )?if(not)?tex", "(end )?if(not)?xml", "end ifset", "lowersections", "end macro", "raisesections", "(end )?tex", "(end )?xml"};
+    String INDEXING[] = new String[]{"cindex", "findex", "kindex", "pindex", "tindex", "vindex"};
+    String FILE_ATTRIBUTES_B[] = new String[]{"dircategory", "documentencoding", "documentlanguage", "evenfooting", "evenheading", "everyfooting", "everyheading", "footnotestyle", "headings", "kbdinputstyle", "oddfooting", "oddheading", "pagesizes", "paragraphindent", "setchapternewpage", "setfilename", "settitle", "titlefont"};
+    String FILE_ATTRIBUTES_DOLLAR[] = new String[]{"afivepaper", "afourlatex", "afourpaper", "afourwide", "(end )?direntry", "(end )?documentdescription", "finalout", "novalidate", "setcontentsaftertitlepage", "setshortcontentsaftertitlepage", "smallbook"};
+    String GENERATED_CONTENT[] = new String[]{"^@contents\\s*$", "^@insertcopying\\s*$", "^@listoffloats\\s*$", "^@printindex\\s*$", "^@shortcontents\\s*$", "^@shorttitlepage\\s*$", "^@summarycontents\\s*$", "@thischapter\\b", "@thischaptername\\b", "@thisfile\\b", "@thispage\\b", "@thistitle\\b", "@today\\b", "@value\\b", "@verb\\b", "^@(end )?verbatim\\s*$", "^@verbatiminclude\\b"};
+    String INCLUDE[] = new String[]{"^\\\\input", "^@include", "@image"};
+    String MARKUP_INLINE[] = new String[]{"acronym", "anchor", "caption", "cite", "code", "command", "dfn", "dmn", "email", "emph", "env", "file", "footnote", "indicateurl", "inforef", "kbd", "key", "math", "option", "pxref", "ref", "samp", "strong", "uref", "url", "var", "xref"};
+    String MARKUP_BLOCK_B[] = new String[]{"author", "defcv(x)?", "deff(u)?n(x)?", "defivar(x)?", "defmac(x)?", "defmethod(x)?", "defop(x)?", "defopt(x)?", "defspec(x)?", "deftp(x)?", "deftypecv(x)?", "deftypef(u)?n(x)?", "deftypeivar(x)?", "deftypemethod(x)?", "deftypeop(x)?", "deftypevar(x)?", "deftypevr(x)?", "defv(a)?r(x)?", "enumerate", "ftable", "itemize", "multitable", "subtitle", "tab", "table", "title", "vtable"};
+    String MARKUP_BLOCK_DOLLAR[] = new String[]{"(end )?copying", "end defcv", "end def(u)?n", "end defivar", "end defmac", "end defmethod", "end defop", "end defopt", "end defspec", "end deftp", "end deftypecv", "end deftypef(u)?n", "end deftypevar", "end deftypemethod", "end deftypeop", "end deftypevar", "end deftypevr", "end defv(a)?r", "(end )?display", "end enumerate", "(end )?example", "(end )?exampleindent", "(end )?format", "end ftable", "item", "end itemize", "itemx", "(end )?lisp", "end multitable", "(end )?quotation", "(end )?smalldisplay", "(end )?smallexample", "(end )?smallformat", "(end )?smalllisp", "end table", "end vtable"};
+    String SECTIONING[] = new String[]{"appendix\\b", "appendixsec(tion)?\\b", "appendixsub(sub)?sec\\b", "centerchap\\b", "chapter\\b", "chapheading\\b", "(end )?detailmenu\\s*$", "(end )?group\\s*$", "heading\\b", "majorheading\\b", "(end )?menu\\s*$", "node\\b", "section\\b", "sub(sub)?heading\\b", "sub(sub)?section\\b", "(end )?titlepage\\s*$", "top\\b", "unnumbered\\b", "unnumberedsec\\b", "unnumberedsub(sub)?sec\\b"};
+    String FORMATTING[] = new String[]{"@(( )|$)", "@\\*", "@\\-", "@/", "@\\:", "^@asis\\s*$", "@b", "^@(end )?cartouche\\s*$", "^@center\\b", "^@exdent\\b", "^@(end )?float\\s*$", "^@(end )?flushleft\\s*$", "^@(end )?flushright\\s*$", "@hyphenation\\b", "@i\\b", "^@need\\b", "^@noindent\\s*$", "^@page\\s*$", "@r\\b", "^@refill\\s*$", "@sc\\b", "^@sp\\b", "@t\\b", "@tie\\b", "^@vskip\\b", "@w\\b"};
+    String CHARACTERS[] = new String[]{"!", "\"", "'", "\\.", "\\=", "\\?", "@", "\\\\", "\\^", "`", "\\{", "\\}", "~", "AA\\{\\}", "aa\\{\\}", "AE\\{\\}", "ae\\{\\}", "bullet\\{\\}", "comma\\{\\}", "copyright\\{\\}", "dotaccent\\b", "dots\\{\\}", "enddots\\{\\}", "equiv\\{\\}", "error\\{\\}", "exclamdown\\{\\}", "expansion\\{\\}", "H\\b", "L\\{\\}", "l\\{\\}", "LaTeX\\{\\}", "minus\\{\\}", "O\\{\\}", "o\\{\\}", "OE\\{\\}", "oe\\{\\}", "point\\{\\}", "pounds\\{\\}", "print\\{\\}", "questiondown\\{\\}", "registeredsymbol\\{\\}", "result\\{\\}", "ringaccent\\{\\}", "ss\\{\\}", "TeX\\{\\}", "tieaccent\\b", "u\\b", "ubaraccent\\b", "udotaccent\\b", "v\\b"};
+
+    @Override
+    public Pattern generatePattern() {
+        String STRING_PATTERN = "\"[^\"\\\\]*+(?:\\\\.[^\"\\\\]*+)*+\"|'[^'\\\\]*+(?:\\\\.[^'\\\\]*+)*+'";
+        String COMMENT_PATTERN = "\\Q@c\\E[^\\n]*";
+        String MACROS_B_PATTERN = "\\b(" + String.join("|", MACROS_B) + ")\\b";
+        String MACROS_DOLLAR_PATTERN = "\\b(" + String.join("|", MACROS_DOLLAR) + ")\\b";
+        String INDEXING_PATTERN = "\\b(" + String.join("|", INDEXING) + ")\\b";
+        String FILE_ATTRIBUTES_B_PATTERN = "\\b(" + String.join("|", FILE_ATTRIBUTES_B) + ")\\b";
+        String FILE_ATTRIBUTES_DOLLAR_PATTERN = "\\b(" + String.join("|", FILE_ATTRIBUTES_DOLLAR) + ")\\b";
+        String GENERATED_CONTENT_PATTERN = "\\b(" + String.join("|", GENERATED_CONTENT) + ")\\b";
+        String INCLUDE_PATTERN = "\\b(" + String.join("|", INCLUDE) + ")\\b";
+        String MARKUP_INLINE_PATTERN = "\\b(" + String.join("|", MARKUP_INLINE) + ")\\b";
+        String MARKUP_BLOCK_B_PATTERN = "\\b(" + String.join("|", MARKUP_BLOCK_B) + ")\\b";
+        String MARKUP_BLOCK_DOLLAR_PATTERN = "\\b(" + String.join("|", MARKUP_BLOCK_DOLLAR) + ")\\b";
+        String SECTIONING_PATTERN = "\\b(" + String.join("|", SECTIONING) + ")\\b";
+        String FORMATTING_PATTERN = "\\b(" + String.join("|", FORMATTING) + ")\\b";
+        String CHARACTERS_PATTERN = "\\b(" + String.join("|", CHARACTERS) + ")\\b";
+
+        Pattern pattern = Pattern.compile(
+                "(?<STRING>" + STRING_PATTERN + ")"
+                + "|(?<COMMENT>" + COMMENT_PATTERN + ")"
+                + "|(?<MACROSB>" + MACROS_B_PATTERN + ")"
+                + "|(?<MACROSDOLLAR>" + MACROS_DOLLAR_PATTERN + ")"
+                + "|(?<INDEXING>" + INDEXING_PATTERN + ")"
+                + "|(?<FILEATTRIBUTESB>" + FILE_ATTRIBUTES_B_PATTERN + ")"
+                + "|(?<FILEATTRIBUTESDOLLAR>" + FILE_ATTRIBUTES_DOLLAR_PATTERN + ")"
+                + "|(?<GENERATEDCONTENT>" + GENERATED_CONTENT_PATTERN + ")"
+                + "|(?<INCLUDE>" + INCLUDE_PATTERN + ")"
+                + "|(?<MARKUPINLINE>" + MARKUP_INLINE_PATTERN + ")"
+                + "|(?<MARKUPBLOCKB>" + MARKUP_BLOCK_B_PATTERN + ")"
+                + "|(?<MARKUPBLOCKDOLLAR>" + MARKUP_BLOCK_DOLLAR_PATTERN + ")"
+                + "|(?<SECTIONING>" + SECTIONING_PATTERN + ")"
+                + "|(?<FORMATTING>" + FORMATTING_PATTERN + ")"
+                + "|(?<CHARACTERS>" + CHARACTERS_PATTERN + ")"
+        );
+        return pattern;
+    }
+
+    @Override
+    public String getStyleClass(Matcher matcher) {
+        return matcher.group("STRING") != null ? "string"
+                : matcher.group("COMMENT") != null ? "comment"
+                : matcher.group("MACROSB") != null ? "macros-b"
+                : matcher.group("MACROSDOLLAR") != null ? "macros-dollar"
+                : matcher.group("INDEXING") != null ? "indexing"
+                : matcher.group("FILEATTRIBUTESB") != null ? "file-attributes-b"
+                : matcher.group("FILEATTRIBUTESDOLLAR") != null ? "file-attributes-dollar"
+                : matcher.group("GENERATEDCONTENT") != null ? "generated-content"
+                : matcher.group("INCLUDE") != null ? "include"
+                : matcher.group("MARKUPINLINE") != null ? "markup-inline"
+                : matcher.group("MARKUPBLOCKB") != null ? "markup-block-b"
+                : matcher.group("MARKUPBLOCKDOLLAR") != null ? "markup-block-dollar"
+                : matcher.group("SECTIONING") != null ? "sectioning"
+                : matcher.group("FORMATTING") != null ? "formatting"
+                : matcher.group("CHARACTERS") != null ? "characters"
+                : null;
+    }
+
+    @Override
+    public ArrayList<String> getKeywords() {
+        ArrayList<String> keywordList = new ArrayList<>();
+        keywordList.addAll(Arrays.asList(MACROS_B));
+        keywordList.addAll(Arrays.asList(MACROS_DOLLAR));
+        keywordList.addAll(Arrays.asList(INDEXING));
+        keywordList.addAll(Arrays.asList(FILE_ATTRIBUTES_B));
+        keywordList.addAll(Arrays.asList(FILE_ATTRIBUTES_DOLLAR));
+        keywordList.addAll(Arrays.asList(GENERATED_CONTENT));
+        keywordList.addAll(Arrays.asList(INCLUDE));
+        keywordList.addAll(Arrays.asList(MARKUP_INLINE));
+        keywordList.addAll(Arrays.asList(MARKUP_BLOCK_B));
+        keywordList.addAll(Arrays.asList(MARKUP_BLOCK_DOLLAR));
+        keywordList.addAll(Arrays.asList(SECTIONING));
+        keywordList.addAll(Arrays.asList(FORMATTING));
+        keywordList.addAll(Arrays.asList(CHARACTERS));
+        Collections.sort(keywordList);
+        return keywordList;
+    }
+
+}

@@ -1,0 +1,58 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package in.co.s13.syntaxtextareafx.langs;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import in.co.s13.syntaxtextareafx.meta.Language;
+import java.util.Collections;
+
+/**
+ *
+ * @author nika
+ */
+public class Dot implements Language {
+
+    String KEYWORDS[] = new String[]{"digraph", "edge", "node", "subgraph"};
+    String ATTRIBUTES[] = new String[]{"arrowhead", "arrowsize", "arrowtail", "bgcolor", "center", "color", "constraint", "decorateP", "dir", "distortion", "fillcolor", "fontcolor", "fontname", "fontsize", "headclip", "headlabel", "height", "labelangle", "labeldistance", "labelfontcolor", "labelfontname", "labelfontsize", "label", "layers", "layer", "margin", "mclimit", "minlen", "name", "nodesep", "nslimit", "ordering", "orientation", "pagedir", "page", "peripheries", "port_label_distance", "rankdir", "ranksep", "rank", "ratio", "regular", "rotate", "samehead", "sametail", "shapefile", "shape", "sides", "size", "skew", "style", "tailclip", "taillabel", "URL", "weight", "width"};
+
+    @Override
+    public Pattern generatePattern() {
+        String STRING_PATTERN = "\"[^\"\\\\]*+(?:\\\\.[^\"\\\\]*+)*+\"|'[^'\\\\]*+(?:\\\\.[^'\\\\]*+)*+'";
+        String COMMENT_PATTERN = "\\Q//\\E[^\\n]*|\\Q/*\\E[\\s\\S]*?\\Q*/\\E";
+        String KEYWORDS_PATTERN = "\\b(" + String.join("|", KEYWORDS) + ")\\b";
+        String ATTRIBUTES_PATTERN = "\\b(" + String.join("|", ATTRIBUTES) + ")\\b";
+
+        Pattern pattern = Pattern.compile(
+                "(?<STRING>" + STRING_PATTERN + ")"
+                + "|(?<COMMENT>" + COMMENT_PATTERN + ")"
+                + "|(?<KEYWORDS>" + KEYWORDS_PATTERN + ")"
+                + "|(?<ATTRIBUTES>" + ATTRIBUTES_PATTERN + ")"
+        );
+        return pattern;
+    }
+
+    @Override
+    public String getStyleClass(Matcher matcher) {
+        return matcher.group("STRING") != null ? "string"
+                : matcher.group("COMMENT") != null ? "comment"
+                : matcher.group("KEYWORDS") != null ? "keywords"
+                : matcher.group("ATTRIBUTES") != null ? "attributes"
+                : null;
+    }
+
+    @Override
+    public ArrayList<String> getKeywords() {
+        ArrayList<String> keywordList = new ArrayList<>();
+        keywordList.addAll(Arrays.asList(KEYWORDS));
+        keywordList.addAll(Arrays.asList(ATTRIBUTES));
+        Collections.sort(keywordList);
+        return keywordList;
+    }
+
+}

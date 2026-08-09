@@ -19,12 +19,115 @@ import in.co.s13.syntaxtextareafx.langs.Bibtex;
 import in.co.s13.syntaxtextareafx.langs.Bluespec;
 import in.co.s13.syntaxtextareafx.langs.Boo;
 import in.co.s13.syntaxtextareafx.langs.C;
+import in.co.s13.syntaxtextareafx.langs.Cg;
+import in.co.s13.syntaxtextareafx.langs.Changelog;
+import in.co.s13.syntaxtextareafx.langs.Cmake;
+import in.co.s13.syntaxtextareafx.langs.Cobol;
 import in.co.s13.syntaxtextareafx.langs.Cpp;
 import in.co.s13.syntaxtextareafx.langs.CppHdr;
+import in.co.s13.syntaxtextareafx.langs.Csharp;
+import in.co.s13.syntaxtextareafx.langs.Css;
+import in.co.s13.syntaxtextareafx.langs.Csv;
+import in.co.s13.syntaxtextareafx.langs.Cuda;
+import in.co.s13.syntaxtextareafx.langs.D;
+import in.co.s13.syntaxtextareafx.langs.Def;
+import in.co.s13.syntaxtextareafx.langs.Desktop;
 import in.co.s13.syntaxtextareafx.langs.Diff;
+import in.co.s13.syntaxtextareafx.langs.Docbook;
+import in.co.s13.syntaxtextareafx.langs.Dosbatch;
+import in.co.s13.syntaxtextareafx.langs.Dot;
+import in.co.s13.syntaxtextareafx.langs.Dpatch;
+import in.co.s13.syntaxtextareafx.langs.Dtd;
+import in.co.s13.syntaxtextareafx.langs.Eiffel;
+import in.co.s13.syntaxtextareafx.langs.Erlang;
+import in.co.s13.syntaxtextareafx.langs.Fcl;
+import in.co.s13.syntaxtextareafx.langs.Forth;
+import in.co.s13.syntaxtextareafx.langs.Fortran;
+import in.co.s13.syntaxtextareafx.langs.Fsharp;
+import in.co.s13.syntaxtextareafx.langs.Gap;
+import in.co.s13.syntaxtextareafx.langs.GdbLog;
+import in.co.s13.syntaxtextareafx.langs.Genie;
+import in.co.s13.syntaxtextareafx.langs.Glsl;
+import in.co.s13.syntaxtextareafx.langs.Go;
+import in.co.s13.syntaxtextareafx.langs.GtkDoc;
+import in.co.s13.syntaxtextareafx.langs.Gtkrc;
+import in.co.s13.syntaxtextareafx.langs.Haddock;
+import in.co.s13.syntaxtextareafx.langs.Haskell;
+import in.co.s13.syntaxtextareafx.langs.HaskellLiterate;
+import in.co.s13.syntaxtextareafx.langs.Html;
+import in.co.s13.syntaxtextareafx.langs.Idl;
+import in.co.s13.syntaxtextareafx.langs.IdlExelis;
+import in.co.s13.syntaxtextareafx.langs.Imagej;
+import in.co.s13.syntaxtextareafx.langs.Ini;
+import in.co.s13.syntaxtextareafx.langs.Jade;
 import in.co.s13.syntaxtextareafx.langs.Java;
+import in.co.s13.syntaxtextareafx.langs.Javascript;
+import in.co.s13.syntaxtextareafx.langs.Json;
+import in.co.s13.syntaxtextareafx.langs.Julia;
+import in.co.s13.syntaxtextareafx.langs.Latex;
+import in.co.s13.syntaxtextareafx.langs.Lex;
+import in.co.s13.syntaxtextareafx.langs.Libtool;
+import in.co.s13.syntaxtextareafx.langs.Llvm;
+import in.co.s13.syntaxtextareafx.langs.Lua;
+import in.co.s13.syntaxtextareafx.langs.M4;
+import in.co.s13.syntaxtextareafx.langs.Makefile;
+import in.co.s13.syntaxtextareafx.langs.Mallard;
+import in.co.s13.syntaxtextareafx.langs.Markdown;
+import in.co.s13.syntaxtextareafx.langs.Matlab;
+import in.co.s13.syntaxtextareafx.langs.Mediawiki;
+import in.co.s13.syntaxtextareafx.langs.Meson;
+import in.co.s13.syntaxtextareafx.langs.Modelica;
+import in.co.s13.syntaxtextareafx.langs.Mxml;
+import in.co.s13.syntaxtextareafx.langs.Nemerle;
+import in.co.s13.syntaxtextareafx.langs.NemoAction;
+import in.co.s13.syntaxtextareafx.langs.Netrexx;
+import in.co.s13.syntaxtextareafx.langs.Nsis;
 import in.co.s13.syntaxtextareafx.langs.Objc;
+import in.co.s13.syntaxtextareafx.langs.Objj;
+import in.co.s13.syntaxtextareafx.langs.Ocaml;
+import in.co.s13.syntaxtextareafx.langs.Ocl;
+import in.co.s13.syntaxtextareafx.langs.Octave;
+import in.co.s13.syntaxtextareafx.langs.Ooc;
+import in.co.s13.syntaxtextareafx.langs.Opal;
+import in.co.s13.syntaxtextareafx.langs.Opencl;
+import in.co.s13.syntaxtextareafx.langs.Pascal;
+import in.co.s13.syntaxtextareafx.langs.Perl;
+import in.co.s13.syntaxtextareafx.langs.Php;
+import in.co.s13.syntaxtextareafx.langs.Pig;
+import in.co.s13.syntaxtextareafx.langs.Pkgconfig;
+import in.co.s13.syntaxtextareafx.langs.Po;
+import in.co.s13.syntaxtextareafx.langs.Prolog;
+import in.co.s13.syntaxtextareafx.langs.Protobuf;
+import in.co.s13.syntaxtextareafx.langs.Puppet;
+import in.co.s13.syntaxtextareafx.langs.Python;
+import in.co.s13.syntaxtextareafx.langs.Python3;
+import in.co.s13.syntaxtextareafx.langs.R;
+import in.co.s13.syntaxtextareafx.langs.Rpmspec;
+import in.co.s13.syntaxtextareafx.langs.Rst;
+import in.co.s13.syntaxtextareafx.langs.Ruby;
+import in.co.s13.syntaxtextareafx.langs.Rust;
+import in.co.s13.syntaxtextareafx.langs.Scala;
+import in.co.s13.syntaxtextareafx.langs.Scheme;
+import in.co.s13.syntaxtextareafx.langs.Scilab;
+import in.co.s13.syntaxtextareafx.langs.Sh;
+import in.co.s13.syntaxtextareafx.langs.Sml;
+import in.co.s13.syntaxtextareafx.langs.Sparql;
+import in.co.s13.syntaxtextareafx.langs.Sql;
+import in.co.s13.syntaxtextareafx.langs.Sweave;
+import in.co.s13.syntaxtextareafx.langs.Systemverilog;
+import in.co.s13.syntaxtextareafx.langs.T2t;
+import in.co.s13.syntaxtextareafx.langs.Tcl;
+import in.co.s13.syntaxtextareafx.langs.Texinfo;
 import in.co.s13.syntaxtextareafx.langs.Text;
+import in.co.s13.syntaxtextareafx.langs.Thrift;
+import in.co.s13.syntaxtextareafx.langs.Vala;
+import in.co.s13.syntaxtextareafx.langs.Vbnet;
+import in.co.s13.syntaxtextareafx.langs.Verilog;
+import in.co.s13.syntaxtextareafx.langs.Vhdl;
+import in.co.s13.syntaxtextareafx.langs.Xml;
+import in.co.s13.syntaxtextareafx.langs.Xslt;
+import in.co.s13.syntaxtextareafx.langs.Yacc;
+import in.co.s13.syntaxtextareafx.langs.Yaml;
 import in.co.s13.syntaxtextareafx.meta.Generator;
 import in.co.s13.syntaxtextareafx.meta.Syntax;
 import java.io.File;
@@ -921,10 +1024,30 @@ public class SyntaxTextAreaFX extends CodeArea {
      * these. The rest render as plain text.
      */
     private static final java.util.EnumSet<LANGS> IMPLEMENTED = java.util.EnumSet.of(
-            LANGS.actionscript, LANGS.ada, LANGS.ansforth94, LANGS.asp, LANGS.automake,
-            LANGS.awk, LANGS.bennugd, LANGS.bibtex, LANGS.bluespec, LANGS.boo,
-            LANGS.c, LANGS.cpp, LANGS.chdr, LANGS.diff, LANGS.forth,
-            LANGS.fortran, LANGS.java, LANGS.objc, LANGS.text);
+            LANGS.R, LANGS.actionscript, LANGS.ada, LANGS.ansforth94, LANGS.asp,
+            LANGS.automake, LANGS.awk, LANGS.bennugd, LANGS.bibtex, LANGS.bluespec,
+            LANGS.boo, LANGS.c, LANGS.cg, LANGS.changelog, LANGS.chdr, LANGS.cmake,
+            LANGS.cobol, LANGS.cpp, LANGS.csharp, LANGS.css, LANGS.csv, LANGS.cuda,
+            LANGS.d, LANGS.def, LANGS.desktop, LANGS.diff, LANGS.docbook, LANGS.dosbatch,
+            LANGS.dot, LANGS.dpatch, LANGS.dtd, LANGS.eiffel, LANGS.erlang, LANGS.fcl,
+            LANGS.forth, LANGS.fortran, LANGS.fsharp, LANGS.gap, LANGS.gdb_log,
+            LANGS.genie, LANGS.glsl, LANGS.go, LANGS.gtk_doc, LANGS.gtkrc, LANGS.haddock,
+            LANGS.haskell, LANGS.haskell_literate, LANGS.html, LANGS.idl,
+            LANGS.idl_exelis, LANGS.imagej, LANGS.ini, LANGS.jade, LANGS.java,
+            LANGS.javascript, LANGS.json, LANGS.julia, LANGS.latex, LANGS.lex,
+            LANGS.libtool, LANGS.llvm, LANGS.lua, LANGS.m4, LANGS.makefile,
+            LANGS.mallard, LANGS.markdown, LANGS.matlab, LANGS.mediawiki, LANGS.meson,
+            LANGS.modelica, LANGS.mxml, LANGS.nemerle, LANGS.nemo_action, LANGS.netrexx,
+            LANGS.nsis, LANGS.objc, LANGS.objj, LANGS.ocaml, LANGS.ocl, LANGS.octave,
+            LANGS.ooc, LANGS.opal, LANGS.opencl, LANGS.pascal, LANGS.perl, LANGS.php,
+            LANGS.pig, LANGS.pkgconfig, LANGS.po, LANGS.prolog, LANGS.protobuf,
+            LANGS.puppet, LANGS.python, LANGS.python3, LANGS.rpmspec, LANGS.rst,
+            LANGS.ruby, LANGS.rust, LANGS.scala, LANGS.scheme, LANGS.scilab, LANGS.sh,
+            LANGS.sml, LANGS.sparql, LANGS.sql, LANGS.sweave, LANGS.systemverilog,
+            LANGS.t2t, LANGS.tcl, LANGS.texinfo, LANGS.text, LANGS.thrift, LANGS.vala,
+            LANGS.vbnet, LANGS.verilog, LANGS.vhdl, LANGS.xml, LANGS.xslt, LANGS.yacc,
+            LANGS.yaml);
+
 
     /**
      * Whether highlighting rules exist for a language.
@@ -978,12 +1101,16 @@ public class SyntaxTextAreaFX extends CodeArea {
 
                 break;
             case cg:
+                syntax = new Syntax(new Cg());
                 break;
             case changelog:
+                syntax = new Syntax(new Changelog());
                 break;
             case cmake:
+                syntax = new Syntax(new Cmake());
                 break;
             case cobol:
+                syntax = new Syntax(new Cobol());
                 break;
             case cpp:
                 syntax = new Syntax(new Cpp());
@@ -994,193 +1121,313 @@ public class SyntaxTextAreaFX extends CodeArea {
 
                 break;
             case csharp:
+                syntax = new Syntax(new Csharp());
                 break;
             case css:
+                syntax = new Syntax(new Css());
                 break;
             case cuda:
+                syntax = new Syntax(new Cuda());
                 break;
             case d:
+                syntax = new Syntax(new D());
                 break;
             case def:
+                syntax = new Syntax(new Def());
                 break;
             case desktop:
+                syntax = new Syntax(new Desktop());
                 break;
             case diff:
                 syntax = new Syntax(new Diff());
                 break;
             case docbook:
+                syntax = new Syntax(new Docbook());
                 break;
             case dosbatch:
+                syntax = new Syntax(new Dosbatch());
                 break;
             case dot:
+                syntax = new Syntax(new Dot());
                 break;
             case dpatch:
+                syntax = new Syntax(new Dpatch());
                 break;
             case dtd:
+                syntax = new Syntax(new Dtd());
                 break;
             case eiffel:
+                syntax = new Syntax(new Eiffel());
                 break;
             case erlang:
+                syntax = new Syntax(new Erlang());
                 break;
             case fcl:
+                syntax = new Syntax(new Fcl());
                 break;
             case forth:
+                syntax = new Syntax(new Forth());
                 break;
             case fortran:
+                syntax = new Syntax(new Fortran());
                 break;
             case fsharp:
+                syntax = new Syntax(new Fsharp());
                 break;
             case gap:
+                syntax = new Syntax(new Gap());
                 break;
             case gdb_log:
+                syntax = new Syntax(new GdbLog());
                 break;
             case genie:
+                syntax = new Syntax(new Genie());
                 break;
             case glsl:
+                syntax = new Syntax(new Glsl());
                 break;
             case gtk_doc:
+                syntax = new Syntax(new GtkDoc());
                 break;
             case gtkrc:
+                syntax = new Syntax(new Gtkrc());
                 break;
             case haddock:
+                syntax = new Syntax(new Haddock());
                 break;
             case haskell:
+                syntax = new Syntax(new Haskell());
                 break;
             case haskell_literate:
+                syntax = new Syntax(new HaskellLiterate());
                 break;
             case html:
+                syntax = new Syntax(new Html());
                 break;
             case idl_exelis:
+                syntax = new Syntax(new IdlExelis());
                 break;
             case imagej:
+                syntax = new Syntax(new Imagej());
                 break;
             case ini:
+                syntax = new Syntax(new Ini());
                 break;
             case j:
                 break;
             case jade:
+                syntax = new Syntax(new Jade());
                 break;
             case java:
                 syntax = new Syntax(new Java());
                 break;
             case javascript:
+                syntax = new Syntax(new Javascript());
                 break;
             case json:
+                syntax = new Syntax(new Json());
                 break;
             case julia:
+                syntax = new Syntax(new Julia());
                 break;
             case latex:
+                syntax = new Syntax(new Latex());
                 break;
             case lex:
+                syntax = new Syntax(new Lex());
                 break;
             case libtool:
+                syntax = new Syntax(new Libtool());
                 break;
             case llvm:
+                syntax = new Syntax(new Llvm());
                 break;
             case m4:
+                syntax = new Syntax(new M4());
                 break;
             case makefile:
-                syntax = new Syntax(new Text());
+                syntax = new Syntax(new Makefile());
                 break;
             case mallard:
+                syntax = new Syntax(new Mallard());
                 break;
             case markdown:
+                syntax = new Syntax(new Markdown());
                 break;
             case matlab:
+                syntax = new Syntax(new Matlab());
                 break;
             case mediawiki:
+                syntax = new Syntax(new Mediawiki());
                 break;
             case modelica:
+                syntax = new Syntax(new Modelica());
                 break;
             case mxml:
+                syntax = new Syntax(new Mxml());
                 break;
             case nemerle:
+                syntax = new Syntax(new Nemerle());
                 break;
             case nemo_action:
+                syntax = new Syntax(new NemoAction());
                 break;
             case netrexx:
+                syntax = new Syntax(new Netrexx());
                 break;
             case nsis:
+                syntax = new Syntax(new Nsis());
                 break;
             case objc:
                 syntax = new Syntax(new Objc());
 
                 break;
             case objj:
+                syntax = new Syntax(new Objj());
                 break;
             case ocaml:
+                syntax = new Syntax(new Ocaml());
                 break;
             case ocl:
+                syntax = new Syntax(new Ocl());
                 break;
             case octave:
+                syntax = new Syntax(new Octave());
                 break;
             case ooc:
+                syntax = new Syntax(new Ooc());
                 break;
             case opal:
+                syntax = new Syntax(new Opal());
                 break;
             case pascal:
+                syntax = new Syntax(new Pascal());
                 break;
             case perl:
+                syntax = new Syntax(new Perl());
                 break;
             case php:
+                syntax = new Syntax(new Php());
                 break;
             case pig:
+                syntax = new Syntax(new Pig());
                 break;
             case pkgconfig:
+                syntax = new Syntax(new Pkgconfig());
                 break;
             case po:
+                syntax = new Syntax(new Po());
                 break;
             case protobuf:
+                syntax = new Syntax(new Protobuf());
                 break;
             case puppet:
+                syntax = new Syntax(new Puppet());
                 break;
             case python:
+                syntax = new Syntax(new Python());
                 break;
             case python3:
+                syntax = new Syntax(new Python3());
                 break;
             case R:
+                syntax = new Syntax(new R());
                 break;
             case rpmspec:
+                syntax = new Syntax(new Rpmspec());
                 break;
             case ruby:
+                syntax = new Syntax(new Ruby());
                 break;
             case rust:
+                syntax = new Syntax(new Rust());
                 break;
             case scala:
+                syntax = new Syntax(new Scala());
                 break;
             case scheme:
+                syntax = new Syntax(new Scheme());
                 break;
             case scilab:
+                syntax = new Syntax(new Scilab());
                 break;
             case sh:
+                syntax = new Syntax(new Sh());
                 break;
             case sparql:
+                syntax = new Syntax(new Sparql());
                 break;
             case sql:
+                syntax = new Syntax(new Sql());
                 break;
             case sweave:
+                syntax = new Syntax(new Sweave());
                 break;
             case systemverilog:
+                syntax = new Syntax(new Systemverilog());
                 break;
             case t2t:
+                syntax = new Syntax(new T2t());
                 break;
             case tcl:
+                syntax = new Syntax(new Tcl());
                 break;
             case thrift:
+                syntax = new Syntax(new Thrift());
                 break;
             case vala:
+                syntax = new Syntax(new Vala());
                 break;
             case vbnet:
+                syntax = new Syntax(new Vbnet());
                 break;
             case verilog:
+                syntax = new Syntax(new Verilog());
                 break;
             case vhdl:
+                syntax = new Syntax(new Vhdl());
                 break;
             case xml:
+                syntax = new Syntax(new Xml());
                 break;
             case yacc:
+                syntax = new Syntax(new Yacc());
                 break;
             case yaml:
+                syntax = new Syntax(new Yaml());
+                break;
+            case csv:
+                syntax = new Syntax(new Csv());
+                break;
+            case go:
+                syntax = new Syntax(new Go());
+                break;
+            case idl:
+                syntax = new Syntax(new Idl());
+                break;
+            case lua:
+                syntax = new Syntax(new Lua());
+                break;
+            case meson:
+                syntax = new Syntax(new Meson());
+                break;
+            case opencl:
+                syntax = new Syntax(new Opencl());
+                break;
+            case prolog:
+                syntax = new Syntax(new Prolog());
+                break;
+            case rst:
+                syntax = new Syntax(new Rst());
+                break;
+            case sml:
+                syntax = new Syntax(new Sml());
+                break;
+            case texinfo:
+                syntax = new Syntax(new Texinfo());
+                break;
+            case xslt:
+                syntax = new Syntax(new Xslt());
                 break;
             default:
                 syntax = new Syntax(new Text());
