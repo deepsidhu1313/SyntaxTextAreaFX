@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>in.co.s13</groupId>
+    <artifactId>SyntaxTextAreaFX</artifactId>
+    <version>1.1.0</version>
+    <packaging>jar</packaging>
+
+    <name>SyntaxTextAreaFX</name>
+    <description>
+        A JavaFX code editor with syntax highlighting for a range of languages,
+        built on RichTextFX. Used by the SIPS workbench, and usable on its own.
+    </description>
+    <url>https://github.com/deepsidhu1313/SyntaxTextAreaFX</url>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.release>21</maven.compiler.release>
+        <javafx.version>21.0.5</javafx.version>
+        <richtextfx.version>0.11.5</richtextfx.version>
+        <junit.version>5.11.4</junit.version>
+        <surefire.version>3.5.2</surefire.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-controls</artifactId>
+            <version>${javafx.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.fxmisc.richtext</groupId>
+            <artifactId>richtextfx</artifactId>
+            <version>${richtextfx.version}</version>
+        </dependency>
+        <!--
+            The language-definition generator reads JSON. This used to be a
+            vendored copy of org.json inside this repository; it now shares the
+            one SIPS already publishes.
+        -->
+        <dependency>
+            <groupId>in.co.s13</groupId>
+            <artifactId>common-json</artifactId>
+            <version>1.1.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${surefire.version}</version>
+            </plugin>
+        </plugins>
+    </build>
+
+    <licenses>
+        <license>
+            <name>GNU General Public License</name>
+            <url>http://www.gnu.org/licenses/</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+</project>
