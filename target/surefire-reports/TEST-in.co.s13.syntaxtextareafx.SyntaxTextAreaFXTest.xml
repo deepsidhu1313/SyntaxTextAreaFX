@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" version="3.0.2" name="in.co.s13.syntaxtextareafx.SyntaxTextAreaFXTest" time="0.846" tests="20" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" version="3.0.2" name="in.co.s13.syntaxtextareafx.SyntaxTextAreaFXTest" time="1.121" tests="20" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="26"/>
     <property name="javafx.runtime.version" value="21.0.5+1"/>
@@ -14,7 +14,7 @@
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="CA"/>
     <property name="sun.boot.library.path" value="/usr/local/Cellar/openjdk/26.0.2/libexec/openjdk.jdk/Contents/Home/lib"/>
-    <property name="sun.java.command" value="/Users/navdeepsingh/repo/s13/SIPS/SyntaxTextAreaFX/target/surefire/surefirebooter-20260809163231662_3.jar /Users/navdeepsingh/repo/s13/SIPS/SyntaxTextAreaFX/target/surefire 2026-08-09T16-32-31_491-jvmRun1 surefire-20260809163231662_1tmp surefire_0-20260809163231662_2tmp"/>
+    <property name="sun.java.command" value="/Users/navdeepsingh/repo/s13/SIPS/SyntaxTextAreaFX/target/surefire/surefirebooter-20260809170855328_3.jar /Users/navdeepsingh/repo/s13/SIPS/SyntaxTextAreaFX/target/surefire 2026-08-09T17-08-55_072-jvmRun1 surefire-20260809170855328_1tmp surefire_0-20260809170855328_2tmp"/>
     <property name="http.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="jdk.debug" value="release"/>
     <property name="surefire.test.class.path" value="/Users/navdeepsingh/repo/s13/SIPS/SyntaxTextAreaFX/target/test-classes:/Users/navdeepsingh/repo/s13/SIPS/SyntaxTextAreaFX/target/classes:/Users/navdeepsingh/.m2/repository/org/openjfx/javafx-controls/21.0.5/javafx-controls-21.0.5.jar:/Users/navdeepsingh/.m2/repository/org/openjfx/javafx-controls/21.0.5/javafx-controls-21.0.5-mac.jar:/Users/navdeepsingh/.m2/repository/org/openjfx/javafx-graphics/21.0.5/javafx-graphics-21.0.5.jar:/Users/navdeepsingh/.m2/repository/org/openjfx/javafx-graphics/21.0.5/javafx-graphics-21.0.5-mac.jar:/Users/navdeepsingh/.m2/repository/org/openjfx/javafx-base/21.0.5/javafx-base-21.0.5.jar:/Users/navdeepsingh/.m2/repository/org/openjfx/javafx-base/21.0.5/javafx-base-21.0.5-mac.jar:/Users/navdeepsingh/.m2/repository/org/fxmisc/richtext/richtextfx/0.11.5/richtextfx-0.11.5.jar:/Users/navdeepsingh/.m2/repository/org/reactfx/reactfx/2.0-M5/reactfx-2.0-M5.jar:/Users/navdeepsingh/.m2/repository/org/fxmisc/undo/undofx/2.1.1/undofx-2.1.1.jar:/Users/navdeepsingh/.m2/repository/org/fxmisc/flowless/flowless/0.7.4/flowless-0.7.4.jar:/Users/navdeepsingh/.m2/repository/org/fxmisc/wellbehaved/wellbehavedfx/0.3.3/wellbehavedfx-0.3.3.jar:/Users/navdeepsingh/.m2/repository/in/co/s13/common-json/1.1.0/common-json-1.1.0.jar:/Users/navdeepsingh/.m2/repository/org/junit/jupiter/junit-jupiter/5.11.4/junit-jupiter-5.11.4.jar:/Users/navdeepsingh/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.11.4/junit-jupiter-api-5.11.4.jar:/Users/navdeepsingh/.m2/repository/org/opentest4j/opentest4j/1.3.0/opentest4j-1.3.0.jar:/Users/navdeepsingh/.m2/repository/org/junit/platform/junit-platform-commons/1.11.4/junit-platform-commons-1.11.4.jar:/Users/navdeepsingh/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:/Users/navdeepsingh/.m2/repository/org/junit/jupiter/junit-jupiter-params/5.11.4/junit-jupiter-params-5.11.4.jar:/Users/navdeepsingh/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.11.4/junit-jupiter-engine-5.11.4.jar:/Users/navdeepsingh/.m2/repository/org/junit/platform/junit-platform-engine/1.11.4/junit-platform-engine-1.11.4.jar:"/>
@@ -31,7 +31,7 @@
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
     <property name="apple.awt.application.name" value="ForkedBooter"/>
-    <property name="surefire.real.class.path" value="/Users/navdeepsingh/repo/s13/SIPS/SyntaxTextAreaFX/target/surefire/surefirebooter-20260809163231662_3.jar"/>
+    <property name="surefire.real.class.path" value="/Users/navdeepsingh/repo/s13/SIPS/SyntaxTextAreaFX/target/surefire/surefirebooter-20260809170855328_3.jar"/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="ftp.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="java.runtime.version" value="26.0.2"/>
@@ -61,21 +61,21 @@
     <property name="socksNonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="java.class.version" value="70.0"/>
   </properties>
-  <testcase name="theLanguageIsPerEditorNotSharedAcrossAllOfThem" classname="in.co.s13.syntaxtextareafx.SyntaxTextAreaFXTest" time="0.147"/>
-  <testcase name="anUnknownExtensionOpensAsPlainTextRatherThanFailing" classname="in.co.s13.syntaxtextareafx.SyntaxTextAreaFXTest" time="0.453"/>
+  <testcase name="theLanguageIsPerEditorNotSharedAcrossAllOfThem" classname="in.co.s13.syntaxtextareafx.SyntaxTextAreaFXTest" time="0.179"/>
+  <testcase name="anUnknownExtensionOpensAsPlainTextRatherThanFailing" classname="in.co.s13.syntaxtextareafx.SyntaxTextAreaFXTest" time="0.686"/>
   <testcase name="nullAndBlankNamesAreTolerated" classname="in.co.s13.syntaxtextareafx.SyntaxTextAreaFXTest" time="0.002"/>
   <testcase name="noPerDocumentStateIsHeldStatically" classname="in.co.s13.syntaxtextareafx.SyntaxTextAreaFXTest" time="0.002"/>
-  <testcase name="extensionMatchingIsCaseInsensitive" classname="in.co.s13.syntaxtextareafx.SyntaxTextAreaFXTest" time="0.003"/>
-  <testcase name="filesWithoutAnExtensionOpenAsPlainText(String)[1]" classname="in.co.s13.syntaxtextareafx.SyntaxTextAreaFXTest" time="0.019"/>
-  <testcase name="filesWithoutAnExtensionOpenAsPlainText(String)[2]" classname="in.co.s13.syntaxtextareafx.SyntaxTextAreaFXTest" time="0.001"/>
-  <testcase name="filesWithoutAnExtensionOpenAsPlainText(String)[3]" classname="in.co.s13.syntaxtextareafx.SyntaxTextAreaFXTest" time="0.001"/>
-  <testcase name="reportsWhichLanguagesActuallyHaveRules" classname="in.co.s13.syntaxtextareafx.SyntaxTextAreaFXTest" time="0.002"/>
+  <testcase name="extensionMatchingIsCaseInsensitive" classname="in.co.s13.syntaxtextareafx.SyntaxTextAreaFXTest" time="0.001"/>
+  <testcase name="filesWithoutAnExtensionOpenAsPlainText(String)[1]" classname="in.co.s13.syntaxtextareafx.SyntaxTextAreaFXTest" time="0.018"/>
+  <testcase name="filesWithoutAnExtensionOpenAsPlainText(String)[2]" classname="in.co.s13.syntaxtextareafx.SyntaxTextAreaFXTest" time="0.002"/>
+  <testcase name="filesWithoutAnExtensionOpenAsPlainText(String)[3]" classname="in.co.s13.syntaxtextareafx.SyntaxTextAreaFXTest" time="0.002"/>
+  <testcase name="reportsWhichLanguagesActuallyHaveRules" classname="in.co.s13.syntaxtextareafx.SyntaxTextAreaFXTest" time="0.003"/>
   <testcase name="isNotConfusedByDirectoriesInThePath" classname="in.co.s13.syntaxtextareafx.SyntaxTextAreaFXTest" time="0.002"/>
-  <testcase name="supportsReportsKnownExtensions" classname="in.co.s13.syntaxtextareafx.SyntaxTextAreaFXTest" time="0.004"/>
-  <testcase name="aUsefulNumberOfLanguagesIsAvailable" classname="in.co.s13.syntaxtextareafx.SyntaxTextAreaFXTest" time="0.003"/>
+  <testcase name="supportsReportsKnownExtensions" classname="in.co.s13.syntaxtextareafx.SyntaxTextAreaFXTest" time="0.003"/>
+  <testcase name="aUsefulNumberOfLanguagesIsAvailable" classname="in.co.s13.syntaxtextareafx.SyntaxTextAreaFXTest" time="0.002"/>
   <testcase name="farMoreLanguagesAreDeclaredThanImplemented" classname="in.co.s13.syntaxtextareafx.SyntaxTextAreaFXTest" time="0.003"/>
-  <testcase name="aTrailingDotIsNotAnExtension" classname="in.co.s13.syntaxtextareafx.SyntaxTextAreaFXTest" time="0.002"/>
-  <testcase name="picksTheLanguageFromTheFileExtension(String, String)[1]" classname="in.co.s13.syntaxtextareafx.SyntaxTextAreaFXTest" time="0.006"/>
+  <testcase name="aTrailingDotIsNotAnExtension" classname="in.co.s13.syntaxtextareafx.SyntaxTextAreaFXTest" time="0.004"/>
+  <testcase name="picksTheLanguageFromTheFileExtension(String, String)[1]" classname="in.co.s13.syntaxtextareafx.SyntaxTextAreaFXTest" time="0.005"/>
   <testcase name="picksTheLanguageFromTheFileExtension(String, String)[2]" classname="in.co.s13.syntaxtextareafx.SyntaxTextAreaFXTest" time="0.002"/>
   <testcase name="picksTheLanguageFromTheFileExtension(String, String)[3]" classname="in.co.s13.syntaxtextareafx.SyntaxTextAreaFXTest" time="0.002"/>
   <testcase name="picksTheLanguageFromTheFileExtension(String, String)[4]" classname="in.co.s13.syntaxtextareafx.SyntaxTextAreaFXTest" time="0.002"/>

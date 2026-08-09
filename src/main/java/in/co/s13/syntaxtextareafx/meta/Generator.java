@@ -278,4 +278,70 @@ public class Generator {
         return str;
     }
 
+
+    /**
+     * Builds the STRING and COMMENT alternatives for a language.
+     *
+     * <p>Generated classes previously carried keywords only, so a generated
+     * language highlighted keywords and left strings and comments plain —
+     * visibly worse than the hand-written ones. The definitions have always
+     * carried line-comment-start, block-comment-start and block-comment-end;
+     * the generator simply ignored them.
+     *
+     * <p>Patterns avoid alternation inside a quantifier. Java's regex engine
+     * recurses per repetition of a group, which is what made long comments
+     * throw StackOverflowError (issue #5).
+     */
+    static String literalRules(JSONObject metadata) {
+        String lineStart = property(metadata, "line-comment-start");
+        String blockStart = property(metadata, "block-comment-start");
+        String blockEnd = property(metadata, "block-comment-end");
+
+        StringBuilder comment = new StringBuilder();
+        if (!lineStart.isEmpty()) {
+            comment.append(java.util.regex.Pattern.quote(lineStart)).append("[^\\n]*");
+        }
+        if (!blockStart.isEmpty() && !blockEnd.isEmpty()) {
+            if (comment.length() > 0) {
+                comment.append("|");
+            }
+            // [\s\S] is a character class, so it cannot recurse.
+            comment.append(java.util.regex.Pattern.quote(blockStart))
+                   .append("[\\s\\S]*?")
+                   .append(java.util.regex.Pattern.quote(blockEnd));
+        }
+
+        // Double and single quoting, unrolled with possessive quantifiers so a
+        // long literal cannot build a recursion chain.
+        String string = "\"[^\"\\\\]*+(?:\\\\.[^\"\\\\]*+)*+\""
+                + "|'[^'\\\\]*+(?:\\\\.[^'\\\\]*+)*+'";
+
+        StringBuilder out = new StringBuilder();
+        out.append("        String STRING_PATTERN = \"").append(escape(string)).append("\";\n");
+        if (comment.length() > 0) {
+            out.append("        String COMMENT_PATTERN = \"").append(escape(comment.toString())).append("\";\n");
+        }
+        return out.toString();
+    }
+
+    /** Reads a named property from a language's metadata block. */
+    static String property(JSONObject metadata, String name) {
+        try {
+            org.json.JSONArray props = metadata.getJSONArray("property");
+            for (int i = 0; i < props.length(); i++) {
+                JSONObject prop = props.getJSONObject(i);
+                if (name.equals(prop.optString("name"))) {
+                    return prop.optString("content", "");
+                }
+            }
+        } catch (RuntimeException absent) {
+            // Not every definition carries every property.
+        }
+        return "";
+    }
+
+    /** Escapes a regex for embedding in generated Java source. */
+    static String escape(String regex) {
+        return regex.replace("\\", "\\\\").replace("\"", "\\\"");
+    }
 }
