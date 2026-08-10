@@ -19,6 +19,7 @@ package in.co.s13.syntaxtextareafx.langs;
 import in.co.s13.syntaxtextareafx.meta.Language;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -134,6 +135,7 @@ public class Javascript implements Language {
         keywords.addAll(Arrays.asList(FUTURE));
         keywords.addAll(Arrays.asList(NULL));
         keywords.addAll(Arrays.asList(BOOLEAN));
+        Collections.sort(keywords);
         return keywords;
     }
 }

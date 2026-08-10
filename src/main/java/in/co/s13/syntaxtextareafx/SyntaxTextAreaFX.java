@@ -160,8 +160,28 @@ import org.fxmisc.richtext.model.StyleSpansBuilder;
 import org.reactfx.Subscription;
 
 /**
+ * A JavaFX code editor with syntax highlighting, built on RichTextFX's
+ * {@link CodeArea}.
  *
- * @author Nika
+ * <p>Typical use:
+ * <pre>{@code
+ * SyntaxTextAreaFX editor = new SyntaxTextAreaFX();
+ * editor.setCodingStyle(LANGS.java);
+ * someContainer.getChildren().add(editor.getNode());
+ * }</pre>
+ *
+ * <p>{@link #setCodingStyle(LANGS)} picks the highlighting rules; pass a
+ * file name to {@link #languageForFile(String)} first if you want to guess
+ * the language from its extension instead of naming it directly. Not every
+ * value in {@code LANGS} has rules written for it — call
+ * {@link #isLanguageImplemented(LANGS)} or {@link #implementedLanguages()}
+ * before relying on one, since an unimplemented language falls back to
+ * plain text rather than failing.
+ *
+ * <p>Highlighting is driven by CSS: {@link #addStyleSheet(String)} and
+ * {@link #clearStyleSheets()} manage the style sheets applied on top of
+ * the built-in theme, and {@link #setTheme(String)} switches themes
+ * wholesale.
  */
 public class SyntaxTextAreaFX extends CodeArea {
 

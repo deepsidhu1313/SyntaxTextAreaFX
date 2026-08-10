@@ -10,8 +10,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
+ * Delegates highlighting to a single {@link Language} implementation.
  *
- * @author nika
+ * <p>Holds the currently selected language's rules so callers don't need to
+ * hold a reference to the concrete {@code Language} class themselves.
  */
 public class Syntax {
 

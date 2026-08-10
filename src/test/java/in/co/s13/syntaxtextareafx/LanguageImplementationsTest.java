@@ -49,6 +49,9 @@ class LanguageImplementationsTest {
         URL dirUrl = LanguageImplementationsTest.class.getClassLoader().getResource(pkgPath);
         List<Class<?>> classes = new ArrayList<>();
         for (File file : new File(dirUrl.toURI()).listFiles((d, name) -> name.endsWith(".class"))) {
+            if (file.getName().equals("package-info.class")) {
+                continue;
+            }
             String className = "in.co.s13.syntaxtextareafx.langs."
                     + file.getName().substring(0, file.getName().length() - ".class".length());
             classes.add(Class.forName(className));

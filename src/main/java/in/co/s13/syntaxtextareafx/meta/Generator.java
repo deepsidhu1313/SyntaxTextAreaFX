@@ -24,8 +24,25 @@ import org.json.JSONObject;
 import org.json.XML;
 
 /**
+ * Offline dev tool that turns gtksourceview language definitions into
+ * {@link Language} implementations.
  *
- * @author nika
+ * <p>Run {@link #generateJavaFiles()} from the repository root with the
+ * gtksourceview-derived JSON definitions in {@code jsons/} (one file per
+ * language, e.g. {@code jsons/python.json}); it writes one {@code .java}
+ * file per definition to {@code java/}. That output still needs a human
+ * pass: {@code java/} is scratch space, not a source root, so review each
+ * file and copy the ones worth keeping into {@code langs/} by hand, then
+ * wire the new language into {@code SyntaxTextAreaFX#loadLanguage()} and its
+ * {@code IMPLEMENTED} set. Not every definition is worth generating —
+ * languages whose keywords aren't a flat list in the JSON (most of the
+ * C family, for example) produce a class with no keyword highlighting at
+ * all, and a few definitions embed gtksourceview template syntax
+ * (like {@code %{valid-name}}) that isn't valid Java regex on its own.
+ *
+ * <p>Only {@link #generateJavaFiles()} is part of that workflow.
+ * {@link #generateJSONsAndCSS()} and {@link #convertXMLsToJSONs()} are
+ * earlier, unmaintained experiments kept for reference.
  */
 public class Generator {
 

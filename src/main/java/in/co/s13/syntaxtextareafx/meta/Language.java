@@ -10,27 +10,44 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
+ * A single language's highlighting rules: what to match, and how to style
+ * each match.
  *
- * @author nika
+ * <p>Implementations are either hand-written (e.g. {@code Java}, {@code C})
+ * or generated from a gtksourceview JSON definition by {@link Generator}. A
+ * single compiled {@link Pattern} drives both highlighting and keyword
+ * lookup, so {@link #getStyleClass} and {@link #getKeywords} must agree with
+ * whatever named groups {@link #generatePattern} actually declares.
  */
 public interface Language {
-    /***
-     * Generates a Pattern for Syntax Area
-     * which then be matched to highlight special keywords
-     * @return 
+
+    /**
+     * Compiles this language's full set of highlighting rules into one
+     * {@link Pattern}, with each rule as a named capture group (e.g.
+     * {@code (?<STRING>...)}) that {@link #getStyleClass} can look up by
+     * name.
+     *
+     * @return the pattern the editor repeatedly matches against as the user
+     * types
      */
-         public Pattern generatePattern();
-         /****
-          * Matches special keywords with css fields 
-          * @param matcher
-          * @return 
-          */
+    public Pattern generatePattern();
+
+    /**
+     * The CSS style class for whatever group in {@link #generatePattern}'s
+     * pattern this matcher's current match came from.
+     *
+     * @param matcher a matcher already positioned on a successful match of
+     * this language's pattern
+     * @return a style class such as {@code "string"} or {@code "keywords"},
+     * or {@code null} if the match doesn't belong to a group this language
+     * assigns a style to
+     */
     public String getStyleClass(Matcher matcher);
-    
-    
-    /***
-     * Return all special keywords for suggestions Auto complete
-     * @return 
+
+    /**
+     * Every keyword this language recognises, for autocomplete suggestions.
+     *
+     * @return the language's keywords, sorted
      */
     public ArrayList<String> getKeywords();
 }

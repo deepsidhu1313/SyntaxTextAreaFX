@@ -11,8 +11,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
+ * No-op highlighting: an empty pattern that never matches anything.
  *
- * @author nika
+ * <p>Used for {@code LANGS.text} and as the fallback whenever a selected
+ * language has no rules written for it (see
+ * {@code SyntaxTextAreaFX#isLanguageImplemented}).
  */
 public class Text implements Language {
 
