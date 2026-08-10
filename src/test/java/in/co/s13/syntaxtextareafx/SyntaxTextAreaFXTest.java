@@ -1,19 +1,3 @@
-/*
- * Copyright (C) 2026 Navdeep Singh Sidhu
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
 package in.co.s13.syntaxtextareafx;
 
 import in.co.s13.syntaxtextareafx.SyntaxTextAreaFX.CONSTANTS.LANGS;
@@ -58,15 +42,44 @@ class SyntaxTextAreaFXTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"README", "Makefile", "noextension"})
+    @ValueSource(strings = {"README", "noextension"})
     void filesWithoutAnExtensionOpenAsPlainText(String fileName) {
         assertEquals(LANGS.text, SyntaxTextAreaFX.languageForFile(fileName));
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"Makefile", "makefile", "GNUmakefile", "gnumakefile"})
+    void makefilesAreRecognisedByNameSinceTheyHaveNoExtension(String fileName) {
+        assertEquals(LANGS.makefile, SyntaxTextAreaFX.languageForFile(fileName));
+        assertEquals(LANGS.makefile, SyntaxTextAreaFX.languageForFile("/project/" + fileName));
     }
 
     @Test
     void anUnknownExtensionOpensAsPlainTextRatherThanFailing() {
         // An editor must be openable on any file, known language or not.
         assertEquals(LANGS.text, SyntaxTextAreaFX.languageForFile("archive.zzz"));
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+        // The extension SyntaxTextAreaFX 1.2.0's consolidated extension
+        // mapping carried forward from the FILE_TYPES mechanism it replaced.
+        "script.py,   python",
+        "lib.rb,      ruby",
+        "app.js,      javascript",
+        "notes.md,    markdown",
+        "values.yml,  yaml",
+        "Header.h,    chdr",
+        "impl.cxx,    cpp",
+        "impl.cc,     cpp",
+        "Sprite.m,    objc",
+        "spec.ads,    ada",
+        "body.adb,    ada",
+        "changes.patch, diff",
+        "code.4th,    forth"
+    })
+    void commonExtensionsThatDontMatchALanguageNameResolveViaTheAliasTable(String fileName, String expected) {
+        assertEquals(expected, SyntaxTextAreaFX.languageForFile(fileName).name());
     }
 
     @Test
@@ -89,6 +102,7 @@ class SyntaxTextAreaFXTest {
     @Test
     void supportsReportsKnownExtensions() {
         assertTrue(SyntaxTextAreaFX.supports("java"));
+        assertTrue(SyntaxTextAreaFX.supports("py"), "py is an alias, not a LANGS name, but still a known extension");
         assertFalse(SyntaxTextAreaFX.supports("definitely-not-a-language"));
     }
 

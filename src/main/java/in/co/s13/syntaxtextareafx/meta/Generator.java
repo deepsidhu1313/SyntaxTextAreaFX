@@ -5,7 +5,6 @@
  */
 package in.co.s13.syntaxtextareafx.meta;
 
-import in.co.s13.syntaxtextareafx.SyntaxTextAreaFX;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -53,11 +52,7 @@ public class Generator {
     static int colorCounter = 0;
 
     public static void main(String[] args) {
-        // System.out.println("" + (( "R".equalsIgnoreCase(""+SyntaxTextAreaFX.FILE_TYPES.R))));
-        //      System.out.println("" + (SyntaxTextAreaFX.FILE_TYPES.valueOf("java")));
         generateJavaFiles();
-
-//generateJSONsAndCSS();
     }
 
     public static void generateJavaFiles() {

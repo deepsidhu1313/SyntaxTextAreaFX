@@ -5,8 +5,6 @@
  */
 package in.co.s13.syntaxtextareafx;
 
-import static in.co.s13.syntaxtextareafx.SyntaxTextAreaFX.CONSTANTS.ALT_FILE_TYPES;
-import in.co.s13.syntaxtextareafx.SyntaxTextAreaFX.CONSTANTS.FILE_TYPES;
 import in.co.s13.syntaxtextareafx.SyntaxTextAreaFX.CONSTANTS.LANGS;
 import in.co.s13.syntaxtextareafx.langs.ActionScript;
 import in.co.s13.syntaxtextareafx.langs.Ada;
@@ -139,7 +137,6 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.Duration;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Optional;
@@ -233,22 +230,6 @@ public class SyntaxTextAreaFX extends CodeArea {
 
     public static class CONSTANTS {
 
-        public static enum FILE_TYPES {
-            as, adb, ads, forth, asp, am, awk,
-            prg, bib, bsv, boo, c, cg, changelog,
-            cmake, cobol, cpp, cxx, cc, C, h, csharp, css, cuda, d,
-            def, desktop, diff, patch, rej, docbook, dosbatch, dot, dpatch,
-            dtd, eiffel, erlang, fcl, fortran, fsharp, gap, gdblog,
-            genie, glsl, gtkdoc, gtkrc, haddock, haskell, haskellliterate,
-            html, idlexelis, imagej, ini, j, jade, java, javascript, json,
-            julia, latex, lex, libtool, llvm, m, m4, makefile, Makefile, GNUmakefile, mallard, markdown,
-            matlab, mediawiki, modelica, mxml, nemerle, nemo_action, netrexx,
-            nsis, objj, ocaml, ocl, octave, ooc, opal, pascal, perl, php, pig,
-            pkgconfig, po, protobuf, puppet, python, python3, r, rpmspec, ruby,
-            rust, scala, scheme, scilab, sh, sparql, sql, sweave, systemverilog,
-            text, txt, t2t, tcl, thrift, vala, vbnet, verilog, vhdl, xml, yacc, yaml
-        };
-
         public static enum LANGS {
             actionscript, ada, ansforth94, asp,
             automake, awk, bennugd, bibtex,
@@ -281,9 +262,6 @@ public class SyntaxTextAreaFX extends CodeArea {
             verilog, vhdl, xml, xslt,
             yacc, yaml
         };
-
-        public static String[] ALT_FILE_TYPES = new String[]{"4th", "", "c++"};
-
     }
 
     /**
@@ -332,12 +310,66 @@ public class SyntaxTextAreaFX extends CodeArea {
     }
 
     /**
+     * Real-world extensions that don't literally match a {@code LANGS} name,
+     * mapped to the language they actually mean.
+     *
+     * <p>{@code adb}/{@code ads}/{@code am}/{@code prg}/{@code bib}/
+     * {@code bsv}/{@code cc}/{@code cxx}/{@code h}/{@code m}/{@code patch}/
+     * {@code rej}/{@code 4th} carry forward the mappings this replaced —
+     * {@code FILE_TYPES}, {@code ALT_FILE_TYPES} and
+     * {@code getCodingStyleFromFileType()}, an older, separate mechanism
+     * that only covered the original 19 implemented languages and was never
+     * updated when the other 100 were added. The rest ({@code py}, {@code
+     * rb}, {@code js}, ...) are common extensions that mechanism never
+     * covered either.
+     */
+    private static final java.util.Map<String, LANGS> EXTENSION_ALIASES = java.util.Map.ofEntries(
+            java.util.Map.entry("as", LANGS.actionscript),
+            java.util.Map.entry("adb", LANGS.ada),
+            java.util.Map.entry("ads", LANGS.ada),
+            java.util.Map.entry("am", LANGS.automake),
+            java.util.Map.entry("prg", LANGS.bennugd),
+            java.util.Map.entry("bib", LANGS.bibtex),
+            java.util.Map.entry("bsv", LANGS.bluespec),
+            java.util.Map.entry("cc", LANGS.cpp),
+            java.util.Map.entry("cxx", LANGS.cpp),
+            java.util.Map.entry("h", LANGS.chdr),
+            java.util.Map.entry("hpp", LANGS.chdr),
+            java.util.Map.entry("hxx", LANGS.chdr),
+            java.util.Map.entry("m", LANGS.objc),
+            java.util.Map.entry("patch", LANGS.diff),
+            java.util.Map.entry("rej", LANGS.diff),
+            java.util.Map.entry("4th", LANGS.forth),
+            java.util.Map.entry("py", LANGS.python),
+            java.util.Map.entry("rb", LANGS.ruby),
+            java.util.Map.entry("js", LANGS.javascript),
+            java.util.Map.entry("yml", LANGS.yaml),
+            java.util.Map.entry("md", LANGS.markdown),
+            java.util.Map.entry("pl", LANGS.perl),
+            java.util.Map.entry("cs", LANGS.csharp),
+            java.util.Map.entry("f", LANGS.fortran),
+            java.util.Map.entry("f90", LANGS.fortran),
+            java.util.Map.entry("f95", LANGS.fortran),
+            java.util.Map.entry("vb", LANGS.vbnet),
+            java.util.Map.entry("vhd", LANGS.vhdl),
+            java.util.Map.entry("y", LANGS.yacc),
+            java.util.Map.entry("l", LANGS.lex),
+            java.util.Map.entry("rs", LANGS.rust),
+            java.util.Map.entry("htm", LANGS.html)
+    );
+
+    /** Conventional extension-less file names, matched by full name rather than extension. */
+    private static final java.util.Set<String> MAKEFILE_NAMES = java.util.Set.of("makefile", "gnumakefile");
+
+    /**
      * The language to highlight a file as, chosen from its name.
      *
      * <p>Callers previously had to map extensions themselves, or ask
      * {@code supports} and then guess. Unknown and extension-less names fall
      * back to plain text rather than throwing, so an editor can always be
-     * opened on any file.
+     * opened on any file — except for {@code Makefile}/{@code GNUmakefile},
+     * recognised by their conventional bare name since they never carry an
+     * extension at all.
      *
      * @param fileName a file name or path
      * @return the matching language, or {@link LANGS#text}
@@ -347,40 +379,52 @@ public class SyntaxTextAreaFX extends CodeArea {
             return LANGS.text;
         }
         String name = fileName.trim();
-        int dot = name.lastIndexOf('.');
-        if (dot < 0 || dot == name.length() - 1) {
+        int slash = Math.max(name.lastIndexOf('/'), name.lastIndexOf('\\'));
+        String baseName = slash < 0 ? name : name.substring(slash + 1);
+        if (MAKEFILE_NAMES.contains(baseName.toLowerCase())) {
+            return LANGS.makefile;
+        }
+        int dot = baseName.lastIndexOf('.');
+        if (dot < 0 || dot == baseName.length() - 1) {
             return LANGS.text;
         }
-        String extension = name.substring(dot + 1).toLowerCase();
+        String extension = baseName.substring(dot + 1).toLowerCase();
+        LANGS alias = EXTENSION_ALIASES.get(extension);
+        if (alias != null) {
+            return alias;
+        }
         for (LANGS language : LANGS.values()) {
             if (language.name().equalsIgnoreCase(extension)) {
                 return language;
             }
         }
         // A recognised file type does not always name a language: ".txt" is a
-        // supported type but the language is "text". Fall back rather than
-        // letting valueOf throw.
-        try {
-            return LANGS.valueOf(extension);
-        } catch (IllegalArgumentException notALanguageName) {
-            return LANGS.text;
-        }
+        // supported extension but the language is "text", which is why this
+        // falls back rather than failing.
+        return LANGS.text;
     }
 
     /**
-     * *
+     * Whether a file extension resolves to a known language — either a
+     * {@code LANGS} name directly, or one of {@link #EXTENSION_ALIASES}.
      *
-     * @param fileExtension a string file extension
-     * @return boolean value true/false if fileExtension is supported
+     * @param fileExtension a file extension, without the leading dot
+     * @return true if {@link #languageForFile} would resolve it to something
+     * other than plain text
      */
     public static boolean supports(String fileExtension) {
-
-        for (FILE_TYPES c : FILE_TYPES.values()) {
-            if (c.name().equals(fileExtension)) {
+        if (fileExtension == null) {
+            return false;
+        }
+        String extension = fileExtension.toLowerCase();
+        if (EXTENSION_ALIASES.containsKey(extension)) {
+            return true;
+        }
+        for (LANGS language : LANGS.values()) {
+            if (language.name().equalsIgnoreCase(extension)) {
                 return true;
             }
         }
-
         return false;
     }
 
@@ -425,31 +469,7 @@ public class SyntaxTextAreaFX extends CodeArea {
 //                .awaitLatest(textChanges)
 //                .map(Try::get)
 //                .subscribe(this::applyHighlighting);
-        String fileExtension = "";
-        if (file.trim().length() > 1 && file.contains(".")) {
-            fileExtension = file.substring(file.lastIndexOf(".") + 1).trim();
-        } else if (file.trim().length() > 1 && (!file.contains("."))) {
-            fileExtension = new File(file).getName();
-// setCodingStyle(getCodingStyleFromFileType(getFileTypeFromSpecialFileName(new File(file).getName())));
-
-        }
-        // System.out.println("File Extension is: "+fileExtension+" for "+file);
-        if (file.trim().length() > 1 && file.contains(".") && SyntaxTextAreaFX.supports(fileExtension)) {
-            // setCodingStyle();
-            setCodingStyle(getCodingStyleFromFileType(getFileTypeFromFileExtension(fileExtension)));
-//              System.out.println("1");
-        } //        else if (file.trim().length() > 1 && !file.contains(".") && SyntaxTextAreaFX.supports(file.substring(file.lastIndexOf("/")))) {
-        //            // setCodingStyle();
-        //            setCodingStyle(getCodingStyleFromFileType(getFileTypeFromFileExtension(file.substring(file.lastIndexOf("/")))));
-        //
-        //        }
-        else {
-            setCodingStyle(getCodingStyleFromFileType(FILE_TYPES.text));
-            generatePattern();
-//            codeArea.getStylesheets().add(SyntaxTextAreaFX.class.getResource("res/css/default/java.css").toExternalForm());
-//               System.out.println("12");
-
-        }
+        setCodingStyle(languageForFile(file));
         this.richChanges()
                 .filter(ch -> !ch.getInserted().equals(ch.getRemoved())) // XXX
                 .successionEnds(Duration.ofMillis(500))
@@ -722,299 +742,6 @@ public class SyntaxTextAreaFX extends CodeArea {
         }
         spansBuilder.add(Collections.emptyList(), text.length() - lastKwEnd);
         return spansBuilder.create();
-    }
-
-    private FILE_TYPES getFileTypeFromFileExtension(String fileExtension) {
-        FILE_TYPES fileType = FILE_TYPES.txt;
-        if (Arrays.asList(ALT_FILE_TYPES).contains(fileExtension)) {
-            int index = Arrays.asList(ALT_FILE_TYPES).indexOf(fileExtension);
-            switch (index) {
-                case 0:
-                    fileType = FILE_TYPES.forth;
-                    break;
-                case 2:
-                    fileType = FILE_TYPES.cpp;
-                    break;
-//                default:
-//                    fileType= FILE_TYPES.txt;
-//                    break;
-
-            }
-        } else {
-            fileType = FILE_TYPES.valueOf(fileExtension);
-
-        }
-
-        return fileType;
-    }
-
-    private FILE_TYPES getFileTypeFromSpecialFileName(String FileName) {
-        FILE_TYPES fileType = FILE_TYPES.text;
-//        if (Arrays.asList(SPECIAL_FILENAMES).contains(FileName)) {
-//            return fileType;
-//        }
-//        SPECIAL_FILENAMES sFileName = SPECIAL_FILENAMES.valueOf(FileName);
-//        switch (sFileName) {
-//
-//        
-//        fileType = FILE_TYPES.am;
-//                break;
-//        }
-        return fileType;
-    }
-
-    private LANGS getCodingStyleFromFileType(FILE_TYPES filetype) {
-        LANGS language = LANGS.java;
-        switch (filetype) {
-            case as:
-                language = LANGS.actionscript;
-                break;
-            case adb:
-            case ads:
-                language = LANGS.ada;
-                break;
-
-            case asp:
-                language = LANGS.asp;
-                break;
-            case am:
-                language = LANGS.automake;
-                break;
-            case awk:
-                language = LANGS.awk;
-                break;
-            case prg:
-                language = LANGS.bennugd;
-                break;
-            case bib:
-                language = LANGS.bibtex;
-                break;
-            case bsv:
-                language = LANGS.bluespec;
-                break;
-            case boo:
-                language = LANGS.boo;
-                break;
-            case c:
-                language = LANGS.c;
-                break;
-            case cg:
-                break;
-            case changelog:
-                break;
-            case cmake:
-                break;
-            case cobol:
-                break;
-            case cpp:
-            case cxx:
-            case cc:
-            case C:
-                language = LANGS.cpp;
-                break;
-            
-            case csharp:
-                break;
-            case css:
-                break;
-            case cuda:
-                break;
-            case d:
-                break;
-            case def:
-                break;
-            case desktop:
-                break;
-            case diff:
-            case patch:
-            case rej:
-                language = LANGS.diff;
-                break;
-            case docbook:
-                break;
-            case dosbatch:
-                break;
-            case dot:
-                break;
-            case dpatch:
-                break;
-            case dtd:
-                break;
-            case eiffel:
-                break;
-            case erlang:
-                break;
-            case fcl:
-                break;
-            case forth:
-                language = LANGS.ansforth94;
-                break;
-            case fortran:
-                break;
-            case fsharp:
-                break;
-            case gap:
-                break;
-            case gdblog:
-                break;
-            case genie:
-                break;
-            case glsl:
-                break;
-            case gtkdoc:
-                break;
-            case gtkrc:
-                break;
-            case h:
-                language = LANGS.chdr;
-                break;
-            case haddock:
-                break;
-            case haskell:
-                break;
-            case haskellliterate:
-                break;
-            case html:
-                break;
-            case idlexelis:
-                break;
-            case imagej:
-                break;
-            case ini:
-                break;
-            case j:
-                break;
-            case jade:
-                break;
-            case java:
-                language = LANGS.java;
-                break;
-            case javascript:
-                break;
-            case json:
-                break;
-            case julia:
-                break;
-            case latex:
-                break;
-            case lex:
-                break;
-            case libtool:
-                break;
-            case llvm:
-                break;
-            case m:
-                language = LANGS.objc;
-
-                break;
-            case m4:
-                break;
-            case makefile:
-            case Makefile:
-            case GNUmakefile:
-                language = LANGS.makefile;
-                break;
-            case mallard:
-                break;
-            case markdown:
-                break;
-            case matlab:
-                break;
-            case mediawiki:
-                break;
-            case modelica:
-                break;
-            case mxml:
-                break;
-            case nemerle:
-                break;
-            case nemo_action:
-                break;
-            case netrexx:
-                break;
-            case nsis:
-                break;
-            case objj:
-                break;
-            case ocaml:
-                break;
-            case ocl:
-                break;
-            case octave:
-                break;
-            case ooc:
-                break;
-            case opal:
-                break;
-            case pascal:
-                break;
-            case perl:
-                break;
-            case php:
-                break;
-            case pig:
-                break;
-            case pkgconfig:
-                break;
-            case po:
-                break;
-            case protobuf:
-                break;
-            case puppet:
-                break;
-            case python:
-                break;
-            case python3:
-                break;
-            case r:
-                break;
-            case rpmspec:
-                break;
-            case ruby:
-                break;
-            case rust:
-                break;
-            case scala:
-                break;
-            case scheme:
-                break;
-            case scilab:
-                break;
-            case sh:
-                break;
-            case sparql:
-                break;
-            case sql:
-                break;
-            case sweave:
-                break;
-            case systemverilog:
-                break;
-            case t2t:
-                break;
-            case tcl:
-                break;
-            case thrift:
-                break;
-            case vala:
-                break;
-            case vbnet:
-                break;
-            case verilog:
-                break;
-            case vhdl:
-                break;
-            case xml:
-                break;
-            case yacc:
-                break;
-            case yaml:
-                break;
-            default:
-                language = LANGS.text;
-                break;
-        }
-        return language;
     }
 
     private void loadKeywordSuggestions() {
