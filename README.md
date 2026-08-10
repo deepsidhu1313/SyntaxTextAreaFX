@@ -16,8 +16,9 @@ workbench, and usable on its own.
   guessing from a file name (`languageForFile("script.py")`).
 * Theming via CSS: a built-in default theme, plus `addStyleSheet(String)` to
   layer your own style sheet on top.
-* Autocomplete keyword lists per language, via `getKeywords()` on each
-  language's rules.
+* Keyword autocomplete: typing two or more letters of a keyword pops up
+  matching completions for the current language, sourced from that
+  language's `getKeywords()`.
 
 ## Requirements
 
@@ -63,6 +64,10 @@ import, a `case` in `SyntaxTextAreaFX#loadLanguage()`, and an entry in its
 
 ## TO DO
 
-* Add grammar and autocomplete support beyond keyword lists
+* Autocomplete is keyword-list-based only — it doesn't know it's inside a
+  string or comment, or what's actually in scope. Real context-aware
+  completion needs an actual parser per language, not the regex-pattern
+  architecture this project has; a much larger undertaking than the
+  keyword popup.
 * `LANGS.j` has no highlighting rules — its keyword definitions embed
   gtksourceview template syntax that isn't valid regex on its own

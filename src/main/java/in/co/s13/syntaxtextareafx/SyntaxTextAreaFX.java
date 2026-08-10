@@ -149,12 +149,12 @@ import java.util.regex.Pattern;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.scene.Scene;
-import javafx.scene.input.KeyCode;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
 import org.fxmisc.richtext.CodeArea;
 import org.fxmisc.richtext.LineNumberFactory;
 import org.fxmisc.richtext.model.StyleSpans;
 import org.fxmisc.richtext.model.StyleSpansBuilder;
-import org.reactfx.Subscription;
 
 /**
  * A JavaFX code editor with syntax highlighting, built on RichTextFX's
@@ -179,6 +179,10 @@ import org.reactfx.Subscription;
  * {@link #clearStyleSheets()} manage the style sheets applied on top of
  * the built-in theme, and {@link #setTheme(String)} switches themes
  * wholesale.
+ *
+ * <p>Typing two or more letters of a keyword pops up matching completions
+ * from the current language's keyword list; this is plain keyword lookup,
+ * not context-aware (it doesn't know it's inside a string, say).
  */
 public class SyntaxTextAreaFX extends CodeArea {
 
@@ -220,13 +224,12 @@ public class SyntaxTextAreaFX extends CodeArea {
     public Scene scene;
     private Syntax syntax;
 
-    public static enum Mode {
-        INSERT, COMPLETION
-    };
-
-    private Mode mode = Mode.INSERT;
     ArrayList<String> suggestions;
-    private static final String COMMIT_ACTION = "commit";
+
+    /** A prefix must be at least this long before completions are offered. */
+    private static final int MIN_COMPLETION_PREFIX = 2;
+    private static final int MAX_COMPLETION_SUGGESTIONS = 15;
+    private final ContextMenu completionPopup = new ContextMenu();
 
     public static class CONSTANTS {
 
@@ -443,24 +446,6 @@ public class SyntaxTextAreaFX extends CodeArea {
             return thread;
         });
 
-        //this = new CodeArea();
-        this.setOnKeyPressed((event) -> {
-            if (event.getCode() == KeyCode.ENTER) {
-//                if (suggestion != null) {
-//                    if (suggestion.insertSelection()) {
-//                        event.consume();
-//                        final int position = codeArea.getCaretPosition();
-//                        Platform.runLater(new Runnable() {
-//                            @Override
-//                            public void run() {
-//                                codeArea.replaceText(position - 1, 1,"");
-//                            }
-//                        });
-//                    }
-//                }
-            }
-        });
-
         this.setParagraphGraphicFactory(LineNumberFactory.get(this));
 //        EventStream<PlainTextChange> textChanges = codeArea.plainTextChanges();
 //        textChanges
@@ -487,19 +472,7 @@ public class SyntaxTextAreaFX extends CodeArea {
 
         this.setText(this.readFile(filePath));
 
-        Subscription s = this.plainTextChanges().subscribe(tc -> {
-            String removed = tc.getRemoved();
-            String inserted = tc.getInserted();
-
-            if (!removed.isEmpty() && inserted.isEmpty()) {
-                // deletion
-            } else if (!inserted.isEmpty() && removed.isEmpty()) {
-                // insertion
-            } else {
-                // replacement
-            }
-        });
-
+        this.plainTextChanges().subscribe(tc -> updateCompletionPopup());
     }
 
     /**
@@ -746,6 +719,65 @@ public class SyntaxTextAreaFX extends CodeArea {
 
     private void loadKeywordSuggestions() {
         suggestions = syntax.getKeywords();
+    }
+
+    /**
+     * Shows or hides the keyword-completion popup for whatever the caret is
+     * currently sitting after.
+     *
+     * <p>Recomputed from scratch on every text change — including deletions
+     * and caret moves from a paste — rather than only on single-character
+     * insertions, so backspacing through a partial word keeps the
+     * suggestion list in sync instead of showing stale matches.
+     */
+    private void updateCompletionPopup() {
+        completionPopup.hide();
+        if (suggestions == null || suggestions.isEmpty()) {
+            return;
+        }
+
+        int column = this.getCaretColumn();
+        String line = this.getText(this.getCurrentParagraph());
+        int wordStart = column;
+        while (wordStart > 0 && Character.isLetter(line.charAt(wordStart - 1))) {
+            wordStart--;
+        }
+        String prefix = line.substring(wordStart, column);
+        if (prefix.length() < MIN_COMPLETION_PREFIX) {
+            return;
+        }
+
+        String prefixLower = prefix.toLowerCase();
+        int caretPosition = this.getCaretPosition();
+        int replaceStart = caretPosition - (column - wordStart);
+        completionPopup.getItems().clear();
+        for (String suggestion : suggestions) {
+            if (completionPopup.getItems().size() >= MAX_COMPLETION_SUGGESTIONS) {
+                break;
+            }
+            if (!suggestion.toLowerCase().startsWith(prefixLower)) {
+                continue;
+            }
+            if (suggestion.equalsIgnoreCase(prefix)) {
+                continue;
+            }
+            MenuItem item = new MenuItem(suggestion);
+            item.setOnAction(event -> applyCompletion(replaceStart, caretPosition, suggestion));
+            completionPopup.getItems().add(item);
+        }
+
+        if (completionPopup.getItems().isEmpty()) {
+            return;
+        }
+        this.getCaretBounds().ifPresent(bounds
+                -> completionPopup.show(this, bounds.getMinX(), bounds.getMaxY()));
+    }
+
+    /** Replaces the partially-typed word with the chosen keyword. */
+    private void applyCompletion(int wordStart, int wordEnd, String completion) {
+        completionPopup.hide();
+        this.replaceText(wordStart, wordEnd, completion);
+        this.moveTo(wordStart + completion.length());
     }
 
     /**
@@ -1206,128 +1238,4 @@ public class SyntaxTextAreaFX extends CodeArea {
         PATTERN = syntax.generatePattern();
     }
 
-//    private void insertUpdate(CodeArea ca){
-////            if (ca.plainTextChanges().getLength() != 1) {
-////                return;
-////            }
-////       
-////            int pos = ev.getOffset();
-//            String content = null;
-//            content = codeArea.getText(0, pos + 1);
-//
-//            // Find where the word starts
-//            int w;
-//            for (w = pos; w >= 0; w--) {
-//                if (!Character.isLetter(content.charAt(w))) {
-//                    break;
-//                }
-//            }
-//            if (pos - w < 2) {
-//                // Too few chars
-//                return;
-//            }
-//
-//            String prefix = content.substring(w + 1).toLowerCase();
-//            int n = Collections.binarySearch(suggestions, prefix);
-//            if (n < 0 && -n <= suggestions.size()) {
-//                String match = suggestions.get(-n - 1);
-//                if (match.startsWith(prefix)) {
-//                    // A completion is found
-//                    String completion = match.substring(pos - w);
-//                    // We cannot modify Document from within notification,
-//                    // so we submit a task that does the change later
-//                    Platform.runLater(
-//                            new CompletionTask(completion, pos + 1));
-//                }
-//            } else {
-//                // Nothing found
-//                mode = Mode.INSERT;
-//            }
-//    
-//    }
-//    private class CompletionTask implements Runnable {
-//
-//        String completion;
-//        int position;
-//
-//        CompletionTask(String completion, int position) {
-//            this.completion = completion;
-//            this.position = position;
-//        }
-//
-//        public void run() {
-//            this.insertText(position, completion);
-//            this.positionCaret(position + completion.length());
-//            this.moveTo(position);
-//            mode = Mode.COMPLETION;
-//        }
-//    }
-//
-//    private class CommitAction extends AbstractAction {
-//
-//        public void actionPerformed(ActionEvent ev) {
-//            if (mode == Mode.COMPLETION) {
-//                int pos = this.getSelection().getEnd();
-//                this.insertText(pos, " ");
-//                this.positionCaret(pos + 1);
-//                mode = Mode.INSERT;
-//            } else {
-//                this.replaceSelection("\n");
-//            }
-//        }
-//    }
-//
-//    private class SyntaxDocumentListener implements DocumentListener {
-//
-//        @Override
-//        public void insertUpdate(DocumentEvent ev) {
-//            if (ev.getLength() != 1) {
-//                return;
-//            }
-//
-//            int pos = ev.getOffset();
-//            String content = null;
-//            content = this.getText(0, pos + 1);
-//
-//            // Find where the word starts
-//            int w;
-//            for (w = pos; w >= 0; w--) {
-//                if (!Character.isLetter(content.charAt(w))) {
-//                    break;
-//                }
-//            }
-//            if (pos - w < 2) {
-//                // Too few chars
-//                return;
-//            }
-//
-//            String prefix = content.substring(w + 1).toLowerCase();
-//            int n = Collections.binarySearch(suggestions, prefix);
-//            if (n < 0 && -n <= suggestions.size()) {
-//                String match = suggestions.get(-n - 1);
-//                if (match.startsWith(prefix)) {
-//                    // A completion is found
-//                    String completion = match.substring(pos - w);
-//                    // We cannot modify Document from within notification,
-//                    // so we submit a task that does the change later
-//                    Platform.runLater(
-//                            new CompletionTask(completion, pos + 1));
-//                }
-//            } else {
-//                // Nothing found
-//                mode = Mode.INSERT;
-//            }
-//        }
-//
-//        @Override
-//        public void removeUpdate(DocumentEvent e) {
-//            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-//        }
-//
-//        @Override
-//        public void changedUpdate(DocumentEvent e) {
-//            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-//        }
-//
-//    }
 }
